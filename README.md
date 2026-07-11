@@ -37,7 +37,7 @@ Plik `Data/EthernalBreeze.vdf` (tekstury/modele/dźwięki, ok. 700 MB) **nie jes
 częścią tego repozytorium** - jest za duży na Githuba. Zostanie przesłany
 osobnym kanałem (Drive / Mega / Discord). Ukradzione
 
-> TODO: wkleić link do paczki `.vdf`, jak już wrzucisz ją gdzieś w chmurze.
+[> TODO: wkleić link do paczki `.vdf`, jak już wrzucisz ją gdzieś w chmurze.](https://drive.google.com/file/d/1hUg63ilISaY1N5s63bnAqbeU1BZPBM-p/view?usp=sharing)
 
 ## Instalacja
 
