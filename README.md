@@ -31,7 +31,7 @@ _Optional/
   EB.ico                      ikonka moda
 ```
 
-## Ważne - paczka danych (.vdf)
+## Ważne - paczka danych (.vdf) i silnik
 
 Plik `Data/EthernalBreeze.vdf` (tekstury/modele/dźwięki, ok. 700 MB) **nie jest
 częścią tego repozytorium** - jest za duży na Githuba. Zostanie przesłany
