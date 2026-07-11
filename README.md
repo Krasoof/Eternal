@@ -5,12 +5,14 @@ nowe systemy: craft, alchemię, wzmacnianie przedmiotów (Magic Infusion), aury,
 efekty czasowe, dodatkowe zdolności NPC, losowość świata/lootu, zdejmowanie
 capów statystyk, dodatkowy leveling i inne.
 
+Sprawdz tutaj : https://sefaris.eu/new-balance
+
 Mod działa jako wtyczka **Story Extension (StExt)** na silniku Union
 (Ikarus/LeGo) i **wymaga zainstalowanego Gothic II: New Balance** jako bazy -
 sam w sobie nie jest samodzielną grą ani samodzielnym modem.
 
-- Wersja: **3.08**
-- Lokalizacja: niemiecki (oryginał) + angielski (tłumaczenie AI, może zawierać błędy)
+- Wersja: **0.01**
+- Lokalizacja: niemiecki (oryginał) + polski AI
 
 ## Zawartość repo
 
@@ -33,7 +35,7 @@ _Optional/
 
 Plik `Data/EthernalBreeze.vdf` (tekstury/modele/dźwięki, ok. 700 MB) **nie jest
 częścią tego repozytorium** - jest za duży na Githuba. Zostanie przesłany
-osobnym kanałem (Drive / Mega / Discord).
+osobnym kanałem (Drive / Mega / Discord). Ukradzione
 
 > TODO: wkleić link do paczki `.vdf`, jak już wrzucisz ją gdzieś w chmurze.
 
@@ -44,11 +46,6 @@ osobnym kanałem (Drive / Mega / Discord).
    katalogu gry.
 3. Skopiuj zawartość folderu `System/Autorun` do `System/Autorun` w katalogu gry
    (z podmianą/scaleniem).
-4. Opcjonalnie: podmień plik lokalizacji z `_Optional/English` lub
-   `_Optional/German` w `System/Autorun/EthernalBreezeExtensions`, jeśli
-   chcesz innego języka niż domyślny (patrz `readme.txt` w tych folderach -
-   **nie** podmieniaj oryginalnego `EthernalBreeze/Localization.d`, bo gra się
-   nie uruchomi).
 5. Domyślnie używana jest zwykła wersja `StExt_EthernalBreeze.dll`. Wersję z
    `_Optional/Debug Build (dll)` podmień tylko, jeśli potrzebujesz logów debug
    z silnika.
