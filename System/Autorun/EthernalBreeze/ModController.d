@@ -36,6 +36,11 @@ func void StExt_InitializeUiSettings()
 	StExt_Config_PcSecondaryActionKey = key_lshift;
 	StExt_Config_PcSupportActionKey = key_lmenu;
 
+	StExt_Config_WeaponSkillKey = key_h;
+	StExt_Config_WeaponSkill_CooldownSec = 8;
+	StExt_Config_WeaponSkill_StaminaCostPerc = 30;
+	StExt_Config_WeaponSkill_ManaCostPerc = 20;
+
 	StExt_Config_ShowNpcLevel = false;
 	StExt_Config_ShowNpcExtraInfo = false;
 	StExt_Config_ShowNpcFlags = true;
@@ -313,9 +318,10 @@ func int StExt_CheckModVersion()
 	};
 	
 	if (StExt_Config_ModMenuKey == 0) { StExt_Config_ModMenuKey = key_t; };
-	if (StExt_Config_ModCraftKey == 0) { StExt_Config_ModCraftKey = key_c; };	
+	if (StExt_Config_ModCraftKey == 0) { StExt_Config_ModCraftKey = key_c; };
 	if (StExt_Config_AuraCastKey == 0) { StExt_Config_AuraCastKey = key_o; };
 	if (StExt_Config_ModOptionsKey == 0) { StExt_Config_ModOptionsKey = key_o; };
+	if (StExt_Config_WeaponSkillKey == 0) { StExt_Config_WeaponSkillKey = key_h; };
 	
 	if (StExt_Config_PcMainActionKey == 0) { StExt_Config_PcMainActionKey = key_lcontrol; };
 	if (StExt_Config_PcSecondaryActionKey == 0) { StExt_Config_PcSecondaryActionKey = key_lshift; };
@@ -511,7 +517,7 @@ func void StExt_ModController()
 	StExt_AuraController();
 	StExt_SpellController();
 	
-	//StExt_ItemAbilitiesController();
+	StExt_ItemAbilitiesController();
 	StExt_WorldRandomizerController();
 	
 	if (StExt_UpdateSkin) { StExt_SkinController(); };
@@ -796,7 +802,8 @@ func int StExt_HandleKeyEvent(var int ukey)
 		ai_processinfos(hero); 
 		return true;
 	};
-	if ((ukey == StExt_Config_AuraCastKey) && !isShiftPressed) { Hlp_DoEvent("OnAuraCastKeyPress"); return true; };	
+	if ((ukey == StExt_Config_AuraCastKey) && !isShiftPressed) { Hlp_DoEvent("OnAuraCastKeyPress"); return true; };
+	if ((ukey == StExt_Config_WeaponSkillKey) && !isShiftPressed) { Hlp_DoEvent("OnWeaponSkillKeyPress"); return true; };
 	if (StExt_Config_TestKeysEnabled && (ukey == key_k)) 
 	{
 		StExt_TestScriptFunc();

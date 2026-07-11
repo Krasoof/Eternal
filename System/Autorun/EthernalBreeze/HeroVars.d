@@ -197,6 +197,9 @@ var int StExt_ElementAffinity_Life;
 var int StExt_ElementAffinity_Shaman;
 var int StExt_ElementAffinity_Blood;
 
+var int StExt_WeaponSkill_Charged;
+var int StExt_WeaponSkill_Cooldown;
+
 var int StExt_HitProtPotion_Trail;
 
 var int StExt_ExtraSnCStat_EnergyShield_BonusCount;

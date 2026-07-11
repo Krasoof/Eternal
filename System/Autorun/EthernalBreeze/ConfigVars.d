@@ -296,6 +296,11 @@ var int StExt_Config_PcMainActionKey;
 var int StExt_Config_PcSecondaryActionKey;
 var int StExt_Config_PcSupportActionKey;
 
+var int StExt_Config_WeaponSkillKey;
+var int StExt_Config_WeaponSkill_CooldownSec;
+var int StExt_Config_WeaponSkill_StaminaCostPerc;
+var int StExt_Config_WeaponSkill_ManaCostPerc;
+
 var int StExt_Config_ShowNpcLevel;
 var int StExt_Config_ShowNpcExtraInfo;
 var int StExt_Config_ShowNpcFlags;

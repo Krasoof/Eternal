@@ -653,7 +653,8 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	
 	StExt_PrintDamageDebugStack("StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
 	StExt_Npc_AfterOffenceHandler(atk, target, weap);
-	
+	StExt_TriggerWeaponSkillOnHit(atk, target, weap);
+
 	aoeDist = StExt_CalcAoeDistance(atk, DamageFlags);
 	aoeTargets = StExt_CalcAoeTargets(atk, DamageFlags, 0);
 	ticks = StExt_Npc_CalcDotDuration(atk);

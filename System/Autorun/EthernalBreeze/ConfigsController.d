@@ -304,7 +304,12 @@ func void StExt_InitializeConfigsData()
 	StExt_RegisterConfig("StExt_Config_PcMainActionKey", "StExt_Str_Config_PcMainActionKey", currentGroup, -1, 1024, StExt_Value_DisplayType_Default, false, false, true);
 	StExt_RegisterConfig("StExt_Config_PcSecondaryActionKey", "StExt_Str_Config_PcSecondaryActionKey", currentGroup, -1, 1024, StExt_Value_DisplayType_Default, false, false, true);
 	StExt_RegisterConfig("StExt_Config_PcSupportActionKey", "StExt_Str_Config_PcSupportActionKey", currentGroup, -1, 1024, StExt_Value_DisplayType_Default, false, false, true);
-	
+
+	StExt_RegisterConfig("StExt_Config_WeaponSkillKey", "StExt_Str_Config_WeaponSkillKey", currentGroup, -1, 1024, StExt_Value_DisplayType_Default, false, false, true);
+	StExt_RegisterConfig("StExt_Config_WeaponSkill_CooldownSec", "StExt_Str_Config_WeaponSkill_CooldownSec", currentGroup, 1, 60, StExt_Value_DisplayType_Default, true, true, true);
+	StExt_RegisterConfig("StExt_Config_WeaponSkill_StaminaCostPerc", "StExt_Str_Config_WeaponSkill_StaminaCostPerc", currentGroup, 1, 100, StExt_Value_DisplayType_Percent, true, true, true);
+	StExt_RegisterConfig("StExt_Config_WeaponSkill_ManaCostPerc", "StExt_Str_Config_WeaponSkill_ManaCostPerc", currentGroup, 1, 100, StExt_Value_DisplayType_Percent, true, true, true);
+
 	StExt_RegisterConfig("StExt_Config_ShowNpcLevel", "StExt_Str_Config_ShowNpcLevel", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);
 	StExt_RegisterConfig("StExt_Config_ShowNpcExtraInfo", "StExt_Str_Config_ShowNpcExtraInfo", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);
 	StExt_RegisterConfig("StExt_Config_ShowNpcFlags", "StExt_Str_Config_ShowNpcFlags", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);

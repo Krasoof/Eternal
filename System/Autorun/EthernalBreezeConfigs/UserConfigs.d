@@ -507,6 +507,12 @@ func void StExt_UserConfigs()
 	StExt_Config_PcSecondaryActionKey = key_lshift;
 	StExt_Config_PcSupportActionKey = key_lmenu;
 
+	// Umiejetnosc broni (ladowanie: nastepne trafienie zada bonusowe obrazenia zywiolowe)
+	StExt_Config_WeaponSkillKey = key_h;
+	StExt_Config_WeaponSkill_CooldownSec = 8;
+	StExt_Config_WeaponSkill_StaminaCostPerc = 30;
+	StExt_Config_WeaponSkill_ManaCostPerc = 20;
+
 	// Вкл/откл отображение уровня врага на экране (true - да, false - нет).
 	StExt_Config_ShowNpcLevel = false;
 	// Вкл/откл отображение характеристик врагов на экране (true - да, false - нет).

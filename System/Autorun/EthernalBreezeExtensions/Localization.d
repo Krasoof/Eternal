@@ -77,6 +77,16 @@ const string StExt_Str_UnknownConfig = "Wykryto nieznany zestaw ustawien!";
 const string StExt_Str_LoadedConfig = "Wczytano zestaw ustawien - ";
 const string StExt_Str_UserConfigsNotFound = "Nie znaleziono wlasnego zestawu ustawien!";
 
+//		*** Weapon skill strings ***
+const string StExt_Str_Config_WeaponSkillKey = "Klawisz ladowania umiejetnosci broni (nastepny cios zada bonusowe obrazenia)";
+const string StExt_Str_Config_WeaponSkill_CooldownSec = "Czas odnowienia umiejetnosci broni (sekundy)";
+const string StExt_Str_Config_WeaponSkill_StaminaCostPerc = "Koszt umiejetnosci broni w % wytrzymalosci (bron fizyczna)";
+const string StExt_Str_Config_WeaponSkill_ManaCostPerc = "Koszt umiejetnosci broni w % many (bron magiczna)";
+const string StExt_Str_WeaponSkill_Charged = "Umiejetnosc naladowana! Zadaj cios, by ja uwolnic.";
+const string StExt_Str_WeaponSkill_OnCooldown = "Umiejetnosc broni jeszcze sie odnawia.";
+const string StExt_Str_WeaponSkill_NotEnoughStamina = "Za malo wytrzymalosci na umiejetnosc broni.";
+const string StExt_Str_WeaponSkill_NotEnoughMana = "Za malo many na umiejetnosc broni.";
+
 const string StExt_Str_CorruptionName[StExt_Corruption_Max] =
 {
 	"Nieskazony",
