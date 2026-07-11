@@ -55,3 +55,6 @@ osobnym kanałem (Drive / Mega / Discord). Ukradzione
 `_Optional/LocalizationChecker/GothicLocalizationChecker.exe` - porównuje
 stringi z `EthernalBreeze/Localization.d` z plikiem tłumaczenia i pokazuje,
 czego brakuje (źródła: https://github.com/StonedWizzard/GothicLocalizationChecker).
+
+## Co zmienione?
+Tak naprawdę jest to zlepek modów EternalBreeze + Ranodmizer, poprawiony, zbalansowany, pozbawiony błędów i zintegroowany z najnowszą wersją G2 NB. Ja jestem autorem poprawek. Zmieniałem ciut silnik drabinek i wartości w itemach + stopnie. Sumę bonusów itp. I delikatnie ruszylem silnik zmiany obrażeń. 
