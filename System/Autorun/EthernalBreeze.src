@@ -25,6 +25,7 @@ EthernalBreeze\ConfigsController.d
 EthernalBreeze\UiController.d
 EthernalBreeze\NpcController.d
 EthernalBreeze\DamageUtils.d
+EthernalBreeze\ElementProfessionController.d
 EthernalBreeze\TimedEffectsController.d
 EthernalBreeze\SpellController.d
 EthernalBreeze\TimedEffectsLogic.d
@@ -64,6 +65,7 @@ EthernalBreeze\Npc_Ai.d
 EthernalBreeze\Npcs.d
 EthernalBreeze\Npc_Summons.d
 EthernalBreeze\Npc_Shiva.d
+EthernalBreeze\Npc_ElementTeachers.d
 EthernalBreeze\Dialog.d
 EthernalBreeze\Dialog_Learn.d
 EthernalBreeze\Dialog_Debug.d

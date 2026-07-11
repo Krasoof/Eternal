@@ -87,6 +87,30 @@ const string StExt_Str_WeaponSkill_OnCooldown = "Umiejetnosc broni jeszcze sie o
 const string StExt_Str_WeaponSkill_NotEnoughStamina = "Za malo wytrzymalosci na umiejetnosc broni.";
 const string StExt_Str_WeaponSkill_NotEnoughMana = "Za malo many na umiejetnosc broni.";
 
+//		*** Element profession strings ***
+const string StExt_Str_Config_ElementProfession_MaxSlots = "Ile zywiolow gracz moze wybrac jako profesje (pelny exp)";
+const string StExt_Str_Config_ElementProfession_UniversalPenaltyPerc = "Mnoznik expa dla profesji Uniwersalnej (% z normalnego)";
+const string StExt_Str_Config_ElementProfession_ResetCost = "Koszt zresetowania profesji zywiolu (zloto)";
+
+const string StExt_Str_ElementProfession_Learned = "Wybrano profesje zywiolu!";
+const string StExt_Str_ElementProfession_LearnedUniversal = "Wybrano profesje Uniwersalna - wszystkie zywioly odblokowane, ale ze zmniejszonym expem.";
+const string StExt_Str_ElementProfession_Reset = "Zresetowano profesje zywiolu.";
+const string StExt_Str_ElementProfession_NotEnoughGold = "Za malo zlota, by zresetowac profesje.";
+const string StExt_Str_ElementProfession_UniversalOffer = "Chce profesje Uniwersalna (wszystkie zywioly, mniejszy exp)";
+const string StExt_Str_ElementProfession_ResetOffer = "Zresetuj moja profesje zywiolu (za zloto)";
+
+const string StExt_Str_FireMaster_Name = "Mistrz Ognia";
+const string StExt_Str_FireMaster_Hi = "Porozmawiaj o profesji Ognia";
+const string StExt_Str_FireMaster_Turnin = "Oddaj: 3x Siarka - naucz mnie Ognia";
+const string StExt_Topic_ElementFire = "Nauka: Profesja Ognia";
+const string StExt_Str_ElementFire_LogEntry_Done = "Mistrz Ognia nauczyl mnie profesji Ognia w zamian za siarke.";
+
+const string StExt_Str_DarkMaster_Name = "Mistrz Mroku";
+const string StExt_Str_DarkMaster_Hi = "Porozmawiaj o profesji Mroku";
+const string StExt_Str_DarkMaster_Turnin = "Oddaj: 3x Czarna Perla - naucz mnie Mroku";
+const string StExt_Topic_ElementDark = "Nauka: Profesja Mroku";
+const string StExt_Str_ElementDark_LogEntry_Done = "Mistrz Mroku nauczyl mnie profesji Mroku w zamian za czarne perly.";
+
 const string StExt_Str_CorruptionName[StExt_Corruption_Max] =
 {
 	"Nieskazony",

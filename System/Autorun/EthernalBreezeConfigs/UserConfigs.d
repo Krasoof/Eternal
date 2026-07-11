@@ -513,6 +513,11 @@ func void StExt_UserConfigs()
 	StExt_Config_WeaponSkill_StaminaCostPerc = 30;
 	StExt_Config_WeaponSkill_ManaCostPerc = 20;
 
+	// Profesja zywiolu (blokada expa zywiolowego bez wybranej specjalizacji)
+	StExt_Config_ElementProfession_MaxSlots = 3;
+	StExt_Config_ElementProfession_UniversalPenaltyPerc = 50;
+	StExt_Config_ElementProfession_ResetCost = 500;
+
 	// Вкл/откл отображение уровня врага на экране (true - да, false - нет).
 	StExt_Config_ShowNpcLevel = false;
 	// Вкл/откл отображение характеристик врагов на экране (true - да, false - нет).

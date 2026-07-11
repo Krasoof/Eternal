@@ -95,6 +95,9 @@ var int StExt_TraderAppear;
 var int StExt_TraderReputation;
 var int StExt_TraderBarterAiv[StExt_ShivaTradeIndex_Max];
 
+var int StExt_FireTeacherAppear;
+var int StExt_DarkTeacherAppear;
+
 var int StExt_LuckProcGlobal;
 var int StExt_AuraMasterBonusTimer;
 var int StExt_AuraOnTickProcessing;

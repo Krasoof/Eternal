@@ -310,6 +310,10 @@ func void StExt_InitializeConfigsData()
 	StExt_RegisterConfig("StExt_Config_WeaponSkill_StaminaCostPerc", "StExt_Str_Config_WeaponSkill_StaminaCostPerc", currentGroup, 1, 100, StExt_Value_DisplayType_Percent, true, true, true);
 	StExt_RegisterConfig("StExt_Config_WeaponSkill_ManaCostPerc", "StExt_Str_Config_WeaponSkill_ManaCostPerc", currentGroup, 1, 100, StExt_Value_DisplayType_Percent, true, true, true);
 
+	StExt_RegisterConfig("StExt_Config_ElementProfession_MaxSlots", "StExt_Str_Config_ElementProfession_MaxSlots", currentGroup, 1, 8, StExt_Value_DisplayType_Default, true, true, true);
+	StExt_RegisterConfig("StExt_Config_ElementProfession_UniversalPenaltyPerc", "StExt_Str_Config_ElementProfession_UniversalPenaltyPerc", currentGroup, 1, 100, StExt_Value_DisplayType_Percent, true, true, true);
+	StExt_RegisterConfig("StExt_Config_ElementProfession_ResetCost", "StExt_Str_Config_ElementProfession_ResetCost", currentGroup, 0, 10000, StExt_Value_DisplayType_Default, true, true, true);
+
 	StExt_RegisterConfig("StExt_Config_ShowNpcLevel", "StExt_Str_Config_ShowNpcLevel", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);
 	StExt_RegisterConfig("StExt_Config_ShowNpcExtraInfo", "StExt_Str_Config_ShowNpcExtraInfo", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);
 	StExt_RegisterConfig("StExt_Config_ShowNpcFlags", "StExt_Str_Config_ShowNpcFlags", currentGroup, 0, 1, StExt_Value_DisplayType_Bool, true, true, true);

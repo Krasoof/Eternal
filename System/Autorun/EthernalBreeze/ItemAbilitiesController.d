@@ -101,7 +101,7 @@ func event OnWeaponSkillKeyPress()
 
 	StExt_WeaponSkill_Charged = true;
 	StExt_WeaponSkill_Cooldown = StExt_Config_WeaponSkill_CooldownSec;
-	rx_playeffect("SPELLFX_CAST_INSTANTFIREBALL", hero);
+	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_WeaponSkill_Charged);
 };
 

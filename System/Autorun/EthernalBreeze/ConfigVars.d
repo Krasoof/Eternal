@@ -301,6 +301,10 @@ var int StExt_Config_WeaponSkill_CooldownSec;
 var int StExt_Config_WeaponSkill_StaminaCostPerc;
 var int StExt_Config_WeaponSkill_ManaCostPerc;
 
+var int StExt_Config_ElementProfession_MaxSlots;
+var int StExt_Config_ElementProfession_UniversalPenaltyPerc;
+var int StExt_Config_ElementProfession_ResetCost;
+
 var int StExt_Config_ShowNpcLevel;
 var int StExt_Config_ShowNpcExtraInfo;
 var int StExt_Config_ShowNpcFlags;

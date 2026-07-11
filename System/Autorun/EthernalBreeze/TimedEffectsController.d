@@ -14,15 +14,15 @@ func void StExt_ChangeMasteryPerkPoints(var int masteryId, var int perkPoints)
 
 func int StExt_GetMasteryExpMult(var int index)
 {
-	if (index == StExt_MasteryIndex_Fire) { return StExt_Config_MasteryExpMult_Fire; }
-	else if (index == StExt_MasteryIndex_Ice) { return StExt_Config_MasteryExpMult_Ice; }	
-	else if (index == StExt_MasteryIndex_Electric) { return StExt_Config_MasteryExpMult_Electric; }
-	else if (index == StExt_MasteryIndex_Air) { return StExt_Config_MasteryExpMult_Air; }
-	else if (index == StExt_MasteryIndex_Earth) { return StExt_Config_MasteryExpMult_Earth; }
-	else if (index == StExt_MasteryIndex_Light) { return StExt_Config_MasteryExpMult_Light; }
-	else if (index == StExt_MasteryIndex_Dark) { return StExt_Config_MasteryExpMult_Dark; }
-	else if (index == StExt_MasteryIndex_Death) { return StExt_Config_MasteryExpMult_Death; }
-	else if (index == StExt_MasteryIndex_Life) { return StExt_Config_MasteryExpMult_Life; }	
+	if (index == StExt_MasteryIndex_Fire) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Fire); }
+	else if (index == StExt_MasteryIndex_Ice) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Ice); }
+	else if (index == StExt_MasteryIndex_Electric) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Electric); }
+	else if (index == StExt_MasteryIndex_Air) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Air); }
+	else if (index == StExt_MasteryIndex_Earth) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Earth); }
+	else if (index == StExt_MasteryIndex_Light) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Light); }
+	else if (index == StExt_MasteryIndex_Dark) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Dark); }
+	else if (index == StExt_MasteryIndex_Death) { return StExt_GetElementMasteryExpMult(index, StExt_Config_MasteryExpMult_Death); }
+	else if (index == StExt_MasteryIndex_Life) { return StExt_Config_MasteryExpMult_Life; }
 	else if (index == StExt_MasteryIndex_Golem) { return StExt_Config_MasteryExpMult_Golem; }
 	else if (index == StExt_MasteryIndex_Demon) { return StExt_Config_MasteryExpMult_Demon; }
 	else if (index == StExt_MasteryIndex_Necro) { return StExt_Config_MasteryExpMult_Necro; }

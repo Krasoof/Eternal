@@ -41,6 +41,10 @@ func void StExt_InitializeUiSettings()
 	StExt_Config_WeaponSkill_StaminaCostPerc = 30;
 	StExt_Config_WeaponSkill_ManaCostPerc = 20;
 
+	StExt_Config_ElementProfession_MaxSlots = 3;
+	StExt_Config_ElementProfession_UniversalPenaltyPerc = 50;
+	StExt_Config_ElementProfession_ResetCost = 500;
+
 	StExt_Config_ShowNpcLevel = false;
 	StExt_Config_ShowNpcExtraInfo = false;
 	StExt_Config_ShowNpcFlags = true;
@@ -101,6 +105,26 @@ func void StExt_InitializeWorld()
 			StExt_TraderAppear = true;
 			rx_saveparservars();
 			wld_insertnpc(none_99666_StonedTrader, "NW_BIGFARM_CHAPEL_03");
+			rx_restoreparservars();
+		};
+	};
+	if (!StExt_FireTeacherAppear)
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_FireTeacherAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99700_FireMaster, "OC_MAGE_CENTER");
+			rx_restoreparservars();
+		};
+	};
+	if (!StExt_DarkTeacherAppear)
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_DarkTeacherAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99701_DarkMaster, "NW_TAVERNE");
 			rx_restoreparservars();
 		};
 	};
