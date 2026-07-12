@@ -938,3 +938,104 @@ func void dia_none_99666_StonedTrader_OpenChests_info()
 	ai_stopprocessinfos(self);
 	rx_callbackdialog(self, 0.05, dia_none_99666_StonedTrader_OpenChests_callback);
 };
+
+
+//--------------------------------------------------------------
+// *** Weapon reforging: enchant plain weapons / reroll magic ones ***
+//--------------------------------------------------------------
+// requireMagic=false: plain weapon -> generated magic one (500 + 25*lvl gold)
+// requireMagic=true:  magic weapon -> reroll stats (3000 gold flat)
+func void StExt_Shiva_Reforge(var int requireMagic, var int cost)
+{
+	var c_item weap;
+	var int type;
+	var int power;
+	var int powerMax;
+	var int itemId;
+
+	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
+	else { weap = npc_getequippedmeleeweapon(hero); };
+	if (!hlp_isvaliditem(weap))
+	{
+		ai_printred(StExt_Str_Enchant_NoWeapon);
+		return;
+	};
+	if (!requireMagic && StExt_ItemHasExtension(weap))
+	{
+		ai_printred(StExt_Str_Enchant_AlreadyMagic);
+		return;
+	};
+	if (requireMagic && !StExt_ItemHasExtension(weap))
+	{
+		ai_printred(StExt_Str_Reroll_NotMagic);
+		return;
+	};
+	if (StExt_GetItemSeal(weap) > 0)
+	{
+		ai_printred(StExt_Str_Reroll_Sealed);
+		return;
+	};
+
+	type = StExt_Null;
+	if (StExt_WeaponIsStaff(weap) || StExt_WeaponIsMagicSword(weap)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_2hd_swd)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_2hd_axe)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_dag)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_DexSword"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_bow)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_BowWeapon"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_crossbow)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_CBowWeapon"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_axe)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe1H"); }
+	else if (StExt_ValueHasFlag(weap.flags, item_swd)) { type = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); };
+	if (type == StExt_Null)
+	{
+		ai_printred(StExt_Str_Enchant_WrongType);
+		return;
+	};
+
+	if (npc_hasitems(hero, itmi_gold) < cost)
+	{
+		ai_printred(StExt_Str_Enchant_NotEnoughGold);
+		return;
+	};
+
+	powerMax = StExt_OpenChest_GetMaxPower();
+	power = StExt_GetRandomRange(StExt_GetPercentFromValue(powerMax, 50), powerMax);
+
+	npc_removeinvitems(hero, itmi_gold, cost);
+	npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
+	itemId = StExt_GenerateRandomItem(type, power);
+	b_playerfinditem_stext(itemId, 1);
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_Enchant_Done);
+};
+
+instance dia_none_99666_StonedTrader_Enchant(c_info)
+{
+    npc = none_99666_StonedTrader;
+    nr = 6;
+    condition = dia_none_99666_StonedTrader_Enchant_condition;
+    information = dia_none_99666_StonedTrader_Enchant_info;
+    permanent = true;
+    description = StExt_Str_Enchant_Offer;
+};
+func int dia_none_99666_StonedTrader_Enchant_condition() { return true; };
+func void dia_none_99666_StonedTrader_Enchant_info()
+{
+	StExt_Shiva_Reforge(false, 500 + (hero.level * 25));
+	ai_stopprocessinfos(self);
+};
+
+instance dia_none_99666_StonedTrader_Reroll(c_info)
+{
+    npc = none_99666_StonedTrader;
+    nr = 7;
+    condition = dia_none_99666_StonedTrader_Reroll_condition;
+    information = dia_none_99666_StonedTrader_Reroll_info;
+    permanent = true;
+    description = StExt_Str_Reroll_Offer;
+};
+func int dia_none_99666_StonedTrader_Reroll_condition() { return true; };
+func void dia_none_99666_StonedTrader_Reroll_info()
+{
+	StExt_Shiva_Reforge(true, 3000);
+	ai_stopprocessinfos(self);
+};

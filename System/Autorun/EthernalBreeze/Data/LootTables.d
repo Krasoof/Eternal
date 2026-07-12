@@ -50,7 +50,7 @@ const string StExt_LootTable_Magic1[StExt_LootTable_Magic1_Max] =
 	"itsc_summon_crawler", "itsc_summon_oster"
 };
 
-const int StExt_LootTable_Magic2_Max = 67;
+const int StExt_LootTable_Magic2_Max = 75;
 const string StExt_LootTable_Magic2[StExt_LootTable_Magic2_Max] =
 {
 	"itsc_sumzombie", "itsc_trfsnapper", "itsc_trfwarg", "itsc_trffirewaran", "itmi_runeblank",
@@ -65,10 +65,12 @@ const string StExt_LootTable_Magic2[StExt_LootTable_Magic2_Max] =
 	"itsc_buff_dodge", "itsc_buff_es", "itsc_buff_massrestore", "itsc_debuff_protection", "itsc_debuff_stats", 
 	"itsc_debuff_siphon", "itsc_debuff_speed", "itsc_debuff_lifetap", "itsc_debuff_reflectdamage", 
 	"itsc_debuff_extradamage", "itsc_debuff_weaken", "itsc_summon_shadowbeast", "itsc_stext_summon_electricgolem", "itsc_stext_poisioncape",
-	"itsc_stext_earthcape", "itsc_stext_aircape", "itsc_stext_darkcape", "itsc_stext_lightingcape", "itsc_stext_icecape", "itsc_stext_firecape"
+	"itsc_stext_earthcape", "itsc_stext_aircape", "itsc_stext_darkcape", "itsc_stext_lightingcape", "itsc_stext_icecape", "itsc_stext_firecape",
+	"itse_stext_seal_fire_lesser", "itse_stext_seal_ice_lesser", "itse_stext_seal_electric_lesser", "itse_stext_seal_air_lesser",
+	"itse_stext_seal_earth_lesser", "itse_stext_seal_light_lesser", "itse_stext_seal_dark_lesser", "itse_stext_seal_death_lesser"
 };
 
-const int StExt_LootTable_Magic3_Max = 30;
+const int StExt_LootTable_Magic3_Max = 38;
 const string StExt_LootTable_Magic3[StExt_LootTable_Magic3_Max] =
 {
 	"itsc_sumgol", "itsc_palfullheal", "itsc_harmundead", "itsc_fullheal", "itsc_firestorm",
@@ -77,10 +79,12 @@ const string StExt_LootTable_Magic3[StExt_LootTable_Magic3_Max] =
 	"itsc_explosion", "itsc_adanosball", "itsc_extricate", "itsc_darkinvis", "itsc_bigdarkball",
 	"itsc_darkspear", "itsc_paldestroyevil", "itsc_breathofdeath", "itsc_sumskelmage",
 	"itmi_upruneblank", "itmi_highruneblank", 
-	"itsc_summon_ghost", "itsc_summon_bonegolem", "itsc_summon_shadowbeast_fire", "itsc_summon_troll"
+	"itsc_summon_ghost", "itsc_summon_bonegolem", "itsc_summon_shadowbeast_fire", "itsc_summon_troll",
+	"itse_stext_seal_fire", "itse_stext_seal_ice", "itse_stext_seal_electric", "itse_stext_seal_air",
+	"itse_stext_seal_earth", "itse_stext_seal_light", "itse_stext_seal_dark", "itse_stext_seal_death"
 };
 
-const int StExt_LootTable_Magic4_Max = 48;
+const int StExt_LootTable_Magic4_Max = 56;
 const string StExt_LootTable_Magic4[StExt_LootTable_Magic4_Max] =
 {
 	"itru_rapidfirebolt", "itru_rapidicebolt", "itsc_firerain", "itsc_firemeteor", "itsc_firewave", "itsc_icewave",
@@ -92,7 +96,9 @@ const string StExt_LootTable_Magic4[StExt_LootTable_Magic4_Max] =
 	"itwr_bowstoneplate1_addon", "itwr_bowstoneplate2_addon", "itwr_crsbowstoneplate1_addon", "itwr_crsbowstoneplate2_addon", 
 	"itwr_manastoneplate1_addon", "itwr_manastoneplate2_addon", "itwr_manastoneplate3_addon", "itwr_onehstoneplate3_addon", 
 	"itwr_intstoneplate_addon", "itwr_twohstoneplate3_addon", "itwr_bowstoneplate3_addon", "itwr_crsbowstoneplate3_addon", 
-	"itwr_druidplate_00", "itwr_druidplate_01", "itwr_druidplate_02"
+	"itwr_druidplate_00", "itwr_druidplate_01", "itwr_druidplate_02",
+	"itse_stext_seal_fire_greater", "itse_stext_seal_ice_greater", "itse_stext_seal_electric_greater", "itse_stext_seal_air_greater",
+	"itse_stext_seal_earth_greater", "itse_stext_seal_light_greater", "itse_stext_seal_dark_greater", "itse_stext_seal_death_greater"
 };
 
 const int StExt_LootTable_Misk1_Max = 52;

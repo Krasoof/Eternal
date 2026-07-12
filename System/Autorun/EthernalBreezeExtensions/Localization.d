@@ -120,11 +120,41 @@ const string StExt_Str_Seal_Earth_Name = "Pieczec Ziemi";
 const string StExt_Str_Seal_Light_Name = "Pieczec Swiatla";
 const string StExt_Str_Seal_Dark_Name = "Pieczec Mroku";
 const string StExt_Str_Seal_Death_Name = "Pieczec Smierci";
+
+const string StExt_Str_Seal_Fire_Lesser_Name = "Pomniejsza Pieczec Ognia";
+const string StExt_Str_Seal_Ice_Lesser_Name = "Pomniejsza Pieczec Lodu";
+const string StExt_Str_Seal_Electric_Lesser_Name = "Pomniejsza Pieczec Blyskawic";
+const string StExt_Str_Seal_Air_Lesser_Name = "Pomniejsza Pieczec Wichru";
+const string StExt_Str_Seal_Earth_Lesser_Name = "Pomniejsza Pieczec Ziemi";
+const string StExt_Str_Seal_Light_Lesser_Name = "Pomniejsza Pieczec Swiatla";
+const string StExt_Str_Seal_Dark_Lesser_Name = "Pomniejsza Pieczec Mroku";
+const string StExt_Str_Seal_Death_Lesser_Name = "Pomniejsza Pieczec Smierci";
+
+const string StExt_Str_Seal_Fire_Greater_Name = "Wielka Pieczec Ognia";
+const string StExt_Str_Seal_Ice_Greater_Name = "Wielka Pieczec Lodu";
+const string StExt_Str_Seal_Electric_Greater_Name = "Wielka Pieczec Blyskawic";
+const string StExt_Str_Seal_Air_Greater_Name = "Wielka Pieczec Wichru";
+const string StExt_Str_Seal_Earth_Greater_Name = "Wielka Pieczec Ziemi";
+const string StExt_Str_Seal_Light_Greater_Name = "Wielka Pieczec Swiatla";
+const string StExt_Str_Seal_Dark_Greater_Name = "Wielka Pieczec Mroku";
+const string StExt_Str_Seal_Death_Greater_Name = "Wielka Pieczec Smierci";
+
 const string StExt_Str_Seal_Desc = "Uzyj z zalozona bronia, by nalozyc piecziec. Bron co kilka ciosow rzuci zaklecie zywiolu (koszt many/wytrzymalosci).";
 const string StExt_Str_Seal_Applied = "Bron zostala naznaczona pieczecia!";
 const string StExt_Str_Seal_NoWeapon = "Najpierw zaloz bron, na ktora nalozysz piecziec.";
 const string StExt_Str_Seal_AlreadySealed = "Ta bron ma juz piecziec.";
 const string StExt_Str_Seal_CannotSeal = "Ta bron nie przyjmie pieczeci (wymaga broni magicznej/ulepszonej).";
+
+//		*** Weapon enchanting (StonedTrader) ***
+const string StExt_Str_Enchant_Offer = "Zaklnij moja bron (przekuje ja w magiczna)";
+const string StExt_Str_Enchant_NoWeapon = "Najpierw zaloz bron, ktora mam zaklac.";
+const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
+const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
+const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";
+const string StExt_Str_Enchant_WrongType = "Tego rodzaju broni nie potrafie zaklac.";
+const string StExt_Str_Reroll_Offer = "Przemieszaj staty mojej magicznej broni (3000 zlota)";
+const string StExt_Str_Reroll_NotMagic = "Ta bron nie jest magiczna - najpierw ja zaklnij.";
+const string StExt_Str_Reroll_Sealed = "Nie przemieszam broni z nalozona pieczecia.";
 
 const string StExt_Str_CorruptionName[StExt_Corruption_Max] =
 {

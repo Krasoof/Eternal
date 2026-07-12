@@ -33,9 +33,11 @@ func int StExt_GetWeaponSkillSpellId(var c_item weap)
 
 	if (StExt_ValueHasFlag(weap.flags, item_bow)) { return spl_whirlwind; };
 	if (StExt_ValueHasFlag(weap.flags, item_crossbow)) { return spl_lightningflash; };
-	if (StExt_ValueHasFlag(weap.flags, item_dag)) { return spl_darkball; };
-	if (StExt_ValueHasFlag(weap.flags, item_2hd_axe) || StExt_ValueHasFlag(weap.flags, item_2hd_swd)) { return spl_stonefirst; };
-	if (StExt_ValueHasFlag(weap.flags, item_axe) || StExt_ValueHasFlag(weap.flags, item_swd)) { return spl_instantfireball; };
+	if (StExt_ValueHasFlag(weap.flags, item_dag)) { return spl_deathball; };
+	if (StExt_ValueHasFlag(weap.flags, item_2hd_swd)) { return spl_icelance; };
+	if (StExt_ValueHasFlag(weap.flags, item_2hd_axe)) { return spl_darkball; };
+	if (StExt_ValueHasFlag(weap.flags, item_axe)) { return spl_stonefirst; };
+	if (StExt_ValueHasFlag(weap.flags, item_swd)) { return spl_instantfireball; };
 	return StExt_Null;
 };
 
