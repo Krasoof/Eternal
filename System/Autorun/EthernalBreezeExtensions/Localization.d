@@ -98,6 +98,7 @@ const string StExt_Str_BossSoul_Name = "Dusza Pradawnego";
 const string StExt_Str_BossSoul_Desc = "Esencja pokonanego bossa. Kamieniarz na farmie Onara potrafi wtopic ja w zywiol Twojej broni.";
 const string StExt_Str_SoulInfuse_Offer = "Wtop Dusze Pradawnego w bron (1 dusza + 1000 zlota: +20 mocy)";
 const string StExt_Str_SoulInfuse_Done = "Dusza wtopiona - zywiol broni urosl w sile!";
+const string StExt_Str_KdfIce_Name = "Lodowa Szata Magow (prototyp)";
 
 //		*** Element profession strings ***
 const string StExt_Str_Config_ElementProfession_MaxSlots = "Ile zywiolow gracz moze wybrac jako profesje (pelny exp)";
