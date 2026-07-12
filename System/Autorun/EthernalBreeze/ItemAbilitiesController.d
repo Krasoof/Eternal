@@ -22,6 +22,7 @@ func int StExt_GetSpellElementIndex(var int spellId)
 {
 	var int flags;
 	if (spellId <= 0) { return StExt_Null; };
+	if (spellId >= 9000) { return StExt_Null; };	// physical seal sentinel, not a spell
 	flags = StExt_GetSpellDamageFlags(spellId);
 	if (StExt_ValueHasFlag(flags, StExt_DamageType_Fire)) { return StExt_MasteryIndex_Fire; };
 	if (StExt_ValueHasFlag(flags, StExt_DamageType_Ice)) { return StExt_MasteryIndex_Ice; };
@@ -287,10 +288,40 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		StExt_AddElementHitDamage(element, amount);
 	};
 
-	// --- SEAL: spell proc every X hits ---
+	// --- SEAL: spell proc every X hits / physical effect every hit ---
 	sealSpell = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId);
 	if (sealSpell <= 0) { return; };
 	sealPower = StExt_GetItemProperty(weap, StExt_ItemProp_SealPower);
+
+	// physical seals: work every hit for a small flat stamina/mana cost
+	if (sealSpell >= 9000)
+	{
+		manaCost = 5;
+		if (StExt_WeaponSkillUsesMana(weap))
+		{
+			if (hero.attribute[atr_mana] < manaCost) { return; };
+			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
+		}
+		else
+		{
+			if (atr_stamina < manaCost) { return; };
+			rx_restorestamina(-manaCost);
+		};
+
+		if (sealSpell == StExt_PhysSeal_Bleed)
+		{
+			// bleeding: physical damage over time, scales with power and strength
+			amount = (sealPower / 4) + (hero.attribute[4] / 20);
+			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
+		};
+		if (sealSpell == StExt_PhysSeal_Pierce)
+		{
+			// armor piercing: part of the hit ignores protection (true damage)
+			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150 + sealPower);
+			StExt_ExtraDamageInfo.Damage += amount;
+		};
+		return;
+	};
 
 	StExt_WeaponSeal_HitCounter += 1;
 	if (StExt_WeaponSeal_HitCounter < StExt_GetSealProcInterval(sealPower)) { return; };
@@ -363,16 +394,89 @@ func int StExt_ApplySeal(var int element, var int tierPower)
 	return true;
 };
 
-// Call once per mod tick (StExt_ModController): cooldown + charged glow.
+// Apply a PHYSICAL seal (bleed / armor pierce) - fits any weapon,
+// no element matching; replacing still requires a stronger seal.
+func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
+{
+	var c_item weap;
+	var int existingSeal;
+	var int power;
+
+	if (!hlp_isvalidnpc(hero)) { return false; };
+	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
+	else { weap = npc_getequippedmeleeweapon(hero); };
+
+	if (!hlp_isvaliditem(weap))
+	{
+		ai_printred(StExt_Str_Seal_NoWeapon);
+		return false;
+	};
+	if (!StExt_ItemHasExtension(weap))
+	{
+		ai_printred(StExt_Str_Seal_CannotSeal);
+		return false;
+	};
+
+	power = tierPower + hero.level;
+	existingSeal = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId);
+	if (existingSeal > 0)
+	{
+		if (StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) >= power)
+		{
+			ai_printred(StExt_Str_Seal_NotBetter);
+			return false;
+		};
+	};
+
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealSpellId, sentinelId);
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, power);
+
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_Seal_Applied);
+	return true;
+};
+
+// Elemental glow played at the weapon hand (ZS_RIGHTHAND anchored VFX).
+func void StExt_PlayWeaponElementGlow(var int element)
+{
+	if (element == StExt_MasteryIndex_Fire) { rx_playeffect("SPELLFX_STEXT_WGLOW_FIRE", hero); return; };
+	if (element == StExt_MasteryIndex_Ice) { rx_playeffect("SPELLFX_STEXT_WGLOW_ICE", hero); return; };
+	if (element == StExt_MasteryIndex_Electric) { rx_playeffect("SPELLFX_STEXT_WGLOW_ELECTRIC", hero); return; };
+	if (element == StExt_MasteryIndex_Air) { rx_playeffect("SPELLFX_STEXT_WGLOW_AIR", hero); return; };
+	if (element == StExt_MasteryIndex_Earth) { rx_playeffect("SPELLFX_STEXT_WGLOW_EARTH", hero); return; };
+	if (element == StExt_MasteryIndex_Light) { rx_playeffect("SPELLFX_STEXT_WGLOW_LIGHT", hero); return; };
+	if (element == StExt_MasteryIndex_Dark) { rx_playeffect("SPELLFX_STEXT_WGLOW_DARK", hero); return; };
+	if (element == StExt_MasteryIndex_Death) { rx_playeffect("SPELLFX_STEXT_WGLOW_DEATH", hero); return; };
+};
+
+// Call once per mod tick (StExt_ModController): cooldown + weapon glow.
+// Charged: bright pulse every tick. Perk/seal on equipped weapon:
+// subtle elemental shimmer every 3rd tick.
 func void StExt_ItemAbilitiesController()
 {
-	if (StExt_WeaponSkill_Charged)
+	var c_item weap;
+	var int glowSpell;
+	var int element;
+
+	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
+	else { weap = npc_getequippedmeleeweapon(hero); };
+	if (hlp_isvaliditem(weap))
 	{
-		StExt_WeaponSkill_GlowTick -= 1;
-		if (StExt_WeaponSkill_GlowTick <= 0)
+		glowSpell = StExt_GetItemSeal(weap);
+		if (glowSpell <= 0) { glowSpell = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId); };
+		element = StExt_GetSpellElementIndex(glowSpell);
+		if (element != StExt_Null)
 		{
-			rx_playeffect("spellfx_incovation_violet", hero);
-			StExt_WeaponSkill_GlowTick = 2;
+			if (StExt_WeaponSkill_Charged) { StExt_PlayWeaponElementGlow(element); }
+			else
+			{
+				StExt_WeaponSkill_GlowTick -= 1;
+				if (StExt_WeaponSkill_GlowTick <= 0)
+				{
+					StExt_PlayWeaponElementGlow(element);
+					StExt_WeaponSkill_GlowTick = 3;
+				};
+			};
 		};
 	};
 

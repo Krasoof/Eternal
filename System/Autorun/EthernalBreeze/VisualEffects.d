@@ -462,3 +462,67 @@ instance spellfx_weakglimmer_stextgreen(cfx_base_proto)
     secsperdamage = -1.0;
     emadjustshptoorigin = 1;
 };
+
+instance spellfx_stext_wglow_fire(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_FIRE";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_ice(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_ICE";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_electric(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_ELECTRIC";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_air(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_AIR";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_earth(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_EARTH";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_light(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_LIGHT";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_dark(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_DARK";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};
+
+instance spellfx_stext_wglow_death(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_WGLOW_DEATH";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+    emtrjoriginnode = "ZS_RIGHTHAND";
+};

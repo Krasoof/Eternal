@@ -205,7 +205,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 6,
 			"SocketsMax": 2,
 
@@ -265,7 +265,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 6,
 			"SocketsMax": 2,
 
@@ -327,7 +327,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 6,
 			"SocketsMax": 2,
 
@@ -385,7 +385,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 6,
 			"SocketsMax": 2,
 
@@ -448,7 +448,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -500,7 +500,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -552,7 +552,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -604,7 +604,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -655,7 +655,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -708,7 +708,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -774,7 +774,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -840,7 +840,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -906,7 +906,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -973,7 +973,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1035,7 +1035,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1097,7 +1097,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1159,7 +1159,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1222,7 +1222,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1283,7 +1283,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1344,7 +1344,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1405,7 +1405,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1467,7 +1467,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1529,7 +1529,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1591,7 +1591,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1653,7 +1653,7 @@
 			"UpgradeProtectionOnQualityChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -1713,7 +1713,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1757,7 +1757,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1801,7 +1801,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1845,7 +1845,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1892,7 +1892,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1939,7 +1939,7 @@
 			"UpgradeConditionsOnRankChange": true,
 			"UpgradeConditionsOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 1,
 			"SocketsMax": 1,
 
@@ -1989,7 +1989,7 @@
 			"UpgradeProtectionOnRankChange": true,
 			"UpgradeProtectionOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 2,
 			"SocketsMax": 1,
 
@@ -2037,7 +2037,7 @@
 			"UpgradeProtectionOnRankChange": true,
 			"UpgradeProtectionOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 2,
 			"SocketsMax": 1,
 
@@ -2085,7 +2085,7 @@
 			"UpgradeProtectionOnRankChange": true,
 			"UpgradeProtectionOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 2,
 			"SocketsMax": 1,
 
@@ -2133,7 +2133,7 @@
 			"UpgradeProtectionOnRankChange": true,
 			"UpgradeProtectionOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 
@@ -2179,7 +2179,7 @@
 			"UpgradeProtectionOnRankChange": true,
 			"UpgradeProtectionOnQualityChange": true,
 
-			"SocketsAllowed": true,
+			"SocketsAllowed": false,
 			"SocketsCap": 4,
 			"SocketsMax": 1,
 

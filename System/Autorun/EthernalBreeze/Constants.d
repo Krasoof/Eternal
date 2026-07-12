@@ -10,6 +10,10 @@ const int StExt_ItemProp_PerkSpellId = 12;
 const int StExt_ItemProp_SealSpellId = 14;
 const int StExt_ItemProp_SealPower = 15;
 const int StExt_ItemProp_PerkPower = 16;
+
+// Physical seal sentinel ids (stored in SealSpellId; >= 9000 = not a spell).
+const int StExt_PhysSeal_Bleed = 9001;
+const int StExt_PhysSeal_Pierce = 9002;
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

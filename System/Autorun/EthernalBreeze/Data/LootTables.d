@@ -70,7 +70,7 @@ const string StExt_LootTable_Magic2[StExt_LootTable_Magic2_Max] =
 	"itse_stext_seal_earth_lesser", "itse_stext_seal_light_lesser", "itse_stext_seal_dark_lesser", "itse_stext_seal_death_lesser"
 };
 
-const int StExt_LootTable_Magic3_Max = 38;
+const int StExt_LootTable_Magic3_Max = 40;
 const string StExt_LootTable_Magic3[StExt_LootTable_Magic3_Max] =
 {
 	"itsc_sumgol", "itsc_palfullheal", "itsc_harmundead", "itsc_fullheal", "itsc_firestorm",
@@ -80,6 +80,7 @@ const string StExt_LootTable_Magic3[StExt_LootTable_Magic3_Max] =
 	"itsc_darkspear", "itsc_paldestroyevil", "itsc_breathofdeath", "itsc_sumskelmage",
 	"itmi_upruneblank", "itmi_highruneblank", 
 	"itsc_summon_ghost", "itsc_summon_bonegolem", "itsc_summon_shadowbeast_fire", "itsc_summon_troll",
+	"itse_stext_seal_bleed", "itse_stext_seal_pierce",
 	"itse_stext_seal_fire", "itse_stext_seal_ice", "itse_stext_seal_electric", "itse_stext_seal_air",
 	"itse_stext_seal_earth", "itse_stext_seal_light", "itse_stext_seal_dark", "itse_stext_seal_death"
 };

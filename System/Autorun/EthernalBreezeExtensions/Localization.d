@@ -90,6 +90,9 @@ const string StExt_Str_WeaponSkill_NoElement = "Ta bron nie ma wbudowanego zywio
 const string StExt_Str_WeaponSkill_Released = "Zywiol uwolniony!";
 const string StExt_Str_Seal_ElementMismatch = "Zywiol pieczeci musi zgadzac sie z zywiolem broni.";
 const string StExt_Str_Seal_NotBetter = "Ta piecziec nie jest mocniejsza od obecnego zywiolu broni.";
+const string StExt_Str_Seal_Bleed_Name = "Pieczec Krwawienia";
+const string StExt_Str_Seal_Pierce_Name = "Pieczec Przebicia";
+const string StExt_Str_Seal_Phys_Desc = "Piecziec fizyczna - pasuje do kazdej broni. Krwawienie: obrazenia w czasie; Przebicie: czesc ciosu ignoruje pancerz. Kazde uzycie kosztuje odrobine wytrzymalosci/many.";
 
 //		*** Element profession strings ***
 const string StExt_Str_Config_ElementProfession_MaxSlots = "Ile zywiolow gracz moze wybrac jako profesje (pelny exp)";

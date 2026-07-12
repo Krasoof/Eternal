@@ -391,3 +391,37 @@ func void use_itse_stext_seal_death_greater()
 {
 	if (StExt_ApplySeal(StExt_MasteryIndex_Death, 160)) { npc_removeinvitems(hero, itse_stext_seal_death_greater, 1); };
 };
+
+// --- Physical seals: fit any weapon, no element matching ---
+
+instance itse_stext_seal_bleed(c_item)
+{
+	itmi_moonstone_old();
+	name = StExt_Str_Seal_Bleed_Name;
+	description = name;
+	text[1] = StExt_Str_Seal_Phys_Desc;
+	value = 2000;
+	scemename = "MAPSEALED";
+	inv_animate = 1;
+	on_state = use_itse_stext_seal_bleed;
+};
+func void use_itse_stext_seal_bleed()
+{
+	if (StExt_ApplyPhysSeal(StExt_PhysSeal_Bleed, 100)) { npc_removeinvitems(hero, itse_stext_seal_bleed, 1); };
+};
+
+instance itse_stext_seal_pierce(c_item)
+{
+	itmi_moonstone_old();
+	name = StExt_Str_Seal_Pierce_Name;
+	description = name;
+	text[1] = StExt_Str_Seal_Phys_Desc;
+	value = 2000;
+	scemename = "MAPSEALED";
+	inv_animate = 1;
+	on_state = use_itse_stext_seal_pierce;
+};
+func void use_itse_stext_seal_pierce()
+{
+	if (StExt_ApplyPhysSeal(StExt_PhysSeal_Pierce, 100)) { npc_removeinvitems(hero, itse_stext_seal_pierce, 1); };
+};
