@@ -1,4 +1,7 @@
 const int StExt_ModVersion = 308;
+
+// Chance (%) that a generated magic weapon rolls a random elemental perk (read by the DLL).
+const int StExt_WeaponElementRollChance = 20;
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

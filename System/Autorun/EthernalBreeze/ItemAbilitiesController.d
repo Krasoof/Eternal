@@ -1,70 +1,103 @@
 
 //===================================================================//
-//					Weapon skills (active abilities)				 //
+//					Weapon element (perk) + H-skill					 //
 //===================================================================//
-// Player presses StExt_Config_WeaponSkillKey to "charge" the currently
-// readied weapon's skill (paying stamina or mana + starting a cooldown).
-// The charge is consumed and unleashed as bonus elemental damage on the
-// hero's next successful hit (see StExt_TriggerWeaponSkillOnHit, called
-// from StExt_Hero_AfterOffenceHandler in DamageController.d).
+// A weapon may carry an ELEMENT: a random offensive spell rolled at
+// generation (DLL, chance = StExt_WeaponElementRollChance) or granted
+// by a seal gem of that element. The element lives in the item
+// extension (SpellId + SpellPower), so it persists in saves.
+//
+// H-skill: charges the weapon's OWN element (message if it has none);
+// the next landed hit unleashes the burst and the weapon glows while
+// charged. Seals also proc the element passively every N hits.
 
 func int StExt_WeaponSkillUsesMana(var c_item weap)
 {
 	return StExt_WeaponIsMagicSword(weap) || StExt_WeaponIsStaff(weap);
 };
 
-// Physical weapons get a themed element by type; magic weapons follow the
-// player's currently active element affinity (same one spells/masteries use).
-func int StExt_GetWeaponSkillSpellId(var c_item weap)
+// Element index (StExt_MasteryIndex_Fire..Death) of an offensive spell,
+// derived from its damage flags. Returns StExt_Null for non-elemental.
+func int StExt_GetSpellElementIndex(var int spellId)
 {
-	if (!hlp_isvaliditem(weap)) { return StExt_Null; };
-
-	if (StExt_WeaponSkillUsesMana(weap))
-	{
-		if (StExt_ElementAffinity_Ice) { return spl_icelance; };
-		if (StExt_ElementAffinity_Electric) { return spl_lightningflash; };
-		if (StExt_ElementAffinity_Air) { return spl_whirlwind; };
-		if (StExt_ElementAffinity_Earth) { return spl_stonefirst; };
-		if (StExt_ElementAffinity_Light) { return spl_palholybolt; };
-		if (StExt_ElementAffinity_Dark) { return spl_darkball; };
-		if (StExt_ElementAffinity_Death) { return spl_deathball; };
-		return spl_instantfireball;
-	};
-
-	if (StExt_ValueHasFlag(weap.flags, item_bow)) { return spl_whirlwind; };
-	if (StExt_ValueHasFlag(weap.flags, item_crossbow)) { return spl_lightningflash; };
-	if (StExt_ValueHasFlag(weap.flags, item_dag)) { return spl_deathball; };
-	if (StExt_ValueHasFlag(weap.flags, item_2hd_swd)) { return spl_icelance; };
-	if (StExt_ValueHasFlag(weap.flags, item_2hd_axe)) { return spl_darkball; };
-	if (StExt_ValueHasFlag(weap.flags, item_axe)) { return spl_stonefirst; };
-	if (StExt_ValueHasFlag(weap.flags, item_swd)) { return spl_instantfireball; };
+	var int flags;
+	if (spellId <= 0) { return StExt_Null; };
+	flags = StExt_GetSpellDamageFlags(spellId);
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Fire)) { return StExt_MasteryIndex_Fire; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Ice)) { return StExt_MasteryIndex_Ice; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Electric)) { return StExt_MasteryIndex_Electric; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Air)) { return StExt_MasteryIndex_Air; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Earth)) { return StExt_MasteryIndex_Earth; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Light)) { return StExt_MasteryIndex_Light; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Dark)) { return StExt_MasteryIndex_Dark; };
+	if (StExt_ValueHasFlag(flags, StExt_DamageType_Death)) { return StExt_MasteryIndex_Death; };
 	return StExt_Null;
 };
 
-func int StExt_GetWeaponSkillMasteryPower(var int spellId)
+// Random offensive spell from the element's pool (seal gems roll here,
+// so two Fire seals may grant different fire spells).
+func int StExt_RollElementSpell(var int element)
 {
-	if (spellId == spl_instantfireball) { return StExt_PcStats[StExt_PcStats_Index_FireMasteryPower]; };
-	if (spellId == spl_icelance) { return StExt_PcStats[StExt_PcStats_Index_IceMasteryPower]; };
-	if (spellId == spl_lightningflash) { return StExt_PcStats[StExt_PcStats_Index_ElectricMasteryPower]; };
-	if (spellId == spl_whirlwind) { return StExt_PcStats[StExt_PcStats_Index_AirMasteryPower]; };
-	if (spellId == spl_stonefirst) { return StExt_PcStats[StExt_PcStats_Index_EarthMasteryPower]; };
-	if (spellId == spl_palholybolt) { return StExt_PcStats[StExt_PcStats_Index_LightMasteryPower]; };
-	if (spellId == spl_darkball) { return StExt_PcStats[StExt_PcStats_Index_DarkMasteryPower]; };
-	if (spellId == spl_deathball) { return StExt_PcStats[StExt_PcStats_Index_DeathMasteryPower]; };
+	var int r;
+	if (element == StExt_MasteryIndex_Fire)
+	{
+		r = hlp_random(4);
+		if (r == 0) { return spl_firebolt; };
+		if (r == 1) { return spl_chargefireball; };
+		if (r == 2) { return spl_firestorm; };
+		return spl_instantfireball;
+	};
+	if (element == StExt_MasteryIndex_Ice)
+	{
+		if (hlp_random(2) == 0) { return spl_icebolt; };
+		return spl_icelance;
+	};
+	if (element == StExt_MasteryIndex_Electric)
+	{
+		r = hlp_random(3);
+		if (r == 0) { return spl_zap; };
+		if (r == 1) { return spl_thunderball; };
+		return spl_lightningflash;
+	};
+	if (element == StExt_MasteryIndex_Air)
+	{
+		if (hlp_random(2) == 0) { return spl_windfist; };
+		return spl_whirlwind;
+	};
+	if (element == StExt_MasteryIndex_Earth) { return spl_stonefirst; };
+	if (element == StExt_MasteryIndex_Light) { return spl_palholybolt; };
+	if (element == StExt_MasteryIndex_Dark) { return spl_darkball; };
+	if (element == StExt_MasteryIndex_Death)
+	{
+		if (hlp_random(2) == 0) { return spl_deathbolt; };
+		return spl_deathball;
+	};
+	return StExt_Null;
+};
+
+func int StExt_GetElementMasteryPowerStat(var int element)
+{
+	if (element == StExt_MasteryIndex_Fire) { return StExt_PcStats[StExt_PcStats_Index_FireMasteryPower]; };
+	if (element == StExt_MasteryIndex_Ice) { return StExt_PcStats[StExt_PcStats_Index_IceMasteryPower]; };
+	if (element == StExt_MasteryIndex_Electric) { return StExt_PcStats[StExt_PcStats_Index_ElectricMasteryPower]; };
+	if (element == StExt_MasteryIndex_Air) { return StExt_PcStats[StExt_PcStats_Index_AirMasteryPower]; };
+	if (element == StExt_MasteryIndex_Earth) { return StExt_PcStats[StExt_PcStats_Index_EarthMasteryPower]; };
+	if (element == StExt_MasteryIndex_Light) { return StExt_PcStats[StExt_PcStats_Index_LightMasteryPower]; };
+	if (element == StExt_MasteryIndex_Dark) { return StExt_PcStats[StExt_PcStats_Index_DarkMasteryPower]; };
+	if (element == StExt_MasteryIndex_Death) { return StExt_PcStats[StExt_PcStats_Index_DeathMasteryPower]; };
 	return 0;
 };
 
-// Element mastery LEVEL (e.g. pyromancy trained to 150) for the seal's spell.
-func int StExt_GetWeaponSkillMasteryLevel(var int spellId)
+func int StExt_GetElementMasteryLevel(var int element)
 {
-	if (spellId == spl_instantfireball) { return StExt_Talent_Progression[StExt_MasteryIndex_Fire]; };
-	if (spellId == spl_icelance) { return StExt_Talent_Progression[StExt_MasteryIndex_Ice]; };
-	if (spellId == spl_lightningflash) { return StExt_Talent_Progression[StExt_MasteryIndex_Electric]; };
-	if (spellId == spl_whirlwind) { return StExt_Talent_Progression[StExt_MasteryIndex_Air]; };
-	if (spellId == spl_stonefirst) { return StExt_Talent_Progression[StExt_MasteryIndex_Earth]; };
-	if (spellId == spl_palholybolt) { return StExt_Talent_Progression[StExt_MasteryIndex_Light]; };
-	if (spellId == spl_darkball) { return StExt_Talent_Progression[StExt_MasteryIndex_Dark]; };
-	if (spellId == spl_deathball) { return StExt_Talent_Progression[StExt_MasteryIndex_Death]; };
+	if (element == StExt_MasteryIndex_Fire) { return StExt_Talent_Progression[StExt_MasteryIndex_Fire]; };
+	if (element == StExt_MasteryIndex_Ice) { return StExt_Talent_Progression[StExt_MasteryIndex_Ice]; };
+	if (element == StExt_MasteryIndex_Electric) { return StExt_Talent_Progression[StExt_MasteryIndex_Electric]; };
+	if (element == StExt_MasteryIndex_Air) { return StExt_Talent_Progression[StExt_MasteryIndex_Air]; };
+	if (element == StExt_MasteryIndex_Earth) { return StExt_Talent_Progression[StExt_MasteryIndex_Earth]; };
+	if (element == StExt_MasteryIndex_Light) { return StExt_Talent_Progression[StExt_MasteryIndex_Light]; };
+	if (element == StExt_MasteryIndex_Dark) { return StExt_Talent_Progression[StExt_MasteryIndex_Dark]; };
+	if (element == StExt_MasteryIndex_Death) { return StExt_Talent_Progression[StExt_MasteryIndex_Death]; };
 	return 0;
 };
 
@@ -86,12 +119,14 @@ func int StExt_GetWeaponBurstStat(var c_item weap)
 	return hero.attribute[4];
 };
 
-// Shared burst formula for the H-skill and seals.
+// Shared burst formula for the H-skill and seal procs.
 func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int extraBase)
 {
 	var int power;
+	var int element;
+	element = StExt_GetSpellElementIndex(spellId);
 	power = 20 + extraBase + StExt_CalcWeaponTotalDamage(weap);
-	power += StExt_GetWeaponSkillMasteryPower(spellId) + (StExt_GetWeaponSkillMasteryLevel(spellId) * 2);
+	power += StExt_GetElementMasteryPowerStat(element) + (StExt_GetElementMasteryLevel(element) * 2);
 	power += StExt_GetWeaponProficiency(weap);
 	power += StExt_GetWeaponBurstStat(weap);
 	return power;
@@ -100,6 +135,7 @@ func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int ex
 func int StExt_HasAnyItemAbility() { return true; };
 
 // Call from engine (bound to StExt_Config_WeaponSkillKey in StExt_HandleKeyEvent).
+// Charges the weapon's OWN element; refuses if the weapon has none.
 func event OnWeaponSkillKeyPress()
 {
 	var c_item weap;
@@ -115,8 +151,14 @@ func event OnWeaponSkillKeyPress()
 
 	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
 	else { weap = npc_getequippedmeleeweapon(hero); };
-	spellId = StExt_GetWeaponSkillSpellId(weap);
-	if (spellId == StExt_Null) { return; };
+	if (!hlp_isvaliditem(weap)) { return; };
+
+	spellId = StExt_GetItemSeal(weap);
+	if (spellId <= 0)
+	{
+		ai_printred(StExt_Str_WeaponSkill_NoElement);
+		return;
+	};
 
 	if (StExt_WeaponSkillUsesMana(weap))
 	{
@@ -140,6 +182,7 @@ func event OnWeaponSkillKeyPress()
 	};
 
 	StExt_WeaponSkill_Charged = true;
+	StExt_WeaponSkill_GlowTick = 0;
 	StExt_WeaponSkill_Cooldown = StExt_Config_WeaponSkill_CooldownSec;
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_WeaponSkill_Charged);
@@ -155,21 +198,21 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 	StExt_WeaponSkill_Charged = false;
 
 	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
-	spellId = StExt_GetWeaponSkillSpellId(weap);
-	if (spellId == StExt_Null) { return; };
+	spellId = StExt_GetItemSeal(weap);
+	if (spellId <= 0) { return; };
 
-	power = StExt_CalcWeaponBurstPower(weap, spellId, 0);
+	power = StExt_CalcWeaponBurstPower(weap, spellId, StExt_GetItemSealPower(weap));
 	StExt_CastSpell(StExt_AbilityPrefix + spellId, atk, target, power);
 };
 
 //===================================================================//
 //					Weapon seals (passive on-hit)					 //
 //===================================================================//
-// A seal stores an offensive spell + power on a weapon (DLL item extension).
-// It procs passively every N hits (N depends on seal power) and costs mana
-// (magic weapon) or stamina (physical), scaling like the H-skill burst.
+// Seal gems grant/upgrade the weapon's element. The element procs
+// passively every N hits (N depends on stored power) and costs mana
+// (magic weapon) or stamina (physical).
 
-// Strong seal -> every hit; weak -> every 3-4 hits.
+// Strong element -> every hit; weak -> every 3-4 hits.
 func int StExt_GetSealProcInterval(var int sealPower)
 {
 	var int n;
@@ -193,7 +236,7 @@ func int StExt_PaySealCost(var c_item weap, var int sealPower)
 	return true;
 };
 
-// Call from StExt_Hero_AfterOffenceHandler: passive seal proc on hit.
+// Call from StExt_Hero_AfterOffenceHandler: passive element proc on hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
 	var int spellId;
@@ -217,11 +260,16 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	StExt_CastSpell(StExt_AbilityPrefix + spellId, atk, target, power);
 };
 
-// Apply a seal to the hero's equipped weapon (from a seal item on_use).
+// Apply a seal gem of the given ELEMENT to the hero's equipped weapon.
+// Power scales with hero level. If the weapon already has an element,
+// the seal must MATCH it and only upgrades when stronger.
 // Returns true on success (caller consumes the seal item).
-func int StExt_ApplySeal(var int spellId, var int power)
+func int StExt_ApplySeal(var int element, var int tierPower)
 {
 	var c_item weap;
+	var int existing;
+	var int power;
+	var int spellId;
 
 	if (!hlp_isvalidnpc(hero)) { return false; };
 	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
@@ -232,11 +280,25 @@ func int StExt_ApplySeal(var int spellId, var int power)
 		ai_printred(StExt_Str_Seal_NoWeapon);
 		return false;
 	};
-	if (StExt_GetItemSeal(weap) > 0)
+
+	power = tierPower + hero.level;
+	existing = StExt_GetItemSeal(weap);
+	if (existing > 0)
 	{
-		ai_printred(StExt_Str_Seal_AlreadySealed);
-		return false;
+		if (StExt_GetSpellElementIndex(existing) != element)
+		{
+			ai_printred(StExt_Str_Seal_ElementMismatch);
+			return false;
+		};
+		if (StExt_GetItemSealPower(weap) >= power)
+		{
+			ai_printred(StExt_Str_Seal_NotBetter);
+			return false;
+		};
 	};
+
+	spellId = StExt_RollElementSpell(element);
+	if (spellId == StExt_Null) { return false; };
 	if (!StExt_SetItemSeal(weap, spellId, power))
 	{
 		ai_printred(StExt_Str_Seal_CannotSeal);
@@ -248,9 +310,19 @@ func int StExt_ApplySeal(var int spellId, var int power)
 	return true;
 };
 
-// Call once per mod tick (StExt_ModController) - ticks the cooldown down.
+// Call once per mod tick (StExt_ModController): cooldown + charged glow.
 func void StExt_ItemAbilitiesController()
 {
+	if (StExt_WeaponSkill_Charged)
+	{
+		StExt_WeaponSkill_GlowTick -= 1;
+		if (StExt_WeaponSkill_GlowTick <= 0)
+		{
+			rx_playeffect("spellfx_incovation_violet", hero);
+			StExt_WeaponSkill_GlowTick = 2;
+		};
+	};
+
 	if (StExt_WeaponSkill_Cooldown <= 0) { return; };
 	if (accelerationactive) { StExt_WeaponSkill_Cooldown -= accelerationratio; }
 	else { StExt_WeaponSkill_Cooldown -= 1; };

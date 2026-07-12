@@ -200,6 +200,7 @@ var int StExt_ElementAffinity_Blood;
 var int StExt_WeaponSkill_Charged;
 var int StExt_WeaponSkill_Cooldown;
 var int StExt_WeaponSeal_HitCounter;
+var int StExt_WeaponSkill_GlowTick;
 
 var int StExt_ElementProfession_Chosen[StExt_MasteryIndex_Max];
 var int StExt_ElementProfession_IsUniversal;

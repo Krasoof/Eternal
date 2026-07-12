@@ -21,7 +21,7 @@ instance itse_stext_seal_fire_lesser(c_item)
 };
 func void use_itse_stext_seal_fire_lesser()
 {
-	if (StExt_ApplySeal(spl_instantfireball, 60)) { npc_removeinvitems(hero, itse_stext_seal_fire_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Fire, 60)) { npc_removeinvitems(hero, itse_stext_seal_fire_lesser, 1); };
 };
 
 instance itse_stext_seal_fire(c_item)
@@ -37,7 +37,7 @@ instance itse_stext_seal_fire(c_item)
 };
 func void use_itse_stext_seal_fire()
 {
-	if (StExt_ApplySeal(spl_instantfireball, 100)) { npc_removeinvitems(hero, itse_stext_seal_fire, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Fire, 100)) { npc_removeinvitems(hero, itse_stext_seal_fire, 1); };
 };
 
 instance itse_stext_seal_fire_greater(c_item)
@@ -53,7 +53,7 @@ instance itse_stext_seal_fire_greater(c_item)
 };
 func void use_itse_stext_seal_fire_greater()
 {
-	if (StExt_ApplySeal(spl_instantfireball, 160)) { npc_removeinvitems(hero, itse_stext_seal_fire_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Fire, 160)) { npc_removeinvitems(hero, itse_stext_seal_fire_greater, 1); };
 };
 
 instance itse_stext_seal_ice_lesser(c_item)
@@ -69,7 +69,7 @@ instance itse_stext_seal_ice_lesser(c_item)
 };
 func void use_itse_stext_seal_ice_lesser()
 {
-	if (StExt_ApplySeal(spl_icelance, 60)) { npc_removeinvitems(hero, itse_stext_seal_ice_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Ice, 60)) { npc_removeinvitems(hero, itse_stext_seal_ice_lesser, 1); };
 };
 
 instance itse_stext_seal_ice(c_item)
@@ -85,7 +85,7 @@ instance itse_stext_seal_ice(c_item)
 };
 func void use_itse_stext_seal_ice()
 {
-	if (StExt_ApplySeal(spl_icelance, 100)) { npc_removeinvitems(hero, itse_stext_seal_ice, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Ice, 100)) { npc_removeinvitems(hero, itse_stext_seal_ice, 1); };
 };
 
 instance itse_stext_seal_ice_greater(c_item)
@@ -101,7 +101,7 @@ instance itse_stext_seal_ice_greater(c_item)
 };
 func void use_itse_stext_seal_ice_greater()
 {
-	if (StExt_ApplySeal(spl_icelance, 160)) { npc_removeinvitems(hero, itse_stext_seal_ice_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Ice, 160)) { npc_removeinvitems(hero, itse_stext_seal_ice_greater, 1); };
 };
 
 instance itse_stext_seal_electric_lesser(c_item)
@@ -117,7 +117,7 @@ instance itse_stext_seal_electric_lesser(c_item)
 };
 func void use_itse_stext_seal_electric_lesser()
 {
-	if (StExt_ApplySeal(spl_lightningflash, 60)) { npc_removeinvitems(hero, itse_stext_seal_electric_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Electric, 60)) { npc_removeinvitems(hero, itse_stext_seal_electric_lesser, 1); };
 };
 
 instance itse_stext_seal_electric(c_item)
@@ -133,7 +133,7 @@ instance itse_stext_seal_electric(c_item)
 };
 func void use_itse_stext_seal_electric()
 {
-	if (StExt_ApplySeal(spl_lightningflash, 100)) { npc_removeinvitems(hero, itse_stext_seal_electric, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Electric, 100)) { npc_removeinvitems(hero, itse_stext_seal_electric, 1); };
 };
 
 instance itse_stext_seal_electric_greater(c_item)
@@ -149,7 +149,7 @@ instance itse_stext_seal_electric_greater(c_item)
 };
 func void use_itse_stext_seal_electric_greater()
 {
-	if (StExt_ApplySeal(spl_lightningflash, 160)) { npc_removeinvitems(hero, itse_stext_seal_electric_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Electric, 160)) { npc_removeinvitems(hero, itse_stext_seal_electric_greater, 1); };
 };
 
 instance itse_stext_seal_air_lesser(c_item)
@@ -165,7 +165,7 @@ instance itse_stext_seal_air_lesser(c_item)
 };
 func void use_itse_stext_seal_air_lesser()
 {
-	if (StExt_ApplySeal(spl_whirlwind, 60)) { npc_removeinvitems(hero, itse_stext_seal_air_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Air, 60)) { npc_removeinvitems(hero, itse_stext_seal_air_lesser, 1); };
 };
 
 instance itse_stext_seal_air(c_item)
@@ -181,7 +181,7 @@ instance itse_stext_seal_air(c_item)
 };
 func void use_itse_stext_seal_air()
 {
-	if (StExt_ApplySeal(spl_whirlwind, 100)) { npc_removeinvitems(hero, itse_stext_seal_air, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Air, 100)) { npc_removeinvitems(hero, itse_stext_seal_air, 1); };
 };
 
 instance itse_stext_seal_air_greater(c_item)
@@ -197,7 +197,7 @@ instance itse_stext_seal_air_greater(c_item)
 };
 func void use_itse_stext_seal_air_greater()
 {
-	if (StExt_ApplySeal(spl_whirlwind, 160)) { npc_removeinvitems(hero, itse_stext_seal_air_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Air, 160)) { npc_removeinvitems(hero, itse_stext_seal_air_greater, 1); };
 };
 
 instance itse_stext_seal_earth_lesser(c_item)
@@ -213,7 +213,7 @@ instance itse_stext_seal_earth_lesser(c_item)
 };
 func void use_itse_stext_seal_earth_lesser()
 {
-	if (StExt_ApplySeal(spl_stonefirst, 60)) { npc_removeinvitems(hero, itse_stext_seal_earth_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Earth, 60)) { npc_removeinvitems(hero, itse_stext_seal_earth_lesser, 1); };
 };
 
 instance itse_stext_seal_earth(c_item)
@@ -229,7 +229,7 @@ instance itse_stext_seal_earth(c_item)
 };
 func void use_itse_stext_seal_earth()
 {
-	if (StExt_ApplySeal(spl_stonefirst, 100)) { npc_removeinvitems(hero, itse_stext_seal_earth, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Earth, 100)) { npc_removeinvitems(hero, itse_stext_seal_earth, 1); };
 };
 
 instance itse_stext_seal_earth_greater(c_item)
@@ -245,7 +245,7 @@ instance itse_stext_seal_earth_greater(c_item)
 };
 func void use_itse_stext_seal_earth_greater()
 {
-	if (StExt_ApplySeal(spl_stonefirst, 160)) { npc_removeinvitems(hero, itse_stext_seal_earth_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Earth, 160)) { npc_removeinvitems(hero, itse_stext_seal_earth_greater, 1); };
 };
 
 instance itse_stext_seal_light_lesser(c_item)
@@ -261,7 +261,7 @@ instance itse_stext_seal_light_lesser(c_item)
 };
 func void use_itse_stext_seal_light_lesser()
 {
-	if (StExt_ApplySeal(spl_palholybolt, 60)) { npc_removeinvitems(hero, itse_stext_seal_light_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Light, 60)) { npc_removeinvitems(hero, itse_stext_seal_light_lesser, 1); };
 };
 
 instance itse_stext_seal_light(c_item)
@@ -277,7 +277,7 @@ instance itse_stext_seal_light(c_item)
 };
 func void use_itse_stext_seal_light()
 {
-	if (StExt_ApplySeal(spl_palholybolt, 100)) { npc_removeinvitems(hero, itse_stext_seal_light, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Light, 100)) { npc_removeinvitems(hero, itse_stext_seal_light, 1); };
 };
 
 instance itse_stext_seal_light_greater(c_item)
@@ -293,7 +293,7 @@ instance itse_stext_seal_light_greater(c_item)
 };
 func void use_itse_stext_seal_light_greater()
 {
-	if (StExt_ApplySeal(spl_palholybolt, 160)) { npc_removeinvitems(hero, itse_stext_seal_light_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Light, 160)) { npc_removeinvitems(hero, itse_stext_seal_light_greater, 1); };
 };
 
 instance itse_stext_seal_dark_lesser(c_item)
@@ -309,7 +309,7 @@ instance itse_stext_seal_dark_lesser(c_item)
 };
 func void use_itse_stext_seal_dark_lesser()
 {
-	if (StExt_ApplySeal(spl_darkball, 60)) { npc_removeinvitems(hero, itse_stext_seal_dark_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Dark, 60)) { npc_removeinvitems(hero, itse_stext_seal_dark_lesser, 1); };
 };
 
 instance itse_stext_seal_dark(c_item)
@@ -325,7 +325,7 @@ instance itse_stext_seal_dark(c_item)
 };
 func void use_itse_stext_seal_dark()
 {
-	if (StExt_ApplySeal(spl_darkball, 100)) { npc_removeinvitems(hero, itse_stext_seal_dark, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Dark, 100)) { npc_removeinvitems(hero, itse_stext_seal_dark, 1); };
 };
 
 instance itse_stext_seal_dark_greater(c_item)
@@ -341,7 +341,7 @@ instance itse_stext_seal_dark_greater(c_item)
 };
 func void use_itse_stext_seal_dark_greater()
 {
-	if (StExt_ApplySeal(spl_darkball, 160)) { npc_removeinvitems(hero, itse_stext_seal_dark_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Dark, 160)) { npc_removeinvitems(hero, itse_stext_seal_dark_greater, 1); };
 };
 
 instance itse_stext_seal_death_lesser(c_item)
@@ -357,7 +357,7 @@ instance itse_stext_seal_death_lesser(c_item)
 };
 func void use_itse_stext_seal_death_lesser()
 {
-	if (StExt_ApplySeal(spl_deathball, 60)) { npc_removeinvitems(hero, itse_stext_seal_death_lesser, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Death, 60)) { npc_removeinvitems(hero, itse_stext_seal_death_lesser, 1); };
 };
 
 instance itse_stext_seal_death(c_item)
@@ -373,7 +373,7 @@ instance itse_stext_seal_death(c_item)
 };
 func void use_itse_stext_seal_death()
 {
-	if (StExt_ApplySeal(spl_deathball, 100)) { npc_removeinvitems(hero, itse_stext_seal_death, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Death, 100)) { npc_removeinvitems(hero, itse_stext_seal_death, 1); };
 };
 
 instance itse_stext_seal_death_greater(c_item)
@@ -389,5 +389,5 @@ instance itse_stext_seal_death_greater(c_item)
 };
 func void use_itse_stext_seal_death_greater()
 {
-	if (StExt_ApplySeal(spl_deathball, 160)) { npc_removeinvitems(hero, itse_stext_seal_death_greater, 1); };
+	if (StExt_ApplySeal(StExt_MasteryIndex_Death, 160)) { npc_removeinvitems(hero, itse_stext_seal_death_greater, 1); };
 };

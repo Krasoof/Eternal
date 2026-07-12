@@ -86,6 +86,9 @@ const string StExt_Str_WeaponSkill_Charged = "Umiejetnosc naladowana! Zadaj cios
 const string StExt_Str_WeaponSkill_OnCooldown = "Umiejetnosc broni jeszcze sie odnawia.";
 const string StExt_Str_WeaponSkill_NotEnoughStamina = "Za malo wytrzymalosci na umiejetnosc broni.";
 const string StExt_Str_WeaponSkill_NotEnoughMana = "Za malo many na umiejetnosc broni.";
+const string StExt_Str_WeaponSkill_NoElement = "Ta bron nie ma wbudowanego zywiolu - naloz piecziec albo zdobadz bron z zywiolem.";
+const string StExt_Str_Seal_ElementMismatch = "Zywiol pieczeci musi zgadzac sie z zywiolem broni.";
+const string StExt_Str_Seal_NotBetter = "Ta piecziec nie jest mocniejsza od obecnego zywiolu broni.";
 
 //		*** Element profession strings ***
 const string StExt_Str_Config_ElementProfession_MaxSlots = "Ile zywiolow gracz moze wybrac jako profesje (pelny exp)";
