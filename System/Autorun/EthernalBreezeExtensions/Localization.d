@@ -87,6 +87,7 @@ const string StExt_Str_WeaponSkill_OnCooldown = "Umiejetnosc broni jeszcze sie o
 const string StExt_Str_WeaponSkill_NotEnoughStamina = "Za malo wytrzymalosci na umiejetnosc broni.";
 const string StExt_Str_WeaponSkill_NotEnoughMana = "Za malo many na umiejetnosc broni.";
 const string StExt_Str_WeaponSkill_NoElement = "Ta bron nie ma wbudowanego zywiolu - naloz piecziec albo zdobadz bron z zywiolem.";
+const string StExt_Str_WeaponSkill_Released = "Zywiol uwolniony!";
 const string StExt_Str_Seal_ElementMismatch = "Zywiol pieczeci musi zgadzac sie z zywiolem broni.";
 const string StExt_Str_Seal_NotBetter = "Ta piecziec nie jest mocniejsza od obecnego zywiolu broni.";
 

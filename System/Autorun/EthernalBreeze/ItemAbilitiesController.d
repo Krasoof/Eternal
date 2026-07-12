@@ -7,9 +7,9 @@
 // by a seal gem of that element. The element lives in the item
 // extension (SpellId + SpellPower), so it persists in saves.
 //
-// H-skill: charges the weapon's OWN element (message if it has none);
-// the next landed hit unleashes the burst and the weapon glows while
-// charged. Seals also proc the element passively every N hits.
+// H-skill: charges the weapon element; the next landed hit gets a flat
+// elemental damage BOOST and the weapon glows while charged. The element
+// also adds passive elemental damage to EVERY hit (no cost, no casts).
 
 func int StExt_WeaponSkillUsesMana(var c_item weap)
 {
@@ -188,7 +188,19 @@ func event OnWeaponSkillKeyPress()
 	ai_printbonus(StExt_Str_WeaponSkill_Charged);
 };
 
-// Call from StExt_Hero_AfterOffenceHandler on the hero's next landed hit.
+// Add elemental damage straight into the current hit's damage channels.
+func void StExt_AddElementHitDamage(var int element, var int amount)
+{
+	if (amount <= 0) { return; };
+	if (element == StExt_MasteryIndex_Fire) { StExt_ExtraDamageInfo.Damage[dam_index_fire] += amount; return; };
+	if (element == StExt_MasteryIndex_Air) { StExt_ExtraDamageInfo.Damage[dam_index_fly] += amount; return; };
+	if (element == StExt_MasteryIndex_Earth) { StExt_ExtraDamageInfo.Damage[dam_index_blunt] += amount; return; };
+	// ice / electric / light / dark / death -> magic channel
+	StExt_ExtraDamageInfo.Damage[dam_index_magic] += amount;
+};
+
+// Call from StExt_Hero_AfterOffenceHandler on the hero's next landed hit:
+// the charged element is released as a flat damage BOOST on this hit.
 func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
 	var int spellId;
@@ -202,62 +214,37 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 	if (spellId <= 0) { return; };
 
 	power = StExt_CalcWeaponBurstPower(weap, spellId, StExt_GetItemSealPower(weap));
-	StExt_CastSpell(StExt_AbilityPrefix + spellId, atk, target, power);
+	StExt_AddElementHitDamage(StExt_GetSpellElementIndex(spellId), power);
+	ai_printbonus(StExt_Str_WeaponSkill_Released);
 };
 
 //===================================================================//
-//					Weapon seals (passive on-hit)					 //
+//				Weapon element: passive hit damage					 //
 //===================================================================//
-// Seal gems grant/upgrade the weapon's element. The element procs
-// passively every N hits (N depends on stored power) and costs mana
-// (magic weapon) or stamina (physical).
+// A weapon with an element deals PART of its damage as that element
+// on EVERY hit (no resource cost, no spell casts): a slice of the
+// real damage plus flat scaling from element power and mastery.
 
-// Strong element -> every hit; weak -> every 3-4 hits.
-func int StExt_GetSealProcInterval(var int sealPower)
-{
-	var int n;
-	n = 4 - (sealPower / 50);
-	return StExt_ValidateValueRange(n, 1, 4);
-};
-
-// Deduct the per-proc resource cost. Returns true if paid.
-func int StExt_PaySealCost(var c_item weap, var int sealPower)
-{
-	var int cost;
-	cost = 10 + (sealPower / 10);
-	if (StExt_WeaponSkillUsesMana(weap))
-	{
-		if (hero.attribute[atr_mana] < cost) { return false; };
-		hero.attribute[atr_mana] = hero.attribute[atr_mana] - cost;
-		return true;
-	};
-	if (atr_stamina < cost) { return false; };
-	rx_restorestamina(-cost);
-	return true;
-};
-
-// Call from StExt_Hero_AfterOffenceHandler: passive element proc on hit.
+// Call from StExt_Hero_AfterOffenceHandler on every landed hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
 	var int spellId;
-	var int sealPower;
-	var int power;
+	var int element;
+	var int amount;
 
 	if (!hlp_isvaliditem(weap)) { return; };
 	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
 
 	spellId = StExt_GetItemSeal(weap);
 	if (spellId <= 0) { return; };
-	sealPower = StExt_GetItemSealPower(weap);
+	element = StExt_GetSpellElementIndex(spellId);
 
-	StExt_WeaponSeal_HitCounter += 1;
-	if (StExt_WeaponSeal_HitCounter < StExt_GetSealProcInterval(sealPower)) { return; };
-	StExt_WeaponSeal_HitCounter = 0;
-
-	if (!StExt_PaySealCost(weap, sealPower)) { return; };
-
-	power = StExt_CalcWeaponBurstPower(weap, spellId, sealPower);
-	StExt_CastSpell(StExt_AbilityPrefix + spellId, atk, target, power);
+	// 15% of the hit's real damage + element power/5 + mastery scaling
+	amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150);
+	amount += StExt_GetItemSealPower(weap) / 5;
+	amount += StExt_GetElementMasteryPowerStat(element) / 10;
+	amount += StExt_GetElementMasteryLevel(element) / 2;
+	StExt_AddElementHitDamage(element, amount);
 };
 
 // Apply a seal gem of the given ELEMENT to the hero's equipped weapon.
