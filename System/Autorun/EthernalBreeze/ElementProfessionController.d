@@ -45,21 +45,21 @@ func int StExt_GetElementMasteryExpMult(var int index, var int baseMult)
 {
 	if (baseMult <= 0) { return 0; };
 	if (StExt_ElementProfession_IsUniversal) { return StExt_GetPercentFromValue(baseMult, StExt_Config_ElementProfession_UniversalPenaltyPerc); };
-	if (StExt_ElementProfession_Chosen[index]) { return baseMult; };
+	if (StExt_Array_GetInt("StExt_ElementProfession_Chosen", index)) { return baseMult; };
 	return 0;
 };
 
 func int StExt_CanLearnElementProfession(var int index)
 {
 	if (!StExt_IsElementMasteryIndex(index)) { return false; };
-	if (StExt_ElementProfession_Chosen[index]) { return false; };
+	if (StExt_Array_GetInt("StExt_ElementProfession_Chosen", index)) { return false; };
 	return StExt_ElementProfession_SlotsUsed() < StExt_Config_ElementProfession_MaxSlots;
 };
 
 func void StExt_LearnElementProfession(var int index)
 {
 	if (!StExt_CanLearnElementProfession(index)) { return; };
-	StExt_ElementProfession_Chosen[index] = true;
+	StExt_Array_SetInt("StExt_ElementProfession_Chosen", index, true);
 	StExt_ElementProfession_IsUniversal = false;
 	ai_printbonus(StExt_Str_ElementProfession_Learned);
 };
