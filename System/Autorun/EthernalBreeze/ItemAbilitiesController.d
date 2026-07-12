@@ -56,7 +56,7 @@ func int StExt_RollElementSpell(var int element)
 	{
 		r = hlp_random(3);
 		if (r == 0) { return spl_zap; };
-		if (r == 1) { return spl_thunderball; };
+		if (r == 1) { return spl_chargezap; };
 		return spl_lightningflash;
 	};
 	if (element == StExt_MasteryIndex_Air)
@@ -219,32 +219,87 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 };
 
 //===================================================================//
-//				Weapon element: passive hit damage					 //
+//		Weapon element: perk (flat dmg) + seal (spell proc)			 //
 //===================================================================//
-// A weapon with an element deals PART of its damage as that element
-// on EVERY hit (no resource cost, no spell casts): a slice of the
-// real damage plus flat scaling from element power and mastery.
+// PERK (rolled at generation, prop SpellId/SpellPower): flat elemental
+// damage on EVERY hit. Magic weapons pay a small mana surcharge per
+// hit and in return the element is EMPOWERED (+50% and int bonus).
+// SEAL (gem, prop SealSpellId/SealPower): casts its spell every X hits
+// (X from seal power); each proc costs mana (magic) / stamina (else).
+
+// Strong seal -> every hit; weak -> every 3-4 hits.
+func int StExt_GetSealProcInterval(var int sealPower)
+{
+	var int n;
+	n = 4 - (sealPower / 50);
+	return StExt_ValidateValueRange(n, 1, 4);
+};
+
+// Deduct the per-proc resource cost. Returns true if paid.
+func int StExt_PaySealCost(var c_item weap, var int sealPower)
+{
+	var int cost;
+	cost = 10 + (sealPower / 10);
+	if (StExt_WeaponSkillUsesMana(weap))
+	{
+		if (hero.attribute[atr_mana] < cost) { return false; };
+		hero.attribute[atr_mana] = hero.attribute[atr_mana] - cost;
+		return true;
+	};
+	if (atr_stamina < cost) { return false; };
+	rx_restorestamina(-cost);
+	return true;
+};
 
 // Call from StExt_Hero_AfterOffenceHandler on every landed hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
-	var int spellId;
+	var int perkSpell;
+	var int sealSpell;
+	var int sealPower;
 	var int element;
 	var int amount;
+	var int manaCost;
+	var int power;
 
 	if (!hlp_isvaliditem(weap)) { return; };
 	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
 
-	spellId = StExt_GetItemSeal(weap);
-	if (spellId <= 0) { return; };
-	element = StExt_GetSpellElementIndex(spellId);
+	// --- PERK: flat elemental damage every hit ---
+	perkSpell = StExt_GetItemSeal(weap);
+	if (perkSpell > 0)
+	{
+		element = StExt_GetSpellElementIndex(perkSpell);
+		amount = StExt_GetItemSealPower(weap) / 3;
+		amount += StExt_GetElementMasteryPowerStat(element) / 10;
+		amount += StExt_GetElementMasteryLevel(element) / 2;
 
-	// 15% of the hit's real damage + element power/5 + mastery scaling
-	amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150);
-	amount += StExt_GetItemSealPower(weap) / 5;
-	amount += StExt_GetElementMasteryPowerStat(element) / 10;
-	amount += StExt_GetElementMasteryLevel(element) / 2;
-	StExt_AddElementHitDamage(element, amount);
+		// magic weapons: small mana surcharge empowers the element
+		if (StExt_WeaponSkillUsesMana(weap))
+		{
+			manaCost = 3 + (StExt_GetItemSealPower(weap) / 25);
+			if (hero.attribute[atr_mana] >= manaCost)
+			{
+				hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
+				amount += (amount / 2) + (atr_intellect / 20);
+			};
+		};
+		StExt_AddElementHitDamage(element, amount);
+	};
+
+	// --- SEAL: spell proc every X hits ---
+	sealSpell = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId);
+	if (sealSpell <= 0) { return; };
+	sealPower = StExt_GetItemProperty(weap, StExt_ItemProp_SealPower);
+
+	StExt_WeaponSeal_HitCounter += 1;
+	if (StExt_WeaponSeal_HitCounter < StExt_GetSealProcInterval(sealPower)) { return; };
+	// unpaid proc stays pending: counter is only reset after payment
+	if (!StExt_PaySealCost(weap, sealPower)) { return; };
+	StExt_WeaponSeal_HitCounter = 0;
+
+	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower);
+	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 };
 
 // Apply a seal gem of the given ELEMENT to the hero's equipped weapon.
@@ -254,7 +309,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 func int StExt_ApplySeal(var int element, var int tierPower)
 {
 	var c_item weap;
-	var int existing;
+	var int perkSpell;
+	var int existingSeal;
 	var int power;
 	var int spellId;
 
@@ -267,17 +323,30 @@ func int StExt_ApplySeal(var int element, var int tierPower)
 		ai_printred(StExt_Str_Seal_NoWeapon);
 		return false;
 	};
+	if (!StExt_ItemHasExtension(weap))
+	{
+		ai_printred(StExt_Str_Seal_CannotSeal);
+		return false;
+	};
 
 	power = tierPower + hero.level;
-	existing = StExt_GetItemSeal(weap);
-	if (existing > 0)
+
+	// if the weapon has an element perk, the seal must match its element
+	perkSpell = StExt_GetItemSeal(weap);
+	if (perkSpell > 0)
 	{
-		if (StExt_GetSpellElementIndex(existing) != element)
+		if (StExt_GetSpellElementIndex(perkSpell) != element)
 		{
 			ai_printred(StExt_Str_Seal_ElementMismatch);
 			return false;
 		};
-		if (StExt_GetItemSealPower(weap) >= power)
+	};
+
+	// replacing an existing seal requires a stronger one
+	existingSeal = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId);
+	if (existingSeal > 0)
+	{
+		if (StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) >= power)
 		{
 			ai_printred(StExt_Str_Seal_NotBetter);
 			return false;
@@ -286,11 +355,8 @@ func int StExt_ApplySeal(var int element, var int tierPower)
 
 	spellId = StExt_RollElementSpell(element);
 	if (spellId == StExt_Null) { return false; };
-	if (!StExt_SetItemSeal(weap, spellId, power))
-	{
-		ai_printred(StExt_Str_Seal_CannotSeal);
-		return false;
-	};
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealSpellId, spellId);
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, power);
 
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Seal_Applied);

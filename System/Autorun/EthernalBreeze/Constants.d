@@ -2,6 +2,14 @@ const int StExt_ModVersion = 308;
 
 // Chance (%) that a generated magic weapon rolls a random elemental perk (read by the DLL).
 const int StExt_WeaponElementRollChance = 20;
+
+// Item extension property slots (DLL ItemProperty enum) used by scripts.
+// Perk element (rolled at generation): SpellId + SpellPower.
+// Seal gem (player-applied, procs a spell every X hits): SpellCost + SpellCharges.
+const int StExt_ItemProp_PerkSpellId = 12;
+const int StExt_ItemProp_SealSpellId = 14;
+const int StExt_ItemProp_SealPower = 15;
+const int StExt_ItemProp_PerkPower = 16;
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

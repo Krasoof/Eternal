@@ -458,7 +458,7 @@ func int dia_none_99666_StonedTrader_hi_condition()
 };
 func void dia_none_99666_StonedTrader_hi_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_hi_01");			// Как дела, приятель?
+	AI_Output(other, self, "DIA_StExt_StonedTrader_hi_01");			// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
 	AI_Output(self, other, "DIA_StExt_Wisp_15_00");					// ...
 	if(StExt_StonedTrader_MissionLetterGet == false)
 	{
@@ -484,7 +484,7 @@ func int dia_none_99666_StonedTrader_AndrielReady_condition()
 };
 func void dia_none_99666_StonedTrader_AndrielReady_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielReady_01");		// Как я могу помочь тебе?
+	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielReady_01");		// пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ?
 	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// ...
 	b_giveplayerxp(100);
 	StExt_TraderReputation += 5;
@@ -509,8 +509,8 @@ func int dia_none_99666_StonedTrader_AndrielDone_condition()
 };
 func void dia_none_99666_StonedTrader_AndrielDone_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielDone_01");		// Я разобрался с Андриэль!
-	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// (счастливоп перебивает) ...
+	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielDone_01");		// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
+	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) ...
 	B_GiveInvItems(self, other, itwr_stoned_duriel, 1);
 	var int itemInst;
 	itemInst = StExt_GenerateRandomItem(StExt_ItemClass_Consumable_Potion, 150 + hero.level);
@@ -539,7 +539,7 @@ func int dia_none_99666_StonedTrader_DurielDone_condition()
 };
 func void dia_none_99666_StonedTrader_DurielDone_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielDone_01");		// С Дуриэль покончено!
+	AI_Output(other, self, "DIA_StExt_StonedTrader_AndrielDone_01");		// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
 	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// ...
     B_GiveInvItems(self, other, itwr_stoned_mephisto, 1);
 	var int itemInst;
@@ -569,7 +569,7 @@ func int dia_none_99666_StonedTrader_MephistoDone_condition()
 };
 func void dia_none_99666_StonedTrader_MephistoDone_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_MephistoDone_01");		// Мефисто повержен!
+	AI_Output(other, self, "DIA_StExt_StonedTrader_MephistoDone_01");		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
 	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// ...
 	B_GiveInvItems(self, other, itwr_stoned_diablo, 1);
 	var int itemInst;
@@ -599,7 +599,7 @@ func int dia_none_99666_StonedTrader_DiabloDone_condition()
 };
 func void dia_none_99666_StonedTrader_DiabloDone_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_DiabloDone_01");			// Я уничтожил Диабло!
+	AI_Output(other, self, "DIA_StExt_StonedTrader_DiabloDone_01");			// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!
 	AI_Output(self, other, "DIA_StExt_Wisp_15_00");							// ...
 	B_GiveInvItems(self, other, itwr_stoned_baal, 1);
 	var int itemInst;
@@ -629,8 +629,8 @@ func int dia_none_99666_StonedTrader_BaalDone_condition()
 };
 func void dia_none_99666_StonedTrader_BaalDone_info() 
 {
-	AI_Output(other, self, "DIA_StExt_StonedTrader_BaalDone_01");			// Баал...
-	AI_Output(self, other, "DIA_StExt_StonedTrader_BaalDone_02");			// Пал, я знаю! И спасибо тебе за твою самоотверженую помощь, герой.
+	AI_Output(other, self, "DIA_StExt_StonedTrader_BaalDone_01");			// пїЅпїЅпїЅпїЅ...
+	AI_Output(self, other, "DIA_StExt_StonedTrader_BaalDone_02");			// пїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅ! пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ.
 	info_clearchoices(dia_none_99666_StonedTrader_BaalDone);
 	var int itemInst;
 	itemInst = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"), 250 + hero.level);
@@ -970,7 +970,7 @@ func void StExt_Shiva_Reforge(var int requireMagic, var int cost)
 		ai_printred(StExt_Str_Reroll_NotMagic);
 		return;
 	};
-	if (StExt_GetItemSeal(weap) > 0)
+	if ((StExt_GetItemSeal(weap) > 0) || (StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId) > 0))
 	{
 		ai_printred(StExt_Str_Reroll_Sealed);
 		return;

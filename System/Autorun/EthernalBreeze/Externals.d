@@ -114,6 +114,8 @@
 
 	// Weapon seals (offensive spell + power stored on a weapon's item extension).
 	func int StExt_ItemHasExtension(var c_item itm);
+	func int StExt_GetItemProperty(var c_item itm, var int index);
+	func int StExt_SetItemProperty(var c_item itm, var int index, var int value);
 	func int StExt_GetItemSeal(var c_item itm);
 	func int StExt_GetItemSealPower(var c_item itm);
 	func int StExt_SetItemSeal(var c_item itm, var int spellId, var int power);
