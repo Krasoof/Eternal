@@ -665,3 +665,14 @@ instance itmi_stext_lootchest_Torso(itmi_stext_lootchest)
 	text[3] = itmi_stext_lootchest_Torso_dsec;
 };
 func void use_itmi_stext_lootchest_Torso() { StExt_OpenChest("StExt_ItemClass_List_Torso"); };
+
+// Boss soul: guaranteed drop from bosses; spend at the StonedTrader to
+// empower the equipped weapon's seal/element (dark-souls-like growth).
+instance itmi_stext_bosssoul(c_item)
+{
+	itmi_moonstone_old();
+	name = StExt_Str_BossSoul_Name;
+	description = name;
+	text[1] = StExt_Str_BossSoul_Desc;
+	value = 5000;
+};

@@ -595,7 +595,8 @@ func void StExt_BodyLootHandler(var c_npc vict)
 	if (dropchanceTmp > 0) { dropchanceTmp = (dropchanceTmp + 1) / 10; };
 	dropchance = 10 + dropchanceTmp + ((hero.level + 1 + vict.level) / 2) + (kapitel * 10);
 
-	if (StExt_Npc_IsRandomized(vict) || rx_isboss(vict) || vict.aivar[94] > npc_uncommon) { dropchance += 1000; };	
+	if (StExt_Npc_IsRandomized(vict) || rx_isboss(vict) || vict.aivar[94] > npc_uncommon) { dropchance += 1000; };
+	if (rx_isboss(vict)) { createinvitems(vict, itmi_stext_bosssoul, 1); };	
 	if (!StExt_Chance(dropchance)) 
 	{
 		StExt_PrintDebugStack("StExt_LootHandler(var c_npc vict) -> Skip");

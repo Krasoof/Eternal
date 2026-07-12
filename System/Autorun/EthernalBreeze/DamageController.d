@@ -655,6 +655,7 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	StExt_Npc_AfterOffenceHandler(atk, target, weap);
 	StExt_TriggerWeaponSkillOnHit(atk, target, weap);
 	StExt_TriggerWeaponSealOnHit(atk, target, weap);
+	StExt_TriggerEquippedPerksOnHit(atk, target);
 
 	aoeDist = StExt_CalcAoeDistance(atk, DamageFlags);
 	aoeTargets = StExt_CalcAoeTargets(atk, DamageFlags, 0);
@@ -1208,6 +1209,7 @@ func void StExt_Hero_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_
 	
 	StExt_PrintDamageDebugStack("StExt_Hero_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
 	StExt_Npc_AfterDefenceHandler(atk, target, weap);
+	StExt_TriggerAegisOnDefence(atk);
 	
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{

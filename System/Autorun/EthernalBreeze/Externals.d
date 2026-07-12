@@ -115,6 +115,9 @@
 	// Weapon seals (offensive spell + power stored on a weapon's item extension).
 	func int StExt_ItemHasExtension(var c_item itm);
 	func int StExt_GetItemProperty(var c_item itm, var int index);
+	// Slot reader of element perks on EQUIPPED non-weapon items (armor/jewelry).
+	// which: 0 = spell id, 1 = perk power. Returns 0 past the last slot.
+	func int StExt_GetEquippedPerk(var c_npc npc, var int slot, var int which);
 	func int StExt_SetItemProperty(var c_item itm, var int index, var int value);
 	func int StExt_GetItemSeal(var c_item itm);
 	func int StExt_GetItemSealPower(var c_item itm);

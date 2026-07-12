@@ -14,6 +14,12 @@ const int StExt_ItemProp_PerkPower = 16;
 // Physical seal sentinel ids (stored in SealSpellId; >= 9000 = not a spell).
 const int StExt_PhysSeal_Bleed = 9001;
 const int StExt_PhysSeal_Pierce = 9002;
+
+// Seal leveling (free item property slots): each successful proc grants xp;
+// level-ups grow SealPower with accelerating steps (dark-souls-like growth).
+const int StExt_ItemProp_SealLevel = 26;
+const int StExt_ItemProp_SealXp = 27;
+const int StExt_SealLevelMax = 10;
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

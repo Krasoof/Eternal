@@ -252,6 +252,30 @@ func int StExt_PaySealCost(var c_item weap, var int sealPower)
 	return true;
 };
 
+// Seal leveling: every successful proc grants xp. Threshold grows with
+// level, and each level-up adds a BIGGER power step (10 + 2*level), so
+// a leveled seal scales better and better instead of staying flat.
+func void StExt_SealGainXp(var c_item weap)
+{
+	var int lvl;
+	var int xp;
+
+	lvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
+	if (lvl >= StExt_SealLevelMax) { return; };
+	xp = StExt_GetItemProperty(weap, StExt_ItemProp_SealXp) + 1;
+	if (xp < (5 + (lvl * 5)))
+	{
+		StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, xp);
+		return;
+	};
+	lvl += 1;
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealLevel, lvl);
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, 0);
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 10 + (lvl * 2));
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(concatstrings(StExt_Str_Seal_LevelUp, inttostring(lvl)));
+};
+
 // Call from StExt_Hero_AfterOffenceHandler on every landed hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
@@ -320,6 +344,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150 + sealPower);
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
+		StExt_SealGainXp(weap);
 		return;
 	};
 
@@ -331,6 +356,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 
 	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower);
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
+	StExt_SealGainXp(weap);
 };
 
 // Apply a seal gem of the given ELEMENT to the hero's equipped weapon.
@@ -436,17 +462,91 @@ func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
 	return true;
 };
 
+// Element glow VFX name (used for hand pulses AND as the item's own
+// persistent effect so the weapon itself carries the glow).
+func string StExt_GetElementGlowFx(var int element)
+{
+	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_STEXT_WGLOW_FIRE"; };
+	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_STEXT_WGLOW_ICE"; };
+	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_STEXT_WGLOW_ELECTRIC"; };
+	if (element == StExt_MasteryIndex_Air) { return "SPELLFX_STEXT_WGLOW_AIR"; };
+	if (element == StExt_MasteryIndex_Earth) { return "SPELLFX_STEXT_WGLOW_EARTH"; };
+	if (element == StExt_MasteryIndex_Light) { return "SPELLFX_STEXT_WGLOW_LIGHT"; };
+	if (element == StExt_MasteryIndex_Dark) { return "SPELLFX_STEXT_WGLOW_DARK"; };
+	if (element == StExt_MasteryIndex_Death) { return "SPELLFX_STEXT_WGLOW_DEATH"; };
+	return "";
+};
+
 // Elemental glow played at the weapon hand (ZS_RIGHTHAND anchored VFX).
 func void StExt_PlayWeaponElementGlow(var int element)
 {
-	if (element == StExt_MasteryIndex_Fire) { rx_playeffect("SPELLFX_STEXT_WGLOW_FIRE", hero); return; };
-	if (element == StExt_MasteryIndex_Ice) { rx_playeffect("SPELLFX_STEXT_WGLOW_ICE", hero); return; };
-	if (element == StExt_MasteryIndex_Electric) { rx_playeffect("SPELLFX_STEXT_WGLOW_ELECTRIC", hero); return; };
-	if (element == StExt_MasteryIndex_Air) { rx_playeffect("SPELLFX_STEXT_WGLOW_AIR", hero); return; };
-	if (element == StExt_MasteryIndex_Earth) { rx_playeffect("SPELLFX_STEXT_WGLOW_EARTH", hero); return; };
-	if (element == StExt_MasteryIndex_Light) { rx_playeffect("SPELLFX_STEXT_WGLOW_LIGHT", hero); return; };
-	if (element == StExt_MasteryIndex_Dark) { rx_playeffect("SPELLFX_STEXT_WGLOW_DARK", hero); return; };
-	if (element == StExt_MasteryIndex_Death) { rx_playeffect("SPELLFX_STEXT_WGLOW_DEATH", hero); return; };
+	var string fx;
+	fx = StExt_GetElementGlowFx(element);
+	if (StExt_StringIsEmpty(fx)) { return; };
+	rx_playeffect(fx, hero);
+};
+
+//===================================================================//
+//			Equipped armor / jewelry element perks					 //
+//===================================================================//
+// Legendary/epic armor and jewelry can roll an element perk (DLL).
+// Offence: each equipped perk adds flat elemental damage to hits.
+// Defence (Aegis): chance to retaliate with the perk's spell.
+
+func void StExt_ApplyEquippedPerkHit(var int slot)
+{
+	var int spell;
+	var int power;
+	var int element;
+	var int amount;
+
+	spell = StExt_GetEquippedPerk(hero, slot, 0);
+	if (spell <= 0) { return; };
+	element = StExt_GetSpellElementIndex(spell);
+	if (element == StExt_Null) { return; };
+	power = StExt_GetEquippedPerk(hero, slot, 1);
+	amount = (power / 6) + (StExt_GetElementMasteryPowerStat(element) / 12);
+	StExt_AddElementHitDamage(element, amount);
+};
+
+// Call from StExt_Hero_AfterOffenceHandler (after weapon triggers).
+func void StExt_TriggerEquippedPerksOnHit(var c_npc atk, var c_npc target)
+{
+	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
+	StExt_ApplyEquippedPerkHit(0);
+	StExt_ApplyEquippedPerkHit(1);
+	StExt_ApplyEquippedPerkHit(2);
+	StExt_ApplyEquippedPerkHit(3);
+	StExt_ApplyEquippedPerkHit(4);
+	StExt_ApplyEquippedPerkHit(5);
+};
+
+func void StExt_ApplyAegisSlot(var int slot, var c_npc atk)
+{
+	var int spell;
+	var int power;
+	var int element;
+
+	spell = StExt_GetEquippedPerk(hero, slot, 0);
+	if (spell <= 0) { return; };
+	element = StExt_GetSpellElementIndex(spell);
+	if (element == StExt_Null) { return; };
+	power = StExt_GetEquippedPerk(hero, slot, 1);
+	if (!StExt_Chance(10 + (power / 10))) { return; };
+	StExt_CastSpell(spell, hero, atk, (power / 2) + (StExt_GetElementMasteryPowerStat(element) / 4) + StExt_GetElementMasteryLevel(element));
+};
+
+// Call from StExt_Hero_AfterDefenceHandler: elemental retaliation.
+func void StExt_TriggerAegisOnDefence(var c_npc atk)
+{
+	if (!hlp_isvalidnpc(atk) || c_npcisdown(atk)) { return; };
+	if (!hlp_isvalidnpc(hero) || c_npcisdown(hero)) { return; };
+	StExt_ApplyAegisSlot(0, atk);
+	StExt_ApplyAegisSlot(1, atk);
+	StExt_ApplyAegisSlot(2, atk);
+	StExt_ApplyAegisSlot(3, atk);
+	StExt_ApplyAegisSlot(4, atk);
+	StExt_ApplyAegisSlot(5, atk);
 };
 
 // Call once per mod tick (StExt_ModController): cooldown + weapon glow.
@@ -467,6 +567,10 @@ func void StExt_ItemAbilitiesController()
 		element = StExt_GetSpellElementIndex(glowSpell);
 		if (element != StExt_Null)
 		{
+			// persistent glow attached to the weapon itself (item effect,
+			// same engine feature as burning swords); refresh if it differs
+			if (!hlp_strcmp(weap.effect, StExt_GetElementGlowFx(element))) { weap.effect = StExt_GetElementGlowFx(element); };
+
 			if (StExt_WeaponSkill_Charged) { StExt_PlayWeaponElementGlow(element); }
 			else
 			{

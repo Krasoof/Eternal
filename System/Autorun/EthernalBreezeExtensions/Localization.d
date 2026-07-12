@@ -93,6 +93,11 @@ const string StExt_Str_Seal_NotBetter = "Ta piecziec nie jest mocniejsza od obec
 const string StExt_Str_Seal_Bleed_Name = "Pieczec Krwawienia";
 const string StExt_Str_Seal_Pierce_Name = "Pieczec Przebicia";
 const string StExt_Str_Seal_Phys_Desc = "Piecziec fizyczna - pasuje do kazdej broni. Krwawienie: obrazenia w czasie; Przebicie: czesc ciosu ignoruje pancerz. Kazde uzycie kosztuje odrobine wytrzymalosci/many.";
+const string StExt_Str_Seal_LevelUp = "Pieczec broni wzmocnila sie! Poziom: ";
+const string StExt_Str_BossSoul_Name = "Dusza Pradawnego";
+const string StExt_Str_BossSoul_Desc = "Esencja pokonanego bossa. Kamieniarz na farmie Onara potrafi wtopic ja w zywiol Twojej broni.";
+const string StExt_Str_SoulInfuse_Offer = "Wtop Dusze Pradawnego w bron (1 dusza + 1000 zlota: +20 mocy)";
+const string StExt_Str_SoulInfuse_Done = "Dusza wtopiona - zywiol broni urosl w sile!";
 
 //		*** Element profession strings ***
 const string StExt_Str_Config_ElementProfession_MaxSlots = "Ile zywiolow gracz moze wybrac jako profesje (pelny exp)";

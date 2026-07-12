@@ -1039,3 +1039,58 @@ func void dia_none_99666_StonedTrader_Reroll_info()
 	StExt_Shiva_Reforge(true, 3000);
 	ai_stopprocessinfos(self);
 };
+
+//--------------------------------------------------------------
+// *** Boss soul infusion: empower the weapon's seal/element ***
+//--------------------------------------------------------------
+instance dia_none_99666_StonedTrader_SoulInfuse(c_info)
+{
+    npc = none_99666_StonedTrader;
+    nr = 8;
+    condition = dia_none_99666_StonedTrader_SoulInfuse_condition;
+    information = dia_none_99666_StonedTrader_SoulInfuse_info;
+    permanent = true;
+    description = StExt_Str_SoulInfuse_Offer;
+};
+func int dia_none_99666_StonedTrader_SoulInfuse_condition() { return (npc_hasitems(hero, itmi_stext_bosssoul) > 0); };
+func void dia_none_99666_StonedTrader_SoulInfuse_info()
+{
+	var c_item weap;
+
+	if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { weap = npc_getreadiedweapon(hero); }
+	else { weap = npc_getequippedmeleeweapon(hero); };
+	if (!hlp_isvaliditem(weap))
+	{
+		ai_printred(StExt_Str_Seal_NoWeapon);
+		ai_stopprocessinfos(self);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_gold) < 1000)
+	{
+		ai_printred(StExt_Str_Enchant_NotEnoughGold);
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	// soul feeds the seal if present, otherwise the element perk
+	if (StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId) > 0)
+	{
+		StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 20);
+	}
+	else if (StExt_GetItemSeal(weap) > 0)
+	{
+		StExt_SetItemProperty(weap, StExt_ItemProp_PerkPower, StExt_GetItemProperty(weap, StExt_ItemProp_PerkPower) + 20);
+	}
+	else
+	{
+		ai_printred(StExt_Str_WeaponSkill_NoElement);
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	npc_removeinvitems(hero, itmi_stext_bosssoul, 1);
+	npc_removeinvitems(hero, itmi_gold, 1000);
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_SoulInfuse_Done);
+	ai_stopprocessinfos(self);
+};
