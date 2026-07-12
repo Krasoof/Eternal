@@ -109,8 +109,13 @@
 	func void StExt_SetNpcVar(var c_npc npc, var int index, var int value);
 	
 	func int StExt_GenerateRandomItem(var int type, var int power);
-	func int StExt_GetRegularItem(var int type, var int power);	
+	func int StExt_GetRegularItem(var int type, var int power);
 	func void StExt_UseEnchantedItem();
+
+	// Weapon seals (offensive spell + power stored on a weapon's item extension).
+	func int StExt_GetItemSeal(var c_item itm);
+	func int StExt_GetItemSealPower(var c_item itm);
+	func int StExt_SetItemSeal(var c_item itm, var int spellId, var int power);
 	
 	func string StExt_StatValueToString(var int statId, var int statVal);
 	func string StExt_FormatIntToString(var int value, var int valueType);

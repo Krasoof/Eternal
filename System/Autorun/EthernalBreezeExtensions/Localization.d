@@ -111,6 +111,21 @@ const string StExt_Str_DarkMaster_Turnin = "Oddaj: 3x Czarna Perla - naucz mnie 
 const string StExt_Topic_ElementDark = "Nauka: Profesja Mroku";
 const string StExt_Str_ElementDark_LogEntry_Done = "Mistrz Mroku nauczyl mnie profesji Mroku w zamian za czarne perly.";
 
+//		*** Weapon seal strings ***
+const string StExt_Str_Seal_Fire_Name = "Pieczec Ognia";
+const string StExt_Str_Seal_Ice_Name = "Pieczec Lodu";
+const string StExt_Str_Seal_Electric_Name = "Pieczec Blyskawic";
+const string StExt_Str_Seal_Air_Name = "Pieczec Wichru";
+const string StExt_Str_Seal_Earth_Name = "Pieczec Ziemi";
+const string StExt_Str_Seal_Light_Name = "Pieczec Swiatla";
+const string StExt_Str_Seal_Dark_Name = "Pieczec Mroku";
+const string StExt_Str_Seal_Death_Name = "Pieczec Smierci";
+const string StExt_Str_Seal_Desc = "Uzyj z zalozona bronia, by nalozyc piecziec. Bron co kilka ciosow rzuci zaklecie zywiolu (koszt many/wytrzymalosci).";
+const string StExt_Str_Seal_Applied = "Bron zostala naznaczona pieczecia!";
+const string StExt_Str_Seal_NoWeapon = "Najpierw zaloz bron, na ktora nalozysz piecziec.";
+const string StExt_Str_Seal_AlreadySealed = "Ta bron ma juz piecziec.";
+const string StExt_Str_Seal_CannotSeal = "Ta bron nie przyjmie pieczeci (wymaga broni magicznej/ulepszonej).";
+
 const string StExt_Str_CorruptionName[StExt_Corruption_Max] =
 {
 	"Nieskazony",
