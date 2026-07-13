@@ -128,11 +128,11 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
-	if (!StExt_SoulMasterAppear)
+	if (!StExt_SoulMasterAppearV2)
 	{
 		if (currentlevel == newworld_zen)
 		{
-			StExt_SoulMasterAppear = true;
+			StExt_SoulMasterAppearV2 = true;
 			rx_saveparservars();
 			wld_insertnpc(none_99702_SoulMaster, "NW_BIGFARM_CHAPEL_03");
 			rx_restoreparservars();

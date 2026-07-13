@@ -28,7 +28,7 @@ instance none_99702_SoulMaster(npc_default)
     attribute[3] = 25000;
     attribute[2] = attribute[3];
     fight_tactic = fai_human_master;
-    b_setnpcvisual(none_99702_SoulMaster, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_dem_hunt_v5);
+    b_setnpcvisual(none_99702_SoulMaster, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_kdm_h_npc);
     mdl_setmodelfatness(none_99702_SoulMaster, 0.0);
     mdl_applyoverlaymds(none_99702_SoulMaster, "Humans_Mage.mds");
     b_givenpctalents(none_99702_SoulMaster);
