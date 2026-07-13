@@ -161,6 +161,8 @@ const string StExt_Str_Seal_CannotSeal = "Ta bron nie przyjmie pieczeci (wymaga 
 //		*** Weapon enchanting (StonedTrader) ***
 const string StExt_Str_Enchant_Offer = "Zaklnij moja bron (przekuje ja w magiczna)";
 const string StExt_Str_Enchant_NoWeapon = "Najpierw zaloz bron, ktora mam zaklac.";
+const string StExt_Str_Enchant_NoArmor = "Najpierw zaloz zbroje, ktora mam zaklac.";
+const string StExt_Str_EnchantArmor_Offer = "Zaklnij moja zbroje (TA SAMA zbroja zyskuje magie)";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

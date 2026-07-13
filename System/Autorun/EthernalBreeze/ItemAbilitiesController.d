@@ -584,6 +584,19 @@ func void StExt_ItemAbilitiesController()
 		};
 	};
 
+	// legendary armor/jewelry perk = elemental aura around the hero
+	glowSpell = StExt_GetEquippedPerk(hero, 0, 0);
+	element = StExt_GetSpellElementIndex(glowSpell);
+	if (element != StExt_Null)
+	{
+		StExt_ArmorAura_Tick -= 1;
+		if (StExt_ArmorAura_Tick <= 0)
+		{
+			StExt_PlayWeaponElementGlow(element);
+			StExt_ArmorAura_Tick = 4;
+		};
+	};
+
 	if (StExt_WeaponSkill_Cooldown <= 0) { return; };
 	if (accelerationactive) { StExt_WeaponSkill_Cooldown -= accelerationratio; }
 	else { StExt_WeaponSkill_Cooldown -= 1; };

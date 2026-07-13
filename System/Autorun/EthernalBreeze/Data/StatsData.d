@@ -2295,7 +2295,7 @@ instance StExt_ExtraStat_StExt_PcStats_Index_MpPerHit(StExt_BaseExtraStat)
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
 	
-	RollChance = 200;
+	RollChance = 0;
 	RollMinCap = 1;
 	RollMaxCap = 350;
 	RollMinPower = 0.15;
@@ -2309,7 +2309,7 @@ instance StExt_ExtraStat_StExt_PcStats_Index_StPerHit(StExt_BaseExtraStat)
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
 	
-	RollChance = 200;
+	RollChance = 0;
 	RollMinCap = 1;
 	RollMaxCap = 350;
 	RollMinPower = 0.15;
