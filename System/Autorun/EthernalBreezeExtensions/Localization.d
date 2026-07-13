@@ -187,35 +187,47 @@ const string StExt_Str_El_Death = "Smierc";
 
 //		*** Zakon Dusz - bossowie ***
 const string StExt_Str_ZakonHeretic_Name = "Heretyk Zakonu";
-const string StExt_Str_ZakonHeretic_Dead = "Heretyk pokonany! Zakon otwiera przed Toba arene przyzwan.";
-const string StExt_Str_ZakonHeretic_HintOffer = "Gdzie znajde Heretyka?";
-const string StExt_Str_ZakonHeretic_Hint = "Heretyk kryje sie w ruinach Swiatyni Portalu na polnocnym wschodzie. Przynies mi jego dusze.";
 const string StExt_Str_ZakonBoss_SummonOffer = "Przyzwij przeciwnika Zakonu (proba dusz)";
 const string StExt_Str_ZakonBoss_Summoned = "Przeciwnik przyzwany - stan do walki!";
 const string StExt_Str_ZakonBoss_StillAlive = "Poprzedni przeciwnik wciaz zyje. Dokoncz walke.";
-const string StExt_Str_ZakonBoss_ChapterDone = "Proba dusz tego rozdzialu ukonczona! (10/10)";
+const string StExt_Str_ZakonBoss_ChapterDone = "Proba dusz tego rozdzialu ukonczona! (10/10) Odbierz nagrode u Mistrza.";
 const string StExt_Str_ZakonBoss_Killed_Pre = "Proba dusz: ";
 const string StExt_Str_ZakonBoss_Killed_Post = "/10 pokonanych w tym rozdziale.";
-const string StExt_Str_ZakonBoss1_Name = "Upadly Rycerz Vargus";
-const string StExt_Str_ZakonBoss2_Name = "Mroczny Pan Malachiasz";
-const string StExt_Str_ZakonBoss3_Name = "Akolita Nekromanty Zorn";
-const string StExt_Str_ZakonBoss4_Name = "Zelazny Golemik Brutus";
-const string StExt_Str_ZakonBoss5_Name = "Cichy Skrytoboja Vex";
+const string StExt_Str_ZakonBoss1_Name = "Biczownik Pokuty Vargus";
+const string StExt_Str_ZakonBoss2_Name = "Kat Otchlani Malachiasz";
+const string StExt_Str_ZakonBoss3_Name = "Palacz Dusz Zorn";
+const string StExt_Str_ZakonBoss4_Name = "Zelazny Tyran Brutus";
+const string StExt_Str_ZakonBoss5_Name = "Ostrze Ciszy Vex";
 const string StExt_Str_ZakonBoss6_Name = "Straznik Sanktuarium Moroth";
-const string StExt_Str_ZakonBoss7_Name = "Lowca Demonow Kain";
-const string StExt_Str_ZakonBoss8_Name = "Rzeznik z Pustkowi Grom";
+const string StExt_Str_ZakonBoss7_Name = "Lowca Grzesznikow Kain";
+const string StExt_Str_ZakonBoss8_Name = "Rzeznik z Kuzni Grom";
 const string StExt_Str_ZakonBoss9_Name = "Przeklety Rycerz Aldric";
-const string StExt_Str_ZakonBoss10_Name = "Arcyheretyk Molveron";
+const string StExt_Str_ZakonBoss10_Name = "Pan Agonii Molveron";
 
-const string StExt_Str_ZakonRoyal_Name = "Pancerz Oficera Zakonu (test)";
+//		*** Zakon Dusz - polowanie (tropiony cel per rozdzial) ***
+const string StExt_Str_ZakonHunt_Offer = "Gdzie znajde ofiare Zakonu? (polowanie rozdzialu)";
+const string StExt_Str_ZakonHunt_Dead = "Ofiara upolowana! Arena Zakonu otwarta na ten rozdzial.";
+const string StExt_Str_ZakonHunt2_Name = "Wieszatel Morn";
+const string StExt_Str_ZakonHunt3_Name = "Grabarz Ossius";
+const string StExt_Str_ZakonHunt4_Name = "Krwawy Pokutnik Vael";
+const string StExt_Str_ZakonHunt5_Name = "Milczacy Kat Hurn";
+const string StExt_Str_ZakonHunt6_Name = "Upadly Mistrz Cierpienia";
+const string StExt_Str_ZakonHunt1_Hint = "Heretyk kryje sie w ruinach Swiatyni Portalu na polnocnym wschodzie. Przynies mi jego dusze.";
+const string StExt_Str_ZakonHunt2_Hint = "Wieszatel Morn grasuje przy tawernie Orlana. Powies go na jego wlasnym sznurze.";
+const string StExt_Str_ZakonHunt3_Hint = "Grabarz Ossius przemierza sciezki krainy trolli. Wykop mu grob.";
+const string StExt_Str_ZakonHunt4_Hint = "Krwawy Pokutnik Vael odprawia rytualy w Lesie Rytualnym. Przerwij je na zawsze.";
+const string StExt_Str_ZakonHunt5_Hint = "Milczacy Kat Hurn czai sie w jaskini przy trollim jeziorze. Ucisz go.";
+const string StExt_Str_ZakonHunt6_Hint = "Upadly Mistrz Cierpienia czeka w glebi Swiatyni Portalu. To ostatnie polowanie.";
+
+//		*** Zakon Dusz - nagrody rozdzialowe ***
+const string StExt_Str_ZakonReward_Offer = "Odbierz nagrode Zakonu za ten rozdzial";
+const string StExt_Str_ZakonReward_Given = "Zakon nagradza Twoje okrucienstwo. Nowy pancerz nalezy do Ciebie.";
+const string StExt_Str_ZakonRoyal_Name = "Pancerz Oficera Zakonu";
 const string StExt_Str_Zakon_Templar_Name = "Pancerz Templariusza Zakonu";
-const string StExt_Str_Zakon_Milanese_Name = "Mediolanska Plyta Zakonu";
-const string StExt_Str_Zakon_Fanatyk_Name = "Pancerz Fanatyka Ognia";
 const string StExt_Str_Zakon_NovDark_Name = "Szata Mrocznego Nowicjusza";
-const string StExt_Str_Zakon_Angel_Name = "Pancerz Kostnego Cienia";
-const string StExt_Str_Zakon_Royal2_Name = "Pancerz Mrocznego Rycerza";
 const string StExt_Str_Zakon_Guardian_Name = "Pancerz Chaosu";
-const string StExt_Str_Zakon_Leather_Name = "Szata Kultysty Zakonu";
+const string StExt_Str_Zakon_Rustlord_Name = "Zbroja Zapomnianego Krola";
+const string StExt_Str_Zakon_Crusader_Name = "Zbroja Ostatniego Krzyzowca";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

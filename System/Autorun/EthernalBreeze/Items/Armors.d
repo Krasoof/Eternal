@@ -1765,8 +1765,11 @@ instance ItAr_StExt_FEM_TPL_S(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "
 instance ItAr_StExt_FEM_TPL_H(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "FEM_TPL_H.ASC"; };
 instance ItAr_StExt_DJG_CRW_VEL(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "DJG_CRW_VEL.ASC"; };
 
-// Zakon Dusz armor pipeline test: third-party ASC set (royal officer,
-// Modderdatabank asset; shipped precompiled MDM+TEX in _work/_compiled).
+// Zakon Dusz chapter rewards (F4): one armor per chapter 1-6, granted
+// by the Soul Master after the hunt + 10/10 arena kills. Visuals are
+// precompiled third-party MDM+TEX shipped in _work/_compiled.
+// ch1 novdark(cultist robe) ch2 royal ch3 templar(skellord)
+// ch4 guardian(chaos) ch5 rustlord ch6 crusader
 instance itar_stext_zakon_royal(c_item)
 {
     name = StExt_Str_ZakonRoyal_Name;
@@ -1800,11 +1803,11 @@ instance itar_stext_zakon_templar(c_item)
     material = mat_metal;
     on_equip = equip_itar_nov_l;
     on_unequip = unequip_itar_nov_l;
-    protection[1] = 125;
-    protection[2] = 125;
-    protection[3] = 95;
-    protection[5] = 95;
-    protection[6] = 60;
+    protection[1] = 150;
+    protection[2] = 150;
+    protection[3] = 115;
+    protection[5] = 115;
+    protection[6] = 80;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
     visual_change = "ZAKON_SKELLORD.ASC";
@@ -1813,9 +1816,10 @@ instance itar_stext_zakon_templar(c_item)
     weight = 0;
 };
 
-instance itar_stext_zakon_milanese(c_item)
+// ch5: rusty full-helm lord (ArmorExpansion, precompiled)
+instance itar_stext_zakon_rustlord(c_item)
 {
-    name = StExt_Str_Zakon_Milanese_Name;
+    name = StExt_Str_Zakon_Rustlord_Name;
     description = name;
     flags = item_mission;
     inv_animate = 0;
@@ -1823,22 +1827,23 @@ instance itar_stext_zakon_milanese(c_item)
     material = mat_metal;
     on_equip = equip_itar_nov_l;
     on_unequip = unequip_itar_nov_l;
-    protection[1] = 130;
-    protection[2] = 130;
-    protection[3] = 100;
-    protection[5] = 100;
-    protection[6] = 55;
+    protection[1] = 215;
+    protection[2] = 215;
+    protection[3] = 165;
+    protection[5] = 165;
+    protection[6] = 125;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_DRAGONH.ASC";
+    visual_change = "ZAKON_RUSTLORD.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
 };
 
-instance itar_stext_zakon_fanatyk(c_item)
+// ch6: greathelm crusader (ArmorExpansion, precompiled)
+instance itar_stext_zakon_crusader(c_item)
 {
-    name = StExt_Str_Zakon_Fanatyk_Name;
+    name = StExt_Str_Zakon_Crusader_Name;
     description = name;
     flags = item_mission;
     inv_animate = 0;
@@ -1846,14 +1851,14 @@ instance itar_stext_zakon_fanatyk(c_item)
     material = mat_metal;
     on_equip = equip_itar_nov_l;
     on_unequip = unequip_itar_nov_l;
-    protection[1] = 105;
-    protection[2] = 105;
-    protection[3] = 85;
-    protection[5] = 85;
-    protection[6] = 95;
+    protection[1] = 250;
+    protection[2] = 250;
+    protection[3] = 190;
+    protection[5] = 190;
+    protection[6] = 150;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_FIREMAGE.ASC";
+    visual_change = "ZAKON_CRUSADER.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1876,53 +1881,7 @@ instance itar_stext_zakon_novdark(c_item)
     protection[6] = 90;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_NECR.ASC";
-    visual_skin = 0;
-    wear = wear_torso;
-    weight = 0;
-};
-
-instance itar_stext_zakon_angel(c_item)
-{
-    name = StExt_Str_Zakon_Angel_Name;
-    description = name;
-    flags = item_mission;
-    inv_animate = 0;
-    mainflag = item_kat_armor;
-    material = mat_metal;
-    on_equip = equip_itar_nov_l;
-    on_unequip = unequip_itar_nov_l;
-    protection[1] = 120;
-    protection[2] = 120;
-    protection[3] = 95;
-    protection[5] = 95;
-    protection[6] = 75;
-    value = 5000;
-    visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_SKELDARK.ASC";
-    visual_skin = 0;
-    wear = wear_torso;
-    weight = 0;
-};
-
-instance itar_stext_zakon_royal2(c_item)
-{
-    name = StExt_Str_Zakon_Royal2_Name;
-    description = name;
-    flags = item_mission;
-    inv_animate = 0;
-    mainflag = item_kat_armor;
-    material = mat_metal;
-    on_equip = equip_itar_nov_l;
-    on_unequip = unequip_itar_nov_l;
-    protection[1] = 120;
-    protection[2] = 120;
-    protection[3] = 95;
-    protection[5] = 95;
-    protection[6] = 60;
-    value = 5000;
-    visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_DKNIGHT.ASC";
+    visual_change = "ZAKON_CULTIST.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1938,37 +1897,14 @@ instance itar_stext_zakon_guardian(c_item)
     material = mat_metal;
     on_equip = equip_itar_nov_l;
     on_unequip = unequip_itar_nov_l;
-    protection[1] = 100;
-    protection[2] = 100;
-    protection[3] = 85;
-    protection[5] = 85;
-    protection[6] = 50;
+    protection[1] = 180;
+    protection[2] = 180;
+    protection[3] = 140;
+    protection[5] = 140;
+    protection[6] = 100;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
     visual_change = "ZAKON_CHAOS.ASC";
-    visual_skin = 0;
-    wear = wear_torso;
-    weight = 0;
-};
-
-instance itar_stext_zakon_leather(c_item)
-{
-    name = StExt_Str_Zakon_Leather_Name;
-    description = name;
-    flags = item_mission;
-    inv_animate = 0;
-    mainflag = item_kat_armor;
-    material = mat_metal;
-    on_equip = equip_itar_nov_l;
-    on_unequip = unequip_itar_nov_l;
-    protection[1] = 80;
-    protection[2] = 80;
-    protection[3] = 75;
-    protection[5] = 75;
-    protection[6] = 40;
-    value = 5000;
-    visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_CULTIST.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;

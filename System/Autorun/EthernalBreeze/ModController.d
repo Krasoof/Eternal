@@ -138,16 +138,8 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
-	if (!StExt_ZakonHereticAppear)
-	{
-		if (currentlevel == newworld_zen)
-		{
-			StExt_ZakonHereticAppear = true;
-			rx_saveparservars();
-			wld_insertnpc(bdt_99710_ZakonHeretic, "PORTALTEMPEL");
-			rx_restoreparservars();
-		};
-	};
+	// Zakon hunted targets (incl. the ch1 heretic) spawn ON DEMAND via the
+	// Soul Master's hunt dialog - no init-once spawn, works on old saves.
 	StExt_InitializeWorldRandomizer();
 };
 

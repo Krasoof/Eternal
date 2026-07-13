@@ -1,18 +1,61 @@
 
 //===================================================================//
-//			Zakon Dusz - bosses (F2 map heretic + F3 arena)			 //
+//	Zakon Dusz - bosses (F2 hunt-per-chapter + F3 arena + F4 reward) //
 //===================================================================//
 // All bosses are HUMANS (dark-souls style: fallen knights, heretics,
-// necromancer acolytes) - per design, no monsters.
-// F2: one heretic hidden in the world (spawned at new game, portal
-//     temple ruins); killing him unlocks the arena summons.
-// F3: the Soul Master summons challengers from a pool of 10, one at
-//     a time; every kill counts for the CURRENT chapter and drops a
-//     boss soul. After 10 kills in a chapter -> chapter reward (F4).
+// executioners) - per design, no monsters.
+// F2: ONE hunted target per chapter, spawned ON DEMAND via the Soul
+//     Master's hunt dialog (works on old saves - no init-once spawn).
+//     Killing the current chapter's target unlocks the arena.
+// F3: the Soul Master summons 10 CONCRETE challengers in FIXED order,
+//     one at a time, escalating tiers; every kill drops a boss soul.
+// F4: after the hunt + 10/10 arena kills -> chapter armor reward.
 
 //--------------------------------------------------------------
 // *** shared helpers ***
 //--------------------------------------------------------------
+// Migration: old saves flagged the chapter-1 heretic via a bool.
+func void StExt_ZakonHunt_Migrate()
+{
+	if (StExt_ZakonHeretic_Dead) && (StExt_ZakonHunt_Done < 1) { StExt_ZakonHunt_Done = 1; };
+};
+
+func int StExt_ZakonHunt_CurChapter()
+{
+	if (kapitel > 6) { return 6; };
+	if (kapitel < 1) { return 1; };
+	return kapitel;
+};
+
+// Guaranteed boss loot: gold + one ENCHANTED item (weapon/jewelry/armor)
+// scaled by hero level, chapter and boss tier. Tier 4 drops jewelry extra.
+func void StExt_ZakonBoss_GiveLoot(var int tier)
+{
+	var int power;
+	var int roll;
+	var int itemType;
+	var int itmId;
+
+	if (!hlp_isvalidnpc(self)) { return; };
+	power = 100 + (hero.level * 3) + (kapitel * 20) + (tier * 15);
+	createinvitems(self, itmi_gold, 150 + hlp_random(150) + (kapitel * 75) + (tier * 50));
+
+	roll = hlp_random(6);
+	if (roll <= 1) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MeleeWeapon"); }
+	else if (roll == 2) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_RangeWeapon"); }
+	else if (roll == 3) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"); }
+	else if (roll == 4) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"); }
+	else { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_AnyChestArmor"); };
+	itmId = StExt_GenerateRandomItem(itemType, power);
+	StExt_CreateRandomItem(self, itmId, 1, false);
+
+	if (tier >= 4)
+	{
+		itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"), power);
+		StExt_CreateRandomItem(self, itmId, 1, false);
+	};
+};
+
 func void StExt_ZakonBoss_OnKill()
 {
 	// chapter rollover resets the per-chapter counter
@@ -31,6 +74,15 @@ func void StExt_ZakonBoss_OnKill()
 	};
 };
 
+// Hunted target killed: unlock the arena for its chapter.
+func void StExt_ZakonHunt_OnKill(var int chapter)
+{
+	if (StExt_ZakonHunt_Done < chapter) { StExt_ZakonHunt_Done = chapter; };
+	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
+	StExt_ZakonBoss_GiveLoot(3);
+	ai_printbonus(StExt_Str_ZakonHunt_Dead);
+};
+
 // Shared statting: human boss scaled by chapter and player level.
 func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 {
@@ -44,8 +96,9 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 };
 
 //--------------------------------------------------------------
-// *** F2: the map heretic (unlocks the arena) ***
+// *** F2: hunted targets - one per chapter, tracked in the wild ***
 //--------------------------------------------------------------
+// Chapter 1: the Heretic - portal temple ruins.
 instance bdt_99710_ZakonHeretic(npc_default)
 {
     name = StExt_Str_ZakonHeretic_Name;
@@ -61,7 +114,7 @@ instance bdt_99710_ZakonHeretic(npc_default)
     fight_tactic = fai_human_master;
     daily_routine = rtn_bdt_99710_ZakonHeretic;
     aivar[6] = true; // aggressive
-    StExt_ZakonBoss_Setup(bdt_99710_ZakonHeretic, 2);
+    StExt_ZakonBoss_Setup(bdt_99710_ZakonHeretic, 3);
 };
 func void rtn_bdt_99710_ZakonHeretic()
 {
@@ -71,12 +124,126 @@ func void rtn_bdt_99710_ZakonHeretic()
 func void ai_ondead_bdt_99710_ZakonHeretic()
 {
 	StExt_ZakonHeretic_Dead = true;
-	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
-	ai_printbonus(StExt_Str_ZakonHeretic_Dead);
+	StExt_ZakonHunt_OnKill(1);
+};
+
+// Chapter 2: the Hangman - lurking by Orlan's tavern.
+instance bdt_99721_ZakonHunt2(npc_default)
+{
+    name = StExt_Str_ZakonHunt2_Name; guild = gil_bdt; id = 99721; voice = 12; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99721_ZakonHunt2, male, "Hum_Head_FatBald", face_n_mud, bodytex_n, itar_dht_end_6);
+    mdl_applyoverlaymds(bdt_99721_ZakonHunt2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99721_ZakonHunt2); fight_tactic = fai_human_master;
+    daily_routine = rtn_bdt_99721_ZakonHunt2; aivar[6] = true;
+    StExt_ZakonBoss_Setup(bdt_99721_ZakonHunt2, 3);
+};
+func void rtn_bdt_99721_ZakonHunt2()
+{
+    ta_stand_guarding(8, 0, 23, 0, "NW_TAVERNE");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TAVERNE");
+};
+func void ai_ondead_bdt_99721_ZakonHunt2() { StExt_ZakonHunt_OnKill(2); };
+
+// Chapter 3: the Gravedigger - troll land paths.
+instance bdt_99722_ZakonHunt3(npc_default)
+{
+    name = StExt_Str_ZakonHunt3_Name; guild = gil_bdt; id = 99722; voice = 11; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99722_ZakonHunt3, male, "Hum_Head_Bald", face_n_mud, bodytex_n, itar_oldsteelarmor);
+    mdl_applyoverlaymds(bdt_99722_ZakonHunt3, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99722_ZakonHunt3); fight_tactic = fai_human_master;
+    daily_routine = rtn_bdt_99722_ZakonHunt3; aivar[6] = true;
+    StExt_ZakonBoss_Setup(bdt_99722_ZakonHunt3, 3);
+};
+func void rtn_bdt_99722_ZakonHunt3()
+{
+    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PATH_80");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PATH_80");
+};
+func void ai_ondead_bdt_99722_ZakonHunt3() { StExt_ZakonHunt_OnKill(3); };
+
+// Chapter 4: the Blood Penitent - ritual forest.
+instance bdt_99723_ZakonHunt4(npc_default)
+{
+    name = StExt_Str_ZakonHunt4_Name; guild = gil_bdt; id = 99723; voice = 13; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99723_ZakonHunt4, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_demoniac_armor);
+    mdl_applyoverlaymds(bdt_99723_ZakonHunt4, "Humans_Mage.mds");
+    b_givenpctalents(bdt_99723_ZakonHunt4); fight_tactic = fai_human_master;
+    daily_routine = rtn_bdt_99723_ZakonHunt4; aivar[6] = true; aivar[51] = magic_always;
+    StExt_ZakonBoss_Setup(bdt_99723_ZakonHunt4, 3);
+};
+func void rtn_bdt_99723_ZakonHunt4()
+{
+    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_RITUALFOREST_11");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_RITUALFOREST_11");
+};
+func void ai_ondead_bdt_99723_ZakonHunt4() { StExt_ZakonHunt_OnKill(4); };
+
+// Chapter 5: the Silent Executioner - troll lake cave.
+instance bdt_99724_ZakonHunt5(npc_default)
+{
+    name = StExt_Str_ZakonHunt5_Name; guild = gil_bdt; id = 99724; voice = 12; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99724_ZakonHunt5, male, "Hum_Head_FighterBald", face_n_mud, bodytex_n, itar_assasins_01);
+    mdl_applyoverlaymds(bdt_99724_ZakonHunt5, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99724_ZakonHunt5); fight_tactic = fai_human_master;
+    daily_routine = rtn_bdt_99724_ZakonHunt5; aivar[6] = true;
+    StExt_ZakonBoss_Setup(bdt_99724_ZakonHunt5, 3);
+};
+func void rtn_bdt_99724_ZakonHunt5()
+{
+    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLLAKECAVE");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLLAKECAVE");
+};
+func void ai_ondead_bdt_99724_ZakonHunt5() { StExt_ZakonHunt_OnKill(5); };
+
+// Chapter 6: the Fallen Master - depths of the portal temple.
+instance bdt_99725_ZakonHunt6(npc_default)
+{
+    name = StExt_Str_ZakonHunt6_Name; guild = gil_bdt; id = 99725; voice = 11; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99725_ZakonHunt6, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_darkknight_03_cursed);
+    mdl_applyoverlaymds(bdt_99725_ZakonHunt6, "Humans_Mage.mds");
+    b_givenpctalents(bdt_99725_ZakonHunt6); fight_tactic = fai_human_master;
+    daily_routine = rtn_bdt_99725_ZakonHunt6; aivar[6] = true; aivar[51] = magic_always;
+    StExt_ZakonBoss_Setup(bdt_99725_ZakonHunt6, 4);
+};
+func void rtn_bdt_99725_ZakonHunt6()
+{
+    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
+};
+func void ai_ondead_bdt_99725_ZakonHunt6() { StExt_ZakonHunt_OnKill(6); };
+
+// Spawns the CURRENT chapter's hunted target (once per chapter).
+func void StExt_ZakonHunt_SpawnCurrent()
+{
+	var int ch;
+	ch = StExt_ZakonHunt_CurChapter();
+	if (StExt_ZakonHunt_SpawnedCh >= ch) { return; };
+	StExt_ZakonHunt_SpawnedCh = ch;
+	rx_saveparservars();
+	if (ch <= 1) { wld_insertnpc(bdt_99710_ZakonHeretic, "PORTALTEMPEL"); }
+	else if (ch == 2) { wld_insertnpc(bdt_99721_ZakonHunt2, "NW_TAVERNE"); }
+	else if (ch == 3) { wld_insertnpc(bdt_99722_ZakonHunt3, "NW_TROLLAREA_PATH_80"); }
+	else if (ch == 4) { wld_insertnpc(bdt_99723_ZakonHunt4, "NW_TROLLAREA_RITUALFOREST_11"); }
+	else if (ch == 5) { wld_insertnpc(bdt_99724_ZakonHunt5, "NW_TROLLLAKECAVE"); }
+	else { wld_insertnpc(bdt_99725_ZakonHunt6, "NW_TROLLAREA_PORTALTEMPEL_40"); };
+	rx_restoreparservars();
+};
+
+// Chapter-specific hint text.
+func void StExt_ZakonHunt_PrintHint()
+{
+	var int ch;
+	ch = StExt_ZakonHunt_CurChapter();
+	if (ch <= 1) { ai_printbonus(StExt_Str_ZakonHunt1_Hint); }
+	else if (ch == 2) { ai_printbonus(StExt_Str_ZakonHunt2_Hint); }
+	else if (ch == 3) { ai_printbonus(StExt_Str_ZakonHunt3_Hint); }
+	else if (ch == 4) { ai_printbonus(StExt_Str_ZakonHunt4_Hint); }
+	else if (ch == 5) { ai_printbonus(StExt_Str_ZakonHunt5_Hint); }
+	else { ai_printbonus(StExt_Str_ZakonHunt6_Hint); };
 };
 
 //--------------------------------------------------------------
-// *** F3: arena pool (10 human challengers) ***
+// *** F3: arena - 10 concrete challengers, fixed order ***
 //--------------------------------------------------------------
 instance bdt_99711_ZakonBoss1(npc_default)
 {
@@ -86,7 +253,7 @@ instance bdt_99711_ZakonBoss1(npc_default)
     b_givenpctalents(bdt_99711_ZakonBoss1); fight_tactic = fai_human_master; aivar[6] = true;
     StExt_ZakonBoss_Setup(bdt_99711_ZakonBoss1, 1);
 };
-func void ai_ondead_bdt_99711_ZakonBoss1() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99711_ZakonBoss1() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99712_ZakonBoss2(npc_default)
 {
@@ -96,7 +263,7 @@ instance bdt_99712_ZakonBoss2(npc_default)
     b_givenpctalents(bdt_99712_ZakonBoss2); fight_tactic = fai_human_master; aivar[6] = true;
     StExt_ZakonBoss_Setup(bdt_99712_ZakonBoss2, 1);
 };
-func void ai_ondead_bdt_99712_ZakonBoss2() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99712_ZakonBoss2() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99713_ZakonBoss3(npc_default)
 {
@@ -106,7 +273,7 @@ instance bdt_99713_ZakonBoss3(npc_default)
     b_givenpctalents(bdt_99713_ZakonBoss3); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
     StExt_ZakonBoss_Setup(bdt_99713_ZakonBoss3, 1);
 };
-func void ai_ondead_bdt_99713_ZakonBoss3() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99713_ZakonBoss3() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99714_ZakonBoss4(npc_default)
 {
@@ -114,9 +281,9 @@ instance bdt_99714_ZakonBoss4(npc_default)
     b_setnpcvisual(bdt_99714_ZakonBoss4, male, "Hum_Head_FatBald", face_n_mud, bodytex_n, itar_oldsteelarmor);
     mdl_applyoverlaymds(bdt_99714_ZakonBoss4, "Humans_Militia.mds");
     b_givenpctalents(bdt_99714_ZakonBoss4); fight_tactic = fai_human_master; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99714_ZakonBoss4, 1);
+    StExt_ZakonBoss_Setup(bdt_99714_ZakonBoss4, 2);
 };
-func void ai_ondead_bdt_99714_ZakonBoss4() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99714_ZakonBoss4() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99715_ZakonBoss5(npc_default)
 {
@@ -124,9 +291,9 @@ instance bdt_99715_ZakonBoss5(npc_default)
     b_setnpcvisual(bdt_99715_ZakonBoss5, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_assasins_01);
     mdl_applyoverlaymds(bdt_99715_ZakonBoss5, "Humans_Militia.mds");
     b_givenpctalents(bdt_99715_ZakonBoss5); fight_tactic = fai_human_master; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99715_ZakonBoss5, 1);
+    StExt_ZakonBoss_Setup(bdt_99715_ZakonBoss5, 2);
 };
-func void ai_ondead_bdt_99715_ZakonBoss5() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99715_ZakonBoss5() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99716_ZakonBoss6(npc_default)
 {
@@ -134,9 +301,9 @@ instance bdt_99716_ZakonBoss6(npc_default)
     b_setnpcvisual(bdt_99716_ZakonBoss6, male, "Hum_Head_Thief", face_n_mud, bodytex_n, itar_sancuary_keeper);
     mdl_applyoverlaymds(bdt_99716_ZakonBoss6, "Humans_Mage.mds");
     b_givenpctalents(bdt_99716_ZakonBoss6); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
-    StExt_ZakonBoss_Setup(bdt_99716_ZakonBoss6, 1);
+    StExt_ZakonBoss_Setup(bdt_99716_ZakonBoss6, 2);
 };
-func void ai_ondead_bdt_99716_ZakonBoss6() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99716_ZakonBoss6() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99717_ZakonBoss7(npc_default)
 {
@@ -144,9 +311,9 @@ instance bdt_99717_ZakonBoss7(npc_default)
     b_setnpcvisual(bdt_99717_ZakonBoss7, male, "Hum_Head_FighterBald", face_n_mud, bodytex_n, itar_dht_end_6);
     mdl_applyoverlaymds(bdt_99717_ZakonBoss7, "Humans_Militia.mds");
     b_givenpctalents(bdt_99717_ZakonBoss7); fight_tactic = fai_human_master; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99717_ZakonBoss7, 1);
+    StExt_ZakonBoss_Setup(bdt_99717_ZakonBoss7, 3);
 };
-func void ai_ondead_bdt_99717_ZakonBoss7() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99717_ZakonBoss7() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99718_ZakonBoss8(npc_default)
 {
@@ -154,9 +321,9 @@ instance bdt_99718_ZakonBoss8(npc_default)
     b_setnpcvisual(bdt_99718_ZakonBoss8, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_orcarmor_forged);
     mdl_applyoverlaymds(bdt_99718_ZakonBoss8, "Humans_Militia.mds");
     b_givenpctalents(bdt_99718_ZakonBoss8); fight_tactic = fai_human_master; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99718_ZakonBoss8, 1);
+    StExt_ZakonBoss_Setup(bdt_99718_ZakonBoss8, 3);
 };
-func void ai_ondead_bdt_99718_ZakonBoss8() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99718_ZakonBoss8() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99719_ZakonBoss9(npc_default)
 {
@@ -164,9 +331,9 @@ instance bdt_99719_ZakonBoss9(npc_default)
     b_setnpcvisual(bdt_99719_ZakonBoss9, male, "Hum_Head_Pony", face_n_mud, bodytex_n, itar_darkknight_01_cursed);
     mdl_applyoverlaymds(bdt_99719_ZakonBoss9, "Humans_Militia.mds");
     b_givenpctalents(bdt_99719_ZakonBoss9); fight_tactic = fai_human_master; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99719_ZakonBoss9, 1);
+    StExt_ZakonBoss_Setup(bdt_99719_ZakonBoss9, 3);
 };
-func void ai_ondead_bdt_99719_ZakonBoss9() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99719_ZakonBoss9() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
 
 instance bdt_99720_ZakonBoss10(npc_default)
 {
@@ -174,12 +341,12 @@ instance bdt_99720_ZakonBoss10(npc_default)
     b_setnpcvisual(bdt_99720_ZakonBoss10, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_darkknight_03_cursed);
     mdl_applyoverlaymds(bdt_99720_ZakonBoss10, "Humans_Mage.mds");
     b_givenpctalents(bdt_99720_ZakonBoss10); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
-    StExt_ZakonBoss_Setup(bdt_99720_ZakonBoss10, 2);
+    StExt_ZakonBoss_Setup(bdt_99720_ZakonBoss10, 4);
 };
-func void ai_ondead_bdt_99720_ZakonBoss10() { StExt_ZakonBoss_OnKill(); };
+func void ai_ondead_bdt_99720_ZakonBoss10() { StExt_ZakonBoss_GiveLoot(4); StExt_ZakonBoss_OnKill(); };
 
 //--------------------------------------------------------------
-// *** Summon dialog at the Soul Master ***
+// *** Summon: FIXED order - boss (Killed+1) of 10 ***
 //--------------------------------------------------------------
 func void StExt_ZakonBoss_SummonNext()
 {
@@ -202,7 +369,7 @@ func void StExt_ZakonBoss_SummonNext()
 	};
 
 	StExt_ZakonBoss_Active = true;
-	pick = hlp_random(10);
+	pick = StExt_ZakonBoss_Killed; // sequential: next in line
 	rx_saveparservars();
 	if (pick == 0) { wld_insertnpc(bdt_99711_ZakonBoss1, "NW_BIGFARM_CHAPEL_03"); }
 	else if (pick == 1) { wld_insertnpc(bdt_99712_ZakonBoss2, "NW_BIGFARM_CHAPEL_03"); }
@@ -218,6 +385,49 @@ func void StExt_ZakonBoss_SummonNext()
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
 
+//--------------------------------------------------------------
+// *** F4: chapter armor reward ***
+//--------------------------------------------------------------
+func void StExt_ZakonReward_Give()
+{
+	var int ch;
+	ch = StExt_ZakonHunt_CurChapter();
+	StExt_ZakonReward_Chapter = kapitel;
+	if (ch <= 1) { createinvitems(hero, itar_stext_zakon_novdark, 1); }
+	else if (ch == 2) { createinvitems(hero, itar_stext_zakon_royal, 1); }
+	else if (ch == 3) { createinvitems(hero, itar_stext_zakon_templar, 1); }
+	else if (ch == 4) { createinvitems(hero, itar_stext_zakon_guardian, 1); }
+	else if (ch == 5) { createinvitems(hero, itar_stext_zakon_rustlord, 1); }
+	else { createinvitems(hero, itar_stext_zakon_crusader, 1); };
+	ai_printbonus(StExt_Str_ZakonReward_Given);
+};
+
+//--------------------------------------------------------------
+// *** Soul Master dialogs ***
+//--------------------------------------------------------------
+instance dia_none_99702_SoulMaster_Reward(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 3;
+    condition = dia_none_99702_SoulMaster_Reward_condition;
+    information = dia_none_99702_SoulMaster_Reward_info;
+    permanent = true;
+    description = StExt_Str_ZakonReward_Offer;
+};
+func int dia_none_99702_SoulMaster_Reward_condition()
+{
+	StExt_ZakonHunt_Migrate();
+	return StExt_SoulKnight_Member
+		&& (StExt_ZakonBoss_Chapter == kapitel) && (StExt_ZakonBoss_Killed >= 10)
+		&& (StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter())
+		&& (StExt_ZakonReward_Chapter < kapitel);
+};
+func void dia_none_99702_SoulMaster_Reward_info()
+{
+	StExt_ZakonReward_Give();
+	ai_stopprocessinfos(self);
+};
+
 instance dia_none_99702_SoulMaster_Summon(c_info)
 {
     npc = none_99702_SoulMaster;
@@ -229,7 +439,8 @@ instance dia_none_99702_SoulMaster_Summon(c_info)
 };
 func int dia_none_99702_SoulMaster_Summon_condition()
 {
-	return StExt_SoulKnight_Member && StExt_ZakonHeretic_Dead;
+	StExt_ZakonHunt_Migrate();
+	return StExt_SoulKnight_Member && (StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter());
 };
 func void dia_none_99702_SoulMaster_Summon_info()
 {
@@ -237,7 +448,7 @@ func void dia_none_99702_SoulMaster_Summon_info()
 	ai_stopprocessinfos(self);
 };
 
-// Hint dialog: where to find the heretic (before he is dead).
+// Hunt dialog: spawns the current chapter's target and points at it.
 instance dia_none_99702_SoulMaster_Hint(c_info)
 {
     npc = none_99702_SoulMaster;
@@ -245,14 +456,16 @@ instance dia_none_99702_SoulMaster_Hint(c_info)
     condition = dia_none_99702_SoulMaster_Hint_condition;
     information = dia_none_99702_SoulMaster_Hint_info;
     permanent = true;
-    description = StExt_Str_ZakonHeretic_HintOffer;
+    description = StExt_Str_ZakonHunt_Offer;
 };
 func int dia_none_99702_SoulMaster_Hint_condition()
 {
-	return StExt_SoulKnight_Member && !StExt_ZakonHeretic_Dead;
+	StExt_ZakonHunt_Migrate();
+	return StExt_SoulKnight_Member && (StExt_ZakonHunt_Done < StExt_ZakonHunt_CurChapter());
 };
 func void dia_none_99702_SoulMaster_Hint_info()
 {
-	ai_printbonus(StExt_Str_ZakonHeretic_Hint);
+	StExt_ZakonHunt_SpawnCurrent();
+	StExt_ZakonHunt_PrintHint();
 	ai_stopprocessinfos(self);
 };
