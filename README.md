@@ -60,11 +60,7 @@ czego brakuje (źródła: https://github.com/StonedWizzard/GothicLocalizationChe
 
 ## Co zmienione?
 
-Tak naprawdę jest to zlepek modów EternalBreeze + Randomizer, poprawiony,
-zbalansowany, pozbawiony błędów i zintegrowany z najnowszą wersją G2 NB. Ja
-jestem autorem poprawek. Oprócz balansu (drabinki bonusów, wartości itemów,
-stopnie, sumy bonusów) dobudowałem od zera kilka systemów rozgrywki —
-głównie w silniku obrażeń i wokół nowej gildii Zakon Dusz.
+Dodane mechaniki z Diablo ( bonusów, poziomów ekwipunku ). Przerobiony system magii, dodana możliwość grania spellblade.
 
 ### Silnik obrażeń broni (żywioły)
 
