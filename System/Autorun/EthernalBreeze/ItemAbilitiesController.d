@@ -229,12 +229,12 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 // SEAL (gem, prop SealSpellId/SealPower): casts its spell every X hits
 // (X from seal power); each proc costs mana (magic) / stamina (else).
 
-// Strong seal -> every hit; weak -> every 3-4 hits.
+// Strong seal -> every 2 hits; weak -> every 6. Never every single hit.
 func int StExt_GetSealProcInterval(var int sealPower)
 {
 	var int n;
-	n = 4 - (sealPower / 50);
-	return StExt_ValidateValueRange(n, 1, 4);
+	n = 6 - (sealPower / 80);
+	return StExt_ValidateValueRange(n, 2, 6);
 };
 
 // Deduct the per-proc resource cost. Returns true if paid.
@@ -264,7 +264,7 @@ func void StExt_SealGainXp(var c_item weap)
 	lvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
 	if (lvl >= StExt_SealLevelMax) { return; };
 	xp = StExt_GetItemProperty(weap, StExt_ItemProp_SealXp) + 1;
-	if (xp < (5 + (lvl * 5)))
+	if (xp < (12 + (lvl * 10)))
 	{
 		StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, xp);
 		return;
@@ -272,7 +272,7 @@ func void StExt_SealGainXp(var c_item weap)
 	lvl += 1;
 	StExt_SetItemProperty(weap, StExt_ItemProp_SealLevel, lvl);
 	StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, 0);
-	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 10 + (lvl * 2));
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 4 + lvl);
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(concatstrings(StExt_Str_Seal_LevelUp, inttostring(lvl)));
 };
@@ -337,13 +337,13 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		if (sealSpell == StExt_PhysSeal_Bleed)
 		{
 			// bleeding: physical damage over time, scales with power and strength
-			amount = (sealPower / 4) + (hero.attribute[4] / 20);
+			amount = (sealPower / 6) + (hero.attribute[4] / 30);
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
 		if (sealSpell == StExt_PhysSeal_Pierce)
 		{
 			// armor piercing: part of the hit ignores protection (true damage)
-			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150 + sealPower);
+			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 80 + (sealPower / 3));
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
 		StExt_SealGainXp(weap);
@@ -356,7 +356,11 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	if (!StExt_PaySealCost(weap, sealPower)) { return; };
 	StExt_WeaponSeal_HitCounter = 0;
 
-	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower);
+	// seal base is HALVED (weapon damage + mastery are already added inside
+	// CalcWeaponBurstPower - passing full sealPower double-counted); then the
+	// whole burst is scaled to 60% so a seal supplements the hit, not eclipses it.
+	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower / 2);
+	power = StExt_ApplyPercentToValue(power, 60);
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 	StExt_SealGainXp(weap);
 };
