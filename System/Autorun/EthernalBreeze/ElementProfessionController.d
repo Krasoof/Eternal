@@ -66,6 +66,34 @@ func int StExt_SoulKnight_BonusPermille()
 	return StExt_ValidateValueRange(StExt_SoulKnight_SoulsInfused, 0, 50) * 10;
 };
 
+// --- Zar Dusz (Embers) ---------------------------------------------------
+// Boss souls you still CARRY (haven't infused) are "embers": they empower
+// you but make you fragile - the classic souls "don't lose your souls".
+// Infusing them (Soul Master) banks them into permanent element power AND
+// clears the risk. Only Zakon members feel it. Capped so hoarding has a
+// ceiling.
+const int StExt_ZakonEmbers_Max = 20;
+const int StExt_ZakonEmbers_OffencePerEmber = 15;	// +1.5% dealt / ember (cap +30%)
+const int StExt_ZakonEmbers_DefencePerEmber = 25;	// +2.5% taken / ember (cap +50%) - risk > reward
+
+func int StExt_ZakonEmbers_Count()
+{
+	if (!StExt_SoulKnight_Member) { return 0; };
+	return StExt_ValidateValueRange(npc_hasitems(hero, itmi_stext_bosssoul), 0, StExt_ZakonEmbers_Max);
+};
+
+// Permille to ADD to outgoing hero damage from carried embers.
+func int StExt_ZakonEmbers_OffencePermille()
+{
+	return StExt_ZakonEmbers_Count() * StExt_ZakonEmbers_OffencePerEmber;
+};
+
+// Permille to ADD to incoming hero damage from carried embers.
+func int StExt_ZakonEmbers_DefencePermille()
+{
+	return StExt_ZakonEmbers_Count() * StExt_ZakonEmbers_DefencePerEmber;
+};
+
 // Join the order with two sworn elements. One-way door.
 func void StExt_SoulKnight_Join(var int el1, var int el2)
 {

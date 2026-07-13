@@ -589,14 +589,18 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 	
 	StExt_PrintDamageDebugStack("StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
 	
-	if (StExt_IsMasteryPerkLearned(StExt_MasteryIndex_Dark, StExt_MasteryPerkIndex_Dark_Slaver) && StExt_Chance(3 * StExt_Talent_Progression[StExt_MasteryIndex_Dark])) 
+	if (StExt_IsMasteryPerkLearned(StExt_MasteryIndex_Dark, StExt_MasteryPerkIndex_Dark_Slaver) && StExt_Chance(3 * StExt_Talent_Progression[StExt_MasteryIndex_Dark]))
 	{
 		rx_setnpcvar(target, aivrx_npc_control_agro, true);
 		StExt_DamageInfo.BlockDamage = StExt_DamageInfo.BlockDamage | StExt_DamageBlockReason_FriendlyFier;
 		StExt_DamageInfo.StopProcess = true;
 		return;
 	};
-	
+
+	// Zar Dusz: carried boss souls empower every hero hit.
+	damMult = StExt_ZakonEmbers_OffencePermille();
+	if (damMult > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, damMult); };
+
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
 };
 
@@ -609,7 +613,11 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	
 	StExt_PrintDamageDebugStack("StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
 	StExt_Npc_BeforeDefenceHandler(atk, target, weap);
-	
+
+	// Zar Dusz: carried boss souls make the hero fragile (risk of hoarding).
+	tmp = StExt_ZakonEmbers_DefencePermille();
+	if (tmp > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, tmp); };
+
 	// reflect spell
 	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_ReflectSpellChance])) 
 	{
