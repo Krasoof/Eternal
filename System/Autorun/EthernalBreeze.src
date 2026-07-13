@@ -67,6 +67,7 @@ EthernalBreeze\Npcs.d
 EthernalBreeze\Npc_Summons.d
 EthernalBreeze\Npc_Shiva.d
 EthernalBreeze\Npc_ElementTeachers.d
+EthernalBreeze\Npc_SoulOrder.d
 EthernalBreeze\Dialog.d
 EthernalBreeze\Dialog_Learn.d
 EthernalBreeze\Dialog_Debug.d

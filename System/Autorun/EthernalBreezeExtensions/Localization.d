@@ -167,6 +167,23 @@ const string StExt_Str_Enchant_AlreadyMagic_Armor = "Ta zbroja juz jest magiczna
 const string StExt_Str_RerollArmor_Offer = "Przemieszaj staty mojej magicznej zbroi (3000 zlota)";
 const string StExt_Str_RerollArmor_NotMagic = "Ta zbroja nie jest magiczna - najpierw ja zaklnij.";
 const string StExt_Str_Reroll_Done = "Staty przemieszane!";
+
+//		*** Zakon Dusz (Soul Order) ***
+const string StExt_Str_SoulMaster_Name = "Mistrz Zakonu Dusz";
+const string StExt_Str_SoulKnight_JoinOffer = "Chce wstapic do Zakonu Dusz (WYBOR NIEODWRACALNY: 2 zywioly x200 proc. expa, reszta zywiolow 0)";
+const string StExt_Str_SoulKnight_PickFirst = "Wybierz PIERWSZY zaprzysieziony zywiol.";
+const string StExt_Str_SoulKnight_PickSecond = "Wybierz DRUGI zaprzysieziony zywiol.";
+const string StExt_Str_SoulKnight_SameElement = "Musisz wskazac DWA ROZNE zywioly.";
+const string StExt_Str_SoulKnight_Joined = "Wstapiles do Zakonu Dusz! Dwa zywioly plona w Tobie mocniej - reszta zgasla na zawsze.";
+
+const string StExt_Str_El_Fire = "Ogien";
+const string StExt_Str_El_Ice = "Lod";
+const string StExt_Str_El_Electric = "Blyskawice";
+const string StExt_Str_El_Air = "Wiatr";
+const string StExt_Str_El_Earth = "Ziemia";
+const string StExt_Str_El_Light = "Swiatlo";
+const string StExt_Str_El_Dark = "Mrok";
+const string StExt_Str_El_Death = "Smierc";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

@@ -128,6 +128,16 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
+	if (!StExt_SoulMasterAppear)
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_SoulMasterAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99702_SoulMaster, "PORTALTEMPEL");
+			rx_restoreparservars();
+		};
+	};
 	StExt_InitializeWorldRandomizer();
 };
 

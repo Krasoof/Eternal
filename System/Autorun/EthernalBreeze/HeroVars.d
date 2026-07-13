@@ -206,6 +206,15 @@ var int StExt_ArmorAura_Tick;
 var int StExt_ElementProfession_Chosen[StExt_MasteryIndex_Max];
 var int StExt_ElementProfession_IsUniversal;
 
+// Zakon Dusz (Soul Order): irreversible profession - two chosen elements
+// gain 200% exp, every other ELEMENT drops to 0. Souls infused via the
+// order grant a permanent elemental damage bonus (1% each, cap 50).
+var int StExt_SoulKnight_Member;
+var int StExt_SoulKnight_Element1;
+var int StExt_SoulKnight_Element2;
+var int StExt_SoulKnight_PendingFirst;
+var int StExt_SoulKnight_SoulsInfused;
+
 var int StExt_HitProtPotion_Trail;
 
 var int StExt_ExtraSnCStat_EnergyShield_BonusCount;

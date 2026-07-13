@@ -44,9 +44,41 @@ func void StExt_ClearAllElementProfessionSlots()
 func int StExt_GetElementMasteryExpMult(var int index, var int baseMult)
 {
 	if (baseMult <= 0) { return 0; };
+
+	// Zakon Dusz overrides everything: two sworn elements at 200%,
+	// every other element locked to 0. Irreversible by design.
+	if (StExt_SoulKnight_Member)
+	{
+		if ((index == StExt_SoulKnight_Element1) || (index == StExt_SoulKnight_Element2)) { return baseMult * 2; };
+		return 0;
+	};
+
 	if (StExt_ElementProfession_IsUniversal) { return StExt_GetPercentFromValue(baseMult, StExt_Config_ElementProfession_UniversalPenaltyPerc); };
 	if (StExt_Array_GetInt("StExt_ElementProfession_Chosen", index)) { return baseMult; };
 	return 0;
+};
+
+// Permanent elemental damage bonus from souls infused via the order
+// (permille: 1% per soul, capped at 50%).
+func int StExt_SoulKnight_BonusPermille()
+{
+	if (!StExt_SoulKnight_Member) { return 0; };
+	return StExt_ValidateValueRange(StExt_SoulKnight_SoulsInfused, 0, 50) * 10;
+};
+
+// Join the order with two sworn elements. One-way door.
+func void StExt_SoulKnight_Join(var int el1, var int el2)
+{
+	if (StExt_SoulKnight_Member) { return; };
+	if (!StExt_IsElementMasteryIndex(el1) || !StExt_IsElementMasteryIndex(el2)) { return; };
+	if (el1 == el2) { return; };
+	StExt_SoulKnight_Member = true;
+	StExt_SoulKnight_Element1 = el1;
+	StExt_SoulKnight_Element2 = el2;
+	StExt_ClearAllElementProfessionSlots();
+	StExt_ElementProfession_IsUniversal = false;
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_SoulKnight_Joined);
 };
 
 func int StExt_CanLearnElementProfession(var int index)

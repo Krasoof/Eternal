@@ -1157,7 +1157,7 @@ instance dia_none_99666_StonedTrader_SoulInfuse(c_info)
     permanent = true;
     description = StExt_Str_SoulInfuse_Offer;
 };
-func int dia_none_99666_StonedTrader_SoulInfuse_condition() { return (npc_hasitems(hero, itmi_stext_bosssoul) > 0); };
+func int dia_none_99666_StonedTrader_SoulInfuse_condition() { return false; }; // moved to Zakon Dusz (Npc_SoulOrder.d)
 func void dia_none_99666_StonedTrader_SoulInfuse_info()
 {
 	var c_item weap;

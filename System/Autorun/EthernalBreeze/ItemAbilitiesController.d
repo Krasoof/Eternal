@@ -130,6 +130,7 @@ func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int ex
 	power += StExt_GetElementMasteryPowerStat(element) + (StExt_GetElementMasteryLevel(element) * 2);
 	power += StExt_GetWeaponProficiency(weap);
 	power += StExt_GetWeaponBurstStat(weap);
+	power += StExt_GetPermilleFromValue(power, StExt_SoulKnight_BonusPermille());
 	return power;
 };
 
@@ -298,6 +299,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		amount = StExt_GetItemSealPower(weap) / 3;
 		amount += StExt_GetElementMasteryPowerStat(element) / 10;
 		amount += StExt_GetElementMasteryLevel(element) / 2;
+		amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
 
 		// magic weapons: small mana surcharge empowers the element
 		if (StExt_WeaponSkillUsesMana(weap))
