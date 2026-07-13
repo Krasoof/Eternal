@@ -1,6 +1,13 @@
 # Projekt: Pętla Souls dla Zakonu Dusz
 
-Status: **plan + implementacja fazami**. F1 w toku.
+Status: **ZAWĘŻONE**. Zakon Dusz to JEDNA profesja w dużym modzie
+(nakładka na Gothic II: New Balance) - nie robimy z tego osobnego Dark
+Souls. Zrobione i wystarczy: **F1 Żar Dusz** + **F4 Lore**. Reszta
+(F2/F3/F5/F6) **odłożona** - może kiedyś, ale nie priorytet.
+
+Zawartość mieści się w **5 rozdziałach** NB (5 polowań: Heretyk, Kat Morn,
+Grabarz Ossius, Pokutnik Vael, Upadły Mistrz jako finał; 5 nagród
+pancerzy). Arena 10 bossów zostaje.
 
 Mamy już spellblade (perk + seale + H), gildię Zakon Dusz (polowania, arena,
 nagrody rozdziałowe), dusze bossów jako walutę i nieodwracalną profesję.

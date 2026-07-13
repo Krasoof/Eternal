@@ -204,8 +204,7 @@ func void StExt_ZakonLore_Reveal()
 	else if (StExt_ZakonLore_Stage == 2) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_2); }
 	else if (StExt_ZakonLore_Stage == 3) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_3); }
 	else if (StExt_ZakonLore_Stage == 4) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_4); }
-	else if (StExt_ZakonLore_Stage == 5) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_5); }
-	else { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_6); };
+	else { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_5); };
 
 	StExt_ZakonLore_Stage += 1;
 	ai_printbonus(StExt_Str_ZakonLore_Added);

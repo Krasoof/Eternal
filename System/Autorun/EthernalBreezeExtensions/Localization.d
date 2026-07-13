@@ -210,14 +210,12 @@ const string StExt_Str_ZakonHunt_Dead = "Ofiara upolowana! Arena Zakonu otwarta 
 const string StExt_Str_ZakonHunt2_Name = "Wieszatel Morn";
 const string StExt_Str_ZakonHunt3_Name = "Grabarz Ossius";
 const string StExt_Str_ZakonHunt4_Name = "Krwawy Pokutnik Vael";
-const string StExt_Str_ZakonHunt5_Name = "Milczacy Kat Hurn";
-const string StExt_Str_ZakonHunt6_Name = "Upadly Mistrz Cierpienia";
+const string StExt_Str_ZakonHunt5_Name = "Upadly Mistrz Cierpienia";
 const string StExt_Str_ZakonHunt1_Hint = "Heretyk kryje sie w ruinach Swiatyni Portalu na polnocnym wschodzie. Przynies mi jego dusze.";
 const string StExt_Str_ZakonHunt2_Hint = "Wieszatel Morn grasuje przy tawernie Orlana. Powies go na jego wlasnym sznurze.";
 const string StExt_Str_ZakonHunt3_Hint = "Grabarz Ossius przemierza sciezki krainy trolli. Wykop mu grob.";
 const string StExt_Str_ZakonHunt4_Hint = "Krwawy Pokutnik Vael odprawia rytualy w Lesie Rytualnym. Przerwij je na zawsze.";
-const string StExt_Str_ZakonHunt5_Hint = "Milczacy Kat Hurn czai sie w jaskini przy trollim jeziorze. Ucisz go.";
-const string StExt_Str_ZakonHunt6_Hint = "Upadly Mistrz Cierpienia czeka w glebi Swiatyni Portalu. To ostatnie polowanie.";
+const string StExt_Str_ZakonHunt5_Hint = "Upadly Mistrz Cierpienia czeka w glebi Swiatyni Portalu. To ostatnie polowanie Zakonu.";
 
 //		*** Zakon Dusz - nagrody rozdzialowe ***
 const string StExt_Str_ZakonReward_Offer = "Odbierz nagrode Zakonu za ten rozdzial";
@@ -248,8 +246,7 @@ const string StExt_Str_ZakonLore_1 = "Pierwszy upadl Watpiacy - Heretyk. Pytal, 
 const string StExt_Str_ZakonLore_2 = "Morn byl katem Zakonu. Wieszal braci, gdy gasli, by oszczedzic im hanby spopielenia. W koncu powiesil sam siebie - i wstal jako to, czego sie bal.";
 const string StExt_Str_ZakonLore_3 = "Ossius grzebal naszych zmarlych. Kopal groby tak dlugo, az sam poczul chlod ziemi w kosciach. Teraz kopie groby dla zywych.";
 const string StExt_Str_ZakonLore_4 = "Vael biczowal sie za kazda dusze, ktora zabral. Krew miala go oczyscic. Nie oczyscila - zostal tylko bol i czerwien.";
-const string StExt_Str_ZakonLore_5 = "Hurn zlozyl slub milczenia, by nigdy nie sklamac. Gdy spopielal, slub pekl - teraz slychac tylko jego krzyk, echo w jaskini nad jeziorem.";
-const string StExt_Str_ZakonLore_6 = "Ostatni upadl Wielki Mistrz - moj mistrz. Nosil wiecej dusz niz ktokolwiek, bo wierzyl, ze uniesie ciezar calego Zakonu. Uniosl go za daleko. To jego scigasz w glebi Swiatyni. A ja jestem ostatnim, ktory pamieta, po co bylismy. Zobaczymy, czy Ty uniesiesz dusze, nie tracac siebie.";
+const string StExt_Str_ZakonLore_5 = "Ostatni upadl Wielki Mistrz - moj mistrz. Nosil wiecej dusz niz ktokolwiek, bo wierzyl, ze uniesie ciezar calego Zakonu. Uniosl go za daleko. To jego scigasz w glebi Swiatyni. A ja jestem ostatnim, ktory pamieta, po co bylismy. Zobaczymy, czy Ty uniesiesz dusze, nie tracac siebie.";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

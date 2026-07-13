@@ -22,7 +22,7 @@ func void StExt_ZakonHunt_Migrate()
 
 func int StExt_ZakonHunt_CurChapter()
 {
-	if (kapitel > 6) { return 6; };
+	if (kapitel > 5) { return 5; };
 	if (kapitel < 1) { return 1; };
 	return kapitel;
 };
@@ -178,39 +178,22 @@ func void rtn_bdt_99723_ZakonHunt4()
 };
 func void ai_ondead_bdt_99723_ZakonHunt4() { StExt_ZakonHunt_OnKill(4); };
 
-// Chapter 5: the Silent Executioner - troll lake cave.
+// Chapter 5 (finale): the Fallen Master - depths of the portal temple.
 instance bdt_99724_ZakonHunt5(npc_default)
 {
-    name = StExt_Str_ZakonHunt5_Name; guild = gil_bdt; id = 99724; voice = 12; flags = 0; npctype = npctype_main; level = 20;
-    b_setnpcvisual(bdt_99724_ZakonHunt5, male, "Hum_Head_FighterBald", face_n_mud, bodytex_n, itar_assasins_01);
-    mdl_applyoverlaymds(bdt_99724_ZakonHunt5, "Humans_Militia.mds");
+    name = StExt_Str_ZakonHunt5_Name; guild = gil_bdt; id = 99724; voice = 11; flags = 0; npctype = npctype_main; level = 20;
+    b_setnpcvisual(bdt_99724_ZakonHunt5, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_darkknight_03_cursed);
+    mdl_applyoverlaymds(bdt_99724_ZakonHunt5, "Humans_Mage.mds");
     b_givenpctalents(bdt_99724_ZakonHunt5); fight_tactic = fai_human_master;
-    daily_routine = rtn_bdt_99724_ZakonHunt5; aivar[6] = true;
-    StExt_ZakonBoss_Setup(bdt_99724_ZakonHunt5, 3);
+    daily_routine = rtn_bdt_99724_ZakonHunt5; aivar[6] = true; aivar[51] = magic_always;
+    StExt_ZakonBoss_Setup(bdt_99724_ZakonHunt5, 4);
 };
 func void rtn_bdt_99724_ZakonHunt5()
-{
-    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLLAKECAVE");
-    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLLAKECAVE");
-};
-func void ai_ondead_bdt_99724_ZakonHunt5() { StExt_ZakonHunt_OnKill(5); };
-
-// Chapter 6: the Fallen Master - depths of the portal temple.
-instance bdt_99725_ZakonHunt6(npc_default)
-{
-    name = StExt_Str_ZakonHunt6_Name; guild = gil_bdt; id = 99725; voice = 11; flags = 0; npctype = npctype_main; level = 20;
-    b_setnpcvisual(bdt_99725_ZakonHunt6, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_darkknight_03_cursed);
-    mdl_applyoverlaymds(bdt_99725_ZakonHunt6, "Humans_Mage.mds");
-    b_givenpctalents(bdt_99725_ZakonHunt6); fight_tactic = fai_human_master;
-    daily_routine = rtn_bdt_99725_ZakonHunt6; aivar[6] = true; aivar[51] = magic_always;
-    StExt_ZakonBoss_Setup(bdt_99725_ZakonHunt6, 4);
-};
-func void rtn_bdt_99725_ZakonHunt6()
 {
     ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
     ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
 };
-func void ai_ondead_bdt_99725_ZakonHunt6() { StExt_ZakonHunt_OnKill(6); };
+func void ai_ondead_bdt_99724_ZakonHunt5() { StExt_ZakonHunt_OnKill(5); };
 
 // Spawns the CURRENT chapter's hunted target (once per chapter).
 func void StExt_ZakonHunt_SpawnCurrent()
@@ -224,8 +207,7 @@ func void StExt_ZakonHunt_SpawnCurrent()
 	else if (ch == 2) { wld_insertnpc(bdt_99721_ZakonHunt2, "NW_TAVERNE"); }
 	else if (ch == 3) { wld_insertnpc(bdt_99722_ZakonHunt3, "NW_TROLLAREA_PATH_80"); }
 	else if (ch == 4) { wld_insertnpc(bdt_99723_ZakonHunt4, "NW_TROLLAREA_RITUALFOREST_11"); }
-	else if (ch == 5) { wld_insertnpc(bdt_99724_ZakonHunt5, "NW_TROLLLAKECAVE"); }
-	else { wld_insertnpc(bdt_99725_ZakonHunt6, "NW_TROLLAREA_PORTALTEMPEL_40"); };
+	else { wld_insertnpc(bdt_99724_ZakonHunt5, "NW_TROLLAREA_PORTALTEMPEL_40"); };
 	rx_restoreparservars();
 };
 
@@ -238,8 +220,7 @@ func void StExt_ZakonHunt_PrintHint()
 	else if (ch == 2) { ai_printbonus(StExt_Str_ZakonHunt2_Hint); }
 	else if (ch == 3) { ai_printbonus(StExt_Str_ZakonHunt3_Hint); }
 	else if (ch == 4) { ai_printbonus(StExt_Str_ZakonHunt4_Hint); }
-	else if (ch == 5) { ai_printbonus(StExt_Str_ZakonHunt5_Hint); }
-	else { ai_printbonus(StExt_Str_ZakonHunt6_Hint); };
+	else { ai_printbonus(StExt_Str_ZakonHunt5_Hint); };
 };
 
 //--------------------------------------------------------------
@@ -397,7 +378,6 @@ func void StExt_ZakonReward_Give()
 	else if (ch == 2) { createinvitems(hero, itar_stext_zakon_royal, 1); }
 	else if (ch == 3) { createinvitems(hero, itar_stext_zakon_templar, 1); }
 	else if (ch == 4) { createinvitems(hero, itar_stext_zakon_guardian, 1); }
-	else if (ch == 5) { createinvitems(hero, itar_stext_zakon_rustlord, 1); }
 	else { createinvitems(hero, itar_stext_zakon_crusader, 1); };
 	ai_printbonus(StExt_Str_ZakonReward_Given);
 };
