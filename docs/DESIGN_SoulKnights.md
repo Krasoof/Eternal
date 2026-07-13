@@ -53,11 +53,19 @@ Jedyna realna niewiadoma techniczna: `rx_isboss` na custom NPC (F0).
   perk+aura).
 - **F5**: balans, lokalizacja PL, test na `ghotic_test`, prod.
 
-## Decyzje do klepnięcia przed startem
+## Decyzje
 
-1. Nazwa PL gildii (propozycja: „Rycerze Dusz").
-2. Zestaw bonusów profesji.
-3. Wybór 2 żywiołów: nieodwracalny czy reset za wysoką opłatą?
-4. Lokalizacje: siedziba gildii, kryjówka bossa ludzkiego.
-5. Czy 10 bossów to jedna wspólna pula co rozdział, czy rosnąca
+1. Nazwa PL gildii: **ZAKON DUSZ** (ZATWIERDZONE).
+2. Wybór 2 żywiołów: **NIEODWRACALNY** (ZATWIERDZONE).
+3. Modele pancerzy: mają być CIĘŻKIE, GOTYCKIE, w klimacie Dark Souls.
+   Nikt z zespołu nie modeluje — F0 robi shortlist najcięższych/
+   najmroczniejszych meshy NB (linie darkknight / demoniac / sanctuary
+   keeper / demon hunter itd.); prawdziwie nowe modele tylko z assetów
+   zewnętrznych lub zleceń (integracja po naszej stronie).
+
+## Decyzje wciąż otwarte
+
+1. Zestaw bonusów profesji (propozycje w F1).
+2. Lokalizacje: siedziba Zakonu, kryjówka bossa ludzkiego (kandydaci w F0).
+3. Czy 10 bossów to jedna wspólna pula co rozdział, czy rosnąca
    trudność/nowe twarze per rozdział?
