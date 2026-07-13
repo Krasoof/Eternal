@@ -237,19 +237,15 @@ func int StExt_GetSealProcInterval(var int sealPower)
 	return StExt_ValidateValueRange(n, 2, 6);
 };
 
-// Deduct the per-proc resource cost. Returns true if paid.
+// Deduct the per-proc cost of an ELEMENTAL seal. It casts a spell, so it
+// always costs MANA regardless of weapon type; no mana means no proc (the
+// weapon still swings). Physical seals pay stamina in their own branch.
 func int StExt_PaySealCost(var c_item weap, var int sealPower)
 {
 	var int cost;
 	cost = 10 + (sealPower / 10);
-	if (StExt_WeaponSkillUsesMana(weap))
-	{
-		if (hero.attribute[atr_mana] < cost) { return false; };
-		hero.attribute[atr_mana] = hero.attribute[atr_mana] - cost;
-		return true;
-	};
-	if (atr_stamina < cost) { return false; };
-	rx_restorestamina(-cost);
+	if (hero.attribute[atr_mana] < cost) { return false; };
+	hero.attribute[atr_mana] = hero.attribute[atr_mana] - cost;
 	return true;
 };
 
@@ -291,27 +287,30 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	if (!hlp_isvaliditem(weap)) { return; };
 	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
 
-	// --- PERK: flat elemental damage every hit ---
+	// --- PERK: flat elemental damage every hit, COSTS MANA to manifest ---
+	// No mana -> the weapon still swings for its physical damage, but the
+	// element does NOT ignite this hit. Magic weapons empower it further.
 	perkSpell = StExt_GetItemSeal(weap);
 	if (perkSpell > 0)
 	{
 		element = StExt_GetSpellElementIndex(perkSpell);
-		amount = StExt_GetItemSealPower(weap) / 3;
-		amount += StExt_GetElementMasteryPowerStat(element) / 10;
-		amount += StExt_GetElementMasteryLevel(element) / 2;
-		amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
-
-		// magic weapons: small mana surcharge empowers the element
-		if (StExt_WeaponSkillUsesMana(weap))
+		manaCost = 3 + (StExt_GetItemSealPower(weap) / 25);
+		if (hero.attribute[atr_mana] >= manaCost)
 		{
-			manaCost = 3 + (StExt_GetItemSealPower(weap) / 25);
-			if (hero.attribute[atr_mana] >= manaCost)
+			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
+
+			amount = StExt_GetItemSealPower(weap) / 3;
+			amount += StExt_GetElementMasteryPowerStat(element) / 10;
+			amount += StExt_GetElementMasteryLevel(element) / 2;
+			amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
+
+			// magic weapons empower the element further
+			if (StExt_WeaponSkillUsesMana(weap))
 			{
-				hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
 				amount += (amount / 2) + (atr_intellect / 20);
 			};
+			StExt_AddElementHitDamage(element, amount);
 		};
-		StExt_AddElementHitDamage(element, amount);
 	};
 
 	// --- SEAL: spell proc every X hits / physical effect every hit ---
