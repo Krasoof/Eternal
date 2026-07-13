@@ -109,6 +109,10 @@ var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned
 var int StExt_ZakonReward_Chapter;	// last chapter rewarded (F4)
 var int StExt_ZakonLore_Stage;		// how many lore fragments revealed (journal)
 
+// Roza Khorinis (romance questline, feature/rose-order)
+var int StExt_Rose_Stage;			// current scene of the romance arc
+var int StExt_RoseAdelaAppear;		// init-once spawn flag for Adela
+
 var int StExt_LuckProcGlobal;
 var int StExt_AuraMasterBonusTimer;
 var int StExt_AuraOnTickProcessing;

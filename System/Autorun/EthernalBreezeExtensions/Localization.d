@@ -247,6 +247,12 @@ const string StExt_Str_ZakonLore_2 = "Morn byl katem Zakonu. Wieszal braci, gdy 
 const string StExt_Str_ZakonLore_3 = "Ossius grzebal naszych zmarlych. Kopal groby tak dlugo, az sam poczul chlod ziemi w kosciach. Teraz kopie groby dla zywych.";
 const string StExt_Str_ZakonLore_4 = "Vael biczowal sie za kazda dusze, ktora zabral. Krew miala go oczyscic. Nie oczyscila - zostal tylko bol i czerwien.";
 const string StExt_Str_ZakonLore_5 = "Ostatni upadl Wielki Mistrz - moj mistrz. Nosil wiecej dusz niz ktokolwiek, bo wierzyl, ze uniesie ciezar calego Zakonu. Uniosl go za daleko. To jego scigasz w glebi Swiatyni. A ja jestem ostatnim, ktory pamieta, po co bylismy. Zobaczymy, czy Ty uniesiesz dusze, nie tracac siebie.";
+
+//		*** Roza Khorinis (watek romantyczny) ***
+const string StExt_Str_Rose_Adela_Name = "Dama Adela";
+const string StExt_Str_Rose_Adela_MeetOffer = "Wybacz, pani - nie chcialem przeszkadzac...";
+const string StExt_Str_Rose_Topic = "Roza Khorinis";
+const string StExt_Str_Rose_Log_Meet = "Poznalem Dame Adele przy kaplicy w Khorinis. Za trzy dni ma zostac wydana za Sir Roderyka - wbrew woli, dla splaty dlugu jej ojca. Prosila, bym wrocil, jesli mowie powaznie.";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

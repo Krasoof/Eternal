@@ -140,6 +140,16 @@ func void StExt_InitializeWorld()
 	};
 	// Zakon hunted targets (incl. the ch1 heretic) spawn ON DEMAND via the
 	// Soul Master's hunt dialog - no init-once spawn, works on old saves.
+	if (!StExt_RoseAdelaAppear)
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_RoseAdelaAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99730_Adela, "NW_BIGFARM_CHAPEL_03"); // TEMP -> docelowo ZEN dwor
+			rx_restoreparservars();
+		};
+	};
 	StExt_InitializeWorldRandomizer();
 };
 
