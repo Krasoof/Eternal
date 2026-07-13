@@ -1807,7 +1807,7 @@ instance itar_stext_zakon_templar(c_item)
     protection[6] = 60;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "Armor_Templar_H.ASC";
+    visual_change = "ZAKON_SKELLORD.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1830,7 +1830,7 @@ instance itar_stext_zakon_milanese(c_item)
     protection[6] = 55;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "armourv5.asc";
+    visual_change = "ZAKON_DRAGONH.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1853,7 +1853,7 @@ instance itar_stext_zakon_fanatyk(c_item)
     protection[6] = 95;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "SKO_FW_H.ASC";
+    visual_change = "ZAKON_FIREMAGE.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1876,7 +1876,7 @@ instance itar_stext_zakon_novdark(c_item)
     protection[6] = 90;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "BS_NOVS.ASC";
+    visual_change = "ZAKON_NECR.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1899,7 +1899,7 @@ instance itar_stext_zakon_angel(c_item)
     protection[6] = 75;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "Armor_Angel.ASC";
+    visual_change = "ZAKON_SKELDARK.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1922,7 +1922,7 @@ instance itar_stext_zakon_royal2(c_item)
     protection[6] = 60;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "Armor_Royal.ASC";
+    visual_change = "ZAKON_DKNIGHT.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1945,7 +1945,7 @@ instance itar_stext_zakon_guardian(c_item)
     protection[6] = 50;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "guardiannew.asc";
+    visual_change = "ZAKON_CHAOS.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
@@ -1968,7 +1968,7 @@ instance itar_stext_zakon_leather(c_item)
     protection[6] = 40;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "leatherFinal.asc";
+    visual_change = "ZAKON_CULTIST.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
