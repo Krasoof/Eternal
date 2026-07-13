@@ -273,6 +273,17 @@ func void StExt_SealGainXp(var c_item weap)
 	ai_printbonus(concatstrings(StExt_Str_Seal_LevelUp, inttostring(lvl)));
 };
 
+// Channeling an element through your weapon slowly trains that element's
+// mastery. Gated inside StExt_AddMasteryExp by profession (Soul Knights
+// only grow their two sworn elements; 0 for everyone the profession blocks).
+// Deliberately RARE - a chance per hit/proc for a single exp point - because
+// this is meant to trickle over a 100h+ playthrough, not grind out fast.
+func void StExt_GainElementMasteryFromUse(var int element, var int chance)
+{
+	if (element < 0) { return; };
+	if (hlp_random(100) < chance) { StExt_AddMasteryExp(element, 1); };
+};
+
 // Call from StExt_Hero_AfterOffenceHandler on every landed hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
@@ -311,6 +322,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 				amount += (amount / 2) + (atr_intellect / 20);
 			};
 			StExt_AddElementHitDamage(element, amount);
+			// slow mastery trickle from channeling the weapon's element
+			StExt_GainElementMasteryFromUse(element, 4);
 		};
 	};
 
@@ -373,6 +386,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	power = StExt_ApplyPercentToValue(power, 60);
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 	StExt_SealGainXp(weap);
+	// slow mastery trickle from actively casting the seal's element
+	StExt_GainElementMasteryFromUse(StExt_GetSpellElementIndex(sealSpell), 12);
 };
 
 // Apply a seal gem of the given ELEMENT to the hero's equipped weapon.
