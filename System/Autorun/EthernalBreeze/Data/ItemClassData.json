@@ -1722,7 +1722,7 @@
 			"StatsCountMin": 2,
 			"StatsCountMax": 6,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 25,
 			"SpecialDamageMult": 0.5,
 
@@ -1766,7 +1766,7 @@
 			"StatsCountMin": 2,
 			"StatsCountMax": 6,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 25,
 			"SpecialDamageMult": 0.5,
 
@@ -1810,7 +1810,7 @@
 			"StatsCountMin": 2,
 			"StatsCountMax": 6,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 25,
 			"SpecialDamageMult": 0.5,
 
@@ -1854,7 +1854,7 @@
 			"StatsCountMin": 1,
 			"StatsCountMax": 4,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 20,
 			"SpecialDamageMult": 0.25,
 
@@ -1901,7 +1901,7 @@
 			"StatsCountMin": 1,
 			"StatsCountMax": 4,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 20,
 			"SpecialDamageMult": 0.25,
 
@@ -1948,7 +1948,7 @@
 			"StatsCountMin": 1,
 			"StatsCountMax": 4,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 20,
 			"SpecialDamageMult": 0.25,
 
@@ -2240,7 +2240,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2304,7 +2304,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2360,7 +2360,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2419,7 +2419,7 @@
 			"ExtraDamageRollChance": 100,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.25,
 			
@@ -2472,7 +2472,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2526,7 +2526,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2588,7 +2588,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 150,
 			"SpecialDamageMult": 1.5,
 			
@@ -2642,7 +2642,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.2,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2710,7 +2710,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.25,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2764,7 +2764,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.25,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2819,7 +2819,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 0.9,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 100,
 			"SpecialDamageMult": 1.1,
 			
@@ -2874,7 +2874,7 @@
 			"ExtraDamageRollChance": 175,
 			"ExtraDamageQualityMult": 1.20,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2929,7 +2929,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.25,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -2982,7 +2982,7 @@
 			"ExtraDamageRollChance": 175,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -3038,7 +3038,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -3091,7 +3091,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -3144,7 +3144,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 100,
 			"SpecialDamageMult": 1.1,
 			
@@ -3206,7 +3206,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			
@@ -3268,7 +3268,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 100,
 			"SpecialDamageMult": 1.1,
 			
@@ -3319,7 +3319,7 @@
 			"ExtraDamageRollChance": 150,
 			"ExtraDamageQualityMult": 1.0,
 
-			"SpecialDamageAllowed": true,
+			"SpecialDamageAllowed": false,
 			"SpecialDamageRollChance": 50,
 			"SpecialDamageMult": 1.0,
 			

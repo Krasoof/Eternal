@@ -185,6 +185,28 @@ const string StExt_Str_El_Light = "Swiatlo";
 const string StExt_Str_El_Dark = "Mrok";
 const string StExt_Str_El_Death = "Smierc";
 
+//		*** Zakon Dusz - bossowie ***
+const string StExt_Str_ZakonHeretic_Name = "Heretyk Zakonu";
+const string StExt_Str_ZakonHeretic_Dead = "Heretyk pokonany! Zakon otwiera przed Toba arene przyzwan.";
+const string StExt_Str_ZakonHeretic_HintOffer = "Gdzie znajde Heretyka?";
+const string StExt_Str_ZakonHeretic_Hint = "Heretyk kryje sie w ruinach Swiatyni Portalu na polnocnym wschodzie. Przynies mi jego dusze.";
+const string StExt_Str_ZakonBoss_SummonOffer = "Przyzwij przeciwnika Zakonu (proba dusz)";
+const string StExt_Str_ZakonBoss_Summoned = "Przeciwnik przyzwany - stan do walki!";
+const string StExt_Str_ZakonBoss_StillAlive = "Poprzedni przeciwnik wciaz zyje. Dokoncz walke.";
+const string StExt_Str_ZakonBoss_ChapterDone = "Proba dusz tego rozdzialu ukonczona! (10/10)";
+const string StExt_Str_ZakonBoss_Killed_Pre = "Proba dusz: ";
+const string StExt_Str_ZakonBoss_Killed_Post = "/10 pokonanych w tym rozdziale.";
+const string StExt_Str_ZakonBoss1_Name = "Upadly Rycerz Vargus";
+const string StExt_Str_ZakonBoss2_Name = "Mroczny Pan Malachiasz";
+const string StExt_Str_ZakonBoss3_Name = "Akolita Nekromanty Zorn";
+const string StExt_Str_ZakonBoss4_Name = "Zelazny Golemik Brutus";
+const string StExt_Str_ZakonBoss5_Name = "Cichy Skrytoboja Vex";
+const string StExt_Str_ZakonBoss6_Name = "Straznik Sanktuarium Moroth";
+const string StExt_Str_ZakonBoss7_Name = "Lowca Demonow Kain";
+const string StExt_Str_ZakonBoss8_Name = "Rzeznik z Pustkowi Grom";
+const string StExt_Str_ZakonBoss9_Name = "Przeklety Rycerz Aldric";
+const string StExt_Str_ZakonBoss10_Name = "Arcyheretyk Molveron";
+
 const string StExt_Str_ZakonRoyal_Name = "Pancerz Oficera Zakonu (test)";
 const string StExt_Str_Zakon_Templar_Name = "Pancerz Templariusza Zakonu";
 const string StExt_Str_Zakon_Milanese_Name = "Mediolanska Plyta Zakonu";

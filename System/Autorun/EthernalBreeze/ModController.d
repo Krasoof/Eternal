@@ -138,6 +138,16 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
+	if (!StExt_ZakonHereticAppear)
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_ZakonHereticAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(bdt_99710_ZakonHeretic, "PORTALTEMPEL");
+			rx_restoreparservars();
+		};
+	};
 	StExt_InitializeWorldRandomizer();
 };
 

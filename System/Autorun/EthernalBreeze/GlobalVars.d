@@ -99,6 +99,11 @@ var int StExt_FireTeacherAppear;
 var int StExt_DarkTeacherAppear;
 var int StExt_SoulMasterAppear;
 var int StExt_SoulMasterAppearV2;
+var int StExt_ZakonHereticAppear;
+var int StExt_ZakonHeretic_Dead;
+var int StExt_ZakonBoss_Chapter;
+var int StExt_ZakonBoss_Killed;
+var int StExt_ZakonBoss_Active;
 
 var int StExt_LuckProcGlobal;
 var int StExt_AuraMasterBonusTimer;
