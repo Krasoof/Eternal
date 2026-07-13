@@ -228,6 +228,28 @@ const string StExt_Str_Zakon_NovDark_Name = "Szata Mrocznego Nowicjusza";
 const string StExt_Str_Zakon_Guardian_Name = "Pancerz Chaosu";
 const string StExt_Str_Zakon_Rustlord_Name = "Zbroja Zapomnianego Krola";
 const string StExt_Str_Zakon_Crusader_Name = "Zbroja Ostatniego Krzyzowca";
+
+//		*** Zakon Dusz - lore (opisy pancerzy) ***
+const string StExt_Str_Zakon_NovDark_Lore = "Szata nowicjusza, ktory nie zdazyl spopielec. Zakon oddaje ja tym, co przeszli pierwsza probe dusz.";
+const string StExt_Str_Zakon_Royal_Lore = "Nosil ja oficer, co wodzil lowy na wlasnych, spopielalych braci. Stal pamieta ich imiona.";
+const string StExt_Str_Zakon_Templar_Lore = "Zbroja templariusza, ktory uniosl ciezar tysiaca dusz i nie stracil siebie. Rzadki los w Zakonie.";
+const string StExt_Str_Zakon_Guardian_Lore = "Splamiona chaosem w chwili, gdy jej wlasciciel zaczal gasnac. Kto ja nosi, tanczy na krawedzi.";
+const string StExt_Str_Zakon_Rustlord_Lore = "Zbroja krola, ktorego imie pozarla Pierwsza Dusza. Rdza to wszystko, co po nim zostalo.";
+const string StExt_Str_Zakon_Crusader_Lore = "Ostatni krzyzowiec Zakonu nosil ja, gdy stanal przeciw Wielkiemu Mistrzowi. Nie wrocil. Ty mozesz.";
+
+//		*** Zakon Dusz - lore (dusza + dziennik) ***
+const string StExt_Str_BossSoul_Lore2 = "Wtop ja u Mistrza, by na trwale wzmocnic swoj zywiol. Nos ja, by bic mocniej - lecz spopielenie czai sie w kazdej niewtopionej duszy.";
+const string StExt_Str_ZakonLore_Topic = "Zakon Dusz";
+const string StExt_Str_ZakonLore_Offer = "Opowiedz mi o Zakonie Dusz";
+const string StExt_Str_ZakonLore_Added = "Dziennik: nowy wpis o Zakonie Dusz.";
+const string StExt_Str_ZakonLore_NothingNew = "Wiecej poznasz, gdy dusze poleglych czempionow trafia w Twoje rece.";
+const string StExt_Str_ZakonLore_0 = "Zakon Dusz powstal, by strzec zywych przed Pierwsza Dusza - glodem, ktory pozera dusze i wypala czlowieka od srodka, zostawiajac pusta skorupe. Rycerz Zakonu wiaze w sobie dwa zywioly i nosi dusze poleglych, by pozostac soba. Lecz dusza to trucizna: im wiecej niesiesz, tym blizej spopielenia.";
+const string StExt_Str_ZakonLore_1 = "Pierwszy upadl Watpiacy - Heretyk. Pytal, po co strzec swiata, ktory i tak gnije. Nosil dusze, az przestal czuc cokolwiek. Znalazles go w ruinach Swiatyni Portalu, pustego jak jego wiara.";
+const string StExt_Str_ZakonLore_2 = "Morn byl katem Zakonu. Wieszal braci, gdy gasli, by oszczedzic im hanby spopielenia. W koncu powiesil sam siebie - i wstal jako to, czego sie bal.";
+const string StExt_Str_ZakonLore_3 = "Ossius grzebal naszych zmarlych. Kopal groby tak dlugo, az sam poczul chlod ziemi w kosciach. Teraz kopie groby dla zywych.";
+const string StExt_Str_ZakonLore_4 = "Vael biczowal sie za kazda dusze, ktora zabral. Krew miala go oczyscic. Nie oczyscila - zostal tylko bol i czerwien.";
+const string StExt_Str_ZakonLore_5 = "Hurn zlozyl slub milczenia, by nigdy nie sklamac. Gdy spopielal, slub pekl - teraz slychac tylko jego krzyk, echo w jaskini nad jeziorem.";
+const string StExt_Str_ZakonLore_6 = "Ostatni upadl Wielki Mistrz - moj mistrz. Nosil wiecej dusz niz ktokolwiek, bo wierzyl, ze uniesie ciezar calego Zakonu. Uniosl go za daleko. To jego scigasz w glebi Swiatyni. A ja jestem ostatnim, ktory pamieta, po co bylismy. Zobaczymy, czy Ty uniesiesz dusze, nie tracac siebie.";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";

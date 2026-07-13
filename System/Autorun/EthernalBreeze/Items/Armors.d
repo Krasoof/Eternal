@@ -1791,6 +1791,7 @@ instance itar_stext_zakon_royal(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_Royal_Lore;
 };
 
 instance itar_stext_zakon_templar(c_item)
@@ -1814,6 +1815,7 @@ instance itar_stext_zakon_templar(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_Templar_Lore;
 };
 
 // ch5: rusty full-helm lord (ArmorExpansion, precompiled)
@@ -1838,6 +1840,7 @@ instance itar_stext_zakon_rustlord(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_Rustlord_Lore;
 };
 
 // ch6: greathelm crusader (ArmorExpansion, precompiled)
@@ -1862,6 +1865,7 @@ instance itar_stext_zakon_crusader(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_Crusader_Lore;
 };
 
 instance itar_stext_zakon_novdark(c_item)
@@ -1885,6 +1889,7 @@ instance itar_stext_zakon_novdark(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_NovDark_Lore;
 };
 
 instance itar_stext_zakon_guardian(c_item)
@@ -1908,4 +1913,5 @@ instance itar_stext_zakon_guardian(c_item)
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;
+    text[3] = StExt_Str_Zakon_Guardian_Lore;
 };

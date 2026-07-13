@@ -107,6 +107,7 @@ var int StExt_ZakonBoss_Active;
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned
 var int StExt_ZakonReward_Chapter;	// last chapter rewarded (F4)
+var int StExt_ZakonLore_Stage;		// how many lore fragments revealed (journal)
 
 var int StExt_LuckProcGlobal;
 var int StExt_AuraMasterBonusTimer;

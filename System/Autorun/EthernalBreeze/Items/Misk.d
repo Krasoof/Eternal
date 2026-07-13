@@ -674,5 +674,6 @@ instance itmi_stext_bosssoul(c_item)
 	name = StExt_Str_BossSoul_Name;
 	description = name;
 	text[1] = StExt_Str_BossSoul_Desc;
+	text[3] = StExt_Str_BossSoul_Lore2;
 	value = 5000;
 };

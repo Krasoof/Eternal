@@ -184,6 +184,49 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 	ai_stopprocessinfos(self);
 };
 
+//--------------------------------------------------------------
+// *** Lore: the fallen order (journal, deepens with progress) ***
+//--------------------------------------------------------------
+// Each visit reveals the next fragment, up to what your hunt progress
+// unlocks (fragment i needs StExt_ZakonHunt_Done >= i). Entries go to the
+// journal under "Zakon Dusz" so they can be re-read.
+func void StExt_ZakonLore_Reveal()
+{
+	if (StExt_ZakonLore_Stage > StExt_ZakonHunt_Done)
+	{
+		ai_printbonus(StExt_Str_ZakonLore_NothingNew);
+		return;
+	};
+
+	Log_CreateTopic(StExt_Str_ZakonLore_Topic, LOG_NOTE);
+	if (StExt_ZakonLore_Stage == 0) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_0); }
+	else if (StExt_ZakonLore_Stage == 1) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_1); }
+	else if (StExt_ZakonLore_Stage == 2) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_2); }
+	else if (StExt_ZakonLore_Stage == 3) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_3); }
+	else if (StExt_ZakonLore_Stage == 4) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_4); }
+	else if (StExt_ZakonLore_Stage == 5) { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_5); }
+	else { B_LogEntry(StExt_Str_ZakonLore_Topic, StExt_Str_ZakonLore_6); };
+
+	StExt_ZakonLore_Stage += 1;
+	ai_printbonus(StExt_Str_ZakonLore_Added);
+};
+
+instance dia_none_99702_SoulMaster_Lore(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 6;
+    condition = dia_none_99702_SoulMaster_Lore_condition;
+    information = dia_none_99702_SoulMaster_Lore_info;
+    permanent = true;
+    description = StExt_Str_ZakonLore_Offer;
+};
+func int dia_none_99702_SoulMaster_Lore_condition() { return StExt_SoulKnight_Member; };
+func void dia_none_99702_SoulMaster_Lore_info()
+{
+	StExt_ZakonLore_Reveal();
+	ai_stopprocessinfos(self);
+};
+
 instance dia_none_99702_SoulMaster_exit(c_info)
 {
     npc = none_99702_SoulMaster;
