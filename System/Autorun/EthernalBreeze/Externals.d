@@ -121,6 +121,8 @@
 	// In-place enchant: upgrades the ACTUAL item with a rolled magic extension.
 	// Returns new dynamic instance id (swap old item for it) or -1 on fail.
 	func int StExt_EnchantItemInPlace(var c_item itm, var int power);
+	// Reroll ("stat mix") for an already-magic item: fresh roll on the SAME base item.
+	func int StExt_RerollItemInPlace(var c_item itm, var int power);
 	func int StExt_SetItemProperty(var c_item itm, var int index, var int value);
 	func int StExt_GetItemSeal(var c_item itm);
 	func int StExt_GetItemSealPower(var c_item itm);

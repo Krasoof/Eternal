@@ -1032,7 +1032,8 @@ func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
 	};
 	if (StExt_ItemHasExtension(itm))
 	{
-		ai_printred(StExt_Str_Enchant_AlreadyMagic);
+		if (forArmor) { ai_printred(StExt_Str_Enchant_AlreadyMagic_Armor); }
+		else { ai_printred(StExt_Str_Enchant_AlreadyMagic); };
 		return;
 	};
 	if (npc_hasitems(hero, itmi_gold) < cost)
@@ -1056,6 +1057,60 @@ func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
 	b_playerfinditem_stext(newId, 1);
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Enchant_Done);
+};
+
+// Stat mixing for ALREADY-MAGIC items: fresh roll on the SAME item.
+func void StExt_Shiva_RerollInPlace(var int forArmor, var int cost)
+{
+	var c_item itm;
+	var int power;
+	var int powerMax;
+	var int newId;
+
+	if (forArmor) { itm = npc_getequippedarmor(hero); }
+	else
+	{
+		if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { itm = npc_getreadiedweapon(hero); }
+		else { itm = npc_getequippedmeleeweapon(hero); };
+	};
+	if (!hlp_isvaliditem(itm))
+	{
+		if (forArmor) { ai_printred(StExt_Str_Enchant_NoArmor); }
+		else { ai_printred(StExt_Str_Enchant_NoWeapon); };
+		return;
+	};
+	if (!StExt_ItemHasExtension(itm))
+	{
+		if (forArmor) { ai_printred(StExt_Str_RerollArmor_NotMagic); }
+		else { ai_printred(StExt_Str_Reroll_NotMagic); };
+		return;
+	};
+	if ((StExt_GetItemSeal(itm) > 0) || (StExt_GetItemProperty(itm, StExt_ItemProp_SealSpellId) > 0))
+	{
+		ai_printred(StExt_Str_Reroll_Sealed);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_gold) < cost)
+	{
+		ai_printred(StExt_Str_Enchant_NotEnoughGold);
+		return;
+	};
+
+	powerMax = StExt_OpenChest_GetMaxPower();
+	power = StExt_GetRandomRange(StExt_GetPercentFromValue(powerMax, 50), powerMax);
+
+	newId = StExt_RerollItemInPlace(itm, power);
+	if (newId <= 0)
+	{
+		ai_printred(StExt_Str_Enchant_WrongType);
+		return;
+	};
+
+	npc_removeinvitems(hero, itmi_gold, cost);
+	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
+	b_playerfinditem_stext(newId, 1);
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_Reroll_Done);
 };
 
 instance dia_none_99666_StonedTrader_Enchant(c_info)
@@ -1086,7 +1141,7 @@ instance dia_none_99666_StonedTrader_Reroll(c_info)
 func int dia_none_99666_StonedTrader_Reroll_condition() { return true; };
 func void dia_none_99666_StonedTrader_Reroll_info()
 {
-	StExt_Shiva_Reforge(true, 3000);
+	StExt_Shiva_RerollInPlace(false, 3000);
 	ai_stopprocessinfos(self);
 };
 
@@ -1159,5 +1214,21 @@ func int dia_none_99666_StonedTrader_EnchantArmor_condition() { return true; };
 func void dia_none_99666_StonedTrader_EnchantArmor_info()
 {
 	StExt_Shiva_EnchantInPlace(true, 500 + (hero.level * 25));
+	ai_stopprocessinfos(self);
+};
+
+instance dia_none_99666_StonedTrader_RerollArmor(c_info)
+{
+    npc = none_99666_StonedTrader;
+    nr = 10;
+    condition = dia_none_99666_StonedTrader_RerollArmor_condition;
+    information = dia_none_99666_StonedTrader_RerollArmor_info;
+    permanent = true;
+    description = StExt_Str_RerollArmor_Offer;
+};
+func int dia_none_99666_StonedTrader_RerollArmor_condition() { return true; };
+func void dia_none_99666_StonedTrader_RerollArmor_info()
+{
+	StExt_Shiva_RerollInPlace(true, 3000);
 	ai_stopprocessinfos(self);
 };
