@@ -1008,6 +1008,56 @@ func void StExt_Shiva_Reforge(var int requireMagic, var int cost)
 	ai_printbonus(StExt_Str_Enchant_Done);
 };
 
+//--------------------------------------------------------------
+// *** In-place enchanting: the SAME item gains a magic extension ***
+//--------------------------------------------------------------
+func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
+{
+	var c_item itm;
+	var int power;
+	var int powerMax;
+	var int newId;
+
+	if (forArmor) { itm = npc_getequippedarmor(hero); }
+	else
+	{
+		if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { itm = npc_getreadiedweapon(hero); }
+		else { itm = npc_getequippedmeleeweapon(hero); };
+	};
+	if (!hlp_isvaliditem(itm))
+	{
+		if (forArmor) { ai_printred(StExt_Str_Enchant_NoArmor); }
+		else { ai_printred(StExt_Str_Enchant_NoWeapon); };
+		return;
+	};
+	if (StExt_ItemHasExtension(itm))
+	{
+		ai_printred(StExt_Str_Enchant_AlreadyMagic);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_gold) < cost)
+	{
+		ai_printred(StExt_Str_Enchant_NotEnoughGold);
+		return;
+	};
+
+	powerMax = StExt_OpenChest_GetMaxPower();
+	power = StExt_GetRandomRange(StExt_GetPercentFromValue(powerMax, 50), powerMax);
+
+	newId = StExt_EnchantItemInPlace(itm, power);
+	if (newId <= 0)
+	{
+		ai_printred(StExt_Str_Enchant_WrongType);
+		return;
+	};
+
+	npc_removeinvitems(hero, itmi_gold, cost);
+	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
+	b_playerfinditem_stext(newId, 1);
+	rx_playeffect("spellfx_incovation_violet", hero);
+	ai_printbonus(StExt_Str_Enchant_Done);
+};
+
 instance dia_none_99666_StonedTrader_Enchant(c_info)
 {
     npc = none_99666_StonedTrader;
@@ -1095,55 +1145,6 @@ func void dia_none_99666_StonedTrader_SoulInfuse_info()
 	ai_stopprocessinfos(self);
 };
 
-//--------------------------------------------------------------
-// *** In-place enchanting: the SAME item gains a magic extension ***
-//--------------------------------------------------------------
-func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
-{
-	var c_item itm;
-	var int power;
-	var int powerMax;
-	var int newId;
-
-	if (forArmor) { itm = npc_getequippedarmor(hero); }
-	else
-	{
-		if (npc_hasreadiedmeleeweapon(hero) || npc_hasreadiedrangedweapon(hero)) { itm = npc_getreadiedweapon(hero); }
-		else { itm = npc_getequippedmeleeweapon(hero); };
-	};
-	if (!hlp_isvaliditem(itm))
-	{
-		if (forArmor) { ai_printred(StExt_Str_Enchant_NoArmor); }
-		else { ai_printred(StExt_Str_Enchant_NoWeapon); };
-		return;
-	};
-	if (StExt_ItemHasExtension(itm))
-	{
-		ai_printred(StExt_Str_Enchant_AlreadyMagic);
-		return;
-	};
-	if (npc_hasitems(hero, itmi_gold) < cost)
-	{
-		ai_printred(StExt_Str_Enchant_NotEnoughGold);
-		return;
-	};
-
-	powerMax = StExt_OpenChest_GetMaxPower();
-	power = StExt_GetRandomRange(StExt_GetPercentFromValue(powerMax, 50), powerMax);
-
-	newId = StExt_EnchantItemInPlace(itm, power);
-	if (newId <= 0)
-	{
-		ai_printred(StExt_Str_Enchant_WrongType);
-		return;
-	};
-
-	npc_removeinvitems(hero, itmi_gold, cost);
-	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
-	b_playerfinditem_stext(newId, 1);
-	rx_playeffect("spellfx_incovation_violet", hero);
-	ai_printbonus(StExt_Str_Enchant_Done);
-};
 
 instance dia_none_99666_StonedTrader_EnchantArmor(c_info)
 {
