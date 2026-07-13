@@ -37,8 +37,8 @@ instance none_99702_SoulMaster(npc_default)
 };
 func void rtn_none_99702_SoulMaster()
 {
-    ta_stand_armscrossed(8, 0, 23, 0, "PORTALTEMPEL");
-    ta_stand_armscrossed(23, 0, 8, 0, "PORTALTEMPEL");
+    ta_stand_armscrossed(8, 0, 23, 0, "NW_BIGFARM_CHAPEL_03");
+    ta_stand_armscrossed(23, 0, 8, 0, "NW_BIGFARM_CHAPEL_03");
 };
 
 //--------------------------------------------------------------

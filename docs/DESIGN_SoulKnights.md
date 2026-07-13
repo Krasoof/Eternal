@@ -67,5 +67,7 @@ Jedyna realna niewiadoma techniczna: `rx_isboss` na custom NPC (F0).
 
 1. Zestaw bonusów profesji (propozycje w F1).
 2. Lokalizacje: siedziba Zakonu, kryjówka bossa ludzkiego (kandydaci w F0).
-3. Czy 10 bossów to jedna wspólna pula co rozdział, czy rosnąca
-   trudność/nowe twarze per rozdział?
+3. Czy 10 bossow to jedna wspolna pula co rozdzial, czy rosnaca
+   trudnosc/nowe twarze per rozdzial?
+4. ZATWIERDZONE: kazdy boss = CZLOWIEK lub NIEUMARLY (zero potworow).
+5. ZATWIERDZONE: Mistrz Zakonu stoi przy kaplicy Shivy (NW_BIGFARM_CHAPEL_03).

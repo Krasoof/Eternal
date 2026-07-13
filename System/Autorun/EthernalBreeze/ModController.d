@@ -134,7 +134,7 @@ func void StExt_InitializeWorld()
 		{
 			StExt_SoulMasterAppear = true;
 			rx_saveparservars();
-			wld_insertnpc(none_99702_SoulMaster, "PORTALTEMPEL");
+			wld_insertnpc(none_99702_SoulMaster, "NW_BIGFARM_CHAPEL_03");
 			rx_restoreparservars();
 		};
 	};

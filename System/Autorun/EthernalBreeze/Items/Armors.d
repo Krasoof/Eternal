@@ -1789,3 +1789,187 @@ instance itar_stext_zakon_royal(c_item)
     wear = wear_torso;
     weight = 0;
 };
+
+instance itar_stext_zakon_templar(c_item)
+{
+    name = StExt_Str_Zakon_Templar_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 125;
+    protection[2] = 125;
+    protection[3] = 95;
+    protection[5] = 95;
+    protection[6] = 60;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "Armor_Templar_H.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_milanese(c_item)
+{
+    name = StExt_Str_Zakon_Milanese_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 130;
+    protection[2] = 130;
+    protection[3] = 100;
+    protection[5] = 100;
+    protection[6] = 55;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "armourv5.asc";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_fanatyk(c_item)
+{
+    name = StExt_Str_Zakon_Fanatyk_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 105;
+    protection[2] = 105;
+    protection[3] = 85;
+    protection[5] = 85;
+    protection[6] = 95;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "SKO_FW_H.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_novdark(c_item)
+{
+    name = StExt_Str_Zakon_NovDark_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 70;
+    protection[2] = 70;
+    protection[3] = 65;
+    protection[5] = 65;
+    protection[6] = 90;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "BS_NOVS.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_angel(c_item)
+{
+    name = StExt_Str_Zakon_Angel_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 120;
+    protection[2] = 120;
+    protection[3] = 95;
+    protection[5] = 95;
+    protection[6] = 75;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "Armor_Angel.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_royal2(c_item)
+{
+    name = StExt_Str_Zakon_Royal2_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 120;
+    protection[2] = 120;
+    protection[3] = 95;
+    protection[5] = 95;
+    protection[6] = 60;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "Armor_Royal.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_guardian(c_item)
+{
+    name = StExt_Str_Zakon_Guardian_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 100;
+    protection[2] = 100;
+    protection[3] = 85;
+    protection[5] = 85;
+    protection[6] = 50;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "guardiannew.asc";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};
+
+instance itar_stext_zakon_leather(c_item)
+{
+    name = StExt_Str_Zakon_Leather_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 80;
+    protection[2] = 80;
+    protection[3] = 75;
+    protection[5] = 75;
+    protection[6] = 40;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "leatherFinal.asc";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};

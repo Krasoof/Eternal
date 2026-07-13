@@ -186,6 +186,14 @@ const string StExt_Str_El_Dark = "Mrok";
 const string StExt_Str_El_Death = "Smierc";
 
 const string StExt_Str_ZakonRoyal_Name = "Pancerz Oficera Zakonu (test)";
+const string StExt_Str_Zakon_Templar_Name = "Pancerz Templariusza Zakonu";
+const string StExt_Str_Zakon_Milanese_Name = "Mediolanska Plyta Zakonu";
+const string StExt_Str_Zakon_Fanatyk_Name = "Pancerz Fanatyka Ognia";
+const string StExt_Str_Zakon_NovDark_Name = "Szata Mrocznego Nowicjusza";
+const string StExt_Str_Zakon_Angel_Name = "Anielski Pancerz Zakonu";
+const string StExt_Str_Zakon_Royal2_Name = "Krolewski Pancerz Zakonu";
+const string StExt_Str_Zakon_Guardian_Name = "Pancerz Straznika Zakonu";
+const string StExt_Str_Zakon_Leather_Name = "Skorzany Pancerz Zakonu";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";
