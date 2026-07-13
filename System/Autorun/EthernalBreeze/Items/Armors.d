@@ -1764,3 +1764,28 @@ instance ItAr_StExt_FEM_TPL_M(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "
 instance ItAr_StExt_FEM_TPL_S(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "FEM_TPL_S.ASC"; };
 instance ItAr_StExt_FEM_TPL_H(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "FEM_TPL_H.ASC"; };
 instance ItAr_StExt_DJG_CRW_VEL(Itar_Stext_NpcFem_Armor_Proto) { visual_change = "DJG_CRW_VEL.ASC"; };
+
+// Zakon Dusz armor pipeline test: third-party ASC set (royal officer,
+// Modderdatabank asset; shipped precompiled MDM+TEX in _work/_compiled).
+instance itar_stext_zakon_royal(c_item)
+{
+    name = StExt_Str_ZakonRoyal_Name;
+    description = name;
+    flags = item_mission;
+    inv_animate = 0;
+    mainflag = item_kat_armor;
+    material = mat_metal;
+    on_equip = equip_itar_nov_l;
+    on_unequip = unequip_itar_nov_l;
+    protection[1] = 120;
+    protection[2] = 120;
+    protection[3] = 90;
+    protection[5] = 90;
+    protection[6] = 60;
+    value = 5000;
+    visual = "ItAr_NDM_L.3ds";
+    visual_change = "ROYAL_OFFICER.ASC";
+    visual_skin = 0;
+    wear = wear_torso;
+    weight = 0;
+};

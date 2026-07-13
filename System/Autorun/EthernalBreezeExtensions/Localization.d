@@ -184,6 +184,8 @@ const string StExt_Str_El_Earth = "Ziemia";
 const string StExt_Str_El_Light = "Swiatlo";
 const string StExt_Str_El_Dark = "Mrok";
 const string StExt_Str_El_Death = "Smierc";
+
+const string StExt_Str_ZakonRoyal_Name = "Pancerz Oficera Zakonu (test)";
 const string StExt_Str_Enchant_AlreadyMagic = "Ta bron juz jest magiczna - nie potrzebuje zaklinania.";
 const string StExt_Str_Enchant_NotEnoughGold = "Za malo zlota na zaklecie broni.";
 const string StExt_Str_Enchant_Done = "Bron przekuta w magiczna!";
