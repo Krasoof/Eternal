@@ -1081,17 +1081,19 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	if (StExt_PcStats[StExt_PcStats_Index_MpPerHit] > 0) { rx_restoremana(StExt_PcStats[StExt_PcStats_Index_MpPerHit]); };
 	// Melee stamina economy: a big stamina pool + StPerHit (restore-on-hit) used to keep
 	// the warrior permanently full and swinging forever - the melee "Archmage" (infinite
-	// stamina, hits for millions in chapter 1). Now every landed MELEE hit costs ~6% of max
-	// stamina, and StPerHit can only REFUND that cost, never exceed it, so attacking is never
-	// net-positive. Non-melee hits keep the old StPerHit behaviour. (6% tunable.)
+	// stamina, hits for millions in chapter 1). Every landed MELEE hit costs 8% of max
+	// stamina and StPerHit can refund AT MOST HALF of it, so each hit always drains a net
+	// >=4% - a full-refund made net-zero chains infinite at 2k stamina in playtests.
+	// Non-melee hits keep the old StPerHit behaviour. (8% / half-refund tunable.)
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{
-		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 6);
+		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 8);
+		var int staRefund; staRefund = staCost / 2;
 		rx_restorestamina(-staCost);
 		if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0)
 		{
-			if (StExt_PcStats[StExt_PcStats_Index_StPerHit] < staCost) { staCost = StExt_PcStats[StExt_PcStats_Index_StPerHit]; };
-			rx_restorestamina(staCost);
+			if (StExt_PcStats[StExt_PcStats_Index_StPerHit] < staRefund) { staRefund = StExt_PcStats[StExt_PcStats_Index_StPerHit]; };
+			rx_restorestamina(staRefund);
 		};
 	}
 	else if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0) { rx_restorestamina(StExt_PcStats[StExt_PcStats_Index_StPerHit]); };
