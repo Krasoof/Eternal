@@ -641,10 +641,25 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	tmp = StExt_ZakonEmbers_DefencePermille();
 	if (tmp > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, tmp); };
 
+	// PERFECT PARRY (Souls core): a parade started within the last ~25 frames
+	// (window opened by StExt_OnPlayerParade_ActionHandler). Rewards: 4% max
+	// stamina refund, a ~1.5s riposte window (next melee hit +50%), and this
+	// hit does NOT apply the Zakon boss unblockable chip below.
+	var int perfectParried; perfectParried = false;
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_PerfectParry_Window > 0))
+	{
+		perfectParried = true;
+		StExt_PerfectParry_Window = 0;
+		StExt_Riposte_Window = 1;
+		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
+		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
+		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
+	};
+
 	// Zakon boss UNBLOCKABLE chip: ~2% of your max HP lands even through a
-	// block/parry, so you can't just perfect-parry them forever on a stamina
-	// item - blocking everything still bleeds you down.
-	if ((atk.id >= 99710) && (atk.id <= 99725))
+	// block/parry, so you can't just hold block on a stamina item forever -
+	// blocking everything still bleeds you down. A PERFECT parry negates it.
+	if ((atk.id >= 99710) && (atk.id <= 99725) && !perfectParried)
 	{
 		target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), 1);
 	};
@@ -1085,7 +1100,18 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	// stamina and StPerHit can refund AT MOST A THIRD of it, so each hit always drains a net
 	// >=5% - a full-refund made net-zero chains infinite at 2k stamina in playtests.
 	// Non-melee hits keep the old StPerHit behaviour. (8% / third-refund tunable.)
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+	// RIPOSTE: first melee hit after a perfect parry (~1.5s window) deals +50%
+	// and costs no stamina - the payoff for timing instead of holding block.
+	var int isRiposte; isRiposte = false;
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_Riposte_Window > 0))
+	{
+		isRiposte = true;
+		StExt_Riposte_Window = 0;
+		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 500);
+		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
+	};
+
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && !isRiposte)
 	{
 		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 8);
 		var int staRefund; staRefund = staCost / 3;

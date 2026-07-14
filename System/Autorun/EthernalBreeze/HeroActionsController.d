@@ -26,7 +26,19 @@ func void StExt_OnPlayerAttackLeft_ActionHandler() {  };
 func void StExt_OnPlayerAttackRight_ActionHandler() {  };
 func void StExt_OnPlayerAttackRun_ActionHandler() {  };
 func void StExt_OnPlayerAttackFinish_ActionHandler() {  };
-func void StExt_OnPlayerParade_ActionHandler() {  };
+// Perfect Parry core: every parade action opens a short timing window (~25 frames
+// at 60fps = ~0.4s). If an enemy MELEE hit arrives while the window is open
+// (checked in StExt_Hero_BeforeDefenceHandler), it counts as a PERFECT PARRY:
+// stamina refund + riposte window + negates the Zakon boss unblockable chip.
+// Holding block gives nothing - only a parade timed right before the hit.
+func void StExt_PerfectParry_CloseWindow() { if (StExt_PerfectParry_Window > 0) { StExt_PerfectParry_Window -= 1; }; };
+func void StExt_Riposte_CloseWindow() { StExt_Riposte_Window = 0; };
+
+func void StExt_OnPlayerParade_ActionHandler()
+{
+	StExt_PerfectParry_Window += 1;
+	StExt_InitializeCallback(hero, hero, "StExt_PerfectParry_CloseWindow", 25);
+};
 func void StExt_OnPlayerShootAt_ActionHandler() {  };
 func void StExt_OnPlayerDefend_ActionHandler() {  };
 

@@ -105,6 +105,12 @@ var int StExt_ZakonBoss_Chapter;
 var int StExt_ZakonBoss_Killed;
 var int StExt_ZakonBoss_Active;
 var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & should be alive (0 = none). Robust re-summon guard.
+
+// *** Perfect Parry (Souls core) ***
+// Window counter: each parade action adds a token that expires ~25 frames later
+// via a frame callback; an incoming melee hit while a token is live = PERFECT PARRY.
+var int StExt_PerfectParry_Window;
+var int StExt_Riposte_Window;		// >0 = perfect parry landed; next melee hit within ~1.5s is a riposte
 var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned
