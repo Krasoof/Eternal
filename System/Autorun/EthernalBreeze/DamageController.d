@@ -1082,13 +1082,13 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	// Melee stamina economy: a big stamina pool + StPerHit (restore-on-hit) used to keep
 	// the warrior permanently full and swinging forever - the melee "Archmage" (infinite
 	// stamina, hits for millions in chapter 1). Every landed MELEE hit costs 8% of max
-	// stamina and StPerHit can refund AT MOST HALF of it, so each hit always drains a net
-	// >=4% - a full-refund made net-zero chains infinite at 2k stamina in playtests.
-	// Non-melee hits keep the old StPerHit behaviour. (8% / half-refund tunable.)
+	// stamina and StPerHit can refund AT MOST A THIRD of it, so each hit always drains a net
+	// >=5% - a full-refund made net-zero chains infinite at 2k stamina in playtests.
+	// Non-melee hits keep the old StPerHit behaviour. (8% / third-refund tunable.)
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{
 		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 8);
-		var int staRefund; staRefund = staCost / 2;
+		var int staRefund; staRefund = staCost / 3;
 		rx_restorestamina(-staCost);
 		if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0)
 		{
