@@ -378,6 +378,40 @@ func int StExt_ZakonBoss_AliveNow()
 	return true;
 };
 
+// Veteran gate: killing the world's Black Troll ALSO unlocks the arena
+// (chapter 1 too - good fun for a maniac). Latched so it stays unlocked.
+func int StExt_ZakonBlackTroll_Dead()
+{
+	var c_npc bt;
+	if (StExt_ZakonBlackTrollDead) { return true; };
+	bt = Hlp_GetNpc(Troll_Black);
+	if (hlp_isvalidnpc(bt) && (bt.attribute[atr_hitpoints] <= 0)) { StExt_ZakonBlackTrollDead = true; };
+	return StExt_ZakonBlackTrollDead;
+};
+
+// Move the hero to the arena spot (the Black Troll's body if it's there,
+// else an isolated trollarea path) and pull the summoned boss onto the hero.
+func void StExt_ZakonBoss_TeleportToArena(var int slot)
+{
+	var c_npc bt;
+	var c_npc boss;
+	bt = Hlp_GetNpc(Troll_Black);
+	if (hlp_isvalidnpc(bt) && (bt.attribute[atr_hitpoints] <= 0)) { StExt_TeleportToNpc(hero, bt); }
+	else { AI_Teleport(hero, "NW_TROLLAREA_PATH_65"); };
+
+	if (slot == 1)      { boss = Hlp_GetNpc(bdt_99711_ZakonBoss1); }
+	else if (slot == 2) { boss = Hlp_GetNpc(bdt_99712_ZakonBoss2); }
+	else if (slot == 3) { boss = Hlp_GetNpc(bdt_99713_ZakonBoss3); }
+	else if (slot == 4) { boss = Hlp_GetNpc(bdt_99714_ZakonBoss4); }
+	else if (slot == 5) { boss = Hlp_GetNpc(bdt_99715_ZakonBoss5); }
+	else if (slot == 6) { boss = Hlp_GetNpc(bdt_99716_ZakonBoss6); }
+	else if (slot == 7) { boss = Hlp_GetNpc(bdt_99717_ZakonBoss7); }
+	else if (slot == 8) { boss = Hlp_GetNpc(bdt_99718_ZakonBoss8); }
+	else if (slot == 9) { boss = Hlp_GetNpc(bdt_99719_ZakonBoss9); }
+	else                { boss = Hlp_GetNpc(bdt_99720_ZakonBoss10); };
+	if (hlp_isvalidnpc(boss)) { StExt_TeleportToNpc(boss, hero); };
+};
+
 func void StExt_ZakonBoss_SummonNext()
 {
 	var int pick;
@@ -415,8 +449,8 @@ func void StExt_ZakonBoss_SummonNext()
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
-	// The Soul Master teleports you to the arena spot to face the challenger.
-	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
+	// The Soul Master teleports you to the arena (Black Troll's spot) with the boss.
+	StExt_ZakonBoss_TeleportToArena(pick + 1);
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
 
@@ -453,7 +487,7 @@ func int dia_none_99702_SoulMaster_Reward_condition()
 	StExt_ZakonHunt_Migrate();
 	return StExt_SoulKnight_Member
 		&& (StExt_ZakonBoss_Chapter == kapitel) && (StExt_ZakonBoss_Killed >= 10)
-		&& (StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter())
+		&& ((StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter()) || StExt_ZakonBlackTroll_Dead())
 		&& (StExt_ZakonReward_Chapter < kapitel);
 };
 func void dia_none_99702_SoulMaster_Reward_info()
@@ -474,7 +508,7 @@ instance dia_none_99702_SoulMaster_Summon(c_info)
 func int dia_none_99702_SoulMaster_Summon_condition()
 {
 	StExt_ZakonHunt_Migrate();
-	return StExt_SoulKnight_Member && (StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter());
+	return StExt_SoulKnight_Member && ((StExt_ZakonHunt_Done >= StExt_ZakonHunt_CurChapter()) || StExt_ZakonBlackTroll_Dead());
 };
 func void dia_none_99702_SoulMaster_Summon_info()
 {

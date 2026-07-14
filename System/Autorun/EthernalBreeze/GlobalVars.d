@@ -105,6 +105,7 @@ var int StExt_ZakonBoss_Chapter;
 var int StExt_ZakonBoss_Killed;
 var int StExt_ZakonBoss_Active;
 var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & should be alive (0 = none). Robust re-summon guard.
+var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned
 var int StExt_ZakonReward_Chapter;	// last chapter rewarded (F4)
