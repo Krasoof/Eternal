@@ -701,3 +701,25 @@ func void use_itmi_stext_zakon_rune()
 	npc_removeinvitems(self, itmi_stext_zakon_rune, 1);
 	ai_printbonus(StExt_Str_ZakonRune_Used);
 };
+
+// Dev/scouting tool (spawn: insert itmi_stext_scoutstone): prints the nearest
+// waypoint so locations can be pinned in-game for quest design (e.g. the old
+// zombie-boss tower for the Zakon relocation quest). Not sold, not dropped.
+instance itmi_stext_scoutstone(c_item)
+{
+	name = "Kamien Zwiadowcy";
+	mainflag = item_kat_none;
+	flags = item_multi;
+	value = 1;
+	visual = "ItMi_Rockcrystal.3ds";
+	material = mat_stone;
+	description = name;
+	text[1] = "Wypisuje najblizszy waypoint.";
+	on_state = use_itmi_stext_scoutstone;
+	inv_animate = 1;
+};
+func void use_itmi_stext_scoutstone()
+{
+	if (!npc_isplayer(self)) { return; };
+	printscreencolor(npc_getnearestwp(hero), StExt_Null, 45, StExt_DefaultFont, 5, StExt_Color_Header);
+};
