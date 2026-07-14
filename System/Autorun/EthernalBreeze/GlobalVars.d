@@ -106,6 +106,10 @@ var int StExt_ZakonBoss_Killed;
 var int StExt_ZakonBoss_Active;
 var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & should be alive (0 = none). Robust re-summon guard.
 
+// *** Wieza Umarlych quest (Npc_ZakonTower.d) ***
+var int StExt_ZakonTower_Stage;		// 0 idle, 1 road, 2 camp+Herold, 3 floors, 4 cleared, 5 done
+var int StExt_ZakonTower_WaveKills;
+
 // *** Perfect Parry (Souls core) ***
 // Window counter: each parade action adds a token that expires ~25 frames later
 // via a frame callback; an incoming melee hit while a token is live = PERFECT PARRY.
