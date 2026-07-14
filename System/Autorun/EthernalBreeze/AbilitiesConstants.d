@@ -330,6 +330,10 @@ const int StExt_PerkIndex_ReflectResist = 38;
 const int StExt_PerkIndex_DotResist = 39;
 const int StExt_PerkIndex_ManaCharge = 40;
 const int StExt_PerkIndex_PainResist = 41;
+// Spellblade (Mag Bojowy) - seal/weapon-element perks
+const int StExt_PerkIndex_ElementBlade = 42;	// +% weapon element (perk) damage
+const int StExt_PerkIndex_SealMaster = 43;		// +% elemental seal (spell proc) damage
+const int StExt_PerkIndex_BloodSeal = 44;		// +% physical seal (bleed/pierce) damage
 
 
 // Corrupted Mage perks

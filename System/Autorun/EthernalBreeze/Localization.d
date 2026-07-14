@@ -2015,7 +2015,10 @@ const string StExt_Str_Perk_Name[StExt_Perk_Max] =
 	"Зеркальная стойкость",
 	"Вечная стойкость",
 	"Магический заряд",
-	"Пожиратель боли"
+	"Пожиратель боли",
+	"Ostrze Zywiolow",
+	"Mistrz Pieczeci",
+	"Krwawa Pieczec"
 };
 const string StExt_Str_Perk_Desc[StExt_Perk_Max] = 
 {
@@ -2060,7 +2063,10 @@ const string StExt_Str_Perk_Desc[StExt_Perk_Max] =
 	"+50% Сопротивление отраженному урону.",
 	"+50% Сопротивление постепенному урону.",
 	"Расходует до 5% маны на дополнительный магический урон оружием.",
-	"Урон сначала берется из выносливости вместо здоровья"
+	"Урон сначала берется из выносливости вместо здоровья",
+	"+30% perk zywiolu",
+	"+30% pieczec zywiolowa",
+	"+30% pieczec fizyczna"
 };
 
 // corruption perks

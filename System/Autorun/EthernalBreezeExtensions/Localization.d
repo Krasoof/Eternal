@@ -1946,7 +1946,10 @@ const string StExt_Str_Perk_Name[StExt_Perk_Max] =
 	"Trwalosc Zwierciadla",
 	"Wieczna Hartownosc",
 	"Magiczny Ladunek",
-	"Pozeracz Bolu"
+	"Pozeracz Bolu",
+	"Ostrze Zywiolow",
+	"Mistrz Pieczeci",
+	"Krwawa Pieczec"
 };
 const string StExt_Str_Perk_Desc[StExt_Perk_Max] =
 {
@@ -1991,7 +1994,10 @@ const string StExt_Str_Perk_Desc[StExt_Perk_Max] =
 	"+50% odpornosci na obrazenia odbite.",
 	"+50% odpornosci na obrazenia w czasie.",
 	"Zuzywa do 5% many na dodatkowe obrazenia magiczne broni.",
-	"Obrazenia sa najpierw pobierane z wytrzymalosci zamiast ze zdrowia."
+	"Obrazenia sa najpierw pobierane z wytrzymalosci zamiast ze zdrowia.",
+	"+30% obrazen zywiolowych wbudowanych w bron (perk).",
+	"+30% obrazen pieczeci zywiolowych (rzucane zaklecie).",
+	"+30% obrazen pieczeci fizycznych (krwawienie, przebicie)."
 };
 
 // corruption perks

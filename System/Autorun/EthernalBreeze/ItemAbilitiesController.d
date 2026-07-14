@@ -327,6 +327,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			{
 				amount += (amount / 2) + (atr_intellect / 20);
 			};
+			// Spellblade perk "Ostrze Zywiolow": +30% weapon element damage
+			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_ElementBlade)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			StExt_AddElementHitDamage(element, amount);
 			// slow mastery trickle from channeling the weapon's element
 			StExt_GainElementMasteryFromUse(element, 4);
@@ -369,6 +371,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// trash (0.5%/tick at lvl 10 -> 3%/tick at lvl 60, capped 30 permille).
 			amount = (physStat / 10) + (sealPower / 12) + (sealLvl * 3);
 			amount += StExt_GetPermilleFromValue(target.attribute[atr_hitpoints_max], StExt_ValidateValueRange(sealLvl / 2, 0, 30));
+			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
 		if (sealSpell == StExt_PhysSeal_Pierce)
@@ -376,6 +379,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// armor piercing: % of the hit ignores protection (true damage).
 			// scales with STR/DEX, seal power AND seal level; capped at 70%.
 			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(40 + (physStat / 4) + (sealPower / 8) + (sealLvl * 4), 40, 700));
+			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
 		StExt_SealGainXp(weap);
@@ -393,6 +397,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	// whole burst is scaled to 60% so a seal supplements the hit, not eclipses it.
 	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower / 2);
 	power = StExt_ApplyPercentToValue(power, 60);
+	// Spellblade perk "Mistrz Pieczeci": +30% elemental seal spell damage
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealMaster)) { power += StExt_GetPermilleFromValue(power, 300); };
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 	StExt_SealGainXp(weap);
 	// slow mastery trickle from actively casting the seal's element
