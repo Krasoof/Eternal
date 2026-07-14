@@ -556,7 +556,12 @@ func void zs_dead()
 			if (StExt_NpcIsLivingBeing(self) && npc_isplayer(other) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_ChanceToReanimate])) { StExt_DoReanimation(self); };
 		};
 		
-		if (self.aivar[43] != id_totem)
+		// Enemy-mob on-death effects (rolled by the blessed/nasycone MagicInfusion affix system, e.g. a
+		// rain of fire when you kill a krwopijca) are DISABLED - they killed the player just for landing
+		// the kill. On-death now fires ONLY for player summons (e.g. Mage MinionInstability perk). Nothing
+		// is removed from data, so no crash and saves stay valid; the affix simply never triggers on-death
+		// for enemies (its other bonuses still apply).
+		if ((self.aivar[43] != id_totem) && StExt_IsSummonOrTotem(self))
 		{
 			abilitySlot = StExt_Npc_SelectAbility(self, StExt_NpcAbility_Type_Passive, StExt_NpcAbility_Flag_OnDeath, StExt_Null);
 			if ((abilitySlot > StExt_Null) && (abilitySlot < StExt_Npc_MaxNpcAbilities)) {
