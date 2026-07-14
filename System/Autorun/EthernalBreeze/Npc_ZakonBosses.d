@@ -438,10 +438,15 @@ func void StExt_ZakonBoss_SummonNext()
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
-	// Queued teleport (runs cleanly AFTER the dialog closes, no lock-up). The
-	// boss stays where it spawned so you don't land on top of it.
-	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
+	// Deferred teleport: fires ~15 frames later, AFTER the dialog has fully
+	// closed - teleporting the hero DURING the dialog left it stuck open.
+	StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaTeleport_Callback", 15);
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
+};
+
+func void StExt_ZakonArenaTeleport_Callback()
+{
+	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
 };
 
 //--------------------------------------------------------------
