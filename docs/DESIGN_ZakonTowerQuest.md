@@ -70,9 +70,16 @@ czysta, 1 linijka Mistrza: „Dom." (dosłownie jedno słowo — dramatyzm przez
 
 Układ walk przeniesiony na zewnątrz — wieża zostaje sercem fabuły, nie areną:
 - Akty 1–3 (zasadzki, obóz Herolda, fale garnizonu) — **pod wieżą i wokół niej**.
-- Akt 4 (Kasztelan): jeśli screen pokaże, że komnata pomieści bossa z blinkami — w środku;
-  jak nie — **ARENA_BOSS_NECRO.ZEN** przez `B_ENTER_*` (klimatycznie pasuje 1:1: arena
-  nekromancka dla zombie-lorda; wieża robi za wejście/portal).
+- Akt 4 (Kasztelan): **ZAKLEPANE — ARENA_BOSS_NECRO.ZEN** (wieża = portal/wejście).
+  ODKRYCIE: siedzący tam „zombie strażnik" to w pełni oskryptowany boss Returninga
+  (`RX_AL_BOSSNECRO_*`): przyzywa KRĘGI zombie (`MAKECIRCLEZOMBIES`), rzuca TORNADO
+  (`MAKETORNADO`), ma fazy nieśmiertelności na timerze (`IMMORTALTIMER`) — gotowa
+  soulsowa walka fazowa, zero kodowania bossa od zera. Plan: to ON jest Kasztelanem —
+  fabuła Zakonu opakowuje istniejącą walkę; my dokładamy tylko nasze pasywki
+  (chip/tempo/lifesteal przez id-hooki, jeśli da się go objąć) + drop legendarnego
+  Ostrza Kasztelana w OnKill. Wejście: wzorzec `EVT_CHANGELEVEL_*_FUNC` /
+  `AB_ChangeLevelBegin` (trigger zmiany świata — do namierzenia przy implementacji;
+  awaryjnie nasz DLL może wywołać ChangeLevel wprost).
 - Akt 5 (obrona rytuału) — u stóp wieży, fale schodzą się z terenu (więcej miejsca = lepszy
   event obronny niż ciasna klatka schodowa).
 - Hub po queście: parter wieży (łóżko + skrzynia zmieszczą się zawsze) + Mistrz przed wejściem.
