@@ -245,6 +245,9 @@ const string StExt_Str_Zakon_Crusader_Lore = "Ostatni krzyzowiec Zakonu nosil ja
 
 //		*** Zakon Dusz - lore (dusza + dziennik) ***
 const string StExt_Str_BossSoul_Lore2 = "Wtop ja u Mistrza, by na trwale wzmocnic swoj zywiol. Nos ja, by bic mocniej - lecz spopielenie czai sie w kazdej niewtopionej duszy.";
+const string StExt_Str_ZakonRune_Name = "Runa Powrotu Zakonu";
+const string StExt_Str_ZakonRune_Desc = "Jednorazowa runa - przenosi z powrotem do kaplicy, do Mistrza Dusz.";
+const string StExt_Str_ZakonRune_Used = "Runa rozblyska - wracasz do kaplicy Zakonu.";
 const string StExt_Str_ZakonLore_Topic = "Zakon Dusz";
 const string StExt_Str_ZakonLore_Offer = "Opowiedz mi o Zakonie Dusz";
 const string StExt_Str_ZakonLore_Added = "Dziennik: nowy wpis o Zakonie Dusz.";

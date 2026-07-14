@@ -677,3 +677,27 @@ instance itmi_stext_bosssoul(c_item)
 	text[3] = StExt_Str_BossSoul_Lore2;
 	value = 5000;
 };
+
+// One-use rune dropped by Zakon bosses: teleports the hero back to the
+// chapel (Soul Master) so you don't walk back from the isolated arena.
+instance itmi_stext_zakon_rune(c_item)
+{
+	name = StExt_Str_ZakonRune_Name;
+	mainflag = item_kat_potions;
+	flags = 0;
+	value = 500;
+	visual = "ItSc_Shrink_New.3ds";
+	material = mat_stone;
+	scemename = "MAP";
+	description = name;
+	text[1] = StExt_Str_ZakonRune_Desc;
+	on_state = use_itmi_stext_zakon_rune;
+	inv_animate = 1;
+};
+func void use_itmi_stext_zakon_rune()
+{
+	if (!npc_isplayer(self)) { return; };
+	AI_Teleport(hero, "NW_BIGFARM_CHAPEL_03");
+	npc_removeinvitems(self, itmi_stext_zakon_rune, 1);
+	ai_printbonus(StExt_Str_ZakonRune_Used);
+};

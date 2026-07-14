@@ -78,7 +78,7 @@ func void StExt_ZakonBoss_OnKill()
 	StExt_ZakonBoss_Killed += 1;
 	StExt_ZakonBoss_Active = false;
 	StExt_ZakonBoss_ActiveSlot = 0;
-	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
+	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); createinvitems(self, itmi_stext_zakon_rune, 1); };
 	if (StExt_ZakonBoss_Killed >= 10) { ai_printbonus(StExt_Str_ZakonBoss_ChapterDone); }
 	else
 	{
@@ -90,7 +90,7 @@ func void StExt_ZakonBoss_OnKill()
 func void StExt_ZakonHunt_OnKill(var int chapter)
 {
 	if (StExt_ZakonHunt_Done < chapter) { StExt_ZakonHunt_Done = chapter; };
-	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
+	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); createinvitems(self, itmi_stext_zakon_rune, 1); };
 	StExt_ZakonBoss_GiveLoot(3);
 	ai_printbonus(StExt_Str_ZakonHunt_Dead);
 };
