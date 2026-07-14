@@ -229,7 +229,7 @@ func void StExt_ZakonHunt_PrintHint()
 instance bdt_99711_ZakonBoss1(npc_default)
 {
     name = StExt_Str_ZakonBoss1_Name; guild = gil_bdt; id = 99711; voice = 13; flags = 0; npctype = npctype_main; level = 20;
-    b_setnpcvisual(bdt_99711_ZakonBoss1, male, "Hum_Head_FighterBald", face_n_corristo, bodytex_n, itar_darkknight_01);
+    b_setnpcvisual(bdt_99711_ZakonBoss1, male, "Hum_Head_Fighter", face_n_corristo, bodytex_n, itar_darkknight_01);
     mdl_applyoverlaymds(bdt_99711_ZakonBoss1, "Humans_Militia.mds");
     b_givenpctalents(bdt_99711_ZakonBoss1); fight_tactic = fai_human_master; aivar[6] = true;
     StExt_ZakonBoss_Setup(bdt_99711_ZakonBoss1, 1);
@@ -289,7 +289,7 @@ func void ai_ondead_bdt_99716_ZakonBoss6() { StExt_ZakonBoss_GiveLoot(2); StExt_
 instance bdt_99717_ZakonBoss7(npc_default)
 {
     name = StExt_Str_ZakonBoss7_Name; guild = gil_bdt; id = 99717; voice = 13; flags = 0; npctype = npctype_main; level = 20;
-    b_setnpcvisual(bdt_99717_ZakonBoss7, male, "Hum_Head_FighterBald", face_n_mud, bodytex_n, itar_dht_end_6);
+    b_setnpcvisual(bdt_99717_ZakonBoss7, male, "Hum_Head_Fighter", face_n_mud, bodytex_n, itar_dht_end_6);
     mdl_applyoverlaymds(bdt_99717_ZakonBoss7, "Humans_Militia.mds");
     b_givenpctalents(bdt_99717_ZakonBoss7); fight_tactic = fai_human_master; aivar[6] = true;
     StExt_ZakonBoss_Setup(bdt_99717_ZakonBoss7, 3);
