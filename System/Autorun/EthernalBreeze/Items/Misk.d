@@ -708,11 +708,14 @@ func void use_itmi_stext_zakon_rune()
 instance itmi_stext_scoutstone(c_item)
 {
 	name = "Kamien Zwiadowcy";
-	mainflag = item_kat_none;
-	flags = item_multi;
+	// item_kat_none had no use-animation, so on_state never fired - mirror the
+	// teleport rune (potions + MAP sceme) which is the proven usable pattern.
+	mainflag = item_kat_potions;
+	flags = 0;
 	value = 1;
 	visual = "ItMi_Rockcrystal.3ds";
 	material = mat_stone;
+	scemename = "MAP";
 	description = name;
 	text[1] = "Wypisuje najblizszy waypoint.";
 	on_state = use_itmi_stext_scoutstone;

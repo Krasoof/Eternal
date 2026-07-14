@@ -275,6 +275,10 @@ func void StExt_Npc_InfuseWithMagic(var c_npc slf)
 {
 	var int chance;
 	var int tier;
+
+	// Zakon bosses (99710-99725) are NOT infusable: they have their own move
+	// kits + tuned HP now; a random infusion on top made a 600k sponge.
+	if ((slf.id >= 99710) && (slf.id <= 99725)) { return; };
 	var int protBlunt;
 	var int protEdge;
 	var int protFire;

@@ -335,11 +335,12 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 		// Zdruzgotanie: crushing blow - chance to stun the hero on hit.
 		StExt_StunTarget(target, atk, 12);
 		// Tempo shift: after landing a hit the boss may change attack/anim
-		// speed (aivrx_npc_speed is delta-based, so move from current to a
-		// random -15..+45 target) - parry timing can't be memorized.
+		// speed (aivrx_npc_speed is delta-based, so move from current to the
+		// random target) - parry timing can't be memorized. Per feedback:
+		// slowdown capped at -10, speed-up allowed up to +300 (terror spikes).
 		if (StExt_Chance(25))
 		{
-			StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-15 + hlp_random(61)) - rx_getnpcvar(atk, aivrx_npc_speed));
+			StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(atk, aivrx_npc_speed));
 		};
 	};
 
@@ -490,10 +491,10 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 	{
 		atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(RealDamage, 150), 1);
 		// Tempo shift also when the boss TAKES a hit (10%), so a dominating
-		// player still faces rhythm changes.
+		// player still faces rhythm changes. Same -10..+300 range.
 		if (StExt_Chance(10))
 		{
-			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-15 + hlp_random(61)) - rx_getnpcvar(target, aivrx_npc_speed));
+			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(target, aivrx_npc_speed));
 		};
 	};
 

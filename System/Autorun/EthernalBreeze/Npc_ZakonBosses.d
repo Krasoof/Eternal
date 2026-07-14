@@ -104,7 +104,10 @@ func void StExt_ZakonHunt_OnKill(var int chapter)
 func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 {
 	b_setattributestochapter(slf, kapitel);
-	slf.attribute[1] = 8000 + (kapitel * 7000) + (hero.level * 400) + (tier * 3000);
+	// HP bumped ~2.5x since bosses are no longer infusable (own kits instead):
+	// ~165k midgame, ~325k late - between the old 100k base and the 600k
+	// accidental infused sponge.
+	slf.attribute[1] = 25000 + (kapitel * 20000) + (hero.level * 2000) + (tier * 10000);
 	slf.attribute[0] = slf.attribute[1];
 	// str/dex now also scale with hero level (evened out) so the boss is a real
 	// threat, not just an HP sponge. Kept gentler than HP to avoid one-shots.
