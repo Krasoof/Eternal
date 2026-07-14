@@ -85,15 +85,27 @@ func void StExt_ZakonHunt_OnKill(var int chapter)
 };
 
 // Shared statting: human boss scaled by chapter and player level.
+// FIRST PASS balance - tune multipliers after in-game testing.
 func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 {
 	b_setattributestochapter(slf, kapitel);
 	slf.attribute[1] = 800 + (kapitel * 700) + (hero.level * 40) + (tier * 300);
 	slf.attribute[0] = slf.attribute[1];
-	slf.attribute[4] = 120 + (kapitel * 40) + (tier * 20);
-	slf.attribute[5] = 120 + (kapitel * 40) + (tier * 20);
-	slf.level = 10 + (kapitel * 8) + tier;
-	b_setfightskills(slf, StExt_ValidateValueRange(40 + (kapitel * 10) + (tier * 5), 40, 100));
+	// str/dex now also scale with hero level (evened out) so the boss is a real
+	// threat, not just an HP sponge. Kept gentler than HP to avoid one-shots.
+	slf.attribute[4] = 120 + (kapitel * 40) + (tier * 30) + (hero.level * 2);
+	slf.attribute[5] = 120 + (kapitel * 40) + (tier * 30) + (hero.level * 2);
+	slf.level = 10 + (kapitel * 8) + tier + (hero.level / 2);
+	b_setfightskills(slf, StExt_ValidateValueRange(60 + (kapitel * 8) + (tier * 5), 60, 100));
+
+	// Passive "infusions" (no spells, no on-death): additional damage-type
+	// resistances, evened across types and scaled by chapter/tier/level.
+	slf.protection[1] = 100 + (kapitel * 40) + (tier * 40) + (hero.level / 3);	// blunt
+	slf.protection[2] = 100 + (kapitel * 40) + (tier * 40) + (hero.level / 3);	// edge
+	slf.protection[6] = 100 + (kapitel * 40) + (tier * 40) + (hero.level / 3);	// point
+	slf.protection[3] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fire
+	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
+	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
 };
 
 //--------------------------------------------------------------
