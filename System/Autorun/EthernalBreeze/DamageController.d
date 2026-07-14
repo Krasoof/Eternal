@@ -1079,7 +1079,22 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	// life/mana/stam/es per hit
 	if (StExt_PcStats[StExt_PcStats_Index_HpPerHit] > 0) { rx_restorehealth(atk, StExt_PcStats[StExt_PcStats_Index_HpPerHit]); };
 	if (StExt_PcStats[StExt_PcStats_Index_MpPerHit] > 0) { rx_restoremana(StExt_PcStats[StExt_PcStats_Index_MpPerHit]); };
-	if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0) { rx_restorestamina(StExt_PcStats[StExt_PcStats_Index_StPerHit]); };
+	// Melee stamina economy: a big stamina pool + StPerHit (restore-on-hit) used to keep
+	// the warrior permanently full and swinging forever - the melee "Archmage" (infinite
+	// stamina, hits for millions in chapter 1). Now every landed MELEE hit costs ~6% of max
+	// stamina, and StPerHit can only REFUND that cost, never exceed it, so attacking is never
+	// net-positive. Non-melee hits keep the old StPerHit behaviour. (6% tunable.)
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+	{
+		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 6);
+		rx_restorestamina(-staCost);
+		if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0)
+		{
+			if (StExt_PcStats[StExt_PcStats_Index_StPerHit] < staCost) { staCost = StExt_PcStats[StExt_PcStats_Index_StPerHit]; };
+			rx_restorestamina(staCost);
+		};
+	}
+	else if (StExt_PcStats[StExt_PcStats_Index_StPerHit] > 0) { rx_restorestamina(StExt_PcStats[StExt_PcStats_Index_StPerHit]); };
 	if (StExt_PcStats[StExt_PcStats_Index_EsPerHit] > 0) { StExt_Npc_ChangeEs(atk, StExt_PcStats[StExt_PcStats_Index_EsPerHit]); };
 	
 	// stun/freze chance
