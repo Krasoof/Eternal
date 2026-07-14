@@ -94,6 +94,50 @@ func int StExt_ZakonEmbers_DefencePermille()
 	return StExt_ZakonEmbers_Count() * StExt_ZakonEmbers_DefencePerEmber;
 };
 
+// --- Profesje tab (Shift+T stats menu) -----------------------------------
+func string StExt_ElementNameByIndex(var int idx)
+{
+	if (idx == StExt_MasteryIndex_Fire)     { return StExt_Str_El_Fire; };
+	if (idx == StExt_MasteryIndex_Ice)      { return StExt_Str_El_Ice; };
+	if (idx == StExt_MasteryIndex_Electric) { return StExt_Str_El_Electric; };
+	if (idx == StExt_MasteryIndex_Air)      { return StExt_Str_El_Air; };
+	if (idx == StExt_MasteryIndex_Earth)    { return StExt_Str_El_Earth; };
+	if (idx == StExt_MasteryIndex_Light)    { return StExt_Str_El_Light; };
+	if (idx == StExt_MasteryIndex_Dark)     { return StExt_Str_El_Dark; };
+	if (idx == StExt_MasteryIndex_Death)    { return StExt_Str_El_Death; };
+	return "-";
+};
+
+// Fills StExt_Str_ProfessionTab with the lines shown in the Shift+T "Profesje"
+// tab. Called by the DLL (StatsWindow::InitProfesionTab) when the tab builds.
+func void StExt_BuildProfessionTab()
+{
+	StExt_Str_ProfessionTab[0]  = "";
+	StExt_Str_ProfessionTab[1]  = "";
+	StExt_Str_ProfessionTab[2]  = "";
+	StExt_Str_ProfessionTab[3]  = "";
+	StExt_Str_ProfessionTab[4]  = "";
+	StExt_Str_ProfessionTab[5]  = "";
+	StExt_Str_ProfessionTab[6]  = "";
+	StExt_Str_ProfessionTab[7]  = "";
+	StExt_Str_ProfessionTab[8]  = "";
+	StExt_Str_ProfessionTab[9]  = "";
+	StExt_Str_ProfessionTab[10] = "";
+	StExt_Str_ProfessionTab[11] = "";
+
+	if (StExt_SoulKnight_Member)
+	{
+		StExt_Str_ProfessionTab[0] = StExt_Str_ProfTab_SoulKnight;
+		StExt_Str_ProfessionTab[1] = concatstrings(StExt_Str_ProfTab_Sworn, concatstrings(StExt_ElementNameByIndex(StExt_SoulKnight_Element1), concatstrings(" + ", StExt_ElementNameByIndex(StExt_SoulKnight_Element2))));
+		StExt_Str_ProfessionTab[2] = concatstrings(StExt_Str_ProfTab_Infused, concatstrings(inttostring(StExt_SoulKnight_SoulsInfused), concatstrings(StExt_Str_ProfTab_InfusedSuffix, concatstrings(inttostring(StExt_ValidateValueRange(StExt_SoulKnight_SoulsInfused, 0, 50)), "%)"))));
+		StExt_Str_ProfessionTab[3] = concatstrings(StExt_Str_ProfTab_Embers, inttostring(StExt_ZakonEmbers_Count()));
+	}
+	else
+	{
+		StExt_Str_ProfessionTab[0] = StExt_Str_ProfTab_None;
+	};
+};
+
 // Join the order with two sworn elements. One-way door.
 func void StExt_SoulKnight_Join(var int el1, var int el2)
 {

@@ -185,6 +185,14 @@ const string StExt_Str_El_Light = "Swiatlo";
 const string StExt_Str_El_Dark = "Mrok";
 const string StExt_Str_El_Death = "Smierc";
 
+//		*** Zakladka "Profesje" (menu Shift+T) ***
+const string StExt_Str_ProfTab_SoulKnight = "Profesja: Rycerz Dusz (Zakon Dusz)";
+const string StExt_Str_ProfTab_Sworn = "Zaprzysiezone zywioly: ";
+const string StExt_Str_ProfTab_Infused = "Wtopione dusze: ";
+const string StExt_Str_ProfTab_InfusedSuffix = "  (bonus zywiolowy +";
+const string StExt_Str_ProfTab_Embers = "Niesiony zar (dusze przy sobie): ";
+const string StExt_Str_ProfTab_None = "Profesja Zakonu: brak (wstap u Mistrza Dusz).";
+
 //		*** Zakon Dusz - bossowie ***
 const string StExt_Str_ZakonHeretic_Name = "Heretyk Zakonu";
 const string StExt_Str_ZakonBoss_SummonOffer = "Przyzwij przeciwnika Zakonu (proba dusz)";
