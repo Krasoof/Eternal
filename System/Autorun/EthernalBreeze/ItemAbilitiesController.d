@@ -312,9 +312,14 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		{
 			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
 
-			amount = StExt_GetItemSealPower(weap) / 3;
-			amount += StExt_GetElementMasteryPowerStat(element) / 10;
-			amount += StExt_GetElementMasteryLevel(element) / 2;
+			// Flat elemental per hit, scaled HARD with element mastery so a
+			// perk weapon stays competitive with the big % weapon bonuses in
+			// the mastery trees. Also adds a small % of the hit's real damage
+			// (grows with mastery level) so it keeps pace with weapon scaling.
+			amount = StExt_GetItemSealPower(weap) / 2;
+			amount += StExt_GetElementMasteryPowerStat(element) / 6;
+			amount += StExt_GetElementMasteryLevel(element) * 5;
+			amount += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_GetElementMasteryLevel(element) * 4, 0, 250));
 			amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
 
 			// magic weapons empower the element further
@@ -362,7 +367,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// target's MAX HP that grows with seal level. The %-max-HP term keeps
 			// bleed relevant against 100k-300k HP bosses without one-shotting
 			// trash (0.5%/tick at lvl 10 -> 3%/tick at lvl 60, capped 30 permille).
-			amount = (physStat / 16) + (sealPower / 20);
+			amount = (physStat / 10) + (sealPower / 12) + (sealLvl * 3);
 			amount += StExt_GetPermilleFromValue(target.attribute[atr_hitpoints_max], StExt_ValidateValueRange(sealLvl / 2, 0, 30));
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
