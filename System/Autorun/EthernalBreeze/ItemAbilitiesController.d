@@ -372,6 +372,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			amount = (physStat / 10) + (sealPower / 12) + (sealLvl * 3);
 			amount += StExt_GetPermilleFromValue(target.attribute[atr_hitpoints_max], StExt_ValidateValueRange(sealLvl / 2, 0, 30));
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
+			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 6; };
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
 		if (sealSpell == StExt_PhysSeal_Pierce)
@@ -380,6 +381,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// scales with STR/DEX, seal power AND seal level; capped at 70%.
 			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(40 + (physStat / 4) + (sealPower / 8) + (sealLvl * 4), 40, 700));
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
+			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 8; };
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
 		StExt_SealGainXp(weap);
@@ -399,6 +401,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	power = StExt_ApplyPercentToValue(power, 60);
 	// Spellblade perk "Mistrz Pieczeci": +30% elemental seal spell damage
 	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealMaster)) { power += StExt_GetPermilleFromValue(power, 300); };
+	// Costly perk "Splot Many": elemental seal also scales with max mana
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealManaScale)) { power += hero.attribute[atr_mana_max] / 5; };
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 	StExt_SealGainXp(weap);
 	// slow mastery trickle from actively casting the seal's element

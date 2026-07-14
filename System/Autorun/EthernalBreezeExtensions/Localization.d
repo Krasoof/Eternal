@@ -1949,7 +1949,9 @@ const string StExt_Str_Perk_Name[StExt_Perk_Max] =
 	"Pozeracz Bolu",
 	"Ostrze Zywiolow",
 	"Mistrz Pieczeci",
-	"Krwawa Pieczec"
+	"Krwawa Pieczec",
+	"Splot Many",
+	"Splot Wytrzymalosci"
 };
 const string StExt_Str_Perk_Desc[StExt_Perk_Max] =
 {
@@ -1997,7 +1999,9 @@ const string StExt_Str_Perk_Desc[StExt_Perk_Max] =
 	"Obrazenia sa najpierw pobierane z wytrzymalosci zamiast ze zdrowia.",
 	"+30% obrazen zywiolowych wbudowanych w bron (perk).",
 	"+30% obrazen pieczeci zywiolowych (rzucane zaklecie).",
-	"+30% obrazen pieczeci fizycznych (krwawienie, przebicie)."
+	"+30% obrazen pieczeci fizycznych (krwawienie, przebicie).",
+	"Pieczecie zywiolowe skaluja sie dodatkowo z Twoja maksymalna mana. Drozszy perk.",
+	"Pieczecie fizyczne skaluja sie dodatkowo z Twoja aktualna wytrzymaloscia. Drozszy perk."
 };
 
 // corruption perks

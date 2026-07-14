@@ -211,7 +211,7 @@ const int StExt_IncomingDamageFlag_Index_Contextual = 128;
 const int StExt_CorruptionPerk_Max = 20;
 const int StExt_MasteryIndex_Max = 16;
 const int StExt_MasteryPerk_Max = 16;
-const int StExt_Perk_Max = 45;	// +3 Spellblade (Mag Bojowy) generic perks for seals/weapon elements
+const int StExt_Perk_Max = 47;	// +3 Spellblade + 2 mana/stamina seal-scaling generic perks
 const int StExt_ArtifactSkill_Max = 16;
 const int StExt_Mastery_ExpPerLevel = 1000;
 
@@ -253,7 +253,8 @@ const int StExt_Perk_Cost[StExt_Perk_Max] =
 	20000, 20000, 20000, 20000, 20000, 30000,
 	25000, 25000, 25000, 100, 10000, 15000,
 	15000, 15000, 20000, 20000, 10000, 15000,
-	20000, 20000, 20000
+	20000, 20000, 20000,
+	30000, 30000
 };
 
 const int StExt_Corruption_Perk_Mage_Cost[StExt_CorruptionPerk_Max] = { 3, 3, 5, 10, 10, 10, 5, 5, 7, 7, 10, 5, 5, 10, 5, 10, 5, 5, 7, 10 };

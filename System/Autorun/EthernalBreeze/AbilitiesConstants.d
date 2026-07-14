@@ -334,6 +334,8 @@ const int StExt_PerkIndex_PainResist = 41;
 const int StExt_PerkIndex_ElementBlade = 42;	// +% weapon element (perk) damage
 const int StExt_PerkIndex_SealMaster = 43;		// +% elemental seal (spell proc) damage
 const int StExt_PerkIndex_BloodSeal = 44;		// +% physical seal (bleed/pierce) damage
+const int StExt_PerkIndex_SealManaScale = 45;	// elemental seal also scales with max mana (costly)
+const int StExt_PerkIndex_SealStaminaScale = 46;// physical seal also scales with current stamina (costly)
 
 
 // Corrupted Mage perks
