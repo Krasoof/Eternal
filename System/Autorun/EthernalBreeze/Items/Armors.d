@@ -1885,7 +1885,10 @@ instance itar_stext_zakon_novdark(c_item)
     protection[6] = 90;
     value = 5000;
     visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_CULTIST.ASC";
+    // ZAKON_CULTIST crashed in combat (likely bad/missing worn mesh or texture);
+    // fall back to the proven-stable ROYAL_OFFICER worn mesh until a good
+    // novice mesh is supplied.
+    visual_change = "ROYAL_OFFICER.ASC";
     visual_skin = 0;
     wear = wear_torso;
     weight = 0;

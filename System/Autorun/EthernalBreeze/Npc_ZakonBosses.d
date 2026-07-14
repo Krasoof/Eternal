@@ -66,6 +66,7 @@ func void StExt_ZakonBoss_OnKill()
 	};
 	StExt_ZakonBoss_Killed += 1;
 	StExt_ZakonBoss_Active = false;
+	StExt_ZakonBoss_ActiveSlot = 0;
 	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
 	if (StExt_ZakonBoss_Killed >= 10) { ai_printbonus(StExt_Str_ZakonBoss_ChapterDone); }
 	else
@@ -329,6 +330,31 @@ func void ai_ondead_bdt_99720_ZakonBoss10() { StExt_ZakonBoss_GiveLoot(4); StExt
 //--------------------------------------------------------------
 // *** Summon: FIXED order - boss (Killed+1) of 10 ***
 //--------------------------------------------------------------
+// Robust re-summon guard: only blocks if the LAST summoned boss really
+// exists in the world and is alive. A crashed/failed spawn used to leave
+// StExt_ZakonBoss_Active = true forever, blocking every future summon;
+// StExt_ZakonBoss_ActiveSlot defaults to 0, so old stuck saves self-heal.
+func int StExt_ZakonBoss_AliveNow()
+{
+	var c_npc n;
+	var int slot;
+	slot = StExt_ZakonBoss_ActiveSlot;
+	if (slot <= 0) { return false; };
+	if (slot == 1)      { n = Hlp_GetNpc(bdt_99711_ZakonBoss1); }
+	else if (slot == 2) { n = Hlp_GetNpc(bdt_99712_ZakonBoss2); }
+	else if (slot == 3) { n = Hlp_GetNpc(bdt_99713_ZakonBoss3); }
+	else if (slot == 4) { n = Hlp_GetNpc(bdt_99714_ZakonBoss4); }
+	else if (slot == 5) { n = Hlp_GetNpc(bdt_99715_ZakonBoss5); }
+	else if (slot == 6) { n = Hlp_GetNpc(bdt_99716_ZakonBoss6); }
+	else if (slot == 7) { n = Hlp_GetNpc(bdt_99717_ZakonBoss7); }
+	else if (slot == 8) { n = Hlp_GetNpc(bdt_99718_ZakonBoss8); }
+	else if (slot == 9) { n = Hlp_GetNpc(bdt_99719_ZakonBoss9); }
+	else                { n = Hlp_GetNpc(bdt_99720_ZakonBoss10); };
+	if (!hlp_isvalidnpc(n)) { return false; };
+	if (n.attribute[atr_hitpoints] <= 0) { return false; };
+	return true;
+};
+
 func void StExt_ZakonBoss_SummonNext()
 {
 	var int pick;
@@ -343,7 +369,7 @@ func void StExt_ZakonBoss_SummonNext()
 		ai_printbonus(StExt_Str_ZakonBoss_ChapterDone);
 		return;
 	};
-	if (StExt_ZakonBoss_Active)
+	if (StExt_ZakonBoss_AliveNow())
 	{
 		ai_printred(StExt_Str_ZakonBoss_StillAlive);
 		return;
@@ -365,6 +391,7 @@ func void StExt_ZakonBoss_SummonNext()
 	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, "NW_TROLLAREA_PATH_65"); }
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
+	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
 
