@@ -327,6 +327,13 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 	if ((atk.id >= 99710) && (atk.id <= 99725) && (RealDamage > 0))
 	{
 		StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 200));
+		// Furia: below 30% HP the boss rages and hits ~60% harder.
+		if ((atk.attribute[atr_hitpoints] * 100) < (atk.attribute[atr_hitpoints_max] * 30))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 600);
+		};
+		// Zdruzgotanie: crushing blow - chance to stun the hero on hit.
+		StExt_StunTarget(target, atk, 12);
 	};
 
 	rank = StExt_Npc_IsRandomized(atk);
@@ -469,6 +476,14 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 	var int DamageFlags; DamageFlags = StExt_DamageInfo.DamageFlags;	
 	
 	StExt_PrintDamageDebugStack("StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
+
+	// Ciernie: Zakon bosses reflect a slice of the damage they take back at
+	// the attacker (thorns). No spell / no on-death. Clamped so it can't kill.
+	if ((target.id >= 99710) && (target.id <= 99725) && npc_isplayer(atk) && (RealDamage > 0))
+	{
+		atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(RealDamage, 150), 1);
+	};
+
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };
 };
 
