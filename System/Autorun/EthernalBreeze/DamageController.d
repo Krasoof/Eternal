@@ -1338,13 +1338,13 @@ func void StExt_PostDamageHandler(var c_npc atk, var c_npc target, var c_item we
 		RecouperateEs += StExt_GetPermilleFromValue(TotalDamage, StExt_PcStats[StExt_PcStats_Index_EsRecouped]);
 		RecouperateSt += StExt_GetPermilleFromValue(TotalDamage, StExt_PcStats[StExt_PcStats_Index_StRecouped]);
 		
-		StExt_ReflectDamageInfo.Damage[dam_index_blunt] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBlunt); 
-		StExt_ReflectDamageInfo.Damage[dam_index_edge] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdge); 
-		StExt_ReflectDamageInfo.Damage[dam_index_fire] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFire); 
-		StExt_ReflectDamageInfo.Damage[dam_index_fly] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFly); 
-		StExt_ReflectDamageInfo.Damage[dam_index_magic] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagic); 
-		StExt_ReflectDamageInfo.Damage[dam_index_point] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoint); 
-		StExt_ReflectDamageInfo.Damage[dam_index_fall] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoision); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_blunt] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBlunt); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_edge] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdge); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_fire] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFire); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_fly] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFly); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_magic] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagic); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_point] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoint); 
+//		StExt_ReflectDamageInfo.Damage[dam_index_fall] += StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoision); 
 		
 		StExt_ReflectDamageInfo.Damage[dam_index_blunt] += StExt_GetPermilleFromValue(TotalDamage, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBluntPerc));
 		StExt_ReflectDamageInfo.Damage[dam_index_edge] += StExt_GetPermilleFromValue(TotalDamage, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdgePerc));
@@ -1354,27 +1354,27 @@ func void StExt_PostDamageHandler(var c_npc atk, var c_npc target, var c_item we
 		StExt_ReflectDamageInfo.Damage[dam_index_point] += StExt_GetPermilleFromValue(TotalDamage, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPointPerc));
 		StExt_ReflectDamageInfo.Damage[dam_index_fall] += StExt_GetPermilleFromValue(TotalDamage, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoisionPerc));
 		
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBluntDot) > 0) {
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBluntDot), dam_index_blunt);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdgeDot) > 0) {
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdgeDot), dam_index_edge);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFireDot) > 0) {
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFireDot), dam_index_fire);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFlyDot) > 0) {	
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFlyDot), dam_index_fly);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagicDot) > 0) {
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagicDot), dam_index_magic);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPointDot) > 0) {
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPointDot), dam_index_point);
-		};
-		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoisionDot) > 0) {	
-			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoision), dam_index_fall);
-		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBluntDot) > 0) {
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsBluntDot), dam_index_blunt);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdgeDot) > 0) {
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsEdgeDot), dam_index_edge);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFireDot) > 0) {
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFireDot), dam_index_fire);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFlyDot) > 0) {	
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsFlyDot), dam_index_fly);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagicDot) > 0) {
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsMagicDot), dam_index_magic);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPointDot) > 0) {
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPointDot), dam_index_point);
+//		};
+//		if (StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoisionDot) > 0) {	
+//			StExt_AddDotDamageToExtraDamageInfo(StExt_ReflectDamageInfo, ticks, StExt_Array_GetInt(StExt_PcStatsArrayName, StExt_PcStats_Index_ReflectDamageAsPoision), dam_index_fall);
+//		};
 	}
 	else if (StExt_IsSummonOrTotem(target) || target.aivar[15])
 	{
