@@ -38,8 +38,8 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	var int wsub;
 
 	if (!hlp_isvalidnpc(self)) { return; };
-	power = 100 + (hero.level * 3) + (kapitel * 20) + (tier * 15);
-	createinvitems(self, itmi_gold, 150 + hlp_random(150) + (kapitel * 75) + (tier * 50));
+	power = 600 + (hero.level * 12) + (kapitel * 150) + (tier * 200);
+	createinvitems(self, itmi_gold, 800 + hlp_random(400) + (kapitel * 300) + (tier * 250));
 
 	roll = hlp_random(6);
 	if (roll <= 1)
@@ -60,9 +60,12 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	itmId = StExt_GenerateRandomItem(itemType, power);
 	StExt_CreateRandomItem(self, itmId, 1, false);
 
+	// always a second drop (jewelry); tier 4 gets a third.
+	itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"), power);
+	StExt_CreateRandomItem(self, itmId, 1, false);
 	if (tier >= 4)
 	{
-		itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"), power);
+		itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_AnyChestArmor"), power);
 		StExt_CreateRandomItem(self, itmId, 1, false);
 	};
 };
@@ -100,7 +103,7 @@ func void StExt_ZakonHunt_OnKill(var int chapter)
 func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 {
 	b_setattributestochapter(slf, kapitel);
-	slf.attribute[1] = 800 + (kapitel * 700) + (hero.level * 40) + (tier * 300);
+	slf.attribute[1] = 8000 + (kapitel * 7000) + (hero.level * 400) + (tier * 3000);
 	slf.attribute[0] = slf.attribute[1];
 	// str/dex now also scale with hero level (evened out) so the boss is a real
 	// threat, not just an HP sponge. Kept gentler than HP to avoid one-shots.
@@ -255,7 +258,7 @@ instance bdt_99711_ZakonBoss1(npc_default)
     name = StExt_Str_ZakonBoss1_Name; guild = gil_bdt; id = 99711; voice = 13; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99711_ZakonBoss1, male, "Hum_Head_Fighter", face_n_corristo, bodytex_n, itar_darkknight_01);
     mdl_applyoverlaymds(bdt_99711_ZakonBoss1, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99711_ZakonBoss1); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99711_ZakonBoss1); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99711_ZakonBoss1, 1);
 };
 func void ai_ondead_bdt_99711_ZakonBoss1() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
@@ -265,7 +268,7 @@ instance bdt_99712_ZakonBoss2(npc_default)
     name = StExt_Str_ZakonBoss2_Name; guild = gil_bdt; id = 99712; voice = 12; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99712_ZakonBoss2, male, "Hum_Head_Pony", face_n_mud, bodytex_n, itar_darkknight_03);
     mdl_applyoverlaymds(bdt_99712_ZakonBoss2, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99712_ZakonBoss2); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99712_ZakonBoss2); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99712_ZakonBoss2, 1);
 };
 func void ai_ondead_bdt_99712_ZakonBoss2() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
@@ -275,7 +278,7 @@ instance bdt_99713_ZakonBoss3(npc_default)
     name = StExt_Str_ZakonBoss3_Name; guild = gil_bdt; id = 99713; voice = 11; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99713_ZakonBoss3, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_demoniac_armor);
     mdl_applyoverlaymds(bdt_99713_ZakonBoss3, "Humans_Mage.mds");
-    b_givenpctalents(bdt_99713_ZakonBoss3); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
+    b_givenpctalents(bdt_99713_ZakonBoss3); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99713_ZakonBoss3, 1);
 };
 func void ai_ondead_bdt_99713_ZakonBoss3() { StExt_ZakonBoss_GiveLoot(1); StExt_ZakonBoss_OnKill(); };
@@ -285,7 +288,7 @@ instance bdt_99714_ZakonBoss4(npc_default)
     name = StExt_Str_ZakonBoss4_Name; guild = gil_bdt; id = 99714; voice = 13; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99714_ZakonBoss4, male, "Hum_Head_FatBald", face_n_mud, bodytex_n, itar_oldsteelarmor);
     mdl_applyoverlaymds(bdt_99714_ZakonBoss4, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99714_ZakonBoss4); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99714_ZakonBoss4); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99714_ZakonBoss4, 2);
 };
 func void ai_ondead_bdt_99714_ZakonBoss4() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
@@ -295,7 +298,7 @@ instance bdt_99715_ZakonBoss5(npc_default)
     name = StExt_Str_ZakonBoss5_Name; guild = gil_bdt; id = 99715; voice = 12; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99715_ZakonBoss5, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_assasins_01);
     mdl_applyoverlaymds(bdt_99715_ZakonBoss5, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99715_ZakonBoss5); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99715_ZakonBoss5); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99715_ZakonBoss5, 2);
 };
 func void ai_ondead_bdt_99715_ZakonBoss5() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
@@ -305,7 +308,7 @@ instance bdt_99716_ZakonBoss6(npc_default)
     name = StExt_Str_ZakonBoss6_Name; guild = gil_bdt; id = 99716; voice = 11; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99716_ZakonBoss6, male, "Hum_Head_Thief", face_n_mud, bodytex_n, itar_sancuary_keeper);
     mdl_applyoverlaymds(bdt_99716_ZakonBoss6, "Humans_Mage.mds");
-    b_givenpctalents(bdt_99716_ZakonBoss6); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
+    b_givenpctalents(bdt_99716_ZakonBoss6); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99716_ZakonBoss6, 2);
 };
 func void ai_ondead_bdt_99716_ZakonBoss6() { StExt_ZakonBoss_GiveLoot(2); StExt_ZakonBoss_OnKill(); };
@@ -315,7 +318,7 @@ instance bdt_99717_ZakonBoss7(npc_default)
     name = StExt_Str_ZakonBoss7_Name; guild = gil_bdt; id = 99717; voice = 13; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99717_ZakonBoss7, male, "Hum_Head_Fighter", face_n_mud, bodytex_n, itar_dht_end_6);
     mdl_applyoverlaymds(bdt_99717_ZakonBoss7, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99717_ZakonBoss7); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99717_ZakonBoss7); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99717_ZakonBoss7, 3);
 };
 func void ai_ondead_bdt_99717_ZakonBoss7() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
@@ -325,7 +328,7 @@ instance bdt_99718_ZakonBoss8(npc_default)
     name = StExt_Str_ZakonBoss8_Name; guild = gil_bdt; id = 99718; voice = 12; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99718_ZakonBoss8, male, "Hum_Head_Bald", face_n_corristo, bodytex_n, itar_orcarmor_forged);
     mdl_applyoverlaymds(bdt_99718_ZakonBoss8, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99718_ZakonBoss8); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99718_ZakonBoss8); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99718_ZakonBoss8, 3);
 };
 func void ai_ondead_bdt_99718_ZakonBoss8() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
@@ -335,7 +338,7 @@ instance bdt_99719_ZakonBoss9(npc_default)
     name = StExt_Str_ZakonBoss9_Name; guild = gil_bdt; id = 99719; voice = 11; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99719_ZakonBoss9, male, "Hum_Head_Pony", face_n_mud, bodytex_n, itar_darkknight_01_cursed);
     mdl_applyoverlaymds(bdt_99719_ZakonBoss9, "Humans_Militia.mds");
-    b_givenpctalents(bdt_99719_ZakonBoss9); fight_tactic = fai_human_master; aivar[6] = true;
+    b_givenpctalents(bdt_99719_ZakonBoss9); fight_tactic = fai_human_master; aivar[6] = true; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99719_ZakonBoss9, 3);
 };
 func void ai_ondead_bdt_99719_ZakonBoss9() { StExt_ZakonBoss_GiveLoot(3); StExt_ZakonBoss_OnKill(); };
@@ -345,7 +348,7 @@ instance bdt_99720_ZakonBoss10(npc_default)
     name = StExt_Str_ZakonBoss10_Name; guild = gil_bdt; id = 99720; voice = 13; flags = 0; npctype = npctype_main; level = 20;
     b_setnpcvisual(bdt_99720_ZakonBoss10, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_darkknight_03_cursed);
     mdl_applyoverlaymds(bdt_99720_ZakonBoss10, "Humans_Mage.mds");
-    b_givenpctalents(bdt_99720_ZakonBoss10); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always;
+    b_givenpctalents(bdt_99720_ZakonBoss10); fight_tactic = fai_human_master; aivar[6] = true; aivar[51] = magic_always; daily_routine = rtn_zakon_arena_guard;
     StExt_ZakonBoss_Setup(bdt_99720_ZakonBoss10, 4);
 };
 func void ai_ondead_bdt_99720_ZakonBoss10() { StExt_ZakonBoss_GiveLoot(4); StExt_ZakonBoss_OnKill(); };
@@ -389,27 +392,13 @@ func int StExt_ZakonBlackTroll_Dead()
 	return StExt_ZakonBlackTrollDead;
 };
 
-// Move the hero to the arena spot (the Black Troll's body if it's there,
-// else an isolated trollarea path) and pull the summoned boss onto the hero.
-func void StExt_ZakonBoss_TeleportToArena(var int slot)
+// Arena bosses guard the fight spot - a guarding routine gives them active
+// AI + perception so they actually engage the hero (a routineless human NPC
+// just idles). They spawn at this same waypoint.
+func void rtn_zakon_arena_guard()
 {
-	var c_npc bt;
-	var c_npc boss;
-	bt = Hlp_GetNpc(Troll_Black);
-	if (hlp_isvalidnpc(bt) && (bt.attribute[atr_hitpoints] <= 0)) { StExt_TeleportToNpc(hero, bt); }
-	else { AI_Teleport(hero, "NW_TROLLAREA_PATH_65"); };
-
-	if (slot == 1)      { boss = Hlp_GetNpc(bdt_99711_ZakonBoss1); }
-	else if (slot == 2) { boss = Hlp_GetNpc(bdt_99712_ZakonBoss2); }
-	else if (slot == 3) { boss = Hlp_GetNpc(bdt_99713_ZakonBoss3); }
-	else if (slot == 4) { boss = Hlp_GetNpc(bdt_99714_ZakonBoss4); }
-	else if (slot == 5) { boss = Hlp_GetNpc(bdt_99715_ZakonBoss5); }
-	else if (slot == 6) { boss = Hlp_GetNpc(bdt_99716_ZakonBoss6); }
-	else if (slot == 7) { boss = Hlp_GetNpc(bdt_99717_ZakonBoss7); }
-	else if (slot == 8) { boss = Hlp_GetNpc(bdt_99718_ZakonBoss8); }
-	else if (slot == 9) { boss = Hlp_GetNpc(bdt_99719_ZakonBoss9); }
-	else                { boss = Hlp_GetNpc(bdt_99720_ZakonBoss10); };
-	if (hlp_isvalidnpc(boss)) { StExt_TeleportToNpc(boss, hero); };
+	ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PATH_65");
+	ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PATH_65");
 };
 
 func void StExt_ZakonBoss_SummonNext()
@@ -449,8 +438,9 @@ func void StExt_ZakonBoss_SummonNext()
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
-	// The Soul Master teleports you to the arena (Black Troll's spot) with the boss.
-	StExt_ZakonBoss_TeleportToArena(pick + 1);
+	// Queued teleport (runs cleanly AFTER the dialog closes, no lock-up). The
+	// boss stays where it spawned so you don't land on top of it.
+	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
 
