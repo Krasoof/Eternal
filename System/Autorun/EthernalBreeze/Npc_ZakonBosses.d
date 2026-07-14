@@ -415,6 +415,8 @@ func void StExt_ZakonBoss_SummonNext()
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
+	// The Soul Master teleports you to the arena spot to face the challenger.
+	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
 

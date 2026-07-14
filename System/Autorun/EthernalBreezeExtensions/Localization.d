@@ -196,7 +196,7 @@ const string StExt_Str_ProfTab_None = "Profesja Zakonu: brak (wstap u Mistrza Du
 //		*** Zakon Dusz - bossowie ***
 const string StExt_Str_ZakonHeretic_Name = "Heretyk Zakonu";
 const string StExt_Str_ZakonBoss_SummonOffer = "Przyzwij przeciwnika Zakonu (proba dusz)";
-const string StExt_Str_ZakonBoss_Summoned = "Przeciwnik przyzwany na odludnej sciezce w krainie trolli - stan do walki!";
+const string StExt_Str_ZakonBoss_Summoned = "Mistrz przenosi Cie na arene - przeciwnik czeka. Po walce uzyj Runy Powrotu, by wrocic.";
 const string StExt_Str_ZakonBoss_StillAlive = "Poprzedni przeciwnik wciaz zyje. Dokoncz walke.";
 const string StExt_Str_ZakonBoss_ChapterDone = "Proba dusz tego rozdzialu ukonczona! (10/10) Odbierz nagrode u Mistrza.";
 const string StExt_Str_ZakonBoss_Killed_Pre = "Proba dusz: ";
