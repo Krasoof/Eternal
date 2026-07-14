@@ -108,6 +108,11 @@ func int StExt_ProcessSpellConsumption(var int manainvested)
 {
 	var int extraCost; extraCost = 0;
 	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_Archmage)) { extraCost += manainvested; };
+	// Percentage mana tax: every cast also costs ~7% of your MAX mana. Flat
+	// costs (firestorm = 40) were trivial once you had a big pool + a mana-regen
+	// item - you could machine-gun spells. Now a big pool pays proportionally,
+	// so mana is a real resource again (~12-14 casts from a full bar).
+	extraCost += StExt_GetPercentFromValue(hero.attribute[atr_mana_max], 7);
 	return extraCost;
 };
 
