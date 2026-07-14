@@ -118,8 +118,8 @@ instance bdt_99710_ZakonHeretic(npc_default)
 };
 func void rtn_bdt_99710_ZakonHeretic()
 {
-    ta_stand_guarding(8, 0, 23, 0, "PORTALTEMPEL");
-    ta_stand_guarding(23, 0, 8, 0, "PORTALTEMPEL");
+    ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
+    ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
 };
 func void ai_ondead_bdt_99710_ZakonHeretic()
 {
@@ -203,7 +203,7 @@ func void StExt_ZakonHunt_SpawnCurrent()
 	if (StExt_ZakonHunt_SpawnedCh >= ch) { return; };
 	StExt_ZakonHunt_SpawnedCh = ch;
 	rx_saveparservars();
-	if (ch <= 1) { wld_insertnpc(bdt_99710_ZakonHeretic, "PORTALTEMPEL"); }
+	if (ch <= 1) { wld_insertnpc(bdt_99710_ZakonHeretic, "NW_TROLLAREA_PORTALTEMPEL_40"); }
 	else if (ch == 2) { wld_insertnpc(bdt_99721_ZakonHunt2, "NW_TAVERNE"); }
 	else if (ch == 3) { wld_insertnpc(bdt_99722_ZakonHunt3, "NW_TROLLAREA_PATH_80"); }
 	else if (ch == 4) { wld_insertnpc(bdt_99723_ZakonHunt4, "NW_TROLLAREA_RITUALFOREST_11"); }
