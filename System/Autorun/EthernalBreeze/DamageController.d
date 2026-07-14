@@ -334,6 +334,13 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 		};
 		// Zdruzgotanie: crushing blow - chance to stun the hero on hit.
 		StExt_StunTarget(target, atk, 12);
+		// Tempo shift: after landing a hit the boss may change attack/anim
+		// speed (aivrx_npc_speed is delta-based, so move from current to a
+		// random -15..+45 target) - parry timing can't be memorized.
+		if (StExt_Chance(25))
+		{
+			StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-15 + hlp_random(61)) - rx_getnpcvar(atk, aivrx_npc_speed));
+		};
 	};
 
 	rank = StExt_Npc_IsRandomized(atk);
@@ -482,6 +489,12 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 	if ((target.id >= 99710) && (target.id <= 99725) && npc_isplayer(atk) && (RealDamage > 0))
 	{
 		atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(RealDamage, 150), 1);
+		// Tempo shift also when the boss TAKES a hit (10%), so a dominating
+		// player still faces rhythm changes.
+		if (StExt_Chance(10))
+		{
+			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-15 + hlp_random(61)) - rx_getnpcvar(target, aivrx_npc_speed));
+		};
 	};
 
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };
@@ -654,6 +667,14 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
 		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
 		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
+	}
+	// Souls block economy: the engine's block cost is FLAT, so one stamina
+	// item = block held forever. Fix script-side: every incoming melee hit
+	// the hero absorbs drains 6% of max stamina (blocked or not) - turtling
+	// empties the bar in ~16 hits. A PERFECT parry refunds instead of draining.
+	else if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+	{
+		rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 6));
 	};
 
 	// Zakon boss UNBLOCKABLE chip: ~2% of your max HP lands even through a

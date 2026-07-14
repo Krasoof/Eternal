@@ -121,6 +121,21 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	slf.protection[3] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fire
 	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
 	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
+
+	// "Special moves" kit (the PotD-boss feel, using the mod's own NpcAbility
+	// arsenal the NB combat AI already uses - same pattern as Npcs.d creatures).
+	// Melee-boss flavor only: ground waves (slams), blink strikes, self-buffs.
+	// No projectile spam, no heals (lifesteal covers sustain), no on-death.
+	// Element derived from boss id so each boss feels different.
+	var int elem; elem = slf.id % 5;
+	if (elem == 0)      { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Firewave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_FireBlink); }
+	else if (elem == 1) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Icewave);     StExt_Npc_AddAbility(slf, StExt_Npc_Ability_IceBlink); }
+	else if (elem == 2) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Electrowave); StExt_Npc_AddAbility(slf, StExt_Npc_Ability_ElectroBlink); }
+	else if (elem == 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Darkwave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_DarkBlink); }
+	else                { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Quake);       StExt_Npc_AddAbility(slf, StExt_Npc_Ability_QuakeBlink); };
+	StExt_Npc_AddAbility(slf, StExt_Npc_Ability_BuffSelfExtraSpeed);
+	if (tier >= 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Whirlwind); };
+	if (tier >= 4) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk); };
 };
 
 //--------------------------------------------------------------

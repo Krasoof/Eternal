@@ -99,16 +99,28 @@ Nic nie jest zakodowane; do zatwierdzenia po testach parady.
    perfekcyjnej paradzie — parada nie tylko neguje chip, ale otwiera moment na ogłuszenie.
    Zamienia walkę z bossem w rytm: paruj → riposta → okno stuna. *Wykonalne: flaga czasowa
    + istniejący StExt_StunTarget.*
-3. **Kapliczki mocy (Diablo shrines).** Kilka ołtarzyków w świecie (reużycie meshy kapliczek
-   Innosa): modlitwa daje losowy buff 5 min (np. +20% dmg / −50% podatku many / auto-perfect
-   pierwszej parady każdej walki). Cooldown dzienny per kapliczka. *Wykonalne: BuffController
-   + istniejące oCMobInter.*
-4. **Żar Dusz (waluta elit).** Nasyceni (infused) wrogowie dropią „Żar" — u Mistrza Zakonu
+3. **Żar Dusz (waluta elit).** Nasyceni (infused) wrogowie dropią „Żar" — u Mistrza Zakonu
    wymiana: reroll bonusu legendarnego itemu ALBO podbicie tieru infuzji własnej broni.
    Domyka pętlę Diablo: farmisz elity → kraftujesz legendy. *Wykonalne: drop w OnKill po
    fladze infuzji + dialog wymiany; StExt_RerollItemInPlace już istnieje w silniku.*
-5. **Ostatni Bastion (Souls "estus").** Raz na walkę, gdy cios miałby Cię zabić, przeżywasz
+4. **Ostatni Bastion (Souls "estus").** Raz na walkę, gdy cios miałby Cię zabić, przeżywasz
    z 1 HP i dostajesz 3 s nietykalności (i-frames). Odnawia się po 5 min poza walką.
    *Wykonalne: BeforeDefence już edytuje HP; timer przez callback.*
 
-Kolejność proponowana: 2 (postura — domyka pętlę parady) → 1 (nasycenie) → 4 (żar) → 3/5.
+Kolejność proponowana: 2 (postura — domyka pętlę parady) → 1 (nasycenie; UWAGA: wymaga
+znalezienia animacji/FX eksplozji i pomysłu na wizualizację paska) → 3 (żar) → 4 (bastion).
+Kapliczki wycięte na życzenie. Infuzja (nasycenie) NA BOSSACH ZOSTAJE — 600k HP to feature.
+
+## ⚔️ Boss combat 2.0 — WDROŻONE, DO TESTU (feedback: „wór na obrażenia, stały timing")
+
+1. **Zmienne tempo bossa** — po zadanym ciosie (25%) i po otrzymanym (10%) boss losuje
+   nową szybkość animacji (−15%…+45%, `aivrx_npc_speed` — dźwignia frameworku NB używana
+   przez buffy Speed). Timing parady nie do wyklepania na pamięć.
+2. **Zestawy specjalnych ruchów** (patent PotD — ich DLL to tylko shim `RX_VampirePluginActive`,
+   prawdziwe umiejki to system NpcAbility, który mamy w całości): każdy boss dostaje wg id
+   żywioł — fala (ground-slam Fire/Ice/Electro/Dark/Quake) + blink-strike w tym żywiole +
+   self-buff Speed; tier 3+: Whirlwind; tier 4: Berzerk. Zero boltów/spamu pociskami, zero heali.
+3. **Drenaż staminy za przyjęte ciosy** — silnikowy koszt bloku jest PŁASKI (item na staminę =
+   wieczny blok). Fix: każdy przyjęty cios wręcz drenuje 6% max staminy; żółwienie kończy się
+   po ~16 ciosach. Perfekcyjna parada zamiast drenażu REFUNDUJE 4%.
+4. **Mistrz Zakonu w zbroi** — ZAKON_CHAOS (topowa zbroja Strażnika) zamiast szaty maga.
