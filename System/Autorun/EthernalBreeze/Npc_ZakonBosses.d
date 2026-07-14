@@ -38,7 +38,8 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	var int wsub;
 
 	if (!hlp_isvalidnpc(self)) { return; };
-	power = 600 + (hero.level * 12) + (kapitel * 150) + (tier * 200);
+	// item power ~ hero level (so drops match you, not level-430 nonsense).
+	power = (hero.level * 7) + (kapitel * 40) + (tier * 80);
 	createinvitems(self, itmi_gold, 800 + hlp_random(400) + (kapitel * 300) + (tier * 250));
 
 	roll = hlp_random(6);

@@ -641,6 +641,14 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	tmp = StExt_ZakonEmbers_DefencePermille();
 	if (tmp > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, tmp); };
 
+	// Zakon boss UNBLOCKABLE chip: ~2% of your max HP lands even through a
+	// block/parry, so you can't just perfect-parry them forever on a stamina
+	// item - blocking everything still bleeds you down.
+	if ((atk.id >= 99710) && (atk.id <= 99725))
+	{
+		target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), 1);
+	};
+
 	// reflect spell
 	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_ReflectSpellChance])) 
 	{
