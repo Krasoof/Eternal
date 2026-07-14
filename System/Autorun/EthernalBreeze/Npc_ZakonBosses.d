@@ -352,16 +352,18 @@ func void StExt_ZakonBoss_SummonNext()
 	StExt_ZakonBoss_Active = true;
 	pick = StExt_ZakonBoss_Killed; // sequential: next in line
 	rx_saveparservars();
-	if (pick == 0) { wld_insertnpc(bdt_99711_ZakonBoss1, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 1) { wld_insertnpc(bdt_99712_ZakonBoss2, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 2) { wld_insertnpc(bdt_99713_ZakonBoss3, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 3) { wld_insertnpc(bdt_99714_ZakonBoss4, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 4) { wld_insertnpc(bdt_99715_ZakonBoss5, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 5) { wld_insertnpc(bdt_99716_ZakonBoss6, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 6) { wld_insertnpc(bdt_99717_ZakonBoss7, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 7) { wld_insertnpc(bdt_99718_ZakonBoss8, "NW_BIGFARM_CHAPEL_03"); }
-	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, "NW_BIGFARM_CHAPEL_03"); }
-	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_BIGFARM_CHAPEL_03"); };
+	// Duels spawn away from the chapel hub (Shiva/traders) so fights don't
+	// interrupt NPCs in inhabited areas - isolated trollarea path instead.
+	if (pick == 0) { wld_insertnpc(bdt_99711_ZakonBoss1, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 1) { wld_insertnpc(bdt_99712_ZakonBoss2, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 2) { wld_insertnpc(bdt_99713_ZakonBoss3, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 3) { wld_insertnpc(bdt_99714_ZakonBoss4, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 4) { wld_insertnpc(bdt_99715_ZakonBoss5, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 5) { wld_insertnpc(bdt_99716_ZakonBoss6, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 6) { wld_insertnpc(bdt_99717_ZakonBoss7, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 7) { wld_insertnpc(bdt_99718_ZakonBoss8, "NW_TROLLAREA_PATH_65"); }
+	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, "NW_TROLLAREA_PATH_65"); }
+	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
 	rx_restoreparservars();
 	ai_printbonus(StExt_Str_ZakonBoss_Summoned);
 };
