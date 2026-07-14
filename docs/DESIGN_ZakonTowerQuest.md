@@ -66,5 +66,33 @@ czysta, 1 linijka Mistrza: „Dom." (dosłownie jedno słowo — dramatyzm przez
 4. Przenosiny siedziby (WP swap: Mistrz/kapliczka/runa) — jedna stała w kodzie.
 5. Dźwięk na końcu (muzyka, SFX, głosy) — nie blokuje testów walki.
 
-Ryzyka: wnętrze wieży może być za ciasne na fale (wtedy fale POD wieżą, boss w środku);
-jeśli WP w środku wieży brak — finał w ARENA_BOSS_NECRO.ZEN przez infrastrukturę B_ENTER.
+## Korekta po zwiadzie: wieża jest MAŁA (potwierdzone, screen w drodze)
+
+Układ walk przeniesiony na zewnątrz — wieża zostaje sercem fabuły, nie areną:
+- Akty 1–3 (zasadzki, obóz Herolda, fale garnizonu) — **pod wieżą i wokół niej**.
+- Akt 4 (Kasztelan): jeśli screen pokaże, że komnata pomieści bossa z blinkami — w środku;
+  jak nie — **ARENA_BOSS_NECRO.ZEN** przez `B_ENTER_*` (klimatycznie pasuje 1:1: arena
+  nekromancka dla zombie-lorda; wieża robi za wejście/portal).
+- Akt 5 (obrona rytuału) — u stóp wieży, fale schodzą się z terenu (więcej miejsca = lepszy
+  event obronny niż ciasna klatka schodowa).
+- Hub po queście: parter wieży (łóżko + skrzynia zmieszczą się zawsze) + Mistrz przed wejściem.
+
+## Dubbing AI — KLEPNIĘTE. Scenariusz nagrań (8 linijek, gotowe pod TTS PL)
+
+Mistrz Zakonu (głos: niski, zmęczony, zero patosu):
+1. M1 (akt 0): „Żar przyciągnął umarłych. Kaplica pada. Idziemy po nowy dom — przez trupy."
+2. M2 (akt 2, po Heroldzie): „Wieża pamięta swojego pana. Obudzimy go — i zabijemy."
+3. M3 (akt 4, przed bossem): „Nie patrz mu w oczy. Patrz na ręce."
+4. M4 (akt 5, start rytuału): „Osłaniaj mnie. Cokolwiek się stanie — nie przerywaj."
+5. M5 (akt 5, środek fali, krzyk): „Trzymaj linię!"
+6. M6 (finał): „Dom."
+Kasztelan (przetworzony pitch-down, pogłos):
+7. B1 (przebudzenie): „Kto... budzi... pana... tej... ziemi..."
+8. B2 (Furia, <30% HP): „ZOSTANIECIE... ZE MNĄ..."
+
+Pipeline: TTS PL (np. ElevenLabs) → WAV 44.1k mono → nazwy wg OU dialogów
+(`TEMPLATE_VoicedDialog.d`) → _Work/Data/Sound/Speech. Ryki/efekty Kasztelana można też
+złożyć z sampli AB_Sounds bez TTS. Muzyka: 2 utwory (ambient wieży + walka z Kasztelanem)
+przez BASSMUSICCONTROLLER.
+
+Czekam na: screen wieży + 3–4 waypointy z Kamienia Zwiadowcy (brama / wnętrze / szczyt).
