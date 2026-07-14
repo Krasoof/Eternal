@@ -19,7 +19,7 @@ const int StExt_PhysSeal_Pierce = 9002;
 // level-ups grow SealPower with accelerating steps (dark-souls-like growth).
 const int StExt_ItemProp_SealLevel = 26;
 const int StExt_ItemProp_SealXp = 27;
-const int StExt_SealLevelMax = 10;
+const int StExt_SealLevelMax = 60;	// seals level across the whole game (early/mid/late), not maxed in chapter 1
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

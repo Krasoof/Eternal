@@ -295,6 +295,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	var int manaCost;
 	var int power;
 	var int physStat;
+	var int sealLvl;
 
 	if (!hlp_isvaliditem(weap)) { return; };
 	if (!hlp_isvalidnpc(target) || c_npcisdown(target)) { return; };
@@ -353,20 +354,23 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		// is the minor floor here, while the stat drives the effect.
 		physStat = hero.attribute[4];
 		if (hero.attribute[5] > physStat) { physStat = hero.attribute[5]; };
+		sealLvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
 
 		if (sealSpell == StExt_PhysSeal_Bleed)
 		{
-			// bleeding: physical DoT (per tick), driven by STR/DEX. /16 = /4
-			// stat-normalize (vs mastery) x /4 for the every-hit, multi-tick
-			// cadence; seal power only a small floor.
+			// bleeding: per-tick flat (STR/DEX + seal power) PLUS a % of the
+			// target's MAX HP that grows with seal level. The %-max-HP term keeps
+			// bleed relevant against 100k-300k HP bosses without one-shotting
+			// trash (0.5%/tick at lvl 10 -> 3%/tick at lvl 60, capped 30 permille).
 			amount = (physStat / 16) + (sealPower / 20);
+			amount += StExt_GetPermilleFromValue(target.attribute[atr_hitpoints_max], StExt_ValidateValueRange(sealLvl / 2, 0, 30));
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
 		if (sealSpell == StExt_PhysSeal_Pierce)
 		{
 			// armor piercing: % of the hit ignores protection (true damage).
-			// permille driven by STR/DEX (/4 stat-normalize) + small seal floor.
-			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 40 + (physStat / 4) + (sealPower / 8));
+			// scales with STR/DEX, seal power AND seal level; capped at 70%.
+			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(40 + (physStat / 4) + (sealPower / 8) + (sealLvl * 4), 40, 700));
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
 		StExt_SealGainXp(weap);
