@@ -35,13 +35,24 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	var int roll;
 	var int itemType;
 	var int itmId;
+	var int wsub;
 
 	if (!hlp_isvalidnpc(self)) { return; };
 	power = 100 + (hero.level * 3) + (kapitel * 20) + (tier * 15);
 	createinvitems(self, itmi_gold, 150 + hlp_random(150) + (kapitel * 75) + (tier * 50));
 
 	roll = hlp_random(6);
-	if (roll <= 1) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MeleeWeapon"); }
+	if (roll <= 1)
+	{
+		// Melee, but NEVER a basic club/stick/mace - only swords & axes, so a
+		// boss always drops a proper weapon (random stats are still fine).
+		wsub = hlp_random(5);
+		if (wsub == 0)      { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
+		else if (wsub == 1) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H"); }
+		else if (wsub == 2) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); }
+		else if (wsub == 3) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe1H"); }
+		else                { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_DexSword"); };
+	}
 	else if (roll == 2) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_RangeWeapon"); }
 	else if (roll == 3) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"); }
 	else if (roll == 4) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"); }
