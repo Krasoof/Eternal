@@ -320,7 +320,15 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 	var int DamageFlags; DamageFlags = StExt_DamageInfo.DamageFlags;	
 		
 	StExt_PrintDamageDebugStack("StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
-	
+
+	// Zakon boss passive self-heal (no spells / no on-death): they lifesteal
+	// a fifth of the damage they deal, so the fight is about out-DPSing their
+	// sustain. IDs 99710-99725 are exactly the Zakon bosses.
+	if ((atk.id >= 99710) && (atk.id <= 99725) && (RealDamage > 0))
+	{
+		StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 200));
+	};
+
 	rank = StExt_Npc_IsRandomized(atk);
 	ticks = StExt_Npc_CalcDotDuration(atk);
 	extraDamage = StExt_Npc_CalcExtraDamage(atk);
