@@ -485,6 +485,28 @@ func void StExt_ZakonReward_Give()
 	ai_printbonus(StExt_Str_ZakonReward_Given);
 };
 
+// Chapter 1 / 3 rewards are a CHOICE from a user-curated armor pool
+// (UAWR/ArmorExpansion looks; assets in STEXT_Assets.vdf). Picking an
+// option marks the chapter as rewarded; closing the menu does not.
+func void StExt_ZakonReward_Pick(var int itm)
+{
+	StExt_ZakonReward_Chapter = kapitel;
+	createinvitems(hero, itm, 1);
+	ai_printbonus(StExt_Str_ZakonReward_Given);
+	info_clearchoices(dia_none_99702_SoulMaster_Reward);
+	ai_stopprocessinfos(self);
+};
+func void StExt_ZakonReward_Pick_C1Pir1()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir1); };
+func void StExt_ZakonReward_Pick_C1Pir2()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir2); };
+func void StExt_ZakonReward_Pick_C1Thief() { StExt_ZakonReward_Pick(itar_stext_zakon_c1_thief); };
+func void StExt_ZakonReward_Pick_C1Gamb()  { StExt_ZakonReward_Pick(itar_stext_zakon_novdark); };
+func void StExt_ZakonReward_Pick_C3TplN()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_tplnew); };
+func void StExt_ZakonReward_Pick_C3TplH()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_tplh); };
+func void StExt_ZakonReward_Pick_C3Ket()   { StExt_ZakonReward_Pick(itar_stext_zakon_c3_ketpal); };
+func void StExt_ZakonReward_Pick_C3Angel() { StExt_ZakonReward_Pick(itar_stext_zakon_c3_angel); };
+func void StExt_ZakonReward_Pick_C3Brig()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_brig); };
+func void StExt_ZakonReward_Pick_Exit()    { info_clearchoices(dia_none_99702_SoulMaster_Reward); ai_stopprocessinfos(self); };
+
 //--------------------------------------------------------------
 // *** Soul Master dialogs ***
 //--------------------------------------------------------------
@@ -507,8 +529,34 @@ func int dia_none_99702_SoulMaster_Reward_condition()
 };
 func void dia_none_99702_SoulMaster_Reward_info()
 {
-	StExt_ZakonReward_Give();
-	ai_stopprocessinfos(self);
+	var int ch;
+	ch = StExt_ZakonHunt_CurChapter();
+	if (ch <= 1)
+	{
+		ai_printbonus("Wybierz pancerz Zakonu:");
+		info_clearchoices(dia_none_99702_SoulMaster_Reward);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Kaftan Korsarza", StExt_ZakonReward_Pick_C1Pir1);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Skorznia Wilka Morskiego", StExt_ZakonReward_Pick_C1Pir2);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Skora Nocnego Lowcy", StExt_ZakonReward_Pick_C1Thief);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Kaftan Nowicjusza (gambeson)", StExt_ZakonReward_Pick_C1Gamb);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
+	}
+	else if (ch == 3)
+	{
+		ai_printbonus("Wybierz pancerz Zakonu:");
+		info_clearchoices(dia_none_99702_SoulMaster_Reward);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Templariusza Dusz", StExt_ZakonReward_Pick_C3TplN);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Ciezki Pancerz Templariusza", StExt_ZakonReward_Pick_C3TplH);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Zbroja Krzyzowca Dusz", StExt_ZakonReward_Pick_C3Ket);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Aniola Smierci", StExt_ZakonReward_Pick_C3Angel);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Brygantyna Zakonna", StExt_ZakonReward_Pick_C3Brig);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
+	}
+	else
+	{
+		StExt_ZakonReward_Give();
+		ai_stopprocessinfos(self);
+	};
 };
 
 instance dia_none_99702_SoulMaster_Summon(c_info)

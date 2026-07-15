@@ -1917,3 +1917,91 @@ instance itar_stext_zakon_guardian(c_item)
     weight = 0;
     text[3] = StExt_Str_Zakon_Guardian_Lore;
 };
+
+//--------------------------------------------------------------
+// *** Zakon chapter-reward POOLS (user-picked looks from UAWR/AE) ***
+// ch1 pool: pirate/thief looks (native UAWR meshes + one patched clone).
+// ch3 pool: templar/paladin/knight looks (clone-patched meshes, see
+// tools/patch_mdm.ps1; assets shipped in STEXT_Assets.vdf).
+//--------------------------------------------------------------
+instance itar_stext_zakon_c1_pir1(c_item)
+{
+    name = "Kaftan Korsarza"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 70; protection[2] = 70; protection[3] = 65; protection[5] = 65; protection[6] = 90;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "FER_H_ARMOR_01.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c1_pir2(c_item)
+{
+    name = "Skorznia Wilka Morskiego"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 70; protection[2] = 70; protection[3] = 65; protection[5] = 65; protection[6] = 90;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "FER_H_ARMOR_02SMITH.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c1_thief(c_item)
+{
+    name = "Skora Nocnego Lowcy"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 70; protection[2] = 70; protection[3] = 65; protection[5] = 65; protection[6] = 90;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C1TH.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+
+instance itar_stext_zakon_c3_tplnew(c_item)
+{
+    name = "Pancerz Templariusza Dusz"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3TP.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c3_tplh(c_item)
+{
+    name = "Ciezki Pancerz Templariusza"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3TH.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c3_ketpal(c_item)
+{
+    name = "Zbroja Krzyzowca Dusz"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3KP.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c3_angel(c_item)
+{
+    name = "Pancerz Aniola Smierci"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3PA.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c3_brig(c_item)
+{
+    name = "Brygantyna Zakonna"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3BR.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
