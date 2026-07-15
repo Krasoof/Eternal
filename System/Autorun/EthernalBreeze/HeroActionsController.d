@@ -52,9 +52,6 @@ func void StExt_OnPlayerParadeSuccess()
 		StExt_Riposte_Window = 1;
 		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
 		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
-		// distinct audio cue on top of the engine's native parry clang
-		// (placeholder jingle - swap for a custom chime on the sound pass)
-		snd_play("LEVELUP");
 		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
 	}
 	else

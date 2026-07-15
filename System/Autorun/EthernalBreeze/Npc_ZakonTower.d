@@ -194,6 +194,7 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	StExt_ZakonTower_WaveKills = 0;
 	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Road);
 	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Road);
+	snd_play("STEXT_VOICE_M1");	// Mistrz: "Zar przyciagnal umarlych..."
 	log_createtopic(StExt_Topic_ZakonTower, log_mission);
 	log_settopicstatus(StExt_Topic_ZakonTower, log_running);
 	b_logentry(StExt_Topic_ZakonTower, "Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Droga wiedzie przez trupy - dokladnie tak, jak lubi Zakon.");
@@ -246,6 +247,7 @@ func void dia_none_99702_SoulMaster_TowerDone_info()
 {
 	StExt_ZakonTower_Stage = 5;
 	createinvitems(hero, itmi_stext_bosssoul, 2);
+	snd_play("STEXT_VOICE_M2");	// Mistrz: "Wieza pamieta swojego pana..."
 	log_settopicstatus(StExt_Topic_ZakonTower, log_success);
 	b_logentry(StExt_Topic_ZakonTower, "Wieza nalezy do Zakonu. Mistrz mowi, ze wieza pamieta swojego pana - i ze trzeba bedzie go obudzic, by go zabic. Rytual dopiero przed nami.");
 	ai_stopprocessinfos(self);
