@@ -53,8 +53,8 @@ func int StExt_GetElementMasteryExpMult(var int index, var int baseMult)
 		return 0;
 	};
 
-	if (StExt_ElementProfession_IsUniversal) { return StExt_GetPercentFromValue(baseMult, StExt_Config_ElementProfession_UniversalPenaltyPerc); };
-	if (StExt_Array_GetInt("StExt_ElementProfession_Chosen", index)) { return baseMult; };
+	// Per feedback: element proficiencies are LOCKED for everyone except the
+	// Zakon sworn pair (handled above). Old profession-choice paths disabled.
 	return 0;
 };
 

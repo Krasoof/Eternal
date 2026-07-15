@@ -58,6 +58,9 @@ func void StExt_AddMasteryExp(var int index, var int exp)
 	
 	masteryExpRate = StExt_GetMasteryExpMult(index);
 	if (masteryExpRate <= 0) { return; };
+	// GLOBAL mastery slowdown per feedback ("biegloscie leca za szybko,
+	// stale 40% tego co teraz a nawet mniej"): all proficiency exp at 35%.
+	masteryExpRate = StExt_ValidateValueMin(StExt_GetPercentFromValue(masteryExpRate, 35), 1);
 	
 	expNow = StExt_Array_GetInt(StExt_MasteryArrayIndex_ExpNow, index);
 	expNext = StExt_Array_GetInt(StExt_MasteryArrayIndex_ExpNext, index);

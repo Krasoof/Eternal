@@ -390,7 +390,9 @@ func int StExt_GetGenericPerkLpCost(var int perkId)
 		return 0;
 	};
 	if (StExt_SncMode == 3) { return 0; };
-	cost = (StExt_Array_GetInt("StExt_Perk_Cost", perkId) + 1) / 2500;
+	// LP cost raised 2.5x (divisor 2500 -> 1000) per feedback - engine perks
+	// were near-free in LP (15k gold perk = 6 LP; now 15).
+	cost = (StExt_Array_GetInt("StExt_Perk_Cost", perkId) + 1) / 1000;
 	cost = StExt_GetPercentFromValueWithMin(cost, StExt_Config_EducationRequirementsMult, 1);
 	return cost;
 };
