@@ -1,0 +1,73 @@
+{
+	"LookupGeneratedItemCountBufferSize": 128,
+	"LookupGeneratedItemCountThreshold": 8192,
+	"LookupGeneratedItemChance": 5,
+	"PlainPrototypeItemGenerateChance": 20,
+
+	"ItemLevelMax": 500,
+	"ItemLevelPowerRatio": 0.35,
+	"ItemLevelSpread": 0.1,
+	"ItemRankBaseStep": 35,
+	"ItemRankGrowthFactor": 1.5,
+	
+	"ItemPriceMult": 1.0,
+
+	"ItemRollAsUndefinedChance": 250,
+	"ItemRollAsInfusedChance": 0,
+
+	"ItemQualitySoftCap": 100,
+	"ItemQualityHardCap": 150,
+	"ItemQualityPowerRatio": 0.05,
+	"ItemRankForExtraQualityThreshold": 3,
+
+	"ItemAffixesRollChanceMult": 1.0,
+	"ItemStatsCountMult": 1.0,
+	"ItemSocketsCountMult": 1.0,
+
+	"ItemRangeMinCap": 0.85,
+	"ItemRangeMaxCap": 1.15,
+
+	"ItemConditionValueMult": 1.0,
+	"ItemExtraConditionRollChanceMult": 1.0,
+
+	"ItemExtraProtectionMult": 1.0,
+	"ItemExtraProtectionRollChanceMult": 1.0,
+
+	"ItemSpecialProtectionMult": 1.0,
+	"ItemSpecialProtectionRollChanceMult": 1.0,
+	"ItemRankForSpecialProtectionThreshold": 3,
+
+	"ItemExtraDamageMult": 1.0,
+	"ItemExtraDamageRollChanceMult": 1.0,
+
+	"ItemSpecialDamageMult": 1.0,
+	"ItemSpecialDamageRollChanceMult": 1.0,
+	"ItemRankForSpecialDamageThreshold": 3,
+
+	"ItemStatRollChanceMult": 1.0,
+	"ItemPrimaryStatRollChanceMult": 1.25,
+	"ItemStatPowerMult": 1.0,
+	"ItemPrimaryStatPowerMult": 1.25,
+	"ItemStatDurationMult": 1.0,
+	"ItemPrimaryStatDurationMult": 1.25,
+	"ItemStatDurationMin": 60,
+	"ItemStatDurationMax": 3600,
+	"ItemStatPriceMult": 1.0,
+
+	"ItemAbilityCountMult": 1.0,
+	"ItemAbilityRollChanceMult": 1.0,
+	"ItemPrimaryAbilityRollChanceMult": 1.25,
+
+	"ItemAbilityValueMult": 1.0,
+	"ItemPrimaryAbilityValueMult": 1.25,
+	"ItemAbilityChanceMult": 1.0,
+	"ItemPrimaryAbilityChanceMult": 1.25,
+	"ItemAbilityDurationMult": 1.0,
+	"ItemPrimaryAbilityDurationMult": 1.25,
+	"ItemAbilityRangeMult": 1.0,
+	"ItemPrimaryAbilityRangeMult": 1.25,
+	"ItemRankForAbilityThreshold": 3,
+
+	"SpecialDamageTypesList": [ 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 ],
+	"SpecialProtectionTypesList": [ 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 ]
+}

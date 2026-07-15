@@ -5,3 +5,11 @@ Data/EthernalBreeze.vdf
 
 # Zasoby graficzne stron trzecich (Modderdatabank itp.) - licencje rozne, NIE publikowac.
 _assets/
+
+# LAB - robocza kopia System+Data do eksperymentow (Data za duza na git)
+LAB/Data/
+
+# Piper TTS - binarki i modele glosow (pobierane skryptem tools/piper/setup.sh)
+tools/piper/piper/
+tools/piper/*.onnx
+tools/piper/*.onnx.json
