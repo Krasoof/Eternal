@@ -344,6 +344,27 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 		};
 	};
 
+	// Boss ability kits FIX: StExt_AbilityAttack_Loop only runs from the
+	// MONSTER ai loop (zs_mm_attack_loop) - human bosses never enter it, so
+	// their waves/blinks/buffs never fired. Trigger from damage events
+	// instead (they fire constantly in melee). Covers Zakon bosses AND the
+	// tower quest mini-bosses (up to 99740).
+	if ((atk.id >= 99710) && (atk.id <= 99740) && (RealDamage > 0))
+	{
+		if (StExt_Chance(30) && StExt_CanCastAbility(atk, target)) { StExt_AbilityAttack_Loop(atk, target); };
+	};
+
+	// GLOBAL combo mixing: every npc used to swing in a fixed metronome
+	// (left-right-left-hit forever). Small per-hit anim-speed jitter breaks
+	// the pattern for ALL non-player melee attackers. Bosses excluded -
+	// they run their own bigger -10..+300 tempo shift above.
+	if (!npc_isplayer(atk) && !StExt_IsSummonOrTotem(atk)
+		&& !((atk.id >= 99710) && (atk.id <= 99740))
+		&& StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && StExt_Chance(20))
+	{
+		StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-8 + hlp_random(29)) - rx_getnpcvar(atk, aivrx_npc_speed));
+	};
+
 	rank = StExt_Npc_IsRandomized(atk);
 	ticks = StExt_Npc_CalcDotDuration(atk);
 	extraDamage = StExt_Npc_CalcExtraDamage(atk);
@@ -496,6 +517,13 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 		{
 			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(target, aivrx_npc_speed));
 		};
+	};
+
+	// Boss ability kits also try to fire when the boss TAKES a hit (see the
+	// offence-side comment: human bosses never reach the monster ai loop).
+	if ((target.id >= 99710) && (target.id <= 99740) && (RealDamage > 0))
+	{
+		if (StExt_Chance(15) && StExt_CanCastAbility(target, atk)) { StExt_AbilityAttack_Loop(target, atk); };
 	};
 
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };
@@ -655,40 +683,21 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	tmp = StExt_ZakonEmbers_DefencePermille();
 	if (tmp > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, tmp); };
 
-	// PERFECT PARRY (Souls core): a parade started within the last ~25 frames
-	// (window opened by StExt_OnPlayerParade_ActionHandler). Rewards: 4% max
-	// stamina refund, a ~1.5s riposte window (next melee hit +50%), and this
-	// hit does NOT apply the Zakon boss unblockable chip below.
-	var int perfectParried; perfectParried = false;
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_PerfectParry_Window > 0))
-	{
-		perfectParried = true;
-		StExt_PerfectParry_Window = 0;
-		StExt_Riposte_Window = 1;
-		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
-		// POSTURE: a perfect parry vs a Zakon boss also breaks his poise for
-		// ~3s - stuns land in this window (see StExt_StunTarget guard).
-		if ((atk.id >= 99710) && (atk.id <= 99725))
-		{
-			StExt_ZakonPosture_Window = 1;
-			StExt_InitializeCallback(hero, hero, "StExt_ZakonPosture_CloseWindow", 180);
-		};
-		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
-		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
-	}
-	// Souls block economy: the engine's block cost is FLAT, so one stamina
-	// item = block held forever. Fix script-side: every incoming melee hit
-	// the hero absorbs drains 6% of max stamina (blocked or not) - turtling
-	// empties the bar in ~16 hits. A PERFECT parry refunds instead of draining.
-	else if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+	// NOTE: perfect parry / block economy moved to StExt_OnPlayerParadeSuccess
+	// (HeroActionsController.d), fed by the DLL from the engine's oCNpc::didParade.
+	// This handler only fires for hits that actually LAND, so detecting parries
+	// here was backwards (the old version printed "perfect" when you ate a hit).
+
+	// Getting HIT still staggers you: a landed melee hit drains 6% max stamina.
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{
 		rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 6));
 	};
 
-	// Zakon boss UNBLOCKABLE chip: ~2% of your max HP lands even through a
-	// block/parry, so you can't just hold block on a stamina item forever -
-	// blocking everything still bleeds you down. A PERFECT parry negates it.
-	if ((atk.id >= 99710) && (atk.id <= 99725) && !perfectParried)
+	// Zakon boss chip: a LANDED boss hit also chips 2% of your max HP (this
+	// path never sees parried hits anymore - blocking is punished via the
+	// per-parry stamina drain instead).
+	if ((atk.id >= 99710) && (atk.id <= 99725))
 	{
 		target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), 1);
 	};
@@ -1140,8 +1149,8 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
 	};
 
-	// POSTURE payoff: while a boss's poise is broken (window after perfect
-	// parry) every melee hit rolls a stun even with no stun stat on the build.
+	// LAB POSTURE payoff: while a boss's poise is broken (window after a
+	// perfect parry) every melee hit rolls a stun even with no stun stat.
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_ZakonPosture_Window > 0)
 		&& (target.id >= 99710) && (target.id <= 99725))
 	{

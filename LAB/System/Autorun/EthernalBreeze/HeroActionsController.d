@@ -40,6 +40,32 @@ func void StExt_OnPlayerParade_ActionHandler()
 	StExt_PerfectParry_Window += 1;
 	StExt_InitializeCallback(hero, hero, "StExt_PerfectParry_CloseWindow", 25);
 };
+
+// Called from the DLL (oCNpc::ProcessNpc hook) every time the engine confirms
+// the player's parade ACTUALLY deflected a hit (oCNpc::didParade flag).
+// Perfect = the parade key was pressed within the last ~25 frames (timing);
+// anything else is a held-block deflect and burns real stamina instead.
+func void StExt_OnPlayerParadeSuccess()
+{
+	if (StExt_PerfectParry_Window > 0)
+	{
+		StExt_PerfectParry_Window = 0;
+		StExt_Riposte_Window = 1;
+		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
+		// LAB POSTURE: a perfect parry also breaks boss poise for ~3s
+		// (StExt_StunTarget guard limits the effect to Zakon bosses).
+		StExt_ZakonPosture_Window = 1;
+		StExt_InitializeCallback(hero, hero, "StExt_ZakonPosture_CloseWindow", 180);
+		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
+		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
+	}
+	else
+	{
+		// held block: deflecting costs 8% max stamina per parried hit -
+		// a stamina item no longer buys an eternal shield wall.
+		rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 8));
+	};
+};
 func void StExt_OnPlayerShootAt_ActionHandler() {  };
 func void StExt_OnPlayerDefend_ActionHandler() {  };
 
