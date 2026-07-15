@@ -109,6 +109,7 @@
 	func void StExt_SetNpcVar(var c_npc npc, var int index, var int value);
 	
 	func int StExt_GenerateRandomItem(var int type, var int power);
+	func int StExt_GenerateRankedItem(var int type, var int power, var int rank);
 	func int StExt_GetRegularItem(var int type, var int power);
 	func void StExt_UseEnchantedItem();
 

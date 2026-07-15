@@ -520,7 +520,28 @@ func void zs_dead()
 	};
 	
 	zs_dead_old();
-	
+
+	// GLOBAL BOSS LEGENDARY DROP: every boss in the world (rx_isboss covers
+	// NB/Returning bosses; 99710-99740 covers our Zakon/tower ones) has a
+	// FLAT 5% chance to drop one LEGENDARY item scaled to the hero's level.
+	// Never armor - weapons and jewelry only (user call). This replaces the
+	// old guaranteed legendary-jewelry drop on Zakon bosses.
+	if (StExt_Npc_IsDead(self) && (rx_isboss(self) || ((self.id >= 99710) && (self.id <= 99740))))
+	{
+		if (StExt_Chance(50))
+		{
+			var int lgdType;
+			var int lgdRoll; lgdRoll = hlp_random(4);
+			if (lgdRoll == 0)      { lgdType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
+			else if (lgdRoll == 1) { lgdType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); }
+			else if (lgdRoll == 2) { lgdType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"); }
+			else                   { lgdType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"); };
+			var int lgdItm; lgdItm = StExt_GenerateRankedItem(lgdType, (hero.level * 7) + (kapitel * 30), StExt_ItemRankLegendary);
+			StExt_CreateRandomItem(self, lgdItm, 1, false);
+			printscreencolor("LEGENDARNY LUP!", 62, 8, StExt_DefaultFont, 2, StExt_Color_Header);
+		};
+	};
+
 	otherIsHero = StExt_IsSummonOrHero(other) || rx_getnpcvar(other, aivrx_npc_control_agro) || rx_getnpcvar(other, aivrx_npc_darkcontrol);
 	if (!StExt_Npc_IsDead(self))
 	{

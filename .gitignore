@@ -13,3 +13,6 @@ LAB/Data/
 tools/piper/piper/
 tools/piper/*.onnx
 tools/piper/*.onnx.json
+
+# Podglady tekstur (generowane tools/tex2png.ps1) - za ciezkie na git
+docs/armor_preview/

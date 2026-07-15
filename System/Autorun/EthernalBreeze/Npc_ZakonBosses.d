@@ -60,15 +60,8 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	else { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_AnyChestArmor"); };
 	itmId = StExt_GenerateRandomItem(itemType, power);
 	StExt_CreateRandomItem(self, itmId, 1, false);
-
-	// always a second drop (jewelry); tier 4 gets a third.
-	itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"), power);
-	StExt_CreateRandomItem(self, itmId, 1, false);
-	if (tier >= 4)
-	{
-		itmId = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_AnyChestArmor"), power);
-		StExt_CreateRandomItem(self, itmId, 1, false);
-	};
+	// (guaranteed second legendary-jewelry drop REMOVED - legendaries now
+	// come from the global 5% boss roll in zs_dead, weapons/jewelry only)
 };
 
 func void StExt_ZakonBoss_OnKill()
