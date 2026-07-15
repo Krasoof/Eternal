@@ -124,10 +124,29 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
 	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
 
-	// Special moves are NOT NpcAbilities here: that system only runs from the
-	// monster combat AI, which HUMAN bosses never enter. The element shockwave
-	// is handled self-contained in DamageController (fires every 5th landed
-	// hit, always works). Element is derived from id%5 there too.
+	// Chapter 1: bosses stay HUMAN brutes exactly as-is (user call).
+	// Chapter 2+: the Zakon sends UNDEAD champions - skeleton rig + monster
+	// guild + monster scheduler. Monsters natively run zs_mm_attack_loop, so
+	// the NpcAbility kit (waves/blinks/self-buff) finally fires FOR REAL -
+	// no synthetic shockwave needed. Passive id-hooks (lifesteal/chip/tempo/
+	// ciernie) key off ids so they keep working regardless of guild.
+	if (kapitel >= 2)
+	{
+		slf.guild = gil_skeleton;
+		mdl_setvisual(slf, "HumanS.mds");
+		mdl_setvisualbody(slf, "Ske_Body", default, default, "", default, default, -1);
+		slf.start_aistate = zs_mm_allscheduler;
+
+		var int elem; elem = slf.id % 5;
+		if (elem == 0)      { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Firewave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_FireBlink); }
+		else if (elem == 1) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Icewave);     StExt_Npc_AddAbility(slf, StExt_Npc_Ability_IceBlink); }
+		else if (elem == 2) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Electrowave); StExt_Npc_AddAbility(slf, StExt_Npc_Ability_ElectroBlink); }
+		else if (elem == 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Darkwave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_DarkBlink); }
+		else                { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Quake);       StExt_Npc_AddAbility(slf, StExt_Npc_Ability_QuakeBlink); };
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_BuffSelfExtraSpeed);
+		if (tier >= 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Whirlwind); };
+		if (tier >= 4) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk); };
+	};
 };
 
 //--------------------------------------------------------------

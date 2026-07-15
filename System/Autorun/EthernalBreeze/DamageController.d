@@ -343,28 +343,9 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 			StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(atk, aivrx_npc_speed));
 		};
 
-		// SPECIAL MOVE - self-contained, ALWAYS fires (no AI/ability-loop/weapon
-		// dependency - the old callback needed the monster ai loop that human
-		// bosses never enter, and it left them punching bare-fisted). Every 5th
-		// landed hit the boss unleashes an element shockwave: real spell FX on
-		// the boss + an unblockable ~9% max-HP burst on the target. Element by
-		// id%5, same split as the buildup eruption.
-		var int bmove; bmove = StExt_GetNpcVar(atk, StExt_AiVar_BossCastCounter) + 1;
-		if (bmove >= 5)
-		{
-			StExt_SetNpcVar(atk, StExt_AiVar_BossCastCounter, 0);
-			var int bel; bel = atk.id % 5;
-			var string bfx;
-			if (bel == 1) { bfx = "SPELLFX_ICEWAVE"; }
-			else if (bel == 2) { bfx = "spellFX_Thunderstorm"; }
-			else if (bel == 3) { bfx = "SPELLFX_MASTEROFDISASTER"; }
-			else { bfx = "SPELLFX_FIREWAVE"; };
-			rx_playeffect(bfx, atk);
-			target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 9), 1);
-			if (bel == 1) { rx_stuntarget(target, 1); };
-			printscreencolor("FALA ZYWIOLU!", StExt_Null, 47, StExt_DefaultFont, 1, StExt_Color_Header);
-		}
-		else { StExt_SetNpcVar(atk, StExt_AiVar_BossCastCounter, bmove); };
+		// (no synthetic shockwave for HUMAN bosses - per user call, chapter 1
+		// bosses stay plain brutal melee; from chapter 2 bosses spawn as
+		// UNDEAD monsters whose native monster AI runs the real ability kits)
 	};
 
 	// GLOBAL combo mixing: every npc used to swing in a fixed metronome
@@ -1155,29 +1136,32 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
 	};
 
-	// *** ELEMENTAL BUILDUP (deterministic - zero RNG, per feedback) ***
-	// Hits with an elemental weapon (seal/perk element) charge a hidden gauge
-	// on the target. When the accumulated charge reaches 30% of the target's
-	// max HP (x3 for Zakon bosses - they resist), the element ERUPTS:
-	//   fire -> burn DoT (~16% maxHP), ice -> 2s freeze, electric -> +8% maxHP
-	//   magic burst, dark/death -> 8% maxHP rot, others -> 1s stagger + 5%.
-	// Switching to a different element RESETS the gauge - commit to one
-	// (synergy with the Zakon sworn pair). Gauge lives in npc extension vars.
-	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Range))
-		&& !npc_isplayer(target) && (RealDamage > 0) && hlp_isvaliditem(weap))
+	// *** ELEMENTAL BUILDUP (deterministic - zero RNG) ***
+	// v2: charges from the hit's ACTUAL elemental damage components (fire /
+	// magic / fly / poison), so it works with ANY weapon or spell that deals
+	// elemental damage - v1 required a weapon seal, which most builds lack
+	// ("wybuch nie dziala"). Dominant element of the hit feeds the gauge;
+	// switching the dominant element resets it. Eruption at charge >= 30% of
+	// the target's max HP (x3 for Zakon bosses):
+	//   fire -> burn DoT ~16% maxHP, magic -> +8% maxHP burst,
+	//   fly -> 1.5s stagger + 4%, poison -> 8% maxHP rot.
+	if (!npc_isplayer(target) && (RealDamage > 0))
 	{
-		var int ebSpell; ebSpell = StExt_GetItemSeal(weap);
-		if (ebSpell <= 0) { ebSpell = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId); };
-		var int ebElement; ebElement = StExt_GetSpellElementIndex(ebSpell);
-		if (ebElement != StExt_Null)
+		var int ebAmount; var int ebKey;
+		ebAmount = 0; ebKey = 0;
+		if (StExt_DamageInfo.Damage[dam_index_fire] > ebAmount)  { ebAmount = StExt_DamageInfo.Damage[dam_index_fire];  ebKey = 1; };
+		if (StExt_DamageInfo.Damage[dam_index_magic] > ebAmount) { ebAmount = StExt_DamageInfo.Damage[dam_index_magic]; ebKey = 2; };
+		if (StExt_DamageInfo.Damage[dam_index_fly] > ebAmount)   { ebAmount = StExt_DamageInfo.Damage[dam_index_fly];   ebKey = 3; };
+		if (StExt_DamageInfo.Damage[dam_index_fall] > ebAmount)  { ebAmount = StExt_DamageInfo.Damage[dam_index_fall];  ebKey = 4; };
+		if ((ebKey > 0) && (ebAmount > 0))
 		{
 			var int ebCharge;
-			if (StExt_GetNpcVar(target, StExt_AiVar_ElementBuildupType) != ebElement)
+			if (StExt_GetNpcVar(target, StExt_AiVar_ElementBuildupType) != ebKey)
 			{
-				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildupType, ebElement);
+				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildupType, ebKey);
 				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
 			};
-			ebCharge = StExt_GetNpcVar(target, StExt_AiVar_ElementBuildup) + RealDamage;
+			ebCharge = StExt_GetNpcVar(target, StExt_AiVar_ElementBuildup) + ebAmount;
 
 			var int ebThreshold; ebThreshold = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 30);
 			if ((target.id >= 99710) && (target.id <= 99725)) { ebThreshold = ebThreshold * 3; };
@@ -1185,25 +1169,27 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 			if (ebCharge >= ebThreshold)
 			{
 				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
-				rx_playeffect(StExt_GetElementGlowFx(ebElement), target);
 				printscreencolor("ERUPCJA ZYWIOLU!", StExt_Null, 48, StExt_DefaultFont, 1, StExt_Color_Green);
-				if (ebElement == StExt_MasteryIndex_Fire)
+				if (ebKey == 1)
 				{
+					rx_playeffect("SPELLFX_FIREWAVE", target);
 					StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), dam_index_fire);
 				}
-				else if (ebElement == StExt_MasteryIndex_Ice) { rx_stuntarget(target, 2); }
-				else if (ebElement == StExt_MasteryIndex_Electric)
+				else if (ebKey == 2)
 				{
+					rx_playeffect("spellFX_Thunderstorm", target);
 					StExt_ExtraDamageInfo.Damage[dam_index_magic] += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
 				}
-				else if ((ebElement == StExt_MasteryIndex_Dark) || (ebElement == StExt_MasteryIndex_Death))
+				else if (ebKey == 3)
 				{
-					target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8), 1);
+					rx_playeffect("SPELLFX_MASTEROFDISASTER", target);
+					rx_stuntarget(target, 1);
+					StExt_ExtraDamageInfo.Damage += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
 				}
 				else
 				{
-					rx_stuntarget(target, 1);
-					StExt_ExtraDamageInfo.Damage += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 5);
+					rx_playeffect("SPELLFX_ICEWAVE", target);
+					target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8), 1);
 				};
 			}
 			else { StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, ebCharge); };
