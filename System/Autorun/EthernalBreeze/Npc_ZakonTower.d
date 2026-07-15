@@ -16,6 +16,9 @@
 // point forward.
 // Strings are PL literals for now - move to Localization on the dubbing pass.
 
+// Real journal topic - the quest lives in the game log like any NB quest.
+const string StExt_Topic_ZakonTower = "Wieza Umarlych";
+
 const string StExt_ZakonTower_WP_Road  = "NW_FOREST_PATH_80_I_MOVEMENT8_012";
 const string StExt_ZakonTower_WP_Camp  = "SHORE_MONSTER_03_01";
 const string StExt_ZakonTower_WP_Deco1 = "SHORE_MONSTER_02_01";
@@ -137,13 +140,13 @@ func void StExt_ZakonTower_WaveKill(var int wave)
 		wld_insertnpc(bdt_99735_ZakonTowerWraith4, StExt_ZakonTower_WP_Deco1);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco1);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco2);
-		ai_printbonus("Droga wolna. Pod wieza stoi oboz umarlych - prowadzi Herold Utopionego.");
+		b_logentry(StExt_Topic_ZakonTower, "Droga wolna. Pod wieza stoi oboz umarlych - prowadzi go Herold Utopionego.");
 	};
 	// Act 3 cleared -> report to the Master
 	if ((wave == 3) && (StExt_ZakonTower_Stage == 3) && (StExt_ZakonTower_WaveKills >= 3))
 	{
 		StExt_ZakonTower_Stage = 4;
-		ai_printbonus("Wieza oczyszczona. Wroc do Mistrza Zakonu.");
+		b_logentry(StExt_Topic_ZakonTower, "Wieza oczyszczona z umarlych. Mistrz Zakonu czeka na wiesci.");
 	};
 };
 
@@ -165,7 +168,7 @@ func void ai_ondead_bdt_99733_ZakonTowerHerold()
 	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
 	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
 	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
-	ai_printbonus("Herold padl. Garnizon broni wiezy - wytnij ich.");
+	b_logentry(StExt_Topic_ZakonTower, "Herold Utopionego padl. Upiorny garnizon wciaz broni wiezy.");
 };
 
 //--------------------------------------------------------------
@@ -191,8 +194,9 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	StExt_ZakonTower_WaveKills = 0;
 	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Road);
 	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Road);
-	ai_printbonus("Mistrz: Zar przyciagnal umarlych. Kaplica pada.");
-	ai_printbonus("Mistrz: Idziemy po nowy dom - przez trupy. Stara wieza na wybrzezu.");
+	log_createtopic(StExt_Topic_ZakonTower, log_mission);
+	log_settopicstatus(StExt_Topic_ZakonTower, log_running);
+	b_logentry(StExt_Topic_ZakonTower, "Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Droga wiedzie przez trupy - dokladnie tak, jak lubi Zakon.");
 	ai_stopprocessinfos(self);
 };
 
@@ -210,7 +214,7 @@ func void dia_none_99702_SoulMaster_TowerDone_info()
 {
 	StExt_ZakonTower_Stage = 5;
 	createinvitems(hero, itmi_stext_bosssoul, 2);
-	ai_printbonus("Mistrz: Wieza pamieta swojego pana. Obudzimy go - i zabijemy.");
-	ai_printbonus("(Rytual, przenosiny i Pan Wiezy - w nastepnej rundzie.)");
+	log_settopicstatus(StExt_Topic_ZakonTower, log_success);
+	b_logentry(StExt_Topic_ZakonTower, "Wieza nalezy do Zakonu. Mistrz mowi, ze wieza pamieta swojego pana - i ze trzeba bedzie go obudzic, by go zabic. Rytual dopiero przed nami.");
 	ai_stopprocessinfos(self);
 };

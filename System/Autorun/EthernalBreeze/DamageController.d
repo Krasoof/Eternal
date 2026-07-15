@@ -1152,6 +1152,61 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
 	};
 
+	// *** ELEMENTAL BUILDUP (deterministic - zero RNG, per feedback) ***
+	// Hits with an elemental weapon (seal/perk element) charge a hidden gauge
+	// on the target. When the accumulated charge reaches 30% of the target's
+	// max HP (x3 for Zakon bosses - they resist), the element ERUPTS:
+	//   fire -> burn DoT (~16% maxHP), ice -> 2s freeze, electric -> +8% maxHP
+	//   magic burst, dark/death -> 8% maxHP rot, others -> 1s stagger + 5%.
+	// Switching to a different element RESETS the gauge - commit to one
+	// (synergy with the Zakon sworn pair). Gauge lives in npc extension vars.
+	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Range))
+		&& !npc_isplayer(target) && (RealDamage > 0) && hlp_isvaliditem(weap))
+	{
+		var int ebSpell; ebSpell = StExt_GetItemSeal(weap);
+		if (ebSpell <= 0) { ebSpell = StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId); };
+		var int ebElement; ebElement = StExt_GetSpellElementIndex(ebSpell);
+		if (ebElement != StExt_Null)
+		{
+			var int ebCharge;
+			if (StExt_GetNpcVar(target, StExt_AiVar_ElementBuildupType) != ebElement)
+			{
+				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildupType, ebElement);
+				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
+			};
+			ebCharge = StExt_GetNpcVar(target, StExt_AiVar_ElementBuildup) + RealDamage;
+
+			var int ebThreshold; ebThreshold = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 30);
+			if ((target.id >= 99710) && (target.id <= 99725)) { ebThreshold = ebThreshold * 3; };
+
+			if (ebCharge >= ebThreshold)
+			{
+				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
+				rx_playeffect(StExt_GetElementGlowFx(ebElement), target);
+				printscreencolor("ERUPCJA ZYWIOLU!", StExt_Null, 48, StExt_DefaultFont, 1, StExt_Color_Green);
+				if (ebElement == StExt_MasteryIndex_Fire)
+				{
+					StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), dam_index_fire);
+				}
+				else if (ebElement == StExt_MasteryIndex_Ice) { rx_stuntarget(target, 2); }
+				else if (ebElement == StExt_MasteryIndex_Electric)
+				{
+					StExt_ExtraDamageInfo.Damage[dam_index_magic] += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
+				}
+				else if ((ebElement == StExt_MasteryIndex_Dark) || (ebElement == StExt_MasteryIndex_Death))
+				{
+					target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8), 1);
+				}
+				else
+				{
+					rx_stuntarget(target, 1);
+					StExt_ExtraDamageInfo.Damage += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 5);
+				};
+			}
+			else { StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, ebCharge); };
+		};
+	};
+
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && !isRiposte)
 	{
 		var int staCost; staCost = StExt_GetPercentFromValue(atr_stamina_max, 8);

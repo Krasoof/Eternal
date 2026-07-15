@@ -1091,6 +1091,10 @@ const int StExt_AiVar_Appearence_HeadMeshExtraIndex = 159;
 const int StExt_AiVar_Appearence_ArmorInstanceIndex = 160;
 const int StExt_AiVar_Appearence_VoiceIndex = 161;
 
+// *** Elemental buildup (Souls status gauge; m_pVARS has 400 slots) ***
+const int StExt_AiVar_ElementBuildup = 170;		// accumulated elemental charge on this npc
+const int StExt_AiVar_ElementBuildupType = 171;	// element index being accumulated (switch = reset)
+
 //===================================================================//
 // Npc item conditions stats
 
