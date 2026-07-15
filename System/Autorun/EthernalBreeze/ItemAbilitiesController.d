@@ -653,19 +653,9 @@ func void StExt_ItemAbilitiesController()
 
 	// Legendary jewelry catalog: DLL rolls missing bonuses on equipped
 	// legendary rings/amulets/belts and returns the active-bonus bitmask.
+	// (no reveal prints here - re-equipping spammed them; the item card
+	// shows "Moc legendarna" now, rendered by the DLL from prop 28)
 	StExt_LegendJewelryMask = StExt_ScanLegendJewelry(hero);
-	if (StExt_LegendJewelryMask != StExt_LegendJewelryMaskOld)
-	{
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 1) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 1)) { ai_printbonus("Bizuteria legendarna: PIESN KRWI (lifesteal 3%)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 2) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 2)) { ai_printbonus("Bizuteria legendarna: KOLIA EGZEKUTORA (+25% ponizej 25% HP wroga)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 4) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 4)) { ai_printbonus("Bizuteria legendarna: PIERSCIEN CIERNI (odbija 15% obrazen wrecz)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 8) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 8)) { ai_printbonus("Bizuteria legendarna: SYGNET HAZARDZISTY (losowo do +100% obrazen)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 16) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 16)) { ai_printbonus("Bizuteria legendarna: PIERSCIEN PIJAWKI (2% obrazen jako mana)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 32) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 32)) { ai_printbonus("Bizuteria legendarna: WEZEL CZASU (10% szansy na ogluszenie)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 64) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 64)) { ai_printbonus("Bizuteria legendarna: PAS BERSERKERA (+20% obrazen ponizej 30% HP)"); };
-		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 128) && !StExt_ValueHasFlag(StExt_LegendJewelryMaskOld, 128)) { ai_printbonus("Bizuteria legendarna: ZELAZNA SKORA (-10% obrazen wrecz)"); };
-		StExt_LegendJewelryMaskOld = StExt_LegendJewelryMask;
-	};
 
 	if (StExt_WeaponSkill_Cooldown <= 0) { return; };
 	if (accelerationactive) { StExt_WeaponSkill_Cooldown -= accelerationratio; }
