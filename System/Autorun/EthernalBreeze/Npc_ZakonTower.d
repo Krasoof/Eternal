@@ -200,6 +200,38 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	ai_stopprocessinfos(self);
 };
 
+// Repeatable hint while the expedition runs (quest-UX: the player must
+// always be able to re-ask WHERE to go - works on saves mid-quest too).
+instance dia_none_99702_SoulMaster_TowerHint(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 7;
+    condition = dia_none_99702_SoulMaster_TowerHint_condition;
+    information = dia_none_99702_SoulMaster_TowerHint_info;
+    permanent = true;
+    description = "Gdzie mam isc? (Wieza Umarlych)";
+};
+func int dia_none_99702_SoulMaster_TowerHint_condition()
+{
+	return (StExt_ZakonTower_Stage >= 1) && (StExt_ZakonTower_Stage <= 3);
+};
+func void dia_none_99702_SoulMaster_TowerHint_info()
+{
+	if (StExt_ZakonTower_Stage == 1)
+	{
+		ai_printbonus("Stara wieza na wybrzezu, za lesna sciezka na polnoc. Na drodze czekaja dwa upiory.");
+	}
+	else if (StExt_ZakonTower_Stage == 2)
+	{
+		ai_printbonus("Oboz umarlych lezy U STOP wiezy. Herold Utopionego dowodzi - zabij go.");
+	}
+	else
+	{
+		ai_printbonus("Zostal garnizon: upiorni rycerze przy wiezy i w srodku. Wytnij ich do nogi.");
+	};
+	ai_stopprocessinfos(self);
+};
+
 instance dia_none_99702_SoulMaster_TowerDone(c_info)
 {
     npc = none_99702_SoulMaster;
