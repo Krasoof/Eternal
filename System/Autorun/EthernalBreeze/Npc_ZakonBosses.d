@@ -499,7 +499,11 @@ func void StExt_ZakonReward_Pick(var int itm)
 func void StExt_ZakonReward_Pick_C1Pir1()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir1); };
 func void StExt_ZakonReward_Pick_C1Pir2()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir2); };
 func void StExt_ZakonReward_Pick_C1Thief() { StExt_ZakonReward_Pick(itar_stext_zakon_c1_thief); };
-func void StExt_ZakonReward_Pick_C1Gamb()  { StExt_ZakonReward_Pick(itar_stext_zakon_novdark); };
+func void StExt_ZakonReward_Pick_C5Wolf()  { StExt_ZakonReward_Pick(itar_stext_zakon_c5_wolf); };
+func void StExt_ZakonReward_Pick_C5Arax()  { StExt_ZakonReward_Pick(itar_stext_zakon_c5_araxos); };
+func void StExt_ZakonReward_Pick_C5Arx()   { StExt_ZakonReward_Pick(itar_stext_zakon_c5_arx); };
+func void StExt_ZakonReward_Pick_C5Orc()   { StExt_ZakonReward_Pick(itar_stext_zakon_c5_orc); };
+func void StExt_ZakonReward_Pick_C5Elite() { StExt_ZakonReward_Pick(itar_stext_zakon_c5_elite); };
 func void StExt_ZakonReward_Pick_C3TplN()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_tplnew); };
 func void StExt_ZakonReward_Pick_C3TplH()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_tplh); };
 func void StExt_ZakonReward_Pick_C3Ket()   { StExt_ZakonReward_Pick(itar_stext_zakon_c3_ketpal); };
@@ -538,7 +542,6 @@ func void dia_none_99702_SoulMaster_Reward_info()
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Kaftan Korsarza", StExt_ZakonReward_Pick_C1Pir1);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Skorznia Wilka Morskiego", StExt_ZakonReward_Pick_C1Pir2);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Skora Nocnego Lowcy", StExt_ZakonReward_Pick_C1Thief);
-		info_addchoice(dia_none_99702_SoulMaster_Reward, "Kaftan Nowicjusza (gambeson)", StExt_ZakonReward_Pick_C1Gamb);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
 	}
 	else if (ch == 3)
@@ -552,8 +555,21 @@ func void dia_none_99702_SoulMaster_Reward_info()
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Brygantyna Zakonna", StExt_ZakonReward_Pick_C3Brig);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
 	}
+	else if (ch >= 5)
+	{
+		ai_printbonus("Wybierz pancerz Zakonu:");
+		info_clearchoices(dia_none_99702_SoulMaster_Reward);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz z Wilczego Legowiska", StExt_ZakonReward_Pick_C5Wolf);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Zbroja Araxos", StExt_ZakonReward_Pick_C5Arax);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Arx", StExt_ZakonReward_Pick_C5Arx);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Orkowego Pogromcy", StExt_ZakonReward_Pick_C5Orc);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Elitarnego Rycerza", StExt_ZakonReward_Pick_C5Elite);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
+	}
 	else
 	{
+		// ch2 = zbroja oficera (user call: "zostaw"); ch4 = strażnik do czasu
+		// az user wybierze pule z podgladow (szuka teraz).
 		StExt_ZakonReward_Give();
 		ai_stopprocessinfos(self);
 	};

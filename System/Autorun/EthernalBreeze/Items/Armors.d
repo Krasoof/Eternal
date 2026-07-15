@@ -2005,3 +2005,56 @@ instance itar_stext_zakon_c3_brig(c_item)
     visual_change = "ZAKON_C3BR.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
 };
+
+// ch5 pool: user-picked heavy knight looks - ALL native UAWR meshes,
+// loaded straight from UAWR_BIG.vdf (no cloned assets needed).
+instance itar_stext_zakon_c5_wolf(c_item)
+{
+    name = "Pancerz z Wilczego Legowiska"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "HUM_DHT3_ARMOR.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c5_araxos(c_item)
+{
+    name = "Zbroja Araxos"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ARMOR_HEADHUNT.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c5_arx(c_item)
+{
+    name = "Pancerz Arx"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "FER_TROLL_ARMOR_01.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c5_orc(c_item)
+{
+    name = "Pancerz Orkowego Pogromcy"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "PIRANHA_SOWL.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c5_elite(c_item)
+{
+    name = "Pancerz Elitarnego Rycerza"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ARMOR_WARRIOR_LIGHT.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
