@@ -155,12 +155,12 @@ instance weak_glimmer_stextcyan(item_glimmer_proto)
     vissizeendscale = 3.0;
 };
 instance mfx_stext_wglow_fire(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -196,12 +196,12 @@ instance mfx_stext_wglow_fire(c_particlefx) {
 };
 
 instance mfx_stext_wglow_ice(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -237,12 +237,12 @@ instance mfx_stext_wglow_ice(c_particlefx) {
 };
 
 instance mfx_stext_wglow_electric(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -278,12 +278,12 @@ instance mfx_stext_wglow_electric(c_particlefx) {
 };
 
 instance mfx_stext_wglow_air(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -319,12 +319,12 @@ instance mfx_stext_wglow_air(c_particlefx) {
 };
 
 instance mfx_stext_wglow_earth(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -360,12 +360,12 @@ instance mfx_stext_wglow_earth(c_particlefx) {
 };
 
 instance mfx_stext_wglow_light(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -401,12 +401,12 @@ instance mfx_stext_wglow_light(c_particlefx) {
 };
 
 instance mfx_stext_wglow_dark(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -442,12 +442,12 @@ instance mfx_stext_wglow_dark(c_particlefx) {
 };
 
 instance mfx_stext_wglow_death(c_particlefx) {
-    ppsvalue = 45.0;
+    ppsvalue = 90.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "SPHERE";
+    shptype_s = "MESH";
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
