@@ -117,6 +117,19 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
 	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
 
+	// Every boss carries a REAL weapon (they used to swing basic clubs or
+	// fists): a regular sword/axe by id, scaled to chapter+hero, equipped
+	// on spawn. Works for the ch2+ skeleton rigs too (human anim system).
+	var int bWeapType;
+	var int bWeapItm;
+	var int bWeapRoll; bWeapRoll = slf.id % 4;
+	if (bWeapRoll == 0)      { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
+	else if (bWeapRoll == 1) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H"); }
+	else if (bWeapRoll == 2) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); }
+	else                     { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe1H"); };
+	bWeapItm = StExt_GetRegularItem(bWeapType, 40 + (kapitel * 25) + (hero.level * 2) + (tier * 10));
+	if (bWeapItm > 0) { createinvitems(slf, bWeapItm, 1); npc_equipitem(slf, bWeapItm); };
+
 	// Chapter 1: bosses stay HUMAN brutes exactly as-is (user call).
 	// Chapter 2+: the Zakon sends UNDEAD champions - skeleton rig + monster
 	// guild + monster scheduler. Monsters natively run zs_mm_attack_loop, so

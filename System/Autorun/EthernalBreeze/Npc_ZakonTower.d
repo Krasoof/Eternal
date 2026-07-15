@@ -49,6 +49,10 @@ func void StExt_ZakonTower_TrashSetup(var c_npc slf)
 	slf.attribute[5] = slf.attribute[4];
 	slf.level = 5 + (kapitel * 5) + (hero.level / 3);
 	b_setfightskills(slf, StExt_ValidateValueRange(40 + (kapitel * 6), 40, 90));
+
+	// wraiths carry real (regular) blades too - no bare fists
+	var int twWeap; twWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"), 30 + (kapitel * 20) + hero.level);
+	if (twWeap > 0) { createinvitems(slf, twWeap, 1); npc_equipitem(slf, twWeap); };
 };
 
 //--------------------------------------------------------------
