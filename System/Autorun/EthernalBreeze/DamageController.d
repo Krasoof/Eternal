@@ -801,6 +801,21 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	{ 
 		StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraSpellDam];
 		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_PcStats[StExt_PcStats_Index_ExtraSpellDamPerc]);
+		// Jewelry affixes: source-specific spell damage - RUNE casts vs SCROLL
+		// casts (StExt_SpellInfo.IsScroll snapshots the hero's last cast).
+		if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell))
+		{
+			if (StExt_SpellInfo.IsScroll)
+			{
+				StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraScrollDam];
+				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraScrollDamPerc], 0, 150));
+			}
+			else
+			{
+				StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraRuneDam];
+				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraRuneDamPerc], 0, 150));
+			};
+		};
 		if (StExt_IsGenericPerkLearned(StExt_PerkIndex_Archmage)) { StExt_ExtraDamageInfo.Damage += (hero.attribute[2] + 1) / 2; };
 		if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability))
 		{
@@ -1212,7 +1227,12 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 				};
 			}
 			else if (lgb == 3) { StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPermilleFromValue(RealDamage, 40), dam_index_fall); }
-			else if (lgb == 4) { StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 6, StExt_GetPermilleFromValue(RealDamage, 70), dam_index_edge); }
+			else if (lgb == 4)
+			{
+				var int lgbBleed; lgbBleed = StExt_GetPermilleFromValue(RealDamage, 70);
+				lgbBleed += StExt_GetPermilleFromValue(lgbBleed, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_BleedingPowerPerc], 0, 250));
+				StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 6, lgbBleed, dam_index_edge);
+			}
 			else if (lgb == 5) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 100); }
 			else { StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 30)); };
 		};
@@ -1235,6 +1255,31 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 64))
 		{
 			if ((atk.attribute[atr_hitpoints] * 100) < (atk.attribute[atr_hitpoints_max] * 30)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 200); };
+		};
+	};
+
+	// Jewelry affixes: weapon-class damage (swords / axes+polearms / light
+	// blades) + armor-pierce proc (bypassed-armor approximation, cap 5%).
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (RealDamage > 0) && hlp_isvaliditem(weap))
+	{
+		if (StExt_ValueHasFlag(weap.flags, item_swd) || StExt_ValueHasFlag(weap.flags, item_2hd_swd))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDamPerc], 0, 150));
+		}
+		else if (StExt_ValueHasFlag(weap.flags, item_axe) || StExt_ValueHasFlag(weap.flags, item_2hd_axe))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDamPerc], 0, 150));
+		}
+		else if (StExt_ValueHasFlag(weap.flags, item_dag))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
+		};
+		if (StExt_Chance(StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ArmorPierceChance], 0, 50)))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 350);
 		};
 	};
 

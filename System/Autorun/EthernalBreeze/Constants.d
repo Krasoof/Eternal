@@ -1224,7 +1224,7 @@ const int StExt_TimedEffect_AiVar_DamageTicks_Poison = 31;
 //===================================================================//
 //						Pc extra stats								 //
 //===================================================================//
-const int StExt_PcStats_Index_Max = 311;
+const int StExt_PcStats_Index_Max = 327;
 const int StExt_PcStat_Source_Max = 11;
 const string StExt_PcStat_SourceIndex[StExt_PcStat_Source_Max] = 
 {
@@ -1654,6 +1654,24 @@ const int StExt_PcStats_Index_SumReflectDamageAsFireDot = 307;
 const int StExt_PcStats_Index_SumReflectDamageAsFlyDot = 308;
 const int StExt_PcStats_Index_SumReflectDamageAsMagicDot = 309;
 const int StExt_PcStats_Index_SumReflectDamageAsPoisionDot = 310;
+
+// *** Jewelry stat-pool expansion (user request, caps: 15%/1500 flat unless stated) ***
+const int StExt_PcStats_Index_ExtraRuneDam = 311;			// flat dmg for spells cast from RUNES
+const int StExt_PcStats_Index_ExtraRuneDamPerc = 312;		// permille dmg for rune spells (cap 150)
+const int StExt_PcStats_Index_ExtraScrollDam = 313;			// flat dmg for spells cast from SCROLLS
+const int StExt_PcStats_Index_ExtraScrollDamPerc = 314;		// permille dmg for scroll spells (cap 150)
+const int StExt_PcStats_Index_ExtraWeapSealDam = 315;		// flat dmg for weapon SEAL procs/bursts
+const int StExt_PcStats_Index_ExtraWeapSealDamPerc = 316;	// permille for weapon seal procs (cap 150)
+const int StExt_PcStats_Index_ExtraWeapElementDam = 317;	// flat dmg for weapon ELEMENT (perk) per hit
+const int StExt_PcStats_Index_ExtraWeapElementDamPerc = 318;// permille for weapon element (cap 150)
+const int StExt_PcStats_Index_ExtraSwordDam = 319;			// flat dmg with swords (1h/2h)
+const int StExt_PcStats_Index_ExtraSwordDamPerc = 320;		// permille with swords (cap 150)
+const int StExt_PcStats_Index_ExtraAxeDam = 321;			// flat dmg with axes/maces/halberds/spears
+const int StExt_PcStats_Index_ExtraAxeDamPerc = 322;		// permille with axes+polearms (cap 150)
+const int StExt_PcStats_Index_ExtraLightBladeDam = 323;		// flat dmg with light blades (daggers)
+const int StExt_PcStats_Index_ExtraLightBladeDamPerc = 324;	// permille with light blades (cap 150)
+const int StExt_PcStats_Index_BleedingPowerPerc = 325;		// permille amplifier of bleeding dots (cap 250)
+const int StExt_PcStats_Index_ArmorPierceChance = 326;		// permille chance to pierce armor (cap 50)
 
 
 // Extra SnC progressing stats

@@ -426,7 +426,23 @@ const string StExt_PcStats_Desc[StExt_PcStats_Index_Max] =
     "������������ �������� ����(���) ���������� �������:",
     "������������ ������������� ����(���) ���������� �������:",
     "������������ ���������� ����(���) ���������� �������:",
-    "������������ ���� ����(���) ���������� �������:"
+    "������������ ���� ����(���) ���������� �������:",
+	"Obrazenia magii runicznej:",
+	"Obrazenia magii runicznej (%):",
+	"Obrazenia ze zwojow:",
+	"Obrazenia ze zwojow (%):",
+	"Obrazenia run zywiolow broni:",
+	"Obrazenia run zywiolow broni (%):",
+	"Obrazenia zywiolow broni:",
+	"Obrazenia zywiolow broni (%):",
+	"Obrazenia mieczami:",
+	"Obrazenia mieczami (%):",
+	"Obrazenia toporami i bronia drzewcowa:",
+	"Obrazenia toporami i bronia drzewcowa (%):",
+	"Obrazenia lekkimi ostrzami:",
+	"Obrazenia lekkimi ostrzami (%):",
+	"Wzmocnienie krwawienia (%):",
+	"Szansa na ominiecie pancerza:"
 };
 
 const string StExt_Str_Npc_Ability_Name[StExt_Npc_Ability_Index_Max] =

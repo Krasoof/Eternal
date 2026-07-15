@@ -635,7 +635,23 @@ const string StExt_PcStats_Desc[StExt_PcStats_Index_Max] =
 	"Zwracane obrazenia od ognia przyzwanych stworzen (DoT):",
 	"Zwracane obrazenia odrzutu (DoT):",
 	"Zwracane obrazenia magiczne przyzwanych stworzen (DoT):",
-	"Zwracane obrazenia trujace (DoT) przyzwanych stworzen:"
+	"Zwracane obrazenia trujace (DoT) przyzwanych stworzen:",
+	"Obrazenia magii runicznej:",
+	"Obrazenia magii runicznej (%):",
+	"Obrazenia ze zwojow:",
+	"Obrazenia ze zwojow (%):",
+	"Obrazenia run zywiolow broni:",
+	"Obrazenia run zywiolow broni (%):",
+	"Obrazenia zywiolow broni:",
+	"Obrazenia zywiolow broni (%):",
+	"Obrazenia mieczami:",
+	"Obrazenia mieczami (%):",
+	"Obrazenia toporami i bronia drzewcowa:",
+	"Obrazenia toporami i bronia drzewcowa (%):",
+	"Obrazenia lekkimi ostrzami:",
+	"Obrazenia lekkimi ostrzami (%):",
+	"Wzmocnienie krwawienia (%):",
+	"Szansa na ominiecie pancerza:"
 };
 
 // Infusion->Affix
