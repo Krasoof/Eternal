@@ -53,8 +53,13 @@ func int StExt_GetElementMasteryExpMult(var int index, var int baseMult)
 		return 0;
 	};
 
-	// Per feedback: element proficiencies are LOCKED for everyone except the
-	// Zakon sworn pair (handled above). Old profession-choice paths disabled.
+	// Zakon members: sworn pair only (handled above). NON-members keep the
+	// profession-choice system (chosen elements progress, rest locked) -
+	// a hard all-lock bricked Path of the Damned builds (Blood Mage needs
+	// element progression outside the Zakon). Global 35% slowdown still
+	// applies on top in StExt_AddMasteryExp.
+	if (StExt_ElementProfession_IsUniversal) { return StExt_GetPercentFromValue(baseMult, StExt_Config_ElementProfession_UniversalPenaltyPerc); };
+	if (StExt_Array_GetInt("StExt_ElementProfession_Chosen", index)) { return baseMult; };
 	return 0;
 };
 
