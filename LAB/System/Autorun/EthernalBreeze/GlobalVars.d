@@ -106,22 +106,26 @@ var int StExt_ZakonBoss_Killed;
 var int StExt_ZakonBoss_Active;
 var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & should be alive (0 = none). Robust re-summon guard.
 
-// *** Roza Khorinis - romans (Npc_RoseRomance.d, LAB) ***
-var int StExt_Rose_Scene;		// ostatnia zaliczona scena (0 = brak)
-var int StExt_Rose_Favor;		// Wzgledy Adeli 0-100 (ukryte)
-var int StExt_Rose_Dark;		// MROK - przemoc tam, gdzie byl inny sposob
-var int StExt_RoseAdelaAppear;	// init-once spawn flag
-
 // *** Wieza Umarlych quest (Npc_ZakonTower.d) ***
 var int StExt_ZakonTower_Stage;		// 0 idle, 1 road, 2 camp+Herold, 3 floors, 4 cleared, 5 done
 var int StExt_ZakonTower_WaveKills;
+
+// Deferred boss-ability trigger (parse order: Npc_Ai.d comes after
+// DamageController.d, so the call goes through a named 1-frame callback).
+var int StExt_BossAbilityTrigger_InstId;
 
 // *** Perfect Parry (Souls core) ***
 // Window counter: each parade action adds a token that expires ~25 frames later
 // via a frame callback; an incoming melee hit while a token is live = PERFECT PARRY.
 var int StExt_PerfectParry_Window;
 var int StExt_Riposte_Window;		// >0 = perfect parry landed; next melee hit within ~1.5s is a riposte
-var int StExt_ZakonPosture_Window;	// >0 = boss posture broken by perfect parry; stuns land (~3s)
+var int StExt_ZakonPosture_Window;	// LAB: >0 = boss posture broken by perfect parry; stuns land (~3s)
+
+// *** Roza Khorinis - romans (Npc_RoseRomance.d, LAB) ***
+var int StExt_Rose_Scene;		// ostatnia zaliczona scena (0 = brak)
+var int StExt_Rose_Favor;		// Wzgledy Adeli 0-100 (ukryte)
+var int StExt_Rose_Dark;		// MROK - przemoc tam, gdzie byl inny sposob
+var int StExt_RoseAdelaAppear;	// init-once spawn flag
 var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned

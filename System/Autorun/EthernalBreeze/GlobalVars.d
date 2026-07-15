@@ -110,6 +110,10 @@ var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & sh
 var int StExt_ZakonTower_Stage;		// 0 idle, 1 road, 2 camp+Herold, 3 floors, 4 cleared, 5 done
 var int StExt_ZakonTower_WaveKills;
 
+// Deferred boss-ability trigger (parse order: Npc_Ai.d comes after
+// DamageController.d, so the call goes through a named 1-frame callback).
+var int StExt_BossAbilityTrigger_InstId;
+
 // *** Perfect Parry (Souls core) ***
 // Window counter: each parade action adds a token that expires ~25 frames later
 // via a frame callback; an incoming melee hit while a token is live = PERFECT PARRY.

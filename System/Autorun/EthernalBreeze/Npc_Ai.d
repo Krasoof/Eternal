@@ -282,7 +282,19 @@ func int StExt_AbilityAttack_Loop(var c_npc slf, var c_npc oth)
 	return abilityCasted;
 };
 
-// Call from engine every frame from engine for any npc 
+// Deferred trigger target for boss ability kits (scheduled by name from
+// DamageController - defined HERE so CanCastAbility/AbilityAttack_Loop are
+// already parsed). Boss npc restored from its instance id; target = hero
+// (bosses only duel the player).
+func void StExt_BossAbilityTrigger_Callback()
+{
+	var c_npc boss; boss = Hlp_GetNpc(StExt_BossAbilityTrigger_InstId);
+	if (!hlp_isvalidnpc(boss)) { return; };
+	if (npc_isdead(boss)) { return; };
+	if (StExt_CanCastAbility(boss, hero)) { StExt_AbilityAttack_Loop(boss, hero); };
+};
+
+// Call from engine every frame from engine for any npc
 func void StExt_OnAiState() { StExt_Npc_AbilityPassive_Loop(); };
 
 func int b_selectspell(var c_npc slf, var c_npc oth) 

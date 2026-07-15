@@ -9,8 +9,11 @@
 // Stage flow (StExt_ZakonTower_Stage):
 //   0 idle -> 1 road ambush -> 2 siege camp + Herold -> 3 tower floors
 //   -> 4 cleared, report to Master -> 5 done.
-// Ritual defense, HQ relocation and the ARENA_BOSS_NECRO finale come in
-// the next round (see docs/DESIGN_ZakonTowerQuest.md).
+// PARSE ORDER (Daedalus is single-pass): all instances first, then
+// StExt_ZakonTower_WaveKill, then the ai_ondead_* funcs that CALL it,
+// then dialogs. Direct calls need the callee parsed earlier; only
+// value-references (daily_routine, engine-called ai_ondead names) may
+// point forward.
 // Strings are PL literals for now - move to Localization on the dubbing pass.
 
 const string StExt_ZakonTower_WP_Road  = "NW_FOREST_PATH_80_I_MOVEMENT8_012";
@@ -32,7 +35,7 @@ func void StExt_ZakonTower_TrashSetup(var c_npc slf)
 };
 
 //--------------------------------------------------------------
-// *** Act 1: road ambush (2 wraiths of the old garrison) ***
+// *** Instances (all of them BEFORE any logic that spawns them) ***
 //--------------------------------------------------------------
 instance bdt_99730_ZakonTowerWraith1(npc_default)
 {
@@ -43,7 +46,6 @@ instance bdt_99730_ZakonTowerWraith1(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99730_ZakonTowerWraith1);
 };
-func void ai_ondead_bdt_99730_ZakonTowerWraith1() { StExt_ZakonTower_WaveKill(1); };
 
 instance bdt_99731_ZakonTowerWraith2(npc_default)
 {
@@ -54,11 +56,7 @@ instance bdt_99731_ZakonTowerWraith2(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99731_ZakonTowerWraith2);
 };
-func void ai_ondead_bdt_99731_ZakonTowerWraith2() { StExt_ZakonTower_WaveKill(1); };
 
-//--------------------------------------------------------------
-// *** Act 2: siege camp - Herold Utopionego (dark kit) + escort ***
-//--------------------------------------------------------------
 // id 99733 -> 99733 % 5 == 3 -> Darkwave/DarkBlink from the boss Setup kit.
 // Deliberately OUTSIDE 99710-99725 so he does NOT get the full boss passives
 // (chip/lifesteal/tempo) - he's a mini-boss, the real deal waits in the arena.
@@ -71,15 +69,6 @@ instance bdt_99733_ZakonTowerHerold(npc_default)
     aivar[6] = true;
     StExt_ZakonBoss_Setup(bdt_99733_ZakonTowerHerold, 2);
 };
-func void ai_ondead_bdt_99733_ZakonTowerHerold()
-{
-	StExt_ZakonTower_Stage = 3;
-	StExt_ZakonTower_WaveKills = 0;
-	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
-	ai_printbonus("Herold padl. Garnizon broni wiezy - wytnij ich.");
-};
 
 instance bdt_99734_ZakonTowerWraith3(npc_default)
 {
@@ -90,7 +79,6 @@ instance bdt_99734_ZakonTowerWraith3(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99734_ZakonTowerWraith3);
 };
-func void ai_ondead_bdt_99734_ZakonTowerWraith3() {  };
 
 instance bdt_99735_ZakonTowerWraith4(npc_default)
 {
@@ -101,11 +89,7 @@ instance bdt_99735_ZakonTowerWraith4(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99735_ZakonTowerWraith4);
 };
-func void ai_ondead_bdt_99735_ZakonTowerWraith4() {  };
 
-//--------------------------------------------------------------
-// *** Act 3: the tower floors - wraith knights of the keep ***
-//--------------------------------------------------------------
 instance bdt_99736_ZakonTowerKnight1(npc_default)
 {
     name = "Upiorny Rycerz"; guild = gil_bdt; id = 99736; voice = 13; flags = 0; npctype = npctype_main; level = 25;
@@ -115,7 +99,6 @@ instance bdt_99736_ZakonTowerKnight1(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99736_ZakonTowerKnight1);
 };
-func void ai_ondead_bdt_99736_ZakonTowerKnight1() { StExt_ZakonTower_WaveKill(3); };
 
 instance bdt_99737_ZakonTowerKnight2(npc_default)
 {
@@ -126,7 +109,6 @@ instance bdt_99737_ZakonTowerKnight2(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99737_ZakonTowerKnight2);
 };
-func void ai_ondead_bdt_99737_ZakonTowerKnight2() { StExt_ZakonTower_WaveKill(3); };
 
 instance bdt_99738_ZakonTowerKnight3(npc_default)
 {
@@ -137,10 +119,9 @@ instance bdt_99738_ZakonTowerKnight3(npc_default)
     aivar[6] = true;
     StExt_ZakonTower_TrashSetup(bdt_99738_ZakonTowerKnight3);
 };
-func void ai_ondead_bdt_99738_ZakonTowerKnight3() { StExt_ZakonTower_WaveKill(3); };
 
 //--------------------------------------------------------------
-// *** Wave progression ***
+// *** Wave progression (parsed AFTER instances, BEFORE ai_ondead) ***
 //--------------------------------------------------------------
 func void StExt_ZakonTower_WaveKill(var int wave)
 {
@@ -164,6 +145,27 @@ func void StExt_ZakonTower_WaveKill(var int wave)
 		StExt_ZakonTower_Stage = 4;
 		ai_printbonus("Wieza oczyszczona. Wroc do Mistrza Zakonu.");
 	};
+};
+
+//--------------------------------------------------------------
+// *** Death handlers (engine calls them BY NAME at runtime) ***
+//--------------------------------------------------------------
+func void ai_ondead_bdt_99730_ZakonTowerWraith1() { StExt_ZakonTower_WaveKill(1); };
+func void ai_ondead_bdt_99731_ZakonTowerWraith2() { StExt_ZakonTower_WaveKill(1); };
+func void ai_ondead_bdt_99734_ZakonTowerWraith3() {  };
+func void ai_ondead_bdt_99735_ZakonTowerWraith4() {  };
+func void ai_ondead_bdt_99736_ZakonTowerKnight1() { StExt_ZakonTower_WaveKill(3); };
+func void ai_ondead_bdt_99737_ZakonTowerKnight2() { StExt_ZakonTower_WaveKill(3); };
+func void ai_ondead_bdt_99738_ZakonTowerKnight3() { StExt_ZakonTower_WaveKill(3); };
+
+func void ai_ondead_bdt_99733_ZakonTowerHerold()
+{
+	StExt_ZakonTower_Stage = 3;
+	StExt_ZakonTower_WaveKills = 0;
+	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
+	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
+	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
+	ai_printbonus("Herold padl. Garnizon broni wiezy - wytnij ich.");
 };
 
 //--------------------------------------------------------------

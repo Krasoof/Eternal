@@ -347,11 +347,13 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 	// Boss ability kits FIX: StExt_AbilityAttack_Loop only runs from the
 	// MONSTER ai loop (zs_mm_attack_loop) - human bosses never enter it, so
 	// their waves/blinks/buffs never fired. Trigger from damage events
-	// instead (they fire constantly in melee). Covers Zakon bosses AND the
-	// tower quest mini-bosses (up to 99740).
-	if ((atk.id >= 99710) && (atk.id <= 99740) && (RealDamage > 0))
+	// instead. PARSE-ORDER NOTE: the loop lives in Npc_Ai.d which is parsed
+	// AFTER this file, so we defer via a 1-frame NAMED callback (resolved at
+	// runtime) - a direct call here is an "Undefined function" parse fail.
+	if ((atk.id >= 99710) && (atk.id <= 99740) && (RealDamage > 0) && StExt_Chance(30))
 	{
-		if (StExt_Chance(30) && StExt_CanCastAbility(atk, target)) { StExt_AbilityAttack_Loop(atk, target); };
+		StExt_BossAbilityTrigger_InstId = hlp_getinstanceid(atk);
+		StExt_InitializeCallback(hero, hero, "StExt_BossAbilityTrigger_Callback", 1);
 	};
 
 	// GLOBAL combo mixing: every npc used to swing in a fixed metronome
@@ -519,11 +521,12 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 		};
 	};
 
-	// Boss ability kits also try to fire when the boss TAKES a hit (see the
-	// offence-side comment: human bosses never reach the monster ai loop).
-	if ((target.id >= 99710) && (target.id <= 99740) && (RealDamage > 0))
+	// Boss ability kits also try to fire when the boss TAKES a hit (same
+	// deferred-callback mechanism as the offence side - parse order).
+	if ((target.id >= 99710) && (target.id <= 99740) && (RealDamage > 0) && StExt_Chance(15))
 	{
-		if (StExt_Chance(15) && StExt_CanCastAbility(target, atk)) { StExt_AbilityAttack_Loop(target, atk); };
+		StExt_BossAbilityTrigger_InstId = hlp_getinstanceid(target);
+		StExt_InitializeCallback(hero, hero, "StExt_BossAbilityTrigger_Callback", 1);
 	};
 
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };

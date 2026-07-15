@@ -69,6 +69,7 @@ EthernalBreeze\Npc_Shiva.d
 EthernalBreeze\Npc_ElementTeachers.d
 EthernalBreeze\Npc_SoulOrder.d
 EthernalBreeze\Npc_ZakonBosses.d
+EthernalBreeze\Npc_ZakonTower.d
 EthernalBreeze\Dialog.d
 EthernalBreeze\Dialog_Learn.d
 EthernalBreeze\Dialog_Debug.d
