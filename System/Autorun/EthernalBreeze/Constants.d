@@ -1096,6 +1096,12 @@ const int StExt_AiVar_ElementBuildup = 170;		// accumulated elemental charge on 
 const int StExt_AiVar_ElementBuildupType = 171;	// element index being accumulated (switch = reset)
 const int StExt_AiVar_BossCastCounter = 172;	// boss special-move hit counter (shockwave every 5th hit)
 
+// *** Legendary bonus catalog (xls + jewelry MD) ***
+// One bonus per legendary item, persisted in item prop 28 (free slot in the
+// DLL enum gap 26..31). Id spaces are disjoint per slot type:
+// weapons 1..6, armor 21..23, jewelry 41..48 (DLL rolls jewelry).
+const int StExt_ItemProp_LegendBonus = 28;
+
 //===================================================================//
 // Npc item conditions stats
 

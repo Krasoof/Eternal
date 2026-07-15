@@ -126,6 +126,8 @@
 	func int StExt_SetItemProperty(var c_item itm, var int index, var int value);
 	func int StExt_GetItemSeal(var c_item itm);
 	func int StExt_GetItemSealPower(var c_item itm);
+	func int StExt_GetItemRank(var c_item itm);
+	func int StExt_ScanLegendJewelry(var instance npc);
 	func int StExt_SetItemSeal(var c_item itm, var int spellId, var int power);
 	
 	func string StExt_StatValueToString(var int statId, var int statVal);

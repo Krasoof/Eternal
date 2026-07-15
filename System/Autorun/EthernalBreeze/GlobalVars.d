@@ -130,6 +130,10 @@ var int StExt_KnightPerk_Stalwart;	// Niezlomnosc: drenaz staminy za blok 8% -> 
 var int StExt_KnightPerk_Crush;		// Miazdzacy Cios: co 4. trafienie wrecz +40% obrazen (8 dusz)
 var int StExt_KnightPerk_Pact;		// Pakt Dusz: lifesteal 2% obrazen wrecz (12 dusz)
 var int StExt_KnightCrush_Counter;
+
+// *** Legendary bonus catalog ***
+var int StExt_LegendJewelryMask;	// bitmask of equipped jewelry bonuses (bit0 = id 41), refreshed per mod tick
+var int StExt_LegendJewelryMaskOld;	// previous mask - new bits get a reveal print
 var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned

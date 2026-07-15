@@ -683,6 +683,43 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 		if (StExt_KnightPerk_Armor) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 8); };
 	};
 
+	// *** LEGENDARY ARMOR BONUSES (ids 21..23, rolled lazily on first hit
+	// taken) + defensive jewelry (bit2=43 Ciernie 15% reflect, bit7=48
+	// Zelazna Skora -10% melee). ***
+	var c_item lga; lga = npc_getequippedarmor(target);
+	if (hlp_isvaliditem(lga))
+	{
+		if (StExt_GetItemRank(lga) >= StExt_ItemRankLegendary)
+		{
+			var int lgab; lgab = StExt_GetItemProperty(lga, StExt_ItemProp_LegendBonus);
+			if ((lgab < 21) || (lgab > 23))
+			{
+				lgab = 21 + hlp_random(3);
+				StExt_SetItemProperty(lga, StExt_ItemProp_LegendBonus, lgab);
+				if (lgab == 21) { ai_printbonus("Zbroja legendarna objawia moc: ZELAZNA WOLA (-10% obrazen wrecz)"); }
+				else if (lgab == 22) { ai_printbonus("Zbroja legendarna objawia moc: TARCZA DUCHA (-15% obrazen od magii)"); }
+				else { ai_printbonus("Zbroja legendarna objawia moc: PLASZCZ CIERNI (odbija 10% obrazen)"); };
+			};
+			if ((lgab == 21) && StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee)) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 10); };
+			if ((lgab == 22) && (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability))) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 15); };
+			if ((lgab == 23) && hlp_isvalidnpc(atk) && !npc_isplayer(atk) && (StExt_DamageInfo.RealDamage > 0))
+			{
+				atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 100), 1);
+			};
+		};
+	};
+	if ((StExt_LegendJewelryMask > 0) && hlp_isvalidnpc(atk) && !npc_isplayer(atk))
+	{
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 4) && StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_DamageInfo.RealDamage > 0))
+		{
+			atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, 150), 1);
+		};
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 128) && StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+		{
+			StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 10);
+		};
+	};
+
 	// Zakon boss chip: a LANDED boss hit also chips 2% of your max HP (this
 	// path never sees parried hits anymore - blocking is punished via the
 	// per-parry stamina drain instead).
@@ -1137,6 +1174,68 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		// riposte window only opens via Gniew Rycerza (perk-driven) now
 		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 1000);
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
+	};
+
+	// *** LEGENDARY WEAPON BONUSES (xls catalog) - rolled lazily on first hit,
+	// persisted on the item (prop 28), ids 1..6. ***
+	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Range))
+		&& (RealDamage > 0) && hlp_isvaliditem(weap))
+	{
+		if (StExt_GetItemRank(weap) >= StExt_ItemRankLegendary)
+		{
+			var int lgb; lgb = StExt_GetItemProperty(weap, StExt_ItemProp_LegendBonus);
+			if ((lgb <= 0) || (lgb > 6))
+			{
+				lgb = 1 + hlp_random(6);
+				StExt_SetItemProperty(weap, StExt_ItemProp_LegendBonus, lgb);
+				if (lgb == 1) { ai_printbonus("Bron legendarna objawia moc: KRWAWY OSAD (+25% ponizej 30% HP wroga)"); }
+				else if (lgb == 2) { ai_printbonus("Bron legendarna objawia moc: EGZEKUTOR (dobija ponizej 10% HP)"); }
+				else if (lgb == 3) { ai_printbonus("Bron legendarna objawia moc: KIEL ROZKLADU (trucizna)"); }
+				else if (lgb == 4) { ai_printbonus("Bron legendarna objawia moc: OSTRZE RZEZNIKA (krwawienie)"); }
+				else if (lgb == 5) { ai_printbonus("Bron legendarna objawia moc: PIESC TYTANA (+10% obrazen)"); }
+				else { ai_printbonus("Bron legendarna objawia moc: GLOD OSTRZA (lifesteal 3%)"); };
+			};
+			if (lgb == 1)
+			{
+				if ((target.attribute[atr_hitpoints] * 100) < (target.attribute[atr_hitpoints_max] * 30)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 250); };
+			}
+			else if (lgb == 2)
+			{
+				if ((target.attribute[atr_hitpoints] * 100) < (target.attribute[atr_hitpoints_max] * 10))
+				{
+					if ((target.id >= 99710) && (target.id <= 99740)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 300); }
+					else
+					{
+						StExt_ExtraDamageInfo.Damage += target.attribute[atr_hitpoints];
+						printscreencolor("EGZEKUCJA!", StExt_Null, 47, StExt_DefaultFont, 1, StExt_Color_Header);
+					};
+				};
+			}
+			else if (lgb == 3) { StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPermilleFromValue(RealDamage, 40), dam_index_fall); }
+			else if (lgb == 4) { StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 6, StExt_GetPermilleFromValue(RealDamage, 70), dam_index_edge); }
+			else if (lgb == 5) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 100); }
+			else { StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 30)); };
+		};
+	};
+
+	// *** LEGENDARY JEWELRY BONUSES (offensive half; mask bits from the DLL
+	// scan: bit0=41 Piesn Krwi, bit1=42 Kolia Egzekutora, bit3=44 Hazardzista,
+	// bit4=45 Pijawka, bit5=46 Wezel Czasu, bit6=47 Berserker) ***
+	if ((StExt_LegendJewelryMask > 0) && (RealDamage > 0)
+		&& (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Range)))
+	{
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 1))  { StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 30)); };
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 2))
+		{
+			if ((target.attribute[atr_hitpoints] * 100) < (target.attribute[atr_hitpoints_max] * 25)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 250); };
+		};
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 8))  { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, hlp_random(1000)); };
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 16)) { rx_restoremana(StExt_GetPermilleFromValue(RealDamage, 20)); };
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 32)) { StExt_StunTarget(target, atk, 10); };
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 64))
+		{
+			if ((atk.attribute[atr_hitpoints] * 100) < (atk.attribute[atr_hitpoints_max] * 30)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 200); };
+		};
 	};
 
 	// Rycerz Dusz: Miazdzacy Cios (every 4th landed melee hit +40%) + Pakt Dusz
