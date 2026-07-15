@@ -307,7 +307,12 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	if (perkSpell > 0)
 	{
 		element = StExt_GetSpellElementIndex(perkSpell);
-		manaCost = 3 + (StExt_GetItemSealPower(weap) / 25);
+		// %-based mana cost per hit (flat was free with a big pool): scales
+		// with the weapon's damage AND the seal/perk power. 0.8% floor,
+		// capped at 12% of max mana per landed hit.
+		manaCost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max],
+			StExt_ValidateValueRange(8 + (weap.damagetotal / 5) + (StExt_GetItemSealPower(weap) / 10), 8, 120));
+		manaCost = StExt_ValidateValueMin(manaCost, 1);
 		if (hero.attribute[atr_mana] >= manaCost)
 		{
 			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
@@ -340,17 +345,25 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	if (sealSpell <= 0) { return; };
 	sealPower = StExt_GetItemProperty(weap, StExt_ItemProp_SealPower);
 
-	// physical seals: work every hit for a small flat stamina/mana cost
+	// physical seals: work every hit for a %-based resource cost (flat was
+	// free with a big pool). Scales with weapon damage AND seal level;
+	// magic weapons pay from max mana, the rest from max stamina.
 	if (sealSpell >= 9000)
 	{
-		manaCost = 5;
+		sealLvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
 		if (StExt_WeaponSkillUsesMana(weap))
 		{
+			manaCost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max],
+				StExt_ValidateValueRange(8 + (weap.damagetotal / 5) + sealLvl, 8, 120));
+			manaCost = StExt_ValidateValueMin(manaCost, 1);
 			if (hero.attribute[atr_mana] < manaCost) { return; };
 			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
 		}
 		else
 		{
+			manaCost = StExt_GetPermilleFromValue(atr_stamina_max,
+				StExt_ValidateValueRange(8 + (weap.damagetotal / 5) + sealLvl, 8, 120));
+			manaCost = StExt_ValidateValueMin(manaCost, 1);
 			if (atr_stamina < manaCost) { return; };
 			rx_restorestamina(-manaCost);
 		};
@@ -361,7 +374,6 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		// is the minor floor here, while the stat drives the effect.
 		physStat = hero.attribute[4];
 		if (hero.attribute[5] > physStat) { physStat = hero.attribute[5]; };
-		sealLvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
 
 		if (sealSpell == StExt_PhysSeal_Bleed)
 		{
