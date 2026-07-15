@@ -1134,9 +1134,8 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	{
 		isRiposte = true;
 		StExt_Riposte_Window = 0;
-		// Gniew Rycerza (knight tree): riposte +100% instead of +50%
-		if (StExt_KnightPerk_Wrath) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 1000); }
-		else { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 500); };
+		// riposte window only opens via Gniew Rycerza (perk-driven) now
+		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 1000);
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
 	};
 

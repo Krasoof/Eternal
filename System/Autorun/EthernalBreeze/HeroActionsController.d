@@ -43,12 +43,15 @@ func void StExt_ParryDedupe_Reset() { StExt_ParryDedupe = 0; };
 // frames) is PERFECT (refund + riposte); parries spammed while holding block
 // through a combo just drain stamina. The trailing "src" tag is a TEMP on-screen
 // debug so we can see which hook is live - remove once confirmed.
-func void StExt_HandleParry(var string src)
+// FINAL parry design (user call): NB/Returning's native parry system IS the
+// parry system - we add nothing on top except (1) the block stamina economy
+// and (2) a perk-driven riposte. No "perfect parry" layer, no debug tags -
+// the fresh-vs-held heuristic misfired on every block (enemy swings arrive
+// slower than any sane window).
+func void StExt_HandleParry()
 {
-	// COMBAT GATE: EV_Parade fires on pressing block, not only on deflects -
-	// without this, tapping block in town would drain stamina and fake a
-	// "perfect". Count only with a readied weapon and a live hostile in
-	// your face (the DLL keeps StExt_FocusNpc current).
+	// COMBAT GATE: EV_Parade fires on pressing block - count only with a
+	// readied weapon and a live hostile in your face.
 	if (!npc_hasreadiedmeleeweapon(hero) && !npc_hasreadiedrangedweapon(hero)) { return; };
 	if (!hlp_isvalidnpc(StExt_FocusNpc)) { return; };
 	if (c_npcisdown(StExt_FocusNpc)) { return; };
@@ -58,27 +61,24 @@ func void StExt_HandleParry(var string src)
 	StExt_ParryDedupe = 1;
 	StExt_InitializeCallback(hero, hero, "StExt_ParryDedupe_Reset", 3);
 
-	// every deflect costs stamina - no more eternal shield wall on a regen
-	// item. Niezlomnosc (knight tree) halves the block drain.
+	// block economy: every parade costs stamina - no eternal shield wall on
+	// a regen item. Niezlomnosc (knight tree) halves the drain.
 	if (StExt_KnightPerk_Stalwart) { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 4)); }
 	else { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 8)); };
 
-	if (!StExt_ParryHeld)
+	// Gniew Rycerza: 20% chance per parade to open a riposte window - the
+	// next melee hit within ~1.5s deals +100%. Perk-only, mirrors Returning's
+	// native small riposte, stacks with it instead of replacing it.
+	if (StExt_KnightPerk_Wrath && StExt_Chance(20))
 	{
-		// fresh, timed parry = PERFECT: refund the drain + bonus + riposte
-		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 12));
 		StExt_Riposte_Window = 1;
 		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
-		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
+		printscreencolor("RIPOSTA GOTOWA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
 	};
-	StExt_ParryHeld = 1;
-	StExt_InitializeCallback(hero, hero, "StExt_ParryReady_Reset", 45);
-
-	printscreencolor(src, StExt_Null, 40, StExt_DefaultFont, 1, StExt_Color_Green);	// TEMP debug tag
 };
 
-func void StExt_OnPlayerParade_ActionHandler() { StExt_HandleParry("PAR-EV"); };
-func void StExt_OnPlayerParadeSuccess() { StExt_HandleParry("PAR-DMG"); };
+func void StExt_OnPlayerParade_ActionHandler() { StExt_HandleParry(); };
+func void StExt_OnPlayerParadeSuccess() { StExt_HandleParry(); };
 func void StExt_OnPlayerShootAt_ActionHandler() {  };
 func void StExt_OnPlayerDefend_ActionHandler() {  };
 

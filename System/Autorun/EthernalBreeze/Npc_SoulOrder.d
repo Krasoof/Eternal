@@ -283,7 +283,7 @@ func void StExt_Knight_BuildMenu()
 	info_clearchoices(dia_none_99702_SoulMaster_Knight);
 	ai_printbonus(concatstrings("Dusze bossow: ", inttostring(npc_hasitems(hero, itmi_stext_bosssoul))));
 	if (!StExt_KnightPerk_Armor)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pancerz Dusz: -8% obrazen wrecz (2 dusze)", StExt_Knight_Buy_Armor); };
-	if (!StExt_KnightPerk_Wrath)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Gniew Rycerza: riposta +100% (3 dusze)", StExt_Knight_Buy_Wrath); };
+	if (!StExt_KnightPerk_Wrath)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Gniew Rycerza: 20% szansy na riposte po paradzie (3 dusze)", StExt_Knight_Buy_Wrath); };
 	if (!StExt_KnightPerk_Stalwart) { info_addchoice(dia_none_99702_SoulMaster_Knight, "Niezlomnosc: blok za polowe staminy (5 dusz)", StExt_Knight_Buy_Stalwart); };
 	if (!StExt_KnightPerk_Crush)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Miazdzacy Cios: co 4. trafienie +40% (8 dusz)", StExt_Knight_Buy_Crush); };
 	if (!StExt_KnightPerk_Pact)     { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pakt Dusz: lifesteal 2% (12 dusz)", StExt_Knight_Buy_Pact); };
