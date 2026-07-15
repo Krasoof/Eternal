@@ -683,33 +683,21 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	tmp = StExt_ZakonEmbers_DefencePermille();
 	if (tmp > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, tmp); };
 
-	// PERFECT PARRY (Souls core): a parade started within the last ~25 frames
-	// (window opened by StExt_OnPlayerParade_ActionHandler). Rewards: 4% max
-	// stamina refund, a ~1.5s riposte window (next melee hit +50%), and this
-	// hit does NOT apply the Zakon boss unblockable chip below.
-	var int perfectParried; perfectParried = false;
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (StExt_PerfectParry_Window > 0))
-	{
-		perfectParried = true;
-		StExt_PerfectParry_Window = 0;
-		StExt_Riposte_Window = 1;
-		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
-		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 4));
-		printscreencolor("PERFEKCYJNA PARADA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
-	}
-	// Souls block economy: the engine's block cost is FLAT, so one stamina
-	// item = block held forever. Fix script-side: every incoming melee hit
-	// the hero absorbs drains 6% of max stamina (blocked or not) - turtling
-	// empties the bar in ~16 hits. A PERFECT parry refunds instead of draining.
-	else if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
+	// NOTE: perfect parry / block economy moved to StExt_OnPlayerParadeSuccess
+	// (HeroActionsController.d), fed by the DLL from the engine's oCNpc::didParade.
+	// This handler only fires for hits that actually LAND, so detecting parries
+	// here was backwards (the old version printed "perfect" when you ate a hit).
+
+	// Getting HIT still staggers you: a landed melee hit drains 6% max stamina.
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{
 		rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 6));
 	};
 
-	// Zakon boss UNBLOCKABLE chip: ~2% of your max HP lands even through a
-	// block/parry, so you can't just hold block on a stamina item forever -
-	// blocking everything still bleeds you down. A PERFECT parry negates it.
-	if ((atk.id >= 99710) && (atk.id <= 99725) && !perfectParried)
+	// Zakon boss chip: a LANDED boss hit also chips 2% of your max HP (this
+	// path never sees parried hits anymore - blocking is punished via the
+	// per-parry stamina drain instead).
+	if ((atk.id >= 99710) && (atk.id <= 99725))
 	{
 		target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), 1);
 	};
