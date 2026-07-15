@@ -526,3 +526,11 @@ instance spellfx_stext_wglow_death(cfx_base_proto)
     emtrjmode_s = "FIXED";
     emtrjoriginnode = "ZS_RIGHTHAND";
 };
+
+// Legendary armor aura (no light preset - lights were the dot-trail culprit)
+instance spellfx_stext_legendarmor(cfx_base_proto)
+{
+    visname_s = "MFX_STEXT_LEGENDARMOR";
+    visalpha = 1.0;
+    emtrjmode_s = "FIXED";
+};

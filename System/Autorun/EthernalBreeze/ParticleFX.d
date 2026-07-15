@@ -481,3 +481,46 @@ instance mfx_stext_wglow_death(c_particlefx) {
     visalphaend = 30.0;
     useemittersfor = 1;
 };
+
+// Legendary ARMOR aura: subtle golden glitter emitted from the WEARER's
+// body mesh. Short particle life + no lights = no trailing dots.
+instance mfx_stext_legendarmor(c_particlefx) {
+    ppsvalue = 26.0;
+    ppsscalekeys_s = "3";
+    ppsislooping = 1;
+    ppsissmooth = 1;
+    ppsfps = 2.0;
+    shptype_s = "MESH";
+    shpfor_s = "object";
+    shpoffsetvec_s = "0 0 0";
+    shpdistribtype_s = "RAND";
+    shpisvolume = 1;
+    shpdim_s = "10";
+    shpscalekeys_s = "1";
+    shpscaleislooping = 1;
+    shpscaleissmooth = 1;
+    shpscalefps = 2.0;
+    dirmode_s = "RAND";
+    dirfor_s = "object";
+    dirmodetargetfor_s = "object";
+    dirmodetargetpos_s = "0 0 0";
+    dirangleheadvar = 180.0;
+    dirangleelevvar = 180.0;
+    velavg = 0.006;
+    velvar = 0.008;
+    lsppartavg = 650.0;
+    flygravity_s = "0 0.0002 0";
+    visname_s = "DESTROYUNDEAD2.TGA";
+    visorientation_s = "VELO";
+    vistexisquadpoly = 1;
+    vistexanifps = 14.0;
+    vistexaniislooping = 1;
+    vistexcolorstart_s = "255 215 120";
+    vistexcolorend_s = "180 120 40";
+    vissizestart_s = "2 3";
+    vissizeendscale = 1.2;
+    visalphafunc_s = "ADD";
+    visalphastart = 170.0;
+    visalphaend = 0.0;
+    useemittersfor = 1;
+};
