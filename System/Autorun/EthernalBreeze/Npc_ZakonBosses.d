@@ -499,6 +499,11 @@ func void StExt_ZakonReward_Pick(var int itm)
 func void StExt_ZakonReward_Pick_C1Pir1()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir1); };
 func void StExt_ZakonReward_Pick_C1Pir2()  { StExt_ZakonReward_Pick(itar_stext_zakon_c1_pir2); };
 func void StExt_ZakonReward_Pick_C1Thief() { StExt_ZakonReward_Pick(itar_stext_zakon_c1_thief); };
+func void StExt_ZakonReward_Pick_C2Off()   { StExt_ZakonReward_Pick(itar_stext_zakon_royal); };
+func void StExt_ZakonReward_Pick_C4Stew()  { StExt_ZakonReward_Pick(itar_stext_zakon_c4_stewark); };
+func void StExt_ZakonReward_Pick_C4Cuir()  { StExt_ZakonReward_Pick(itar_stext_zakon_c4_cuirass); };
+func void StExt_ZakonReward_Pick_C4Demon() { StExt_ZakonReward_Pick(itar_stext_zakon_c4_demon); };
+func void StExt_ZakonReward_Pick_C4Ore()   { StExt_ZakonReward_Pick(itar_stext_zakon_c4_ore); };
 func void StExt_ZakonReward_Pick_C5Wolf()  { StExt_ZakonReward_Pick(itar_stext_zakon_c5_wolf); };
 func void StExt_ZakonReward_Pick_C5Arax()  { StExt_ZakonReward_Pick(itar_stext_zakon_c5_araxos); };
 func void StExt_ZakonReward_Pick_C5Arx()   { StExt_ZakonReward_Pick(itar_stext_zakon_c5_arx); };
@@ -555,10 +560,13 @@ func void dia_none_99702_SoulMaster_Reward_info()
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Brygantyna Zakonna", StExt_ZakonReward_Pick_C3Brig);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
 	}
-	else if (ch >= 5)
+	else if (ch == 2)
 	{
+		// officer stays as an option + the 5 heavy-knight looks (user call:
+		// "te z 5 maja isc na drugi"); protections tuned to royal level.
 		ai_printbonus("Wybierz pancerz Zakonu:");
 		info_clearchoices(dia_none_99702_SoulMaster_Reward);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Zbroja Oficera", StExt_ZakonReward_Pick_C2Off);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz z Wilczego Legowiska", StExt_ZakonReward_Pick_C5Wolf);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Zbroja Araxos", StExt_ZakonReward_Pick_C5Arax);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Arx", StExt_ZakonReward_Pick_C5Arx);
@@ -566,10 +574,19 @@ func void dia_none_99702_SoulMaster_Reward_info()
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Elitarnego Rycerza", StExt_ZakonReward_Pick_C5Elite);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
 	}
+	else if (ch == 4)
+	{
+		ai_printbonus("Wybierz pancerz Zakonu:");
+		info_clearchoices(dia_none_99702_SoulMaster_Reward);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Stewarka", StExt_ZakonReward_Pick_C4Stew);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Gotycki Kirys Paladynski", StExt_ZakonReward_Pick_C4Cuir);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Demonicznego Rycerza", StExt_ZakonReward_Pick_C4Demon);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz z Magicznej Rudy", StExt_ZakonReward_Pick_C4Ore);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
+	}
 	else
 	{
-		// ch2 = zbroja oficera (user call: "zostaw"); ch4 = strażnik do czasu
-		// az user wybierze pule z podgladow (szuka teraz).
+		// ch5 = crusader PLACEHOLDER until custom Blender models happen (user call)
 		StExt_ZakonReward_Give();
 		ai_stopprocessinfos(self);
 	};

@@ -2013,7 +2013,7 @@ instance itar_stext_zakon_c5_wolf(c_item)
     name = "Pancerz z Wilczego Legowiska"; description = name;
     flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
-    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    protection[1] = 120; protection[2] = 120; protection[3] = 90; protection[5] = 90; protection[6] = 60;
     value = 5000; visual = "ItAr_NDM_L.3ds";
     visual_change = "HUM_DHT3_ARMOR.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
@@ -2023,7 +2023,7 @@ instance itar_stext_zakon_c5_araxos(c_item)
     name = "Zbroja Araxos"; description = name;
     flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
-    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    protection[1] = 120; protection[2] = 120; protection[3] = 90; protection[5] = 90; protection[6] = 60;
     value = 5000; visual = "ItAr_NDM_L.3ds";
     visual_change = "ARMOR_HEADHUNT.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
@@ -2033,7 +2033,7 @@ instance itar_stext_zakon_c5_arx(c_item)
     name = "Pancerz Arx"; description = name;
     flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
-    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    protection[1] = 120; protection[2] = 120; protection[3] = 90; protection[5] = 90; protection[6] = 60;
     value = 5000; visual = "ItAr_NDM_L.3ds";
     visual_change = "FER_TROLL_ARMOR_01.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
@@ -2043,7 +2043,7 @@ instance itar_stext_zakon_c5_orc(c_item)
     name = "Pancerz Orkowego Pogromcy"; description = name;
     flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
-    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    protection[1] = 120; protection[2] = 120; protection[3] = 90; protection[5] = 90; protection[6] = 60;
     value = 5000; visual = "ItAr_NDM_L.3ds";
     visual_change = "PIRANHA_SOWL.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
@@ -2053,8 +2053,52 @@ instance itar_stext_zakon_c5_elite(c_item)
     name = "Pancerz Elitarnego Rycerza"; description = name;
     flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
-    protection[1] = 250; protection[2] = 250; protection[3] = 190; protection[5] = 190; protection[6] = 150;
+    protection[1] = 120; protection[2] = 120; protection[3] = 90; protection[5] = 90; protection[6] = 60;
     value = 5000; visual = "ItAr_NDM_L.3ds";
     visual_change = "ARMOR_WARRIOR_LIGHT.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+
+// ch4 pool: user picks. STEWARK = native AE mesh; GOTHICCUIRASS/DEMONKNIGHT/
+// OREARMOR = clone-patched (patch_mdm.ps1; UV-base guesses for the last two -
+// verify looks in game). Guardian-level protections.
+instance itar_stext_zakon_c4_stewark(c_item)
+{
+    name = "Pancerz Stewarka"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 180; protection[2] = 180; protection[3] = 140; protection[5] = 140; protection[6] = 100;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ARMOR_PAL_STEWARK_AE.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c4_cuirass(c_item)
+{
+    name = "Gotycki Kirys Paladynski"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 180; protection[2] = 180; protection[3] = 140; protection[5] = 140; protection[6] = 100;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C4PG.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c4_demon(c_item)
+{
+    name = "Pancerz Demonicznego Rycerza"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 180; protection[2] = 180; protection[3] = 140; protection[5] = 140; protection[6] = 100;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C4DK.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
+instance itar_stext_zakon_c4_ore(c_item)
+{
+    name = "Pancerz z Magicznej Rudy"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 180; protection[2] = 180; protection[3] = 140; protection[5] = 140; protection[6] = 100;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C4OR.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
 };
