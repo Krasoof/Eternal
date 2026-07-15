@@ -130,6 +130,7 @@ var int StExt_KnightPerk_Stalwart;	// Niezlomnosc: drenaz staminy za blok 8% -> 
 var int StExt_KnightPerk_Crush;		// Miazdzacy Cios: co 4. trafienie wrecz +40% obrazen (8 dusz)
 var int StExt_KnightPerk_Pact;		// Pakt Dusz: lifesteal 2% obrazen wrecz (12 dusz)
 var int StExt_KnightCrush_Counter;
+var int StExt_KnightWrath_Counter;	// deterministic riposte: every 4th parade
 
 // *** Legendary bonus catalog ***
 var int StExt_LegendJewelryMask;	// bitmask of equipped jewelry bonuses (bit0 = id 41), refreshed per mod tick

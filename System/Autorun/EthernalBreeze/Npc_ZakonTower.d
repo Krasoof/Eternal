@@ -206,10 +206,12 @@ func void dia_none_99702_SoulMaster_Tower_info()
 {
 	StExt_ZakonTower_Stage = 1;
 	StExt_ZakonTower_WaveKills = 0;
-	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Road);
-	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Road);
+	// ALL spawns AT the tower itself - the forest-road WP put mobs where the
+	// player never found them; SHORE_MONSTER_* were verified in-game.
+	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Tower);
+	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Camp);
 	snd_play("STEXT_VOICE_M1");	// Mistrz: "Zar przyciagnal umarlych..."
-	StExt_ZakonTower_Log("Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Droga wiedzie przez trupy - dokladnie tak, jak lubi Zakon.");
+	StExt_ZakonTower_Log("Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Upiory garnizonu czekaja W WIEZY - wytnij je.");
 	ai_stopprocessinfos(self);
 };
 
@@ -231,20 +233,29 @@ func int dia_none_99702_SoulMaster_TowerHint_condition()
 func void dia_none_99702_SoulMaster_TowerHint_info()
 {
 	snd_play("STEXT_VOICE_M3");	// sound test hook - Mistrz mruczy pod nosem
+	// SELF-HEAL: asking for directions RE-SUMMONS the current wave at the
+	// tower - repairs saves whose mobs got lost at the old road waypoint
+	// (extra copies are harmless: ai_ondead counts kills either way).
 	if (StExt_ZakonTower_Stage == 1)
 	{
-		StExt_ZakonTower_Log("Cel: stara wieza na wybrzezu, za lesna sciezka na polnoc. Na drodze czekaja dwa upiory garnizonu.");
-		ai_printbonus("Stara wieza na wybrzezu, za lesna sciezka na polnoc. Na drodze czekaja dwa upiory.");
+		wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Tower);
+		wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Camp);
+		StExt_ZakonTower_Log("Cel: dwa upiory garnizonu W STAREJ WIEZY na wybrzezu.");
+		ai_printbonus("Upiory sa w starej wiezy na wybrzezu. Mistrz wskazal - ida tam ZNOWU.");
 	}
 	else if (StExt_ZakonTower_Stage == 2)
 	{
-		StExt_ZakonTower_Log("Cel: oboz umarlych u stop wiezy. Dowodzi Herold Utopionego - zabij go.");
-		ai_printbonus("Oboz umarlych lezy U STOP wiezy. Herold Utopionego dowodzi - zabij go.");
+		wld_insertnpc(bdt_99733_ZakonTowerHerold, StExt_ZakonTower_WP_Camp);
+		StExt_ZakonTower_Log("Cel: Herold Utopionego przy wiezy - zabij go.");
+		ai_printbonus("Herold Utopionego czeka przy wiezy - zabij go.");
 	}
 	else
 	{
-		StExt_ZakonTower_Log("Cel: wytnij upiorny garnizon przy wiezy i w jej wnetrzu.");
-		ai_printbonus("Zostal garnizon: upiorni rycerze przy wiezy i w srodku. Wytnij ich do nogi.");
+		wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
+		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
+		wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
+		StExt_ZakonTower_Log("Cel: wytnij upiorny garnizon w wiezy.");
+		ai_printbonus("Upiorni rycerze bronia wiezy - wytnij ich do nogi.");
 	};
 	ai_stopprocessinfos(self);
 };

@@ -66,14 +66,19 @@ func void StExt_HandleParry()
 	if (StExt_KnightPerk_Stalwart) { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 4)); }
 	else { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 8)); };
 
-	// Gniew Rycerza: 20% chance per parade to open a riposte window - the
-	// next melee hit within ~1.5s deals +100%. Perk-only, mirrors Returning's
-	// native small riposte, stacks with it instead of replacing it.
-	if (StExt_KnightPerk_Wrath && StExt_Chance(20))
+	// Gniew Rycerza: DETERMINISTIC - every 4th successful parade opens the
+	// riposte window (next melee hit within ~1.5s deals +100%). The 20%
+	// roll felt "totally random" in play; a counter gives a learnable rhythm.
+	if (StExt_KnightPerk_Wrath)
 	{
-		StExt_Riposte_Window = 1;
-		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
-		printscreencolor("RIPOSTA GOTOWA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Header);
+		StExt_KnightWrath_Counter += 1;
+		if (StExt_KnightWrath_Counter >= 4)
+		{
+			StExt_KnightWrath_Counter = 0;
+			StExt_Riposte_Window = 1;
+			StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);
+			printscreencolor("RIPOSTA GOTOWA!", 62, 5, StExt_DefaultFont, 2, StExt_Color_Header);
+		};
 	};
 };
 

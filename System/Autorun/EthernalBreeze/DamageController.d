@@ -1332,25 +1332,30 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 			if (ebCharge >= ebThreshold)
 			{
 				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
-				printscreencolor("ERUPCJA ZYWIOLU!", StExt_Null, 48, StExt_DefaultFont, 1, StExt_Color_Green);
+				// per-element name, TOP-RIGHT corner; light single-target FX
+				// (the Thunderstorm ambience kept the sky permanently dark)
 				if (ebKey == 1)
 				{
+					printscreencolor("PLOMIENNA ERUPCJA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 					rx_playeffect("SPELLFX_FIREWAVE", target);
 					StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), dam_index_fire);
 				}
 				else if (ebKey == 2)
 				{
-					rx_playeffect("spellFX_Thunderstorm", target);
+					printscreencolor("PORAZENIE!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+					rx_playeffect("SPELLFX_LIGHTNINGFLASH", target);
 					StExt_ExtraDamageInfo.Damage[dam_index_magic] += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
 				}
 				else if (ebKey == 3)
 				{
+					printscreencolor("CYKLON!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 					rx_playeffect("SPELLFX_MASTEROFDISASTER", target);
 					rx_stuntarget(target, 1);
 					StExt_ExtraDamageInfo.Damage += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
 				}
 				else
 				{
+					printscreencolor("ZGNILIZNA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 					rx_playeffect("SPELLFX_ICEWAVE", target);
 					target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8), 1);
 				};

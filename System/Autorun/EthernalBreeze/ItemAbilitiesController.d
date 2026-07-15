@@ -641,16 +641,11 @@ func void StExt_ItemAbilitiesController()
 			// same engine feature as burning swords); refresh if it differs
 			if (!hlp_strcmp(weap.effect, StExt_GetElementGlowFx(element))) { weap.effect = StExt_GetElementGlowFx(element); };
 
-			if (StExt_WeaponSkill_Charged) { StExt_PlayWeaponElementGlow(element); }
-			else
-			{
-				StExt_WeaponSkill_GlowTick -= 1;
-				if (StExt_WeaponSkill_GlowTick <= 0)
-				{
-					StExt_PlayWeaponElementGlow(element);
-					StExt_WeaponSkill_GlowTick = 3;
-				};
-			};
+			// Charged: bright pulse. NO periodic shimmer otherwise - the
+			// repeated point-light FX stuck to the hero's hand and left a
+			// trail of glowing dots behind him; the persistent weap.effect
+			// glow above is enough.
+			if (StExt_WeaponSkill_Charged) { StExt_PlayWeaponElementGlow(element); };
 		};
 	};
 
