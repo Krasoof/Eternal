@@ -45,16 +45,27 @@ func void StExt_ParryDedupe_Reset() { StExt_ParryDedupe = 0; };
 // debug so we can see which hook is live - remove once confirmed.
 func void StExt_HandleParry(var string src)
 {
+	// COMBAT GATE: EV_Parade fires on pressing block, not only on deflects -
+	// without this, tapping block in town would drain stamina and fake a
+	// "perfect". Count only with a readied weapon and a live hostile in
+	// your face (the DLL keeps StExt_FocusNpc current).
+	if (!npc_hasreadiedmeleeweapon(hero) && !npc_hasreadiedrangedweapon(hero)) { return; };
+	if (!hlp_isvalidnpc(StExt_FocusNpc)) { return; };
+	if (c_npcisdown(StExt_FocusNpc)) { return; };
+	if (npc_getdisttonpc(hero, StExt_FocusNpc) > 400) { return; };
+
 	if (StExt_ParryDedupe) { return; };
 	StExt_ParryDedupe = 1;
 	StExt_InitializeCallback(hero, hero, "StExt_ParryDedupe_Reset", 3);
 
-	// every deflect costs stamina - no more eternal shield wall on a regen item
-	rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 8));
+	// every deflect costs stamina - no more eternal shield wall on a regen
+	// item. Niezlomnosc (knight tree) halves the block drain.
+	if (StExt_KnightPerk_Stalwart) { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 4)); }
+	else { rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 8)); };
 
 	if (!StExt_ParryHeld)
 	{
-		// fresh, timed parry = PERFECT: refund the drain + 4% bonus + riposte
+		// fresh, timed parry = PERFECT: refund the drain + bonus + riposte
 		rx_restorestamina(StExt_GetPercentFromValue(atr_stamina_max, 12));
 		StExt_Riposte_Window = 1;
 		StExt_InitializeCallback(hero, hero, "StExt_Riposte_CloseWindow", 90);

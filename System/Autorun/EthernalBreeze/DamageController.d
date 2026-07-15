@@ -679,6 +679,8 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee))
 	{
 		rx_restorestamina(-StExt_GetPercentFromValue(atr_stamina_max, 6));
+		// Pancerz Dusz (knight tree): -8% incoming melee damage
+		if (StExt_KnightPerk_Armor) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 8); };
 	};
 
 	// Zakon boss chip: a LANDED boss hit also chips 2% of your max HP (this
@@ -1132,8 +1134,26 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	{
 		isRiposte = true;
 		StExt_Riposte_Window = 0;
-		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 500);
+		// Gniew Rycerza (knight tree): riposte +100% instead of +50%
+		if (StExt_KnightPerk_Wrath) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 1000); }
+		else { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 500); };
 		printscreencolor("RIPOSTA!", StExt_Null, 45, StExt_DefaultFont, 1, StExt_Color_Green);
+	};
+
+	// Rycerz Dusz: Miazdzacy Cios (every 4th landed melee hit +40%) + Pakt Dusz
+	// (2% melee lifesteal). Bought with boss souls at the Soul Master.
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (RealDamage > 0))
+	{
+		if (StExt_KnightPerk_Crush)
+		{
+			StExt_KnightCrush_Counter += 1;
+			if (StExt_KnightCrush_Counter >= 4)
+			{
+				StExt_KnightCrush_Counter = 0;
+				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 400);
+			};
+		};
+		if (StExt_KnightPerk_Pact) { StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 20)); };
 	};
 
 	// *** ELEMENTAL BUILDUP (deterministic - zero RNG) ***

@@ -238,3 +238,56 @@ instance dia_none_99702_SoulMaster_exit(c_info)
 };
 func int dia_none_99702_SoulMaster_exit_condition() { return true; };
 func void dia_none_99702_SoulMaster_exit_info() { ai_stopprocessinfos(self); };
+
+//--------------------------------------------------------------
+// *** Rycerz Dusz - knight perk tree, paid in BOSS SOULS ***
+//--------------------------------------------------------------
+// Souls stop being only elemental fuel: the Master teaches 5 knight arts.
+// Costs escalate (2/3/5/8/12 souls). Effects live in DamageController /
+// HeroActionsController and key off StExt_KnightPerk_* (GlobalVars).
+
+instance dia_none_99702_SoulMaster_Knight(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 4;
+    condition = dia_none_99702_SoulMaster_Knight_condition;
+    information = dia_none_99702_SoulMaster_Knight_info;
+    permanent = true;
+    description = "Nauki Rycerza Dusz (placisz duszami)";
+};
+func int dia_none_99702_SoulMaster_Knight_condition() { return StExt_SoulKnight_Member; };
+
+func int StExt_Knight_TryPay(var int cost)
+{
+	if (npc_hasitems(hero, itmi_stext_bosssoul) < cost)
+	{
+		ai_printred(concatstrings("Za malo dusz. Potrzeba: ", inttostring(cost)));
+		return false;
+	};
+	npc_removeinvitems(hero, itmi_stext_bosssoul, cost);
+	snd_play("LEVELUP");
+	return true;
+};
+
+// Each purchase CLOSES the dialog (re-open to buy the next one) - this breaks
+// the buy->menu->buy parse-order cycle; direct forward calls are parse fails.
+func void StExt_Knight_Buy_Armor()    { if (StExt_Knight_TryPay(2))  { StExt_KnightPerk_Armor = true;    ai_printbonus("Pancerz Dusz: -8% obrazen wrecz."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+func void StExt_Knight_Buy_Wrath()    { if (StExt_Knight_TryPay(3))  { StExt_KnightPerk_Wrath = true;    ai_printbonus("Gniew Rycerza: riposta +100%."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+func void StExt_Knight_Buy_Stalwart() { if (StExt_Knight_TryPay(5))  { StExt_KnightPerk_Stalwart = true; ai_printbonus("Niezlomnosc: blok kosztuje polowe staminy."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+func void StExt_Knight_Buy_Crush()    { if (StExt_Knight_TryPay(8))  { StExt_KnightPerk_Crush = true;    ai_printbonus("Miazdzacy Cios: co 4. trafienie +40%."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+func void StExt_Knight_Buy_Pact()     { if (StExt_Knight_TryPay(12)) { StExt_KnightPerk_Pact = true;     ai_printbonus("Pakt Dusz: 2% obrazen wraca jako zycie."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+func void StExt_Knight_Exit() { info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+
+func void StExt_Knight_BuildMenu()
+{
+	info_clearchoices(dia_none_99702_SoulMaster_Knight);
+	ai_printbonus(concatstrings("Dusze bossow: ", inttostring(npc_hasitems(hero, itmi_stext_bosssoul))));
+	if (!StExt_KnightPerk_Armor)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pancerz Dusz: -8% obrazen wrecz (2 dusze)", StExt_Knight_Buy_Armor); };
+	if (!StExt_KnightPerk_Wrath)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Gniew Rycerza: riposta +100% (3 dusze)", StExt_Knight_Buy_Wrath); };
+	if (!StExt_KnightPerk_Stalwart) { info_addchoice(dia_none_99702_SoulMaster_Knight, "Niezlomnosc: blok za polowe staminy (5 dusz)", StExt_Knight_Buy_Stalwart); };
+	if (!StExt_KnightPerk_Crush)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Miazdzacy Cios: co 4. trafienie +40% (8 dusz)", StExt_Knight_Buy_Crush); };
+	if (!StExt_KnightPerk_Pact)     { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pakt Dusz: lifesteal 2% (12 dusz)", StExt_Knight_Buy_Pact); };
+	info_addchoice(dia_none_99702_SoulMaster_Knight, dialog_back, StExt_Knight_Exit);
+};
+
+func void dia_none_99702_SoulMaster_Knight_info() { StExt_Knight_BuildMenu(); };

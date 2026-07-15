@@ -122,6 +122,14 @@ var int StExt_PerfectParry_Window;
 var int StExt_Riposte_Window;		// >0 = perfect parry landed; next melee hit within ~1.5s is a riposte
 var int StExt_ParryHeld;			// 1 = a parry happened recently (gap heuristic: held-block vs fresh parry)
 var int StExt_ParryDedupe;			// 1 = a parry was just handled (dedupe EV_Parade vs didParade double-fire)
+
+// *** Rycerz Dusz - knight perk tree bought with BOSS SOULS at the Master ***
+var int StExt_KnightPerk_Armor;		// Pancerz Dusz: -8% otrzymywanych obrazen wrecz (2 dusze)
+var int StExt_KnightPerk_Wrath;		// Gniew Rycerza: riposta +100% zamiast +50% (3 dusze)
+var int StExt_KnightPerk_Stalwart;	// Niezlomnosc: drenaz staminy za blok 8% -> 4% (5 dusz)
+var int StExt_KnightPerk_Crush;		// Miazdzacy Cios: co 4. trafienie wrecz +40% obrazen (8 dusz)
+var int StExt_KnightPerk_Pact;		// Pakt Dusz: lifesteal 2% obrazen wrecz (12 dusz)
+var int StExt_KnightCrush_Counter;
 var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned

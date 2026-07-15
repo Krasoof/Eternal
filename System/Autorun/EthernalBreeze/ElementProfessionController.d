@@ -131,6 +131,15 @@ func void StExt_BuildProfessionTab()
 		StExt_Str_ProfessionTab[1] = concatstrings(StExt_Str_ProfTab_Sworn, concatstrings(StExt_ElementNameByIndex(StExt_SoulKnight_Element1), concatstrings(" + ", StExt_ElementNameByIndex(StExt_SoulKnight_Element2))));
 		StExt_Str_ProfessionTab[2] = concatstrings(StExt_Str_ProfTab_Infused, concatstrings(inttostring(StExt_SoulKnight_SoulsInfused), concatstrings(StExt_Str_ProfTab_InfusedSuffix, concatstrings(inttostring(StExt_ValidateValueRange(StExt_SoulKnight_SoulsInfused, 0, 50)), "%)"))));
 		StExt_Str_ProfessionTab[3] = concatstrings(StExt_Str_ProfTab_Embers, inttostring(StExt_ZakonEmbers_Count()));
+
+		// Rycerz Dusz perk tree (bought with souls at the Master)
+		var string kline; kline = "";
+		if (StExt_KnightPerk_Armor)    { kline = concatstrings(kline, "Pancerz "); };
+		if (StExt_KnightPerk_Wrath)    { kline = concatstrings(kline, "Gniew "); };
+		if (StExt_KnightPerk_Stalwart) { kline = concatstrings(kline, "Niezlomnosc "); };
+		if (StExt_KnightPerk_Crush)    { kline = concatstrings(kline, "Miazdzenie "); };
+		if (StExt_KnightPerk_Pact)     { kline = concatstrings(kline, "Pakt "); };
+		if (!Hlp_StrCmp(kline, "")) { StExt_Str_ProfessionTab[4] = concatstrings("Nauki Rycerza: ", kline); };
 	}
 	else
 	{
