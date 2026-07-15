@@ -282,33 +282,9 @@ func int StExt_AbilityAttack_Loop(var c_npc slf, var c_npc oth)
 	return abilityCasted;
 };
 
-// Deferred trigger target for boss ability kits (scheduled by name from
-// DamageController - defined HERE so CanCastAbility etc. are already parsed).
-// Boss npc restored from its instance id; target = hero (bosses duel the player).
-// DOES NOT use StExt_AbilityAttack_Loop: that loop only casts spell-type
-// abilities when dist > StExt_Npc_Ability_DistMin (200) - and a melee boss
-// is ALWAYS closer than that, so waves/blinks never fired. We select with a
-// faked mid-range distance instead (the waves are point-blank AoE anyway).
-func void StExt_BossAbilityTrigger_Callback()
-{
-	var int slot;
-	var c_npc boss; boss = Hlp_GetNpc(StExt_BossAbilityTrigger_InstId);
-	if (!hlp_isvalidnpc(boss)) { return; };
-	if (npc_isdead(boss)) { return; };
-	if (!StExt_CanCastAbility(boss, hero)) { return; };
-	if (StExt_GetNpcVar(boss, StExt_AiVar_ActiveAbilityCooldown) > 0) { return; };
-
-	slot = StExt_Npc_SelectAbility(boss, StExt_NpcAbility_Type_Buff, StExt_NpcAbility_Flag_OnCast, StExt_Npc_Ability_DistMin + 100);
-	if ((slot > StExt_Null) && (slot < StExt_Npc_MaxNpcAbilities))
-	{
-		if (StExt_Npc_UseAbility(boss, hero, StExt_CurrentNpcAbility, slot, StExt_NpcAbility_Event_OnCastAbility)) { return; };
-	};
-	slot = StExt_Npc_SelectAbility(boss, StExt_NpcAbility_Type_Spell, StExt_NpcAbility_Flag_OnCast, StExt_Npc_Ability_DistMin + 100);
-	if ((slot > StExt_Null) && (slot < StExt_Npc_MaxNpcAbilities))
-	{
-		StExt_Npc_UseAbility(boss, hero, StExt_CurrentNpcAbility, slot, StExt_NpcAbility_Event_OnCastAbility);
-	};
-};
+// (Boss special moves are self-contained in DamageController - the old
+// ability-loop callback that lived here was removed: it never fired for
+// human bosses and left them unarmed.)
 
 // Call from engine every frame from engine for any npc
 func void StExt_OnAiState() { StExt_Npc_AbilityPassive_Loop(); };

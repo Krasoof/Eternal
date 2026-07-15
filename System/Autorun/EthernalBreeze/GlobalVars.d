@@ -109,6 +109,7 @@ var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & sh
 // *** Wieza Umarlych quest (Npc_ZakonTower.d) ***
 var int StExt_ZakonTower_Stage;		// 0 idle, 1 road, 2 camp+Herold, 3 floors, 4 cleared, 5 done
 var int StExt_ZakonTower_WaveKills;
+var int StExt_ZakonTower_TopicMade;	// journal topic created (robust for saves started pre-journal)
 
 // Deferred boss-ability trigger (parse order: Npc_Ai.d comes after
 // DamageController.d, so the call goes through a named 1-frame callback).
@@ -119,6 +120,8 @@ var int StExt_BossAbilityTrigger_InstId;
 // via a frame callback; an incoming melee hit while a token is live = PERFECT PARRY.
 var int StExt_PerfectParry_Window;
 var int StExt_Riposte_Window;		// >0 = perfect parry landed; next melee hit within ~1.5s is a riposte
+var int StExt_ParryHeld;			// 1 = a parry happened recently (gap heuristic: held-block vs fresh parry)
+var int StExt_ParryDedupe;			// 1 = a parry was just handled (dedupe EV_Parade vs didParade double-fire)
 var int StExt_ZakonBlackTrollDead;	// latched: the world's Black Troll was killed (veteran gate + arena spot)
 var int StExt_ZakonHunt_Done;		// last chapter whose hunted target died
 var int StExt_ZakonHunt_SpawnedCh;	// last chapter whose target was spawned

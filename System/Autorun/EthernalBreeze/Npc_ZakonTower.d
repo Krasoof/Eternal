@@ -25,6 +25,20 @@ const string StExt_ZakonTower_WP_Deco1 = "SHORE_MONSTER_02_01";
 const string StExt_ZakonTower_WP_Deco2 = "SHORE_MONSTER_04_01";
 const string StExt_ZakonTower_WP_Tower = "SHORE_MONSTER_05_01";
 
+// Journal wrapper: creates the topic on first use so it works even on saves
+// that started the quest before the journal existed (b_logentry to a missing
+// topic is silently lost). Every log goes through here.
+func void StExt_ZakonTower_Log(var string entry)
+{
+	if (!StExt_ZakonTower_TopicMade)
+	{
+		log_createtopic(StExt_Topic_ZakonTower, log_mission);
+		log_settopicstatus(StExt_Topic_ZakonTower, log_running);
+		StExt_ZakonTower_TopicMade = true;
+	};
+	b_logentry(StExt_Topic_ZakonTower, entry);
+};
+
 // Light statting for wave trash - the boss Setup would make 165k-HP mobs.
 func void StExt_ZakonTower_TrashSetup(var c_npc slf)
 {
@@ -140,13 +154,13 @@ func void StExt_ZakonTower_WaveKill(var int wave)
 		wld_insertnpc(bdt_99735_ZakonTowerWraith4, StExt_ZakonTower_WP_Deco1);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco1);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco2);
-		b_logentry(StExt_Topic_ZakonTower, "Droga wolna. Pod wieza stoi oboz umarlych - prowadzi go Herold Utopionego.");
+		StExt_ZakonTower_Log("Droga wolna. Pod wieza stoi oboz umarlych - prowadzi go Herold Utopionego.");
 	};
 	// Act 3 cleared -> report to the Master
 	if ((wave == 3) && (StExt_ZakonTower_Stage == 3) && (StExt_ZakonTower_WaveKills >= 3))
 	{
 		StExt_ZakonTower_Stage = 4;
-		b_logentry(StExt_Topic_ZakonTower, "Wieza oczyszczona z umarlych. Mistrz Zakonu czeka na wiesci.");
+		StExt_ZakonTower_Log("Wieza oczyszczona z umarlych. Mistrz Zakonu czeka na wiesci.");
 	};
 };
 
@@ -168,7 +182,7 @@ func void ai_ondead_bdt_99733_ZakonTowerHerold()
 	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
 	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
 	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
-	b_logentry(StExt_Topic_ZakonTower, "Herold Utopionego padl. Upiorny garnizon wciaz broni wiezy.");
+	StExt_ZakonTower_Log("Herold Utopionego padl. Upiorny garnizon wciaz broni wiezy.");
 };
 
 //--------------------------------------------------------------
@@ -195,9 +209,7 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Road);
 	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Road);
 	snd_play("STEXT_VOICE_M1");	// Mistrz: "Zar przyciagnal umarlych..."
-	log_createtopic(StExt_Topic_ZakonTower, log_mission);
-	log_settopicstatus(StExt_Topic_ZakonTower, log_running);
-	b_logentry(StExt_Topic_ZakonTower, "Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Droga wiedzie przez trupy - dokladnie tak, jak lubi Zakon.");
+	StExt_ZakonTower_Log("Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Droga wiedzie przez trupy - dokladnie tak, jak lubi Zakon.");
 	ai_stopprocessinfos(self);
 };
 
@@ -218,16 +230,20 @@ func int dia_none_99702_SoulMaster_TowerHint_condition()
 };
 func void dia_none_99702_SoulMaster_TowerHint_info()
 {
+	snd_play("STEXT_VOICE_M3");	// sound test hook - Mistrz mruczy pod nosem
 	if (StExt_ZakonTower_Stage == 1)
 	{
+		StExt_ZakonTower_Log("Cel: stara wieza na wybrzezu, za lesna sciezka na polnoc. Na drodze czekaja dwa upiory garnizonu.");
 		ai_printbonus("Stara wieza na wybrzezu, za lesna sciezka na polnoc. Na drodze czekaja dwa upiory.");
 	}
 	else if (StExt_ZakonTower_Stage == 2)
 	{
+		StExt_ZakonTower_Log("Cel: oboz umarlych u stop wiezy. Dowodzi Herold Utopionego - zabij go.");
 		ai_printbonus("Oboz umarlych lezy U STOP wiezy. Herold Utopionego dowodzi - zabij go.");
 	}
 	else
 	{
+		StExt_ZakonTower_Log("Cel: wytnij upiorny garnizon przy wiezy i w jej wnetrzu.");
 		ai_printbonus("Zostal garnizon: upiorni rycerze przy wiezy i w srodku. Wytnij ich do nogi.");
 	};
 	ai_stopprocessinfos(self);
@@ -248,7 +264,7 @@ func void dia_none_99702_SoulMaster_TowerDone_info()
 	StExt_ZakonTower_Stage = 5;
 	createinvitems(hero, itmi_stext_bosssoul, 2);
 	snd_play("STEXT_VOICE_M2");	// Mistrz: "Wieza pamieta swojego pana..."
+	StExt_ZakonTower_Log("Wieza nalezy do Zakonu. Mistrz mowi, ze wieza pamieta swojego pana - i ze trzeba bedzie go obudzic, by go zabic. Rytual dopiero przed nami.");
 	log_settopicstatus(StExt_Topic_ZakonTower, log_success);
-	b_logentry(StExt_Topic_ZakonTower, "Wieza nalezy do Zakonu. Mistrz mowi, ze wieza pamieta swojego pana - i ze trzeba bedzie go obudzic, by go zabic. Rytual dopiero przed nami.");
 	ai_stopprocessinfos(self);
 };

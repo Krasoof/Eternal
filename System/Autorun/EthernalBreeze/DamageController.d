@@ -342,18 +342,29 @@ func void StExt_Npc_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_i
 		{
 			StExt_Npc_ChangeAiv(atk, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(atk, aivrx_npc_speed));
 		};
-	};
 
-	// Boss ability kits FIX: StExt_AbilityAttack_Loop only runs from the
-	// MONSTER ai loop (zs_mm_attack_loop) - human bosses never enter it, so
-	// their waves/blinks/buffs never fired. Trigger from damage events
-	// instead. PARSE-ORDER NOTE: the loop lives in Npc_Ai.d which is parsed
-	// AFTER this file, so we defer via a 1-frame NAMED callback (resolved at
-	// runtime) - a direct call here is an "Undefined function" parse fail.
-	if ((atk.id >= 99710) && (atk.id <= 99740) && (RealDamage > 0) && StExt_Chance(30))
-	{
-		StExt_BossAbilityTrigger_InstId = hlp_getinstanceid(atk);
-		StExt_InitializeCallback(hero, hero, "StExt_BossAbilityTrigger_Callback", 1);
+		// SPECIAL MOVE - self-contained, ALWAYS fires (no AI/ability-loop/weapon
+		// dependency - the old callback needed the monster ai loop that human
+		// bosses never enter, and it left them punching bare-fisted). Every 5th
+		// landed hit the boss unleashes an element shockwave: real spell FX on
+		// the boss + an unblockable ~9% max-HP burst on the target. Element by
+		// id%5, same split as the buildup eruption.
+		var int bmove; bmove = StExt_GetNpcVar(atk, StExt_AiVar_BossCastCounter) + 1;
+		if (bmove >= 5)
+		{
+			StExt_SetNpcVar(atk, StExt_AiVar_BossCastCounter, 0);
+			var int bel; bel = atk.id % 5;
+			var string bfx;
+			if (bel == 1) { bfx = "SPELLFX_ICEWAVE"; }
+			else if (bel == 2) { bfx = "spellFX_Thunderstorm"; }
+			else if (bel == 3) { bfx = "SPELLFX_MASTEROFDISASTER"; }
+			else { bfx = "SPELLFX_FIREWAVE"; };
+			rx_playeffect(bfx, atk);
+			target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 9), 1);
+			if (bel == 1) { rx_stuntarget(target, 1); };
+			printscreencolor("FALA ZYWIOLU!", StExt_Null, 47, StExt_DefaultFont, 1, StExt_Color_Header);
+		}
+		else { StExt_SetNpcVar(atk, StExt_AiVar_BossCastCounter, bmove); };
 	};
 
 	// GLOBAL combo mixing: every npc used to swing in a fixed metronome
@@ -519,14 +530,6 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 		{
 			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(target, aivrx_npc_speed));
 		};
-	};
-
-	// Boss ability kits also try to fire when the boss TAKES a hit (same
-	// deferred-callback mechanism as the offence side - parse order).
-	if ((target.id >= 99710) && (target.id <= 99740) && (RealDamage > 0) && StExt_Chance(15))
-	{
-		StExt_BossAbilityTrigger_InstId = hlp_getinstanceid(target);
-		StExt_InitializeCallback(hero, hero, "StExt_BossAbilityTrigger_Callback", 1);
 	};
 
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };

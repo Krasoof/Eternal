@@ -1094,6 +1094,7 @@ const int StExt_AiVar_Appearence_VoiceIndex = 161;
 // *** Elemental buildup (Souls status gauge; m_pVARS has 400 slots) ***
 const int StExt_AiVar_ElementBuildup = 170;		// accumulated elemental charge on this npc
 const int StExt_AiVar_ElementBuildupType = 171;	// element index being accumulated (switch = reset)
+const int StExt_AiVar_BossCastCounter = 172;	// boss special-move hit counter (shockwave every 5th hit)
 
 //===================================================================//
 // Npc item conditions stats
