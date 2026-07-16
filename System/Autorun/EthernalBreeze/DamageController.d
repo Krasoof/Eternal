@@ -675,16 +675,20 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
 		};
 
-		// TEMP DEBUG (usunac po diagnozie): komponent itemu vs suma + istniejace staty
-		printscreencolor(ConcatStrings(ConcatStrings("It321=", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])),
-			ConcatStrings("  Pc321=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam]))),
-			StExt_Null, 44, StExt_DefaultFont, 3, StExt_Color_Header);
-		printscreencolor(ConcatStrings(ConcatStrings("melee70=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraMeleeDam])),
-			ConcatStrings(ConcatStrings(" 1h94=", IntToString(StExt_PcStats[StExt_PcStats_Index_1hExtraDam])), ConcatStrings(" 2h95=", IntToString(StExt_PcStats[StExt_PcStats_Index_2hExtraDam])))),
-			StExt_Null, 47, StExt_DefaultFont, 3, StExt_Color_Green);
-		printscreencolor(ConcatStrings(ConcatStrings("isAxe=", IntToString(StExt_ValueHasFlag(weap.flags, item_axe) + StExt_ValueHasFlag(weap.flags, item_2hd_axe))),
-			ConcatStrings(" flags=", IntToString(weap.flags))),
-			StExt_Null, 50, StExt_DefaultFont, 3, StExt_Color_Header);
+		// TEMP DEBUG (usunac po diagnozie): item-stack (It) vs suma (Pc), 319-322
+		printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("It: s", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraSwordDam])),
+			ConcatStrings(" s%", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraSwordDamPerc]))),
+			ConcatStrings(ConcatStrings(" a", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])),
+			ConcatStrings(" a%", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDamPerc])))),
+			30, 44, StExt_DefaultFont, 4, StExt_Color_Header);
+		printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("Pc: s", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam])),
+			ConcatStrings(" s%", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDamPerc]))),
+			ConcatStrings(ConcatStrings(" a", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam])),
+			ConcatStrings(" a%", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDamPerc])))),
+			30, 47, StExt_DefaultFont, 4, StExt_Color_Green);
+		printscreencolor(ConcatStrings(ConcatStrings("realB=", IntToString(dbgRealBefore)),
+			ConcatStrings(" realA=", IntToString(StExt_DamageInfo.RealDamage))),
+			30, 50, StExt_DefaultFont, 4, StExt_Color_Header);
 	};
 
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
