@@ -20,3 +20,6 @@ docs/armor_preview/
 # Assety przepakowane z paczek trzecich (UAWR/ArmorExpansion) - jak
 # EthernalBreeze.vdf: dystrybucja poza gitem, licencje rozne.
 Data/STEXT_Assets.vdf
+
+# ElevenLabs API key - NIGDY do repo
+tools/.eleven_key

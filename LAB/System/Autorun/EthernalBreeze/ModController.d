@@ -138,6 +138,18 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
+	// LAB: Bezimienny Kowal (hub R1) - w ruinach wiezy, od rozdz. 1 dla
+	// czlonka Zakonu (docelowo: po oczyszczeniu wiezy StExt_ZakonTower_Stage>=4)
+	if (!StExt_HubSmithAppear && StExt_SoulKnight_Member && (kapitel >= 1))
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_HubSmithAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99760_HubSmith, "SHORE_MONSTER_02_01");
+			rx_restoreparservars();
+		};
+	};
 	// LAB: Adela (Roza Khorinis, scena 1) - kaplica przy Bigfarm, od rozdz. 2
 	if (!StExt_RoseAdelaAppear && (kapitel >= 2))
 	{
