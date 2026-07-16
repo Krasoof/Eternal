@@ -23,3 +23,6 @@ Data/STEXT_Assets.vdf
 
 # ElevenLabs API key - NIGDY do repo
 tools/.eleven_key
+
+# Third-party reference repos (study only, never commit)
+_refs/
