@@ -673,6 +673,14 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDam];
 			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
 		};
+
+		// TEMP DEBUG (usunac po diagnozie): statAxe | statSwd | flagi broni
+		printscreencolor(
+			ConcatStrings(ConcatStrings(ConcatStrings("DBG axe=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam])),
+			ConcatStrings(" swd=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam]))),
+			ConcatStrings(ConcatStrings(" flags=", IntToString(weap.flags)),
+			ConcatStrings(" real=", IntToString(StExt_DamageInfo.RealDamage)))),
+			StExt_Null, 50, StExt_DefaultFont, 1, StExt_Color_Green);
 	};
 
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
