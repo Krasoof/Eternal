@@ -1,79 +1,84 @@
-# „Cienie Drakii" — kontynuacja romansu z Loą (po podstawce Returninga)
+# „Czarne Perły" — kontynuacja romansu z Loą (po podstawce Returninga)
 
-## Kim jest Loa (KANON Returninga — zweryfikowane w sieci + symbolach bazy)
+## Kim jest Loa (KANON — zweryfikowane)
+Tancerka na strzelnicy najemników przy farmie Onara, pochodzi z Drakii,
+ma tam „niedokończone sprawy" (wątek w Returningu ZAMROŻONY — Drakia
+niedostępna). Podstawka: „Widmowe marzenia" (wiersze + NASZYJNIK Z CZARNYCH
+PEREŁ + błękitna malwa → wyznanie na latarni → noc) i „ZAPOMNIANE
+wspomnienia Loy" (piknik za farmą; wyznaje niepokój o przeszłość; przenosi
+się na płd. plażę Jharkendaru przy „Jednookiej Elzie").
+Kotwice bazowe: MIS_LOAROMANCE, MIS_LOASECRET, LOALOVER, LOALOVERDAY,
+CANSAYLOASTAY, CAMLOALOVE, ADW_LOA_SHIP, DIA_LOA_GODRAKIA, DIA_LOA_COMELH,
+DIA_LOA_GIVE_FLOWER/PEARL/STIHI, LOAPARTY. Bazowych dialogów NIE ruszamy.
 
-Tancerka na strzelnicy najemników przy farmie Onara. Dumna i nieufna —
-w podstawce trzeba jej udowodnić, że nie jesteś „kolejnym chłopem, co chce
-jednego": quest **„Widmowe marzenia"** (piękne wiersze + naszyjnik z czarnych
-pereł + błękitna malwa → wyznanie na LATARNI o północy → noc razem), potem
-**„Zapomniane wspomnienia Loy"**: piknik w lesie za farmą Onara (jedzenie od
-Coragona za 1000 zł, 2 wina od Goraxa za 2000), przy którym wyznaje, że
-pochodzi z **DRAKII** i zostawiła tam NIEDOKOŃCZONE SPRAWY. Po tym przenosi
-się na południową plażę Jharkendaru (przy wraku „Jednookiej Elzy").
-W Returningu wątek Drakii jest ZAMROŻONY (kraina niedostępna) — kanoniczna
-dziura, którą wypełniamy.
+## HAK (kreatywny, spięty z kanonem i naszym lore dusz)
+Drugi quest podstawki nazywa się „ZAPOMNIANE wspomnienia" — bierzemy to
+dosłownie: **Loa ma wymazaną pamięć.** W Drakii była tancerką rytualną
+zakonu Niepamięci: jej taniec USYPIAŁ dusze, które kapłani zamykali
+w czarnych perłach (nasze lore: duszę można uwięzić — Śpiący, Szpon
+Beliara). Ród Loy popadł w niełaskę; dusze jej rodziny zamknięto w perłach,
+a ONA miała być ostatnią. Uciekła przed rytuałem — ceną przejścia było
+wymazanie pamięci. Pamięta tylko to, co umie ciało: taniec.
 
-**Kotwice (bazowe symbole, zweryfikowane):** `MIS_LOAROMANCE`,
-`MIS_LOASECRET`, `LOALOVER`, `LOALOVE`, `LOALOVERDAY`, `CANSAYLOASTAY`,
-`CAMLOALOVE`, `ADW_LOA_SHIP` (plaża Jharkendaru), `DIA_LOA_GODRAKIA`
-(=GO DRAKIA — zamrożony hak podstawki!), `DIA_LOA_COMELH` (=Come LightHouse),
-`DIA_LOA_GIVE_FLOWER/PEARL/STIHI`, `CONCERTLOA*`, `LOAPARTY` (piknik).
-Start kontynuacji: po OBU questach podstawki (semantyka flag do potwierdzenia
-w grze przed sceną 1). ZASADA: żadnego wyjazdu do Drakii (kraina nie istnieje
-w grze) — **Drakia przychodzi do niej**.
+**TWIST, który gracz poczuje:** naszyjnik z czarnych pereł, który sam jej
+PODAROWAŁ w podstawce (skąd pochodził? kanon milczy — luka nasza), to
+perły z wraku drakijskiego statku. **To dusze jej rodu.** Dlatego dopiero
+przy graczu ruszyły „zapomniane wspomnienia" — perły budzą pamięć nosząc
+się przy niej. Nic w tym wątku nie jest przypadkiem: perły ją ZNALAZŁY.
 
-## HAK LOREOWY
-Niedokończone sprawy nie czekają. Loa uciekła z Drakii — a to, przed czym
-uciekła, w końcu ją znalazło. Taniec to jej język (drakijski, obrzędowy —
-dobudowa w duchu kanonu): tym tańcem kiedyś komuś coś obiecano.
+## Sceny (VOICED, osobno testowalne; start po obu questach podstawki)
 
-## Sceny (wszystkie VOICED, osobno testowalne)
+### L1. „Sen, który nie jest snem" (Jharkendar, plaża przy Elzie)
+Loa budzi się nocami z cudzymi wspomnieniami — mówi słowami starej kobiety,
+której nigdy nie znała (to babka — perła nr 3). Przy obozie ślady: ktoś
+obserwuje. PĘTLA: zasadzka Strażników Niepamięci (2 łowców; walczą dziwnie
+- rytmicznie, jak tancerze). WYBÓR: przesłuchać jeńca (dowiadujesz się
+o rytuale pereł) / pozwolić Loi zabić (jej pierwsza krew — MROK+, wraca
+w finale). DŹWIĘK: 4 linie Loy (gosia), 2 łowcy.
 
-### L1. „Czarna malwa" (rozdz. 3+, Jharkendar — plaża przy Elzie)
-Przy jej obozie ktoś zostawił BŁĘKITNĄ MALWĘ — spaloną na czarno (lustro
-prezentu z podstawki: gracz rozpozna). Loa: „To nie zalotnik. To wezwanie."
-PĘTLA: nocna warta → zasadzka 2 łowców z Drakii (ludzie, dobre bronie,
-mówią o niej „własność"). WYBÓR: przesłuchać jeńca (dowiadujesz się o
-Kontrakcie) / pozwolić Loi go zabić (ona zabija PIERWSZY raz przy tobie —
-MROK+ dla NIEJ, wraca w finale). DŹWIĘK: 4 linie Loy (gosia), 2 łowcy.
+### L2. „Perła numer trzy" (wyznanie + mechanika)
+Mistrz Zakonu Dusz rozpoznaje robotę: w perłach SĄ dusze (nasza gildia
+to potwierdza narzędziami — integracja!). Loa wpada w gniew: nosiła
+rodzinę na szyi jak biżuterię — od CIEBIE. Scena kryzysu zaufania:
+WYBÓR dialogowy, jak przyjmiesz jej gniew (pokora / prawda „nie
+wiedziałem" / bagatelizacja=MROK). Potem: pierwsze CELOWE obudzenie
+jednej perły przy Kuźni — słyszysz głos jej babki: ostrzeżenie, że
+„Mistrz Niepamięci płynie dokończyć naszyjnik". DŹWIĘK: 5 linii Loy,
+2 Mistrza Zakonu, 1 głos babki (gosia, pitch-down + pogłos = upiornie).
 
-### L2. „Taniec, który obiecał" (wyznanie)
-Przy ognisku Loa tańczy — pierwszy raz OD ucieczki — i opowiada: w Drakii
-zatańczyła komuś taniec zaręczynowy. Nie z miłości; sprzedał ją ojciec.
-Uciekła po zaręczynach — wg prawa Drakii narzeczony ma PRAWO ją zabrać.
-To on wysyła łowców. WYBÓR: „Zostań i walcz" / „Ucieknijmy razem"
-(ona odmawia ucieczki — test gracza; wybór wraca w finale jako jej wyrzut
-albo duma). DŹWIĘK: 5 linii Loy — najdłuższy monolog wątku, 1 Bezi.
+### L3. „Strażnik rytmu" (mini-boss)
+Dowódca Strażników — dawny PARTNER TANECZNY Loy z rytuałów (jedyny
+element tańca, jaki zostawiamy — i teraz ma sens: walczy jak ona,
+zna jej kroki, przewiduje jej ruchy... i JEJ wspomnienia o nim też
+wymazano). Walka z tempo-shiftami; w połowie Loa go rozpoznaje — cios
+pamięci. WYBÓR: dobić / darować (darowany wraca w finale — po jednej
+albo drugiej stronie, zależnie od L1). DŹWIĘK: 3 linie Strażnika
+(darkman), 2 Loy.
 
-### L3. „Posłaniec" (mini-boss)
-Przybywa Posłaniec narzeczonego (mini-boss, dobry rig walki, tempo-shift):
-formalnie, z prawem Drakii na piśmie, żąda wydania Loy. Opcja dyplomacji
-POZORNA (odmowa = walka i tak — ale grzeczna odmowa vs plucie w twarz
-ustawia MROK). Po walce: przy ciele glejt — narzeczony płynie osobiście.
-„Jednooka Elza" przestaje być dekoracją: jego statek przybije TĄ plażą.
-DŹWIĘK: 3 linie Posłańca (darkman 0.95), 2 Loy.
-
-### L4. Finał: „Prawo Drakii"
-Świt, mgła, statek u brzegu. Narzeczony (boss z pełnym kitem: broń, tempo,
-fale załogi) + zasada honoru: Loa MUSI patrzeć. Trzy zakończenia:
-- **Taniec wolnych** (L1 bez mordu jeńca + L2 „zostań i walcz"): Loa
-  walczy U TWOJEGO BOKU przez cały finał (towarzysz bojowy!); po walce
-  tańczy taniec zaręczynowy — tym razem z wyboru, dla ciebie. Zostaje
-  (CANSAYLOASTAY - kotwica huba/farmy), stały drobny buff „Taniec Loy".
-- **Krew za krew** (jeniec zabity / MROK): wygrywasz, ale Loa widzi w
-  tobie drugą Drakię. Odpływa TYM statkiem — sama, wolna, bez ciebie.
-  Zostaje czarna malwa (item-pamiątka, gorzki wpis).
-- **Prawo silniejszego** (przegrana walka — nie game over!): budzisz się
-  na plaży, statku nie ma. Dziennik: najcięższy wpis. Ślad questowy:
-  handlarz w porcie słyszał, dokąd płynie... (hak pod przyszłość, gdy
-  Returning kiedyś otworzy Drakię — kompatybilność w przód).
+### L4. Finał: „Ostatnia perła" (plaża Elzy, świt, statek we mgle)
+Mistrz Niepamięci przypływa dokończyć naszyjnik — Loa ma zostać ostatnią
+perłą. Boss + fale załogi. Jeśli Loa ci ufa (L1 bez mordu, L2 pokora/prawda):
+przez całą walkę tańczy TANIEC ODWROTNY — budzi dusze rodu w perłach,
+a te wysysają moc bossa (mechanicznie: debuff bossa co falę + widoczne
+duchy przodków dołączające po każdej fali — HER family fights back).
+Trzy zakończenia:
+- **Naszyjnik pęka**: dusze rodu wolne (możesz je oddać Kuźni ALBO puścić
+  — moralny wybór Zakonu: przekuć czyjś ród na moc?), pamięć Loy wraca
+  CAŁA. Zostaje z tobą — już nie uciekinierka, tylko ostatnia z rodu,
+  która wie, jak się kończy niepamięć. Stały buff „Rytm Loy".
+- **Cisza pereł** (MROK/bagatelizacja): wygrywasz walkę, ale Loa oddaje
+  ci naszyjnik i odchodzi — „Nosiłam ich dla ciebie. Teraz ty ich noś."
+  (item-pamiątka z realnym ciężarem: −1 slot biżuterii, lore-wpis).
+- **Dokończony naszyjnik** (przegrana — nie game over): budzisz się na
+  plaży; po Loi została JEDNA czarna perła w piasku. Hak na przyszłość
+  (odbicie, jeśli Returning kiedyś otworzy Drakię).
 
 ## Dźwięk
-Loa = gosia (1.0-1.1); łowcy/Posłaniec = darkman 0.95; narzeczony = darkman
-1.2 (ciężki); Bezi = mc_speech (do podmiany po wykupie głosu). Manifest per
-scena przy implementacji (wzór: RoseRomance_OU.csv). Beaty przez SFX-VDF.
+Loa = gosia; babka = gosia pitch-down+pogłos; Strażnicy/Mistrz Niepamięci
+= darkman (0.95/1.2); Bezi = mc_speech (do podmiany po wykupie głosu).
+Manifest per scena przy implementacji; beaty przez SFX-VDF (patent wieży).
 
 ## Zgodność
-Tylko bazowe symbole + nasze; bazowych dialogów Loy NIE ruszamy; spawny na
-istniejących WP plaży Jharkendaru (do spisania Kamieniem na miejscu).
+Tylko bazowe symbole + nasze. Zero podróży do Drakii. Spawny na
+istniejących WP plaży Jharkendaru (spisać Kamieniem na miejscu).
 Adela („Róża Khorinis") pozostaje zamrożona w LAB.
