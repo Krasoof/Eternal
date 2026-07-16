@@ -161,6 +161,8 @@ instance mfx_stext_wglow_fire(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -202,6 +204,8 @@ instance mfx_stext_wglow_ice(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -243,6 +247,8 @@ instance mfx_stext_wglow_electric(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -284,6 +290,8 @@ instance mfx_stext_wglow_air(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -325,6 +333,8 @@ instance mfx_stext_wglow_earth(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -366,6 +376,8 @@ instance mfx_stext_wglow_light(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -407,6 +419,8 @@ instance mfx_stext_wglow_dark(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -448,6 +462,8 @@ instance mfx_stext_wglow_death(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
@@ -491,6 +507,8 @@ instance mfx_stext_legendarmor(c_particlefx) {
     ppsissmooth = 1;
     ppsfps = 2.0;
     shptype_s = "MESH";
+    shpmesh_s = "";
+    shpmeshrender_b = 0;
     shpfor_s = "object";
     shpoffsetvec_s = "0 0 0";
     shpdistribtype_s = "RAND";
