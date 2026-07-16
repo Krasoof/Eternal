@@ -112,11 +112,12 @@ func void StExt_ValidatePcStats()
 func void StExt_HandlePcStatChange(var int statId, var int statVal)
 {
 	// TEMP DEBUG (usunac po diagnozie): tylko nowe staty 311+ (sygnal pierscienia,
-	// bez szumu z co-sekundowych przeliczen dynamicznych)
+	// bez szumu z co-sekundowych przeliczen dynamicznych). Osobny wiersz na
+	// kazdy stat - rownoczesne printy w tym samym miejscu sie zakrywaly!
 	if (statId >= 311)
 	{
 		printscreencolor(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
-			ConcatStrings(" val=", IntToString(statVal))), 40, 40, StExt_DefaultFont, 5, StExt_Color_Green);
+			ConcatStrings(" val=", IntToString(statVal))), 40, 30 + ((statId - 311) * 3), StExt_DefaultFont, 5, StExt_Color_Green);
 	};
 
 	if (statId == StExt_PcStats_Index_Hp) { hero.attribute[atr_hitpoints_max] += statVal; }
