@@ -4978,8 +4978,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraRuneDam(StExt_BaseExtraStat)
 	Id = StExt_PcStats_Index_ExtraRuneDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraRuneDamPerc(StExt_BaseExtraStat)
@@ -4987,8 +4987,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraRuneDamPerc(StExt_BaseExtraSta
 	Id = StExt_PcStats_Index_ExtraRuneDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraScrollDam(StExt_BaseExtraStat)
@@ -4996,8 +4996,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraScrollDam(StExt_BaseExtraStat)
 	Id = StExt_PcStats_Index_ExtraScrollDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraScrollDamPerc(StExt_BaseExtraStat)
@@ -5005,8 +5005,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraScrollDamPerc(StExt_BaseExtraS
 	Id = StExt_PcStats_Index_ExtraScrollDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapSealDam(StExt_BaseExtraStat)
@@ -5014,8 +5014,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapSealDam(StExt_BaseExtraSta
 	Id = StExt_PcStats_Index_ExtraWeapSealDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapSealDamPerc(StExt_BaseExtraStat)
@@ -5023,8 +5023,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapSealDamPerc(StExt_BaseExtr
 	Id = StExt_PcStats_Index_ExtraWeapSealDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapElementDam(StExt_BaseExtraStat)
@@ -5032,8 +5032,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapElementDam(StExt_BaseExtra
 	Id = StExt_PcStats_Index_ExtraWeapElementDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapElementDamPerc(StExt_BaseExtraStat)
@@ -5041,8 +5041,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraWeapElementDamPerc(StExt_BaseE
 	Id = StExt_PcStats_Index_ExtraWeapElementDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraSwordDam(StExt_BaseExtraStat)
@@ -5050,8 +5050,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraSwordDam(StExt_BaseExtraStat)
 	Id = StExt_PcStats_Index_ExtraSwordDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraSwordDamPerc(StExt_BaseExtraStat)
@@ -5059,8 +5059,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraSwordDamPerc(StExt_BaseExtraSt
 	Id = StExt_PcStats_Index_ExtraSwordDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraAxeDam(StExt_BaseExtraStat)
@@ -5068,8 +5068,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraAxeDam(StExt_BaseExtraStat)
 	Id = StExt_PcStats_Index_ExtraAxeDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraAxeDamPerc(StExt_BaseExtraStat)
@@ -5077,8 +5077,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraAxeDamPerc(StExt_BaseExtraStat
 	Id = StExt_PcStats_Index_ExtraAxeDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraLightBladeDam(StExt_BaseExtraStat)
@@ -5086,8 +5086,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraLightBladeDam(StExt_BaseExtraS
 	Id = StExt_PcStats_Index_ExtraLightBladeDam;
 	ValueType = StExt_Value_DisplayType_Default;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 40; RollMinCap = 5; RollMaxCap = 1500;
-	RollMinPower = 0.10; RollMaxPower = 0.30;
+	RollChance = 250; RollMinCap = 5; RollMaxCap = 1500;
+	RollMinPower = 0.40; RollMaxPower = 1.20;
 	CostPerStat = 10.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ExtraLightBladeDamPerc(StExt_BaseExtraStat)
@@ -5095,8 +5095,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ExtraLightBladeDamPerc(StExt_BaseEx
 	Id = StExt_PcStats_Index_ExtraLightBladeDamPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 35; RollMinCap = 5; RollMaxCap = 150;
-	RollMinPower = 0.01; RollMaxPower = 0.05;
+	RollChance = 220; RollMinCap = 5; RollMaxCap = 150;
+	RollMinPower = 0.06; RollMaxPower = 0.18;
 	CostPerStat = 15.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_BleedingPowerPerc(StExt_BaseExtraStat)
@@ -5104,8 +5104,8 @@ instance StExt_ExtraStat_StExt_PcStats_Index_BleedingPowerPerc(StExt_BaseExtraSt
 	Id = StExt_PcStats_Index_BleedingPowerPerc;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 30; RollMinCap = 10; RollMaxCap = 250;
-	RollMinPower = 0.02; RollMaxPower = 0.08;
+	RollChance = 200; RollMinCap = 10; RollMaxCap = 250;
+	RollMinPower = 0.08; RollMaxPower = 0.20;
 	CostPerStat = 12.0;
 };
 instance StExt_ExtraStat_StExt_PcStats_Index_ArmorPierceChance(StExt_BaseExtraStat)
@@ -5113,7 +5113,7 @@ instance StExt_ExtraStat_StExt_PcStats_Index_ArmorPierceChance(StExt_BaseExtraSt
 	Id = StExt_PcStats_Index_ArmorPierceChance;
 	ValueType = StExt_Value_DisplayType_Permille;
 	StatGroup = StExt_StatGroup_Attack;
-	RollChance = 25; RollMinCap = 5; RollMaxCap = 50;
-	RollMinPower = 0.005; RollMaxPower = 0.006;
+	RollChance = 150; RollMinCap = 5; RollMaxCap = 50;
+	RollMinPower = 0.01; RollMaxPower = 0.02;
 	CostPerStat = 20.0;
 };

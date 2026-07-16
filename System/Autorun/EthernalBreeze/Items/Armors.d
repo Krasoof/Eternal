@@ -2102,3 +2102,16 @@ instance itar_stext_zakon_c4_ore(c_item)
     visual_change = "ZAKON_C4OR.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
 };
+
+// ch3 pool addition: BS_NOVS - user's own armor (BS_NOV/, raw ASC shipped
+// in STEXT_Assets.vdf; the engine compiles ASC on first equip).
+instance itar_stext_zakon_c3_bsnov(c_item)
+{
+    name = "Pancerz Bractwa"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "BS_NOVS.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
