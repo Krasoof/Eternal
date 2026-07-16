@@ -755,8 +755,10 @@ func void StExt_ProcessPcStats()
 	StExt_UpdatePcStats();
 
 	// TEMP DEBUG (usunac po diagnozie): staly HUD - stan statu toporow co sekunde
-	printscreencolor(ConcatStrings(ConcatStrings("RING It321=", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])),
+	// + faktyczna dlugosc tablicy Items w runtime (311 = stary rozmiar z save!)
+	printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("RING It321=", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])),
 		ConcatStrings(" Pc321=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam]))),
+		ConcatStrings(" len=", IntToString(Par_GetSymbolLength(Par_GetParserID("Game"), Par_GetSymbolID(Par_GetParserID("Game"), "StExt_PcStats_Items"))))),
 		30, 20, StExt_DefaultFont, 2, StExt_Color_Header);
 	StExt_ProcessPcStatsPercents();		// Apply percent stats
 	StExt_ValidatePcStats();			// Make shure that stats values in valid ranges	
