@@ -122,11 +122,17 @@ func void StExt_HandlePcStatChange(var int statId, var int statVal)
 {
 	// TEMP DEBUG (usunac po diagnozie): tylko nowe staty 311+ (sygnal pierscienia,
 	// bez szumu z co-sekundowych przeliczen dynamicznych). Osobny wiersz na
-	// kazdy stat - rownoczesne printy w tym samym miejscu sie zakrywaly!
+	// kazdy stat. arr= odczyt tablicy Items przez API parsera W CHWILI dostawy,
+	// c321= bezposredni odczyt indeksu 321 - rozjazd = zapis DLL laduje obok.
 	if (statId >= 311)
 	{
-		printscreencolor(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
-			ConcatStrings(" val=", IntToString(statVal))), 40, 30 + ((statId - 311) * 3), StExt_DefaultFont, 5, StExt_Color_Green);
+		var int dbgPId; dbgPId = Par_GetParserID("Game");
+		var int dbgSId; dbgSId = Par_GetSymbolID(dbgPId, "StExt_PcStats_Items");
+		printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
+			ConcatStrings(" val=", IntToString(statVal))),
+			ConcatStrings(ConcatStrings(" arr=", IntToString(Par_GetSymbolValueIntArray(dbgPId, dbgSId, statId))),
+			ConcatStrings(" c321=", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])))),
+			30, 30 + ((statId - 311) * 3), StExt_DefaultFont, 5, StExt_Color_Green);
 	};
 
 	if (statId == StExt_PcStats_Index_Hp) { hero.attribute[atr_hitpoints_max] += statVal; }
