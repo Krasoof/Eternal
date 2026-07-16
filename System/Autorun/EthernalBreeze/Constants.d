@@ -1,5 +1,16 @@
 const int StExt_ModVersion = 308;
 
+// Damage engine selector (read once by the DLL at init; needs a game restart to flip).
+// 0 = legacy: the DLL rescales the raw damage channels by the RealDamage ratio after the
+//     Before-handlers ran. Two sources of truth -> the bug class where a bonus is added
+//     in script but never lands on the hit.
+// 1 = new (Union_AlterDamage pattern): remember HP -> let the original OnDamage run ->
+//     restore HP -> apply RealDamage directly. RealDamage becomes the ONLY source of
+//     truth. Script mechanics (Zar, perks, masteries, legendaries, buildup, parry, boss
+//     abilities) are untouched - they keep running in the same Before/After handlers.
+// Kept 0 in the repo/prod; the test install runs 1 while it is being proven out.
+const int StExt_UseNewDamageEngine = 0;
+
 // Chance (%) that a generated magic weapon rolls a random elemental perk (read by the DLL).
 const int StExt_WeaponElementRollChance = 20;
 

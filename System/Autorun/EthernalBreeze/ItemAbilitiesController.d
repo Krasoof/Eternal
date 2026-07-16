@@ -532,16 +532,18 @@ func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
 	return true;
 };
 
-// Element glow: our per-element visualFX (correct colors!). The blade-wide
-// coverage comes from the PFX shape (MESH) + the visualFX NOT being anchored
-// to ZS_RIGHTHAND anymore - as an item.effect it now attaches to the weapon
-// mesh itself. (VOB_MAGICBURN was wrong: that whole family is fire-colored,
-// so an ice weapon "caught fire".)
+// Element glow. Fire/Ice/Electric use RETURNING'S OWN enchant visuals - the same
+// ones Gallahad / the Adanos-warrior enchant put on a blade, so they are proven to
+// cover the whole weapon with the right colour. Our home-made SPELLFX_STEXT_WGLOW_*
+// only ever lit the hilt: a "MESH"-shaped emitter with no shpMesh_S has no geometry
+// to sample, so every particle spawned at the vob origin.
+// The remaining five elements have no base equivalent and still use our own FX until
+// they are rebuilt on the base template (see docs/DESIGN_WeaponGlow notes).
 func string StExt_GetElementGlowFx(var int element)
 {
-	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_STEXT_WGLOW_FIRE"; };
-	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_STEXT_WGLOW_ICE"; };
-	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_STEXT_WGLOW_ELECTRIC"; };
+	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_AW_ENCHANT_FIRE"; };
+	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_AW_ENCHANT_ICE"; };
+	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_AW_ENCHANT_ELECTRO"; };
 	if (element == StExt_MasteryIndex_Air) { return "SPELLFX_STEXT_WGLOW_AIR"; };
 	if (element == StExt_MasteryIndex_Earth) { return "SPELLFX_STEXT_WGLOW_EARTH"; };
 	if (element == StExt_MasteryIndex_Light) { return "SPELLFX_STEXT_WGLOW_LIGHT"; };
