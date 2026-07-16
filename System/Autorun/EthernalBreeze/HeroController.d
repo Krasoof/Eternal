@@ -124,10 +124,12 @@ func void StExt_HandlePcStatChange(var int statId, var int statVal)
 	// bez szumu z co-sekundowych przeliczen dynamicznych). Osobny wiersz na
 	// kazdy stat. arr= odczyt tablicy Items przez API parsera W CHWILI dostawy,
 	// c321= bezposredni odczyt indeksu 321 - rozjazd = zapis DLL laduje obok.
+	var int dbgPId;
+	var int dbgSId;
 	if (statId >= 311)
 	{
-		var int dbgPId; dbgPId = Par_GetParserID("Game");
-		var int dbgSId; dbgSId = Par_GetSymbolID(dbgPId, "StExt_PcStats_Items");
+		dbgPId = Par_GetParserID("Game");
+		dbgSId = Par_GetSymbolID(dbgPId, "StExt_PcStats_Items");
 		printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
 			ConcatStrings(" val=", IntToString(statVal))),
 			ConcatStrings(ConcatStrings(" arr=", IntToString(Par_GetSymbolValueIntArray(dbgPId, dbgSId, statId))),
@@ -747,10 +749,15 @@ func void StExt_ProcessPcStats()
 		additionalacceleration = StExt_PcCurrentAcceleration;
 	};
 	
-	maxEs = StExt_Npc_GetMaxEs(hero);	
+	maxEs = StExt_Npc_GetMaxEs(hero);
 	StExt_ProcessPcDynamicStats();		// Apply mods from skills and perks
 	StExt_ProcessPcInventory();
 	StExt_UpdatePcStats();
+
+	// TEMP DEBUG (usunac po diagnozie): staly HUD - stan statu toporow co sekunde
+	printscreencolor(ConcatStrings(ConcatStrings("RING It321=", IntToString(StExt_PcStats_Items[StExt_PcStats_Index_ExtraAxeDam])),
+		ConcatStrings(" Pc321=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam]))),
+		30, 20, StExt_DefaultFont, 2, StExt_Color_Header);
 	StExt_ProcessPcStatsPercents();		// Apply percent stats
 	StExt_ValidatePcStats();			// Make shure that stats values in valid ranges	
 	
