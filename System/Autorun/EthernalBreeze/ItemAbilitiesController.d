@@ -532,18 +532,20 @@ func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
 	return true;
 };
 
-// Element glow VFX name (used for hand pulses AND as the item's own
-// persistent effect so the weapon itself carries the glow).
+// Element glow: the GALLAHAD technique (user tip) - the engine's own
+// item-burn visuals (VOB_MAGICBURN family) cover the WHOLE blade natively;
+// the 6 CHILD variants are the color tints Gallahad uses when enchanting.
+// Our custom mesh-PFX attempt only ever lit the grip area.
 func string StExt_GetElementGlowFx(var int element)
 {
-	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_STEXT_WGLOW_FIRE"; };
-	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_STEXT_WGLOW_ICE"; };
-	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_STEXT_WGLOW_ELECTRIC"; };
-	if (element == StExt_MasteryIndex_Air) { return "SPELLFX_STEXT_WGLOW_AIR"; };
-	if (element == StExt_MasteryIndex_Earth) { return "SPELLFX_STEXT_WGLOW_EARTH"; };
-	if (element == StExt_MasteryIndex_Light) { return "SPELLFX_STEXT_WGLOW_LIGHT"; };
-	if (element == StExt_MasteryIndex_Dark) { return "SPELLFX_STEXT_WGLOW_DARK"; };
-	if (element == StExt_MasteryIndex_Death) { return "SPELLFX_STEXT_WGLOW_DEATH"; };
+	if (element == StExt_MasteryIndex_Fire) { return "VOB_MAGICBURN_NOSND"; };
+	if (element == StExt_MasteryIndex_Ice) { return "VOB_MAGICBURN_NOSND_CHILD1"; };
+	if (element == StExt_MasteryIndex_Electric) { return "VOB_MAGICBURN_NOSND_CHILD2"; };
+	if (element == StExt_MasteryIndex_Air) { return "VOB_MAGICBURN_NOSND_CHILD3"; };
+	if (element == StExt_MasteryIndex_Earth) { return "VOB_MAGICBURN_NOSND_CHILD4"; };
+	if (element == StExt_MasteryIndex_Light) { return "VOB_MAGICBURN_NOSND_CHILD5"; };
+	if (element == StExt_MasteryIndex_Dark) { return "VOB_MAGICBURN_NOSND_CHILD6"; };
+	if (element == StExt_MasteryIndex_Death) { return "VOB_MAGICBURN_NOSND_CHILD6"; };
 	return "";
 };
 

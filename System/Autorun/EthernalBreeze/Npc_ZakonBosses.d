@@ -527,7 +527,7 @@ func void StExt_ZakonReward_Pick_C3TplH()  { StExt_ZakonReward_Pick(itar_stext_z
 func void StExt_ZakonReward_Pick_C3Ket()   { StExt_ZakonReward_Pick(itar_stext_zakon_c3_ketpal); };
 func void StExt_ZakonReward_Pick_C3Angel() { StExt_ZakonReward_Pick(itar_stext_zakon_c3_angel); };
 func void StExt_ZakonReward_Pick_C3Brig()  { StExt_ZakonReward_Pick(itar_stext_zakon_c3_brig); };
-func void StExt_ZakonReward_Pick_C3BsNov() { StExt_ZakonReward_Pick(itar_stext_zakon_c3_bsnov); };
+func void StExt_ZakonReward_Pick_C3PalL() { StExt_ZakonReward_Pick(itar_stext_zakon_c3_pallight); };
 func void StExt_ZakonReward_Pick_Exit()    { info_clearchoices(dia_none_99702_SoulMaster_Reward); ai_stopprocessinfos(self); };
 
 //--------------------------------------------------------------
@@ -572,7 +572,7 @@ func void dia_none_99702_SoulMaster_Reward_info()
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Zbroja Krzyzowca Dusz", StExt_ZakonReward_Pick_C3Ket);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Aniola Smierci", StExt_ZakonReward_Pick_C3Angel);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, "Brygantyna Zakonna", StExt_ZakonReward_Pick_C3Brig);
-		info_addchoice(dia_none_99702_SoulMaster_Reward, "Pancerz Bractwa", StExt_ZakonReward_Pick_C3BsNov);
+		info_addchoice(dia_none_99702_SoulMaster_Reward, "Jasny Pancerz Paladynski", StExt_ZakonReward_Pick_C3PalL);
 		info_addchoice(dia_none_99702_SoulMaster_Reward, dialog_back, StExt_ZakonReward_Pick_Exit);
 	}
 	else if (ch == 2)

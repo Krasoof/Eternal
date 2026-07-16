@@ -2115,3 +2115,16 @@ instance itar_stext_zakon_c3_bsnov(c_item)
     visual_change = "BS_NOVS.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
 };
+
+// ch3 pool: PAL_H_LIGHTENED1 skin on the ARMOR_PAL_NEW_H02 mesh (same UV
+// family as the base LIGHTENED texture - clean pairing).
+instance itar_stext_zakon_c3_pallight(c_item)
+{
+    name = "Jasny Pancerz Paladynski"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 130; protection[2] = 130; protection[3] = 105; protection[5] = 105; protection[6] = 95;
+    value = 5000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_C3PL.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+};
