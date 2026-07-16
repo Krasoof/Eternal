@@ -1,41 +1,4 @@
-ZASADY PROJEKTU ETHERNALBREEZE (kanon - nie łamiemy)
+OPIERAJ SIĘ O LORE docs/LORE_Ghotic.md
+PRACUJ JAK NAJWIĘCEJ Z DLL/NATYWNYMI MECHANIKAMI, KONIEC Z NAKŁADKĄ.
+TWORZ DOKUMENTACJE TECHNICZNA SAMEGO RETURNINGA DLA SIEBIE NA POTEM.
 
-WIZJA: Gothic x Souls x Diablo. Duzo ciezkiej walki, dramatyzm, malo
-pierdolenia. Wszystko udzwiekowione (Piper AI; glos Beziego tylko
-licencjonowany). Smiga na czystym NB/Returningu - zero obcych zaleznosci.
-
-BALANS:
-1. Wszystko w % - zadnych flatow w systemach (flaty tylko jako staty itemow).
-2. Regen zasobow to najwyzej ZWROT czesci kosztu - nigdy netto-dodatni.
-   (mana 7%/czar; cios 8% staminy, refund max 1/3; blok 8%/parade; spellblade
-   placi mana za zywiol wg mocy broni i pieczeci)
-3. Zero mechanik on-death. Zero czystego RNG w mechanikach rdzenia
-   (liczniki zamiast rzutow: riposta co 4. parada, erupcja deterministyczna).
-4. Parowanie = natywne NB/Returning. My dokladamy tylko ekonomie staminy
-   i perk riposty. NIE budujemy wlasnej detekcji perfect parry.
-5. Bossowie: id 99710-99740, pasywki po id; rozdzial 1 ludzie, 2+ nieumarli;
-   kazdy z prawdziwa bronia; tempo -10/+300; bez infuzji (wlasne kity).
-6. Legendy: kazdy item rangi 5 losuje JEDEN bonus z puli slotu (prop 28);
-   bonusy klasowe broni bija w GLOWNY cios, zywioly bokiem.
-
-LORE (docs/LORE_Gothic.md - pelna sciaga):
-7. Dusza nigdy nie jest darmowa. Umarli weszaza za Zarem. Bogowie nie gadaja
-   wprost. Zakon balansuje miedzy trzema bogami - to silnik fabuly.
-8. Questy wg szablonu (docs/QUESTS_Zakon_Szablony.md): hak lore'owy, stawka
-   osobista, wybor z konsekwencja, prawdziwy dziennik, manifest dzwieku,
-   checklista zero-tandety.
-9. Romans = kontynuacja Loy z podstawki: tancerka z Drakii u Onara,
-   watek "Czarne Perly" - wymazana pamiec, dusze rodu w naszyjniku
-   z podstawki (docs/DESIGN_LoaRomance.md);
-   Adela zamrozona w LAB.
-
-TECHNIKA:
-10. Kolejnosc parsowania z EthernalBreeze.src to prawo. Nowe pliki MUSZA
-    byc w .src. Symbole bazowe weryfikowac grepem po AB_Scripts.vdf.
-11. Nowe mechaniki najpierw w LAB/, na zywy System po klepnieciu.
-12. Assety: wszystko w Data/STEXT_Assets.vdf (builder w tools/); nic luzem;
-    przepakowane paczki trzecich NIE ida do publicznego repo.
-13. Deploy: repo -> test (C:\ghotic_test) -> commit -> push dev + dev:main.
-    Prod przenosi wlasciciel (System + Data; _Work juz nieuzywane).
-14. Save-safety: nie kasujemy instancji/itemow - wycofujemy z dropow/menu,
-    definicje zostaja.

@@ -1,6 +1,6 @@
 # SZABLON QUESTÓW ZAKONU DUSZ + rozpiska questów
 
-Fundament: docs/LORE_Gothic.md. Każdy quest MUSI przejść checklistę na dole.
+Fundament: docs/LORE_Ghotic.md. Każdy quest MUSI przejść checklistę na dole.
 
 ## Szablon (obowiązkowa struktura każdego questa)
 
