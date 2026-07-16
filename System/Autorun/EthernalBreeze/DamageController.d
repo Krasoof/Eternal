@@ -653,28 +653,6 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 	damMult = StExt_ZakonEmbers_OffencePermille();
 	if (damMult > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, damMult); };
 
-	// Jewelry weapon-class bonuses go INTO THE MAIN HIT (user call: "+160
-	// toporami ma byc w glownym dymku, nie bokiem") - flat + capped % modify
-	// RealDamage itself, same proven path as the embers bonus above.
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && hlp_isvaliditem(weap))
-	{
-		if (StExt_ValueHasFlag(weap.flags, item_swd) || StExt_ValueHasFlag(weap.flags, item_2hd_swd))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDamPerc], 0, 150));
-		}
-		else if (StExt_ValueHasFlag(weap.flags, item_axe) || StExt_ValueHasFlag(weap.flags, item_2hd_axe))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDamPerc], 0, 150));
-		}
-		else if (StExt_ValueHasFlag(weap.flags, item_dag))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
-		};
-	};
-
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
 };
 
@@ -1280,11 +1258,29 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		};
 	};
 
-	// (weapon-class flat/% bonuses moved to Hero_BeforeOffenceHandler - they
-	// modify the MAIN hit now, per user call; only the pierce proc stays
-	// here as a side packet)
+	// Jewelry weapon-class bonuses (swords / axes+polearms / light blades) +
+	// armor-pierce proc. BeforeOffence RealDamage edits are silently discarded
+	// by the DLL (UpdateDamageInfo overwrites from the descriptor), so these
+	// MUST go through ExtraDamageInfo here - the same proven path every mastery
+	// bonus uses. Adds raw (barrier) damage on top of the hit. NOTE: test on a
+	// REAL mob, not the training dummy (it resets HP and ignores extra damage).
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (RealDamage > 0) && hlp_isvaliditem(weap))
 	{
+		if (StExt_ValueHasFlag(weap.flags, item_swd) || StExt_ValueHasFlag(weap.flags, item_2hd_swd))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDamPerc], 0, 150));
+		}
+		else if (StExt_ValueHasFlag(weap.flags, item_axe) || StExt_ValueHasFlag(weap.flags, item_2hd_axe))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDamPerc], 0, 150));
+		}
+		else if (StExt_ValueHasFlag(weap.flags, item_dag))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDam];
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
+		};
 		if (StExt_Chance(StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ArmorPierceChance], 0, 50)))
 		{
 			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 350);

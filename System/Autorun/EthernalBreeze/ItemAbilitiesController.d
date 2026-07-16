@@ -532,20 +532,21 @@ func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
 	return true;
 };
 
-// Element glow: the GALLAHAD technique (user tip) - the engine's own
-// item-burn visuals (VOB_MAGICBURN family) cover the WHOLE blade natively;
-// the 6 CHILD variants are the color tints Gallahad uses when enchanting.
-// Our custom mesh-PFX attempt only ever lit the grip area.
+// Element glow: our per-element visualFX (correct colors!). The blade-wide
+// coverage comes from the PFX shape (MESH) + the visualFX NOT being anchored
+// to ZS_RIGHTHAND anymore - as an item.effect it now attaches to the weapon
+// mesh itself. (VOB_MAGICBURN was wrong: that whole family is fire-colored,
+// so an ice weapon "caught fire".)
 func string StExt_GetElementGlowFx(var int element)
 {
-	if (element == StExt_MasteryIndex_Fire) { return "VOB_MAGICBURN_NOSND"; };
-	if (element == StExt_MasteryIndex_Ice) { return "VOB_MAGICBURN_NOSND_CHILD1"; };
-	if (element == StExt_MasteryIndex_Electric) { return "VOB_MAGICBURN_NOSND_CHILD2"; };
-	if (element == StExt_MasteryIndex_Air) { return "VOB_MAGICBURN_NOSND_CHILD3"; };
-	if (element == StExt_MasteryIndex_Earth) { return "VOB_MAGICBURN_NOSND_CHILD4"; };
-	if (element == StExt_MasteryIndex_Light) { return "VOB_MAGICBURN_NOSND_CHILD5"; };
-	if (element == StExt_MasteryIndex_Dark) { return "VOB_MAGICBURN_NOSND_CHILD6"; };
-	if (element == StExt_MasteryIndex_Death) { return "VOB_MAGICBURN_NOSND_CHILD6"; };
+	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_STEXT_WGLOW_FIRE"; };
+	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_STEXT_WGLOW_ICE"; };
+	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_STEXT_WGLOW_ELECTRIC"; };
+	if (element == StExt_MasteryIndex_Air) { return "SPELLFX_STEXT_WGLOW_AIR"; };
+	if (element == StExt_MasteryIndex_Earth) { return "SPELLFX_STEXT_WGLOW_EARTH"; };
+	if (element == StExt_MasteryIndex_Light) { return "SPELLFX_STEXT_WGLOW_LIGHT"; };
+	if (element == StExt_MasteryIndex_Dark) { return "SPELLFX_STEXT_WGLOW_DARK"; };
+	if (element == StExt_MasteryIndex_Death) { return "SPELLFX_STEXT_WGLOW_DEATH"; };
 	return "";
 };
 
