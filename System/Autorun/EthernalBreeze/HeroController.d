@@ -109,6 +109,15 @@ func void StExt_ValidatePcStats()
 };
 
 // Bind mod stats with AiVars and default game attributes
+// TEMP DEBUG (usunac po diagnozie): DLL wola to per slot rozszerzenia przy equip
+func void StExt_DebugItemStatSlot(var int slotId, var int statId, var int statVal)
+{
+	printscreencolor(ConcatStrings(ConcatStrings(ConcatStrings("SLOT ", IntToString(slotId)),
+		ConcatStrings(": id=", IntToString(statId))),
+		ConcatStrings(" val=", IntToString(statVal))),
+		70, 30 + (slotId * 3), StExt_DefaultFont, 6, StExt_Color_Header);
+};
+
 func void StExt_HandlePcStatChange(var int statId, var int statVal)
 {
 	// TEMP DEBUG (usunac po diagnozie): tylko nowe staty 311+ (sygnal pierscienia,
