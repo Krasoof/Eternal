@@ -111,9 +111,13 @@ func void StExt_ValidatePcStats()
 // Bind mod stats with AiVars and default game attributes
 func void StExt_HandlePcStatChange(var int statId, var int statVal)
 {
-	// TEMP DEBUG (usunac po diagnozie): kazda zmiana statu z itemow na ekran
-	printscreencolor(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
-		ConcatStrings(" val=", IntToString(statVal))), 40, 40, StExt_DefaultFont, 5, StExt_Color_Green);
+	// TEMP DEBUG (usunac po diagnozie): tylko nowe staty 311+ (sygnal pierscienia,
+	// bez szumu z co-sekundowych przeliczen dynamicznych)
+	if (statId >= 311)
+	{
+		printscreencolor(ConcatStrings(ConcatStrings("STATCHG id=", IntToString(statId)),
+			ConcatStrings(" val=", IntToString(statVal))), 40, 40, StExt_DefaultFont, 5, StExt_Color_Green);
+	};
 
 	if (statId == StExt_PcStats_Index_Hp) { hero.attribute[atr_hitpoints_max] += statVal; }
 	else if (statId == StExt_PcStats_Index_Mp) { hero.attribute[atr_mana_max] += statVal; }
