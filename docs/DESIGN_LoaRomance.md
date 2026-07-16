@@ -1,71 +1,79 @@
-# „Pieśń dla Loy" — kontynuacja romansu z Loą (po podstawce Returninga)
+# „Cienie Drakii" — kontynuacja romansu z Loą (po podstawce Returninga)
 
-Loa = pieśniarka z wątku Returninga (koncert u Coragona, prezenty: kwiat /
-perła / wiersze, love-scene, EPICQUEST; sceną steruje baza). Podstawka daje
-dwa questy romansu — MY zaczynamy PO nich. Zero ruszania bazowych dialogów:
-wszystko nowe, warunkowane bazowymi flagami.
+## Kim jest Loa (KANON Returninga — zweryfikowane w sieci + symbolach bazy)
 
-**Kotwice (bazowe symbole, zweryfikowane w AB_Scripts.vdf):**
-`MIS_LOAROMANCE`, `MIS_LOASECRET`, `LOALOVER`, `LOALOVE`, `LOALOVERDAY`,
-`CANSAYLOASTAY`, `CONCERTLOABONUS`, `ADW_LOA_SHIP`, `CAMLOALOVE`.
-Warunek startu kontynuacji: `MIS_LOAROMANCE == LOG_SUCCESS && LOALOVER`
-(dokładną semantykę flag potwierdzimy w grze przed implementacją sceny 1 —
-wpis kontrolny przez Kamień/print).
+Tancerka na strzelnicy najemników przy farmie Onara. Dumna i nieufna —
+w podstawce trzeba jej udowodnić, że nie jesteś „kolejnym chłopem, co chce
+jednego": quest **„Widmowe marzenia"** (piękne wiersze + naszyjnik z czarnych
+pereł + błękitna malwa → wyznanie na LATARNI o północy → noc razem), potem
+**„Zapomniane wspomnienia Loy"**: piknik w lesie za farmą Onara (jedzenie od
+Coragona za 1000 zł, 2 wina od Goraxa za 2000), przy którym wyznaje, że
+pochodzi z **DRAKII** i zostawiła tam NIEDOKOŃCZONE SPRAWY. Po tym przenosi
+się na południową plażę Jharkendaru (przy wraku „Jednookiej Elzy").
+W Returningu wątek Drakii jest ZAMROŻONY (kraina niedostępna) — kanoniczna
+dziura, którą wypełniamy.
 
-**HAK LOREOWY (spina z Zakonem):** pieśń to „miękka magia" Adanosa —
-harmonia, która KOI dusze. Bezimienny nosi Żar Dusz; przy Loi Żar cichnie...
-a umarli, którzy za nim węszą, zaczynają węszyć wokół NIEJ. Romans wpada
-w sam środek konfliktu gildii: to, co kochasz, staje się celem tego,
-co ukradłeś Beliarowi.
+**Kotwice (bazowe symbole, zweryfikowane):** `MIS_LOAROMANCE`,
+`MIS_LOASECRET`, `LOALOVER`, `LOALOVE`, `LOALOVERDAY`, `CANSAYLOASTAY`,
+`CAMLOALOVE`, `ADW_LOA_SHIP` (plaża Jharkendaru), `DIA_LOA_GODRAKIA`
+(=GO DRAKIA — zamrożony hak podstawki!), `DIA_LOA_COMELH` (=Come LightHouse),
+`DIA_LOA_GIVE_FLOWER/PEARL/STIHI`, `CONCERTLOA*`, `LOAPARTY` (piknik).
+Start kontynuacji: po OBU questach podstawki (semantyka flag do potwierdzenia
+w grze przed sceną 1). ZASADA: żadnego wyjazdu do Drakii (kraina nie istnieje
+w grze) — **Drakia przychodzi do niej**.
 
-## Sceny (każda osobno testowalna, wszystkie VOICED)
+## HAK LOREOWY
+Niedokończone sprawy nie czekają. Loa uciekła z Drakii — a to, przed czym
+uciekła, w końcu ją znalazło. Taniec to jej język (drakijski, obrzędowy —
+dobudowa w duchu kanonu): tym tańcem kiedyś komuś coś obiecano.
 
-### L1. „Cisza" (rozdz. 3+)
-Loa przestała śpiewać. Mówi, że od kiedy jesteś blisko, w nocy słyszy
-„drugi głos", który podśpiewuje jej własne pieśni — spod ziemi.
-WYBÓR: powiedzieć prawdę o Żarze (uczciwość → Względy+) / skłamać (MROK+).
-PĘTLA: nocna warta przy niej → 2 fale umarłych ciągnących do jej domu.
-DŹWIĘK: 4 linie Loy (gosia), 1 Bezi (mc_speech).
+## Sceny (wszystkie VOICED, osobno testowalne)
 
-### L2. „Pieśń, która koi" (styk z mechaniką!)
-Mistrz Zakonu potwierdza: głos Loy tłumi głód Beliara. Prośba: niech
-zaśpiewa przy Kuźni podczas przekuwania wielkiego Żaru. OBRONA RYTUAŁU
-z Loą w środku (eskorta VIP — pada ona = porażka questa, nie śmierć,
-porwanie wątku do L4). Nagroda mechaniczna: buff „Pieśń Loy" — przy
-noszeniu Żaru kara do obrony −50% przez X dni (odnawialny u niej).
-DŹWIĘK: 2 linie Loy, 2 Mistrza, 1 Bezi.
+### L1. „Czarna malwa" (rozdz. 3+, Jharkendar — plaża przy Elzie)
+Przy jej obozie ktoś zostawił BŁĘKITNĄ MALWĘ — spaloną na czarno (lustro
+prezentu z podstawki: gracz rozpozna). Loa: „To nie zalotnik. To wezwanie."
+PĘTLA: nocna warta → zasadzka 2 łowców z Drakii (ludzie, dobre bronie,
+mówią o niej „własność"). WYBÓR: przesłuchać jeńca (dowiadujesz się o
+Kontrakcie) / pozwolić Loi go zabić (ona zabija PIERWSZY raz przy tobie —
+MROK+ dla NIEJ, wraca w finale). DŹWIĘK: 4 linie Loy (gosia), 2 łowcy.
 
-### L3. „Zazdrość umarłych"
-Upiorny „wielbiciel" (mini-boss, dark kit) zaczyna zostawiać Loi prezenty:
-martwe kwiaty, perłę z grobu, WIERSZE pisane jej pismem — lustrzane
-odbicie prezentów z podstawki (gracz to rozpozna = ukłon, nie tandeta).
-Pościg nocą → walka na dachach/nabrzeżu. WYBÓR: zniszczyć upiora /
-odkryć, KIM był za życia (barda zabitego za pieśń — oddać jego pieśń
-Loi do repertuaru = uwolnienie duszy, Względy++).
-DŹWIĘK: 3 szepty upiora (mc_speech pitch-down), 2 linie Loy.
+### L2. „Taniec, który obiecał" (wyznanie)
+Przy ognisku Loa tańczy — pierwszy raz OD ucieczki — i opowiada: w Drakii
+zatańczyła komuś taniec zaręczynowy. Nie z miłości; sprzedał ją ojciec.
+Uciekła po zaręczynach — wg prawa Drakii narzeczony ma PRAWO ją zabrać.
+To on wysyła łowców. WYBÓR: „Zostań i walcz" / „Ucieknijmy razem"
+(ona odmawia ucieczki — test gracza; wybór wraca w finale jako jej wyrzut
+albo duma). DŹWIĘK: 5 linii Loy — najdłuższy monolog wątku, 1 Bezi.
 
-### L4. Finał: „Głos spod ziemi"
-Beliar sięga po Loę wprost: głos, który podśpiewywał, wzywa ją do wieży /
-na statek (ADW_LOA_SHIP — kotwica bazowa, jeśli aktywna). Schodzisz po nią
-do finału bojowego (reużycie ARENA_BOSS_NECRO albo piwnica wieży).
-TRZY ZAKOŃCZENIA (wg wyborów L1/L3 + MROK):
-- **Duet** — prawda w L1 + uwolniony bard w L3: Loa śpiewa W CIEMNOŚCI,
-  osłabiając bossa przez całą walkę (mechanicznie: debuff bossa co fale);
-  po wygranej zostaje w hubie, stały buff Pieśni.
-- **Cisza** — skłamałeś: Loa przeżywa, ale odchodzi; zostaje tylko jej
-  wstążka (item-pamiątka, mały bonus, gorzki wpis).
-- **Requiem** (MROK wysoki): ratujesz ciało, głos zostaje pod ziemią —
-  Loa żyje, lecz nigdy już nie śpiewa. Hub bez buffu, w dzienniku
-  najcięższy wpis wątku.
+### L3. „Posłaniec" (mini-boss)
+Przybywa Posłaniec narzeczonego (mini-boss, dobry rig walki, tempo-shift):
+formalnie, z prawem Drakii na piśmie, żąda wydania Loy. Opcja dyplomacji
+POZORNA (odmowa = walka i tak — ale grzeczna odmowa vs plucie w twarz
+ustawia MROK). Po walce: przy ciele glejt — narzeczony płynie osobiście.
+„Jednooka Elza" przestaje być dekoracją: jego statek przybije TĄ plażą.
+DŹWIĘK: 3 linie Posłańca (darkman 0.95), 2 Loy.
 
-## Dubbing
-Loa = gosia (1.05); upiór-wielbiciel = mc_speech 1.4 + pitch/pogłos (FX pass);
-Bezi = mc_speech (do podmiany na wykupiony głos). Manifest per scena w
-docs/RoseRomance_OU.csv-stylu (osobny plik przy implementacji L1).
-Beaty przez SFX-VDF (patent questa wieży), lip-sync przy przebiegu OU.
+### L4. Finał: „Prawo Drakii"
+Świt, mgła, statek u brzegu. Narzeczony (boss z pełnym kitem: broń, tempo,
+fale załogi) + zasada honoru: Loa MUSI patrzeć. Trzy zakończenia:
+- **Taniec wolnych** (L1 bez mordu jeńca + L2 „zostań i walcz"): Loa
+  walczy U TWOJEGO BOKU przez cały finał (towarzysz bojowy!); po walce
+  tańczy taniec zaręczynowy — tym razem z wyboru, dla ciebie. Zostaje
+  (CANSAYLOASTAY - kotwica huba/farmy), stały drobny buff „Taniec Loy".
+- **Krew za krew** (jeniec zabity / MROK): wygrywasz, ale Loa widzi w
+  tobie drugą Drakię. Odpływa TYM statkiem — sama, wolna, bez ciebie.
+  Zostaje czarna malwa (item-pamiątka, gorzki wpis).
+- **Prawo silniejszego** (przegrana walka — nie game over!): budzisz się
+  na plaży, statku nie ma. Dziennik: najcięższy wpis. Ślad questowy:
+  handlarz w porcie słyszał, dokąd płynie... (hak pod przyszłość, gdy
+  Returning kiedyś otworzy Drakię — kompatybilność w przód).
 
-## Status pozostałych romansów
-Adela („Róża Khorinis") → ZAMROŻONA w LAB (scena 1 zostaje jako proof
-pipeline'u). Loa ma priorytet: istnieje w podstawce, gracze ją znają,
-kontynuacja > nowa postać. Wnioski z projektu Adeli (Względy/MROK,
-miniquesty ciszy) przeniesione tutaj.
+## Dźwięk
+Loa = gosia (1.0-1.1); łowcy/Posłaniec = darkman 0.95; narzeczony = darkman
+1.2 (ciężki); Bezi = mc_speech (do podmiany po wykupie głosu). Manifest per
+scena przy implementacji (wzór: RoseRomance_OU.csv). Beaty przez SFX-VDF.
+
+## Zgodność
+Tylko bazowe symbole + nasze; bazowych dialogów Loy NIE ruszamy; spawny na
+istniejących WP plaży Jharkendaru (do spisania Kamieniem na miejscu).
+Adela („Róża Khorinis") pozostaje zamrożona w LAB.
