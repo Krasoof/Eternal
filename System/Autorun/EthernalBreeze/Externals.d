@@ -39,6 +39,7 @@
 	func int StExt_GetPercentBasedOnValue(var int arg1, var int arg2);
 	func int StExt_GetInstanceIdByName(var string name);
 	func int StExt_UpdatePcStats();
+	func int StExt_GetPcStat(var int idx);
 	
 	func void StExt_Info_AddChoice(var int menu, var string optName, var string optFunc);
 	func void StExt_Info_BuildItemGeneratorPresetsChoices(var int menu, var string optFunc);

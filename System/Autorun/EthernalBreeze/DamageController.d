@@ -653,27 +653,9 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 	damMult = StExt_ZakonEmbers_OffencePermille();
 	if (damMult > 0) { StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, damMult); };
 
-	// Jewelry weapon-class bonuses -> MAIN HIT. Edits RealDamage; the DLL
-	// scales the raw damage channels by the RealDamage ratio after this
-	// handler, so the boosted value shows in the main damage number.
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && hlp_isvaliditem(weap))
-	{
-		if (StExt_ValueHasFlag(weap.flags, item_swd) || StExt_ValueHasFlag(weap.flags, item_2hd_swd))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDamPerc], 0, 150));
-		}
-		else if (StExt_ValueHasFlag(weap.flags, item_axe) || StExt_ValueHasFlag(weap.flags, item_2hd_axe))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDamPerc], 0, 150));
-		}
-		else if (StExt_ValueHasFlag(weap.flags, item_dag))
-		{
-			StExt_DamageInfo.RealDamage += StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDam];
-			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
-		};
-	};
+	// Weapon-class per-type bonuses (sword/axe/light-blade flat+%) are applied
+	// natively in the DLL damage pipeline (Damage.cpp) - the script cannot
+	// reliably read StExt_PcStats[311+] under zParserExtender (reads 0).
 
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
 };
@@ -829,13 +811,13 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		{
 			if (StExt_SpellInfo.IsScroll)
 			{
-				StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraScrollDam];
-				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraScrollDamPerc], 0, 150));
+				StExt_ExtraDamageInfo.Damage += StExt_GetPcStat(StExt_PcStats_Index_ExtraScrollDam);
+				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraScrollDamPerc), 0, 150));
 			}
 			else
 			{
-				StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraRuneDam];
-				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraRuneDamPerc], 0, 150));
+				StExt_ExtraDamageInfo.Damage += StExt_GetPcStat(StExt_PcStats_Index_ExtraRuneDam);
+				StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraRuneDamPerc), 0, 150));
 			};
 		};
 		if (StExt_IsGenericPerkLearned(StExt_PerkIndex_Archmage)) { StExt_ExtraDamageInfo.Damage += (hero.attribute[2] + 1) / 2; };
@@ -1252,7 +1234,7 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 			else if (lgb == 4)
 			{
 				var int lgbBleed; lgbBleed = StExt_GetPermilleFromValue(RealDamage, 70);
-				lgbBleed += StExt_GetPermilleFromValue(lgbBleed, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_BleedingPowerPerc], 0, 250));
+				lgbBleed += StExt_GetPermilleFromValue(lgbBleed, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_BleedingPowerPerc), 0, 250));
 				StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 6, lgbBleed, dam_index_edge);
 			}
 			else if (lgb == 5) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 100); }
@@ -1285,7 +1267,7 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	// ratio. Only the pierce PROC stays here as a side packet.)
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && (RealDamage > 0) && hlp_isvaliditem(weap))
 	{
-		if (StExt_Chance(StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ArmorPierceChance], 0, 50)))
+		if (StExt_Chance(StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ArmorPierceChance), 0, 50)))
 		{
 			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 350);
 		};
@@ -2247,7 +2229,7 @@ func void StExt_OnDamageBegin()
 	
 	StExt_DamageInfo.DamageFlags = StExt_GetDamageFlags(StExt_AttackNpc, StExt_TargetNpc, StExt_AttackWeapon, StExt_DamageInfo.SpellId);
 	StExt_DamageInfo.DamageType = StExt_GetDamageType(StExt_AttackNpc, StExt_TargetNpc, StExt_AttackWeapon, StExt_DamageInfo.SpellId);
-	
+
 	if (npc_isplayer(StExt_AttackNpc)) { StExt_Hero_BeforeOffenceHandler(StExt_AttackNpc, StExt_TargetNpc, StExt_AttackWeapon); }
 	else if (StExt_IsSummonOrTotem(StExt_AttackNpc)) { StExt_Summon_BeforeOffenceHandler(StExt_AttackNpc, StExt_TargetNpc, StExt_AttackWeapon); }
 	else { StExt_Npc_BeforeOffenceHandler(StExt_AttackNpc, StExt_TargetNpc, StExt_AttackWeapon); };

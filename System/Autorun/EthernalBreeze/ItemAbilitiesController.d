@@ -132,8 +132,8 @@ func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int ex
 	power += StExt_GetWeaponBurstStat(weap);
 	power += StExt_GetPermilleFromValue(power, StExt_SoulKnight_BonusPermille());
 	// jewelry affixes: weapon SEAL/rune damage (flat + capped %)
-	power += StExt_PcStats[StExt_PcStats_Index_ExtraWeapSealDam];
-	power += StExt_GetPermilleFromValue(power, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraWeapSealDamPerc], 0, 150));
+	power += StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapSealDam);
+	power += StExt_GetPermilleFromValue(power, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapSealDamPerc), 0, 150));
 	return power;
 };
 
@@ -338,8 +338,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// Spellblade perk "Ostrze Zywiolow": +30% weapon element damage
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_ElementBlade)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			// jewelry affixes: weapon ELEMENT damage (flat + capped %)
-			amount += StExt_PcStats[StExt_PcStats_Index_ExtraWeapElementDam];
-			amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraWeapElementDamPerc], 0, 150));
+			amount += StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDam);
+			amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDamPerc), 0, 150));
 			StExt_AddElementHitDamage(element, amount);
 			// slow mastery trickle from channeling the weapon's element
 			StExt_GainElementMasteryFromUse(element, 4);
@@ -392,7 +392,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 6; };
 			// jewelry affix: bleeding amplifier (cap +25%)
-			amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_BleedingPowerPerc], 0, 250));
+			amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_BleedingPowerPerc), 0, 250));
 			StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, StExt_Npc_CalcDotDuration(atk), amount, dam_index_point);
 		};
 		if (sealSpell == StExt_PhysSeal_Pierce)
