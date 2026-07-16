@@ -656,6 +656,7 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 	// Jewelry weapon-class bonuses -> MAIN HIT. Edits RealDamage; the DLL
 	// scales the raw damage channels by the RealDamage ratio after this
 	// handler, so the boosted value shows in the main damage number.
+	var int dbgRealBefore; dbgRealBefore = StExt_DamageInfo.RealDamage;
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && hlp_isvaliditem(weap))
 	{
 		if (StExt_ValueHasFlag(weap.flags, item_swd) || StExt_ValueHasFlag(weap.flags, item_2hd_swd))
@@ -674,13 +675,12 @@ func void StExt_Hero_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c
 			StExt_DamageInfo.RealDamage += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_PcStats[StExt_PcStats_Index_ExtraLightBladeDamPerc], 0, 150));
 		};
 
-		// TEMP DEBUG (usunac po diagnozie): statAxe | statSwd | flagi broni
-		printscreencolor(
-			ConcatStrings(ConcatStrings(ConcatStrings("DBG axe=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam])),
-			ConcatStrings(" swd=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraSwordDam]))),
-			ConcatStrings(ConcatStrings(" flags=", IntToString(weap.flags)),
-			ConcatStrings(" real=", IntToString(StExt_DamageInfo.RealDamage)))),
-			StExt_Null, 50, StExt_DefaultFont, 1, StExt_Color_Green);
+		// TEMP DEBUG (usunac po diagnozie): stat321 | czy topor | real przed/po
+		printscreencolor(ConcatStrings("axe321=", IntToString(StExt_PcStats[StExt_PcStats_Index_ExtraAxeDam])),
+			StExt_Null, 46, StExt_DefaultFont, 3, StExt_Color_Header);
+		printscreencolor(ConcatStrings(ConcatStrings("isAxe=", IntToString(StExt_ValueHasFlag(weap.flags, item_axe) + StExt_ValueHasFlag(weap.flags, item_2hd_axe))),
+			ConcatStrings(ConcatStrings("  realB=", IntToString(dbgRealBefore)), ConcatStrings(" realA=", IntToString(StExt_DamageInfo.RealDamage)))),
+			StExt_Null, 49, StExt_DefaultFont, 3, StExt_Color_Green);
 	};
 
 	StExt_Npc_BeforeOffenceHandler(atk, target, weap);
