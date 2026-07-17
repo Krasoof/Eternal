@@ -27,3 +27,13 @@ tools/.eleven_key
 
 # Third-party reference repos (study only, never commit)
 _refs/
+
+# Zrodla silnika Gothic II Addon - third-party, TYLKO do czytania lokalnie.
+# Jest to nasze zrodlo prawdy o silniku (pipeline obrazen, emitery czastek),
+# ale NIE moze trafic do publicznego repo.
+g2addon-source-code-love/
+
+# Paczki .vdf w roocie (UAWR 2GB, ArmorExpansion 56MB) - jak reszta paczek:
+# za duze na Githuba (limit 100MB/plik) i licencje trzecich stron.
+/UAWR_BIG.vdf
+/ArmorExpansion.vdf
