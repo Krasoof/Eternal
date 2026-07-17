@@ -375,7 +375,11 @@ func int StExt_GetGenericPerkCost(var int perkId)
 		StExt_PrintDebugStack(concatstrings("StExt_GetGenericPerkCost(var int perkId) -> Perk index out of range! Index: ", inttostring(perkId)));
 		return 0;
 	};
-	cost = StExt_Array_GetInt("StExt_Perk_Cost", perkId);
+	// Gold can be farmed forever, so it is the SOFT gate only - a third of the old
+	// price. The real cost sits in LP (StExt_GetGenericPerkLpCost), the one currency
+	// the player cannot grind. StExt_Perk_Cost stays the single power rating of a
+	// perk; both prices derive from it.
+	cost = StExt_Array_GetInt("StExt_Perk_Cost", perkId) / 3;
 	if (StExt_SncMode == 3) { cost += StExt_GetPercentFromValue(cost, 50); };
 	cost = StExt_GetPercentFromValueWithMin(cost, StExt_Config_EducationMoneyCostMult, 1);
 	return cost;
@@ -390,9 +394,11 @@ func int StExt_GetGenericPerkLpCost(var int perkId)
 		return 0;
 	};
 	if (StExt_SncMode == 3) { return 0; };
-	// LP cost raised 2.5x (divisor 2500 -> 1000) per feedback - engine perks
-	// were near-free in LP (15k gold perk = 6 LP; now 15).
-	cost = (StExt_Array_GetInt("StExt_Perk_Cost", perkId) + 1) / 1000;
+	// LP is the HARD gate - unfarmable, so this is where a perk actually costs.
+	// Divisor 1000 -> 300 (3.3x more LP). A 30k-rated perk now runs 10k gold +
+	// 100 LP instead of 30k gold + 30 LP: the old formula had the ratio backwards,
+	// charging grindable gold heavily and the scarce currency almost not at all.
+	cost = (StExt_Array_GetInt("StExt_Perk_Cost", perkId) + 1) / 300;
 	cost = StExt_GetPercentFromValueWithMin(cost, StExt_Config_EducationRequirementsMult, 1);
 	return cost;
 };
