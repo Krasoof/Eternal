@@ -15,7 +15,8 @@ tools/piper/*.onnx
 tools/piper/*.onnx.json
 
 # Podglady tekstur (generowane tools/tex2png.ps1) - za ciezkie na git
-docs/armor_preview/
+# Docs & dubbing: local only - user cleaned them out of the repo (e13dce7)
+docs/
 
 # Assety przepakowane z paczek trzecich (UAWR/ArmorExpansion) - jak
 # EthernalBreeze.vdf: dystrybucja poza gitem, licencje rozne.
