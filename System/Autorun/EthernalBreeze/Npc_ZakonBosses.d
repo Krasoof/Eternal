@@ -97,9 +97,18 @@ func void StExt_ZakonHunt_OnKill(var int chapter)
 func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 {
 	b_setattributestochapter(slf, kapitel);
-	// HP: 2.5x post-infusion-removal bump, then another +40% per feedback
-	// ("dorzuc jeszcze 25-50%"): ~230k midgame, ~455k late.
-	slf.attribute[1] = 35000 + (kapitel * 28000) + (hero.level * 2800) + (tier * 14000);
+	// HP climbs the arena ladder: each boss carries +10% over the previous one,
+	// so slot 10 ends up at +90% of slot 1 instead of every boss in a chapter
+	// sharing one flat number. Ids 99711..99720 ARE the ladder (slot = id-99710);
+	// hunt targets sit off it and stay at base. The base is the old formula / 1.4,
+	// which puts slot 5 exactly on the value every boss used to get - so the ladder
+	// now spreads around the old number instead of starting at it.
+	var int bSlot;
+	bSlot = 1;
+	if ((slf.id >= 99711) && (slf.id <= 99720)) { bSlot = slf.id - 99710; };
+	var int bBaseHp;
+	bBaseHp = 25000 + (kapitel * 20000) + (hero.level * 2000) + (tier * 10000);
+	slf.attribute[1] = (bBaseHp * (100 + ((bSlot - 1) * 10))) / 100;
 	slf.attribute[0] = slf.attribute[1];
 	// str/dex now also scale with hero level (evened out) so the boss is a real
 	// threat, not just an HP sponge. Kept gentler than HP to avoid one-shots.
