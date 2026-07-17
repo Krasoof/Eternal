@@ -1,139 +1,110 @@
 # EthernalBreeze
 
-Nakładka (overlay) na moda **Gothic II: New Balance**, rozszerzająca rozgrywkę o
-nowe systemy: craft, alchemię, wzmacnianie przedmiotów (Magic Infusion), aury,
-efekty czasowe, dodatkowe zdolności NPC, losowość świata/lootu, zdejmowanie
-capów statystyk, dodatkowy leveling i inne.
+Nakładka na **Gothic II: New Balance / Returning**. Gothic ze szkieletem Soulsa
+i lootem z Diablo: dużo ciężkiej walki, dramatyzm, mało pierdolenia.
 
-Sprawdz tutaj : https://sefaris.eu/new-balance
-
-Mod działa jako wtyczka **Story Extension (StExt)** na silniku Union
-(Ikarus/LeGo) i **wymaga zainstalowanego Gothic II: New Balance** jako bazy -
+Mod działa jako wtyczka **Story Extension (StExt)** na silniku **Union**
+(Ikarus/LeGo) i **wymaga zainstalowanego Gothic II: New Balance** jako bazy —
 sam w sobie nie jest samodzielną grą ani samodzielnym modem.
 
-- Wersja: **0.01**
-- Lokalizacja: niemiecki (oryginał) + polski AI
+Baza: https://sefaris.eu/new-balance
 
-## Zawartość repo
+---
 
-```
-Data/                       paczka danych gry (.vdf) - NIE jest w tym repo, patrz niżej
-System/Autorun/
-  EthernalBreeze/            skrypty główne moda (kontrolery, itemy, dialogi, dane)
-  EthernalBreezeConfigs/     configi eksportowane / configi użytkownika
-  EthernalBreezeExtensions/  tweaki użytkownika, dodatkowa lokalizacja
-  StExt_EthernalBreeze.dll   biblioteka wtyczki
-_Optional/
-  English/, German/          alternatywne pliki lokalizacji do podmiany
-  Debug Build (dll)/          wersja .dll z logami debug (silnik)
-  LocalizationChecker/        narzędzie do porównywania stringów lokalizacji
-  EthernalBreeze.pdf          instrukcja / opis moda
-  EB.ico                      ikonka moda
-```
+## Co się zmieniło
 
-## Ważne - paczka danych (.vdf) i silnik
+### Walka
+- **Perfekcyjna parada.** Parujesz w oknie ~25 klatek przed ciosem → zwrot
+  wytrzymałości, 1,5 s okno riposty (+50% obrażeń, za darmo), anulowanie chipa
+  od bossów. Każdy bonus „za parowanie" w modzie chodzi po tym jednym systemie —
+  nie ma drugiego, równoległego.
+- **Buildup żywiołowy (Souls).** Trafienia bronią żywiołową ładują pasek celu.
+  Przy 30% jego max HP następuje erupcja: ogień = DoT, lód = zamrożenie,
+  elektryka = wybuch, mrok/śmierć = 8% max HP, reszta = stagger. **Zero
+  losowości** — to deterministyczny zegar, nie ruletka.
+- **Premie per typ broni** — miecze, topory i sztylety skalują się osobno.
+- **Liczby obrażeń** wyskakują nad przeciwnikiem.
+- **Płynne przejścia animacji** — wyjście z walki nie szarpie.
 
-Plik `Data/EthernalBreeze.vdf` (tekstury/modele/dźwięki, ok. 700 MB) **nie jest
-częścią tego repozytorium** - jest za duży na Githuba. Zostanie przesłany
-osobnym kanałem (Drive / Mega / Discord). Ukradzione
+### Loot i przedmioty
+- Poziomy przedmiotów, rangi, jakość i losowane bonusy (Diablo).
+- **Legendarne (ranga 5)** dostają automatycznie bonus z puli danego slotu — bez
+  osobnych definicji itemów.
+- **Perk żywiołowy na broni** — czysty, przewidywalny bonus do każdego trafienia,
+  bez rzucanych czarów. Broń świeci kolorem swojego żywiołu. Wywalone waniliowe
+  „SpecialDamage" (te losowe żółte liczby).
+- **Seale** — gniazda w broni. Osobny slot zaklęcia, procujący co X trafień, sam
+  się levelujący (max 10). Dwa seale fizyczne (Krwawienie, Przebicie Pancerza)
+  dla buildów bez many.
+- **Kucie i zaklinanie działa na TYM SAMYM przedmiocie** — item zachowuje nazwę
+  i model, dostaje tylko świeży roll. Koniec z losowaniem nowego.
 
-[> TODO: wkleić link do paczki `.vdf`, jak już wrzucisz ją gdzieś w chmurze.](https://drive.google.com/file/d/1hUg63ilISaY1N5s63bnAqbeU1BZPBM-p/view?usp=sharing)
+### Zakon Dusz — gildia dark-souls
+- Wstąpienie to **nieodwracalny** wybór 2 żywiołów: te dwa ×200% expa, reszta
+  na 0. Rekompensata: bonus do obrażeń za każdą wtopioną duszę bossa.
+- **Polowanie**: jeden nazwany, tropiony cel na rozdział.
+- **Arena**: 10 nazwanych bossów w ustalonej kolejności. HP rośnie o 10% z każdym
+  kolejnym — dziesiąty jest ścianą, pierwszy nie.
+- Każdy boss dropi duszę + gwarantowany lup. Komplet = unikatowy pancerz gildii,
+  inny na każdy rozdział.
 
-Sinik SText : https://drive.google.com/file/d/1B94P-WNC5ADoR5vCVzhEMM0fEoBSym1j/view?usp=sharing
+### Ekonomia, która ma sens
+- **LP jest ceną, złoto jest formalnością.** Złoto farmisz w nieskończoność, więc
+  nigdy nie może być prawdziwą bramką. Perk kosztuje 10k złota i **100 PN** —
+  a nie 30k złota i 30 PN, jak było.
+- **Capy statów rosną z rozdziałem.** Bonus, który w 5. rozdziale dobija do 1500,
+  w 1. nie przekroczy 300. Item wylosowany raz zostaje ze swoimi wartościami —
+  bramka kształtuje progresję, nie nerfi tego, co już masz.
+- **Wszystko w procentach, nigdy płasko.** Płaskie liczby one-shotują na starcie
+  i są śmieciem przy bossie ze 100k+ HP.
+- **Regeneracja tylko zwraca ułamek kosztu, nigdy nie wychodzi na plus.** Każde
+  rzucenie to podatek 7% many, każdy cios 8% wytrzymałości. Dlatego nie da się
+  blokować w nieskończoność.
+- **Zero efektów „po śmierci"** przeciwnika. Globalnie wyłączone.
+
+### Profesje żywiołów
+- Expienie żywiołu (piromancja, elektromancja itd.) jest zablokowane, jeśli gracz
+  nie wybrał profesji tego żywiołu — koniec z „expieniem wszystkiego po trochu".
+
+---
+
+## Co jest teraz w produkcji
+
+Wszystko powyżej jest wgrane i grywalne. Świeżo weszło:
+
+- premie per typ broni (miecz / topór / sztylet)
+- drabinka HP bossów areny (+10% na slot)
+- capy statów bramkowane rozdziałem
+- ekonomia perków oparta na LP
+- liczby obrażeń nad wrogami
+- płynne przejścia animacji
+- poświata broni na ostrzu (wcześniej siadała na rękojeści)
+
+---
 
 ## Instalacja
 
-1. Zainstaluj i uruchom przynajmniej raz **Gothic II: New Balance**.
-2. Skopiuj `Data/EthernalBreeze.vdf` (dosłane osobno) do folderu `Data` w
-   katalogu gry.
-3. Skopiuj zawartość folderu `System/Autorun` do `System/Autorun` w katalogu gry
+1. Zainstaluj i odpal przynajmniej raz **Gothic II: New Balance**.
+2. Wrzuć `Data/EthernalBreeze.vdf` (paczka ~700 MB, dosyłana osobno — za duża na
+   Githuba) do folderu `Data` w katalogu gry.
+3. Skopiuj zawartość `System/Autorun` do `System/Autorun` w katalogu gry
    (z podmianą/scaleniem).
-5. Domyślnie używana jest zwykła wersja `StExt_EthernalBreeze.dll`. Wersję z
-   `_Optional/Debug Build (dll)` podmień tylko, jeśli potrzebujesz logów debug
-   z silnika.
 
-## Narzędzia pomocnicze
+Paczka `.vdf`: https://drive.google.com/file/d/1hUg63ilISaY1N5s63bnAqbeU1BZPBM-p/view?usp=sharing
+Silnik StExt: https://drive.google.com/file/d/1B94P-WNC5ADoR5vCVzhEMM0fEoBSym1j/view?usp=sharing
 
-`_Optional/LocalizationChecker/GothicLocalizationChecker.exe` - porównuje
-stringi z `EthernalBreeze/Localization.d` z plikiem tłumaczenia i pokazuje,
-czego brakuje (źródła: https://github.com/StonedWizzard/GothicLocalizationChecker).
+W `_Optional/` leży wersja DLL z logami debug (podmieniaj tylko, jeśli zbierasz
+logi), alternatywne lokalizacje (EN/DE) i `LocalizationChecker`.
 
-## Co zmienione?
+Lokalizacja: polski + niemiecki (oryginał).
 
-Dodane mechaniki z Diablo ( bonusów, poziomów ekwipunku ). Przerobiony system magii, dodana możliwość grania spellblade.
+---
 
-### Silnik obrażeń broni (żywioły)
+## Podziękowania
 
-- **Perk żywiołowy** losuje się na broni przy generowaniu (podobnie do
-  reszty lootu, szansa/moc rośnie z rangą - epicka/legendarna ma
-  gwarantowany/wzmocniony perk). Perk to **czysty płaski bonus obrażeń**
-  danego żywiołu do każdego trafienia - żadnych rzucanych czarów, żeby nie
-  psuć immersji. Broń z perkiem świeci na kolor swojego żywiołu (VFX na
-  ręce).
-- Klawisz **H** ładuje żywioł broni (koszt many/wytrzymałości zależny od
-  rodzaju magii) i daje jednorazowy boost do najbliższego trafienia,
-  skalowany masterką żywiołu (poziom + moc), biegłością w typie broni i
-  statami postaci. Broń bez perku daje przy próbie czytelny komunikat, że
-  nie ma wbudowanego żywiołu.
-- **Ataki bronią magiczną** kosztują drobną manę i dodatkowo wzmacniają
-  perk żywiołowy przy okazji.
-- Usunięto losowe "SpecialDamage" (dziwne żółte dodatkowe obrażenia z
-  waniliowego lootu) - zastąpione w pełni przewidywalnym systemem
-  perk+seal powyżej.
-
-### Seale (gniazda w broni)
-
-- Kamienie szlachetne wkładane w gniazda broni (gniazda tylko na broniach,
-  nie na zbroi/biżuterii). Każdy seal to **osobny slot spellowy**, oddzielny
-  od perku - rzuca istniejące zaklęcie ofensywne (z puli masterki danego
-  żywiołu) co X trafień, zależnie od mocy seala.
-- Seale **poziomują się** (exp za każdy proc, próg rośnie z poziomem, max
-  10 lvl) i skalują moc wraz z levelem - nie ma jednego rodzaju seala na
-  całą grę.
-- Seal musi zgadzać się żywiołem z perkiem broni (silniejszy zawsze
-  zastępuje słabszy przy nakładaniu). Proc kosztuje surowiec (mana/wt.)
-  zależnie od żywiołu - niezapłacony proc zostaje odłożony na następne
-  trafienie.
-- Dwa **seale fizyczne** (bez many) dla buildów niemagicznych: Krwawienie
-  i Przebicie Pancerza - kosztują wytrzymałość zamiast many, proc co cios.
-- Tooltip itemu pokazuje żywioł i **wyliczone obrażenia**, ale celowo NIE
-  nazwę rzucanego zaklęcia (na życzenie - psuło immersję).
-
-### Profesje żywiołów
-
-- Expienie żywiołu (piromancja, elektromancja itd.) jest zablokowane, jeśli
-  gracz nie wybrał profesji tego żywiołu - zapobiega "expieniu wszystkiego
-  po trochu".
-
-### Zakon Dusz (Soul Knights) - dodatkowa gildia dark-souls
-
-- Wstąpienie do gildii to **nieodwracalny** wybór dokładnie 2 żywiołów:
-  te dwa dostają ×200% expa, wszystkie pozostałe żywioły spadają do 0%.
-  Rekompensata: bonus do obrażeń żywiołowych za każdą wtopioną duszę bossa
-  (+1%/duszę, cap 50%).
-- **Polowanie per rozdział**: jeden konkretny, nazwany, tropiony cel na
-  mapie na każdy z 6 rozdziałów (człowiek/nieumarły, nigdy potwór), spawnowany
-  na żądanie przez dialog Mistrza Zakonu (działa też na starych save'ach -
-  nie trzeba nowej gry). Zabicie odblokowuje arenę na dany rozdział.
-- **Arena**: 10 konkretnych, nazwanych przeciwników w ustalonej kolejności,
-  rosnąca trudność (tiery 1-4), po jednym na wezwanie.
-- Każdy pokonany boss (polowanie i arena) drop'uje **duszę bossa** oraz
-  gwarantowany losowy lup (złoto + magiczny przedmiot: broń/biżuteria/
-  zbroja) skalowany levelem bohatera, rozdziałem i tierem przeciwnika.
-- **Nagroda rozdziałowa (po polowaniu + 10/10 na arenie)**: unikatowy,
-  ciężki, gotycki pancerz gildii - inny na każdy z 6 rozdziałów. Modele
-  pochodzą z precompilowanych (gotowych .MDM) zasobów third-party, bo
-  silnik w tej konfiguracji nie kompiluje luźnych .ASC/.TGA na starcie gry.
-
-### Kucie w miejscu (Shiva)
-
-- **Zaklinanie i przekuwanie** działają na TYM SAMYM przedmiocie (broń i
-  zbroń) zamiast losować nowy - zaklęty/przekuty item zachowuje swoją
-  tożsamość (nazwę, model), tylko dostaje magię / świeży roll statystyk.
-  Przekucie (reroll) kosztuje 3000 złota; przedmioty z sealem lub perkiem
-  odmawiają przekucia (nie da się "wyresetować" zainwestowanego seala).
-
-### Drobne zmiany balansu
-
-- Usunięto losowanie StPerHit/MpPerHit z lootu (uznane za zbyt silne).
-- Sockety (gniazda seali) dostępne tylko na broniach.
+- **StonedWizzard** — za **Story Extension (StExt)**, silnik wtyczki, na którym
+  stoi cały ten mod. EthernalBreeze to nadbudowa nad jego pracą: bez StExt nie
+  byłoby tu nic.
+  Narzędzia: https://github.com/StonedWizzard/GothicLocalizationChecker
+- **Zespół Union** — Union / Ikarus / LeGo.
+- **Twórcy New Balance / Returning** — baza, na której to wszystko chodzi.
