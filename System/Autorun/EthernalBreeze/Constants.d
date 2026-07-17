@@ -1,18 +1,5 @@
 const int StExt_ModVersion = 308;
 
-// Damage engine selector (read once by the DLL at init; needs a game restart to flip).
-// 0 = legacy: the DLL rescales the raw damage channels by the RealDamage ratio, then lets
-//     the original OnDamage mitigate and apply them. THIS IS THE WORKING PATH.
-// 1 = experiment (restore HP -> re-apply RealDamage). PROVEN BROKEN on 2026-07-17, keep 0:
-//       * RealDamage before the original is PRE-mitigation (diag: realBefore == arySum),
-//         so applying it straight to HP skips armour entirely;
-//       * the number the game draws comes from the descriptor, which this path never
-//         rescales - so bonuses are invisible even though HP does move.
-//     Doing it properly means what Union_AlterDamage actually does: its own full
-//     raw -> effective -> total -> real chain plus a descriptor writeback, i.e. the big
-//     rewrite. Not worth it while the legacy path works.
-const int StExt_UseNewDamageEngine = 0;
-
 // Chance (%) that a generated magic weapon rolls a random elemental perk (read by the DLL).
 const int StExt_WeaponElementRollChance = 20;
 
