@@ -541,9 +541,13 @@ func int StExt_ApplyPhysSeal(var int sentinelId, var int tierPower)
 // they are rebuilt on the base template (see docs/DESIGN_WeaponGlow notes).
 func string StExt_GetElementGlowFx(var int element)
 {
-	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_AW_ENCHANT_FIRE"; };
-	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_AW_ENCHANT_ICE"; };
-	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_AW_ENCHANT_ELECTRO"; };
+	// All eight elements run our own FX again. The Adanos-warrior enchants were a
+	// detour: they light the HILT by design, which is exactly the look we were
+	// trying to get rid of. Ours carry the per-element colours and now land on the
+	// blade (see emadjustshptoorigin in VisualEffects.d).
+	if (element == StExt_MasteryIndex_Fire) { return "SPELLFX_STEXT_WGLOW_FIRE"; };
+	if (element == StExt_MasteryIndex_Ice) { return "SPELLFX_STEXT_WGLOW_ICE"; };
+	if (element == StExt_MasteryIndex_Electric) { return "SPELLFX_STEXT_WGLOW_ELECTRIC"; };
 	if (element == StExt_MasteryIndex_Air) { return "SPELLFX_STEXT_WGLOW_AIR"; };
 	if (element == StExt_MasteryIndex_Earth) { return "SPELLFX_STEXT_WGLOW_EARTH"; };
 	if (element == StExt_MasteryIndex_Light) { return "SPELLFX_STEXT_WGLOW_LIGHT"; };

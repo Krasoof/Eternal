@@ -468,6 +468,11 @@ instance spellfx_stext_wglow_fire(cfx_base_proto)
     visname_s = "MFX_STEXT_WGLOW_FIRE";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    // Hands the WEAPON's own mesh to the MESH emitter (oCVisualFX::CalcPFXMesh).
+    // Without this the emitter has no mesh, zCParticleEmitter::GetPosition falls
+    // through to zVEC3(0,0,0) and every particle spawns at the vob origin - the
+    // hilt. With it, particles are scattered over the blade's polygons.
+    emadjustshptoorigin = 1;
 };
 
 instance spellfx_stext_wglow_ice(cfx_base_proto)
@@ -475,6 +480,7 @@ instance spellfx_stext_wglow_ice(cfx_base_proto)
     visname_s = "MFX_STEXT_WGLOW_ICE";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    emadjustshptoorigin = 1;
 };
 
 instance spellfx_stext_wglow_electric(cfx_base_proto)
@@ -482,6 +488,7 @@ instance spellfx_stext_wglow_electric(cfx_base_proto)
     visname_s = "MFX_STEXT_WGLOW_ELECTRIC";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    emadjustshptoorigin = 1;
 };
 
 instance spellfx_stext_wglow_air(cfx_base_proto)
@@ -489,6 +496,7 @@ instance spellfx_stext_wglow_air(cfx_base_proto)
     visname_s = "MFX_STEXT_WGLOW_AIR";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    emadjustshptoorigin = 1;
 };
 
 instance spellfx_stext_wglow_earth(cfx_base_proto)
@@ -496,11 +504,13 @@ instance spellfx_stext_wglow_earth(cfx_base_proto)
     visname_s = "MFX_STEXT_WGLOW_EARTH";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    emadjustshptoorigin = 1;
 };
 
 instance spellfx_stext_wglow_light(cfx_base_proto)
 {
     visname_s = "MFX_STEXT_WGLOW_LIGHT";
+    emadjustshptoorigin = 1;
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
 };
@@ -508,6 +518,7 @@ instance spellfx_stext_wglow_light(cfx_base_proto)
 instance spellfx_stext_wglow_dark(cfx_base_proto)
 {
     visname_s = "MFX_STEXT_WGLOW_DARK";
+    emadjustshptoorigin = 1;
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
 };
@@ -515,6 +526,7 @@ instance spellfx_stext_wglow_dark(cfx_base_proto)
 instance spellfx_stext_wglow_death(cfx_base_proto)
 {
     visname_s = "MFX_STEXT_WGLOW_DEATH";
+    emadjustshptoorigin = 1;
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
 };
@@ -525,4 +537,7 @@ instance spellfx_stext_legendarmor(cfx_base_proto)
     visname_s = "MFX_STEXT_LEGENDARMOR";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
+    // Same MESH-emitter rule as the weapon glow: without this the aura collapses
+    // into the wearer's origin instead of tracing the armour.
+    emadjustshptoorigin = 1;
 };
