@@ -1,7 +1,7 @@
 # EthernalBreeze
 
 Nakładka na **Gothic II: New Balance / Returning**. Gothic ze szkieletem Soulsa
-i lootem z Diablo: dużo ciężkiej walki, dramatyzm, mało pierdolenia.
+i lootem z Diablo: dużo ciężkiej walki/dropienia/buildowania.
 
 Mod działa jako wtyczka **Story Extension (StExt)** na silniku **Union**
 (Ikarus/LeGo) i **wymaga zainstalowanego Gothic II: New Balance** jako bazy —
@@ -22,9 +22,12 @@ Baza: https://sefaris.eu/new-balance
   Przy 30% jego max HP następuje erupcja: ogień = DoT, lód = zamrożenie,
   elektryka = wybuch, mrok/śmierć = 8% max HP, reszta = stagger. **Zero
   losowości** — to deterministyczny zegar, nie ruletka.
-- **Premie per typ broni** — miecze, topory i sztylety skalują się osobno.
+- **Premie per typ broni** — miecze, topory i sztylety skalują się osobno, typy obrazen osobno.
 - **Liczby obrażeń** wyskakują nad przeciwnikiem.
 - **Płynne przejścia animacji** — wyjście z walki nie szarpie.
+- **Zmienione tabele losowań per item, koniec bonusow do siecznych itp na kazdym rodzaju.**
+- **Łatki optymalizacyjne.**
+- **Wzmocnione krwawienie + buffy dla klasy full fizyk.**
 
 ### Loot i przedmioty
 - Poziomy przedmiotów, rangi, jakość i losowane bonusy (Diablo).
@@ -59,8 +62,9 @@ Baza: https://sefaris.eu/new-balance
   i są śmieciem przy bossie ze 100k+ HP.
 - **Regeneracja tylko zwraca ułamek kosztu, nigdy nie wychodzi na plus.** Każde
   rzucenie to podatek 7% many, każdy cios 8% wytrzymałości. Dlatego nie da się
-  blokować w nieskończoność.
+  blokować w nieskończoność. Regeneracja nie przekroczy nigdy 1/3 kosztu netto.
 - **Zero efektów „po śmierci"** przeciwnika. Globalnie wyłączone.
+
 
 ### Profesje żywiołów
 - Expienie żywiołu (piromancja, elektromancja itd.) jest zablokowane, jeśli gracz
@@ -70,7 +74,7 @@ Baza: https://sefaris.eu/new-balance
 
 ## Co jest teraz w produkcji
 
-Wszystko powyżej jest wgrane i grywalne. Świeżo weszło:
+Wszystko powyżej jest wgrane i grywalne. Świeżo weszło lub wyjdzie na dniach:
 
 - premie per typ broni (miecz / topór / sztylet)
 - drabinka HP bossów areny (+10% na slot)
@@ -79,32 +83,13 @@ Wszystko powyżej jest wgrane i grywalne. Świeżo weszło:
 - liczby obrażeń nad wrogami
 - płynne przejścia animacji
 - poświata broni na ostrzu (wcześniej siadała na rękojeści)
+- Path of Damned i magia krwi.
+- Questlinne + hub zakonu dusz.
+- Osobne drzewko dla wojowników zorientowanych na zręczność/siłę.
 
----
-
-## Instalacja
-
-1. Zainstaluj i odpal przynajmniej raz **Gothic II: New Balance**.
-2. Wrzuć `Data/EthernalBreeze.vdf` (paczka ~700 MB, dosyłana osobno — za duża na
-   Githuba) do folderu `Data` w katalogu gry.
-3. Skopiuj zawartość `System/Autorun` do `System/Autorun` w katalogu gry
-   (z podmianą/scaleniem).
-
-Paczka `.vdf`: https://drive.google.com/file/d/1hUg63ilISaY1N5s63bnAqbeU1BZPBM-p/view?usp=sharing
-Silnik StExt: https://drive.google.com/file/d/1B94P-WNC5ADoR5vCVzhEMM0fEoBSym1j/view?usp=sharing
-
-W `_Optional/` leży wersja DLL z logami debug (podmieniaj tylko, jeśli zbierasz
-logi), alternatywne lokalizacje (EN/DE) i `LocalizationChecker`.
-
-Lokalizacja: polski + niemiecki (oryginał).
-
----
 
 ## Podziękowania
 
-- **StonedWizzard** — za **Story Extension (StExt)**, silnik wtyczki, na którym
-  stoi cały ten mod. EthernalBreeze to nadbudowa nad jego pracą: bez StExt nie
-  byłoby tu nic.
-  Narzędzia: https://github.com/StonedWizzard/GothicLocalizationChecker
-- **Zespół Union** — Union / Ikarus / LeGo.
-- **Twórcy New Balance / Returning** — baza, na której to wszystko chodzi.
+- **StonedWizzard** 
+- **Zespół Union**.
+- **Twórcy New Balance / Returning**
