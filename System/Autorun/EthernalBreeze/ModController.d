@@ -662,6 +662,7 @@ func void StExt_OnLoadEnd(var int slotIndex)
 	StExt_ValidateModValues();
 	StExt_KillAllSpecialSummons();
 	StExt_LoadGlobalSymbols();
+	StExt_MigrateMasteryPerkPointsV2();
 	StExt_StartUncaper();
 	StExt_DisplayModMenu = false;	
 	

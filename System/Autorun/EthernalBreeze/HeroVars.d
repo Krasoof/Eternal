@@ -28,6 +28,9 @@ var int StExt_Perk_15[StExt_MasteryPerk_Max];
 // Other perks
 var int StExt_Perk[StExt_Perk_Max];
 
+// Jednorazowe migracje save'ow (0 na starym savie -> migracja odpala raz)
+var int StExt_MasteryPerkPoints_MigratedV2;
+
 // Professions
 var int StExt_Profession_Level[StExt_ProfessionIndex_Max];
 var int StExt_Profession_Skill_Scrollmaking[StExt_ScrollmakingSkillIndex_Max];

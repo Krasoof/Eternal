@@ -91,12 +91,22 @@ func void StExt_AddMasteryExp(var int index, var int exp)
 		level += 1;
 		if (level >= 100)
 		{
+			// Drabina punktow perkow (2026-07-18, user call: "wpadaja co 30-50"):
+			// co 50 do poziomu 450, potem co ~150 - razem 11 punktow na 20
+			// perkow (niedobor celowy, buildy musza wybierac). Nowe progi maja
+			// migracje wsteczna: StExt_MigrateMasteryPerkPointsV2 (Leveling-
+			// Controller) - prog strzela tylko w momencie wbicia poziomu.
 			if (level == 100) { StExt_ChangeMasteryPerkPoints(index, 1); };
 			if (level == 150) { StExt_ChangeMasteryPerkPoints(index, 1); };
 			if (level == 200) { StExt_ChangeMasteryPerkPoints(index, 1); };
 			if (level == 250) { StExt_ChangeMasteryPerkPoints(index, 1); };
 			if (level == 300) { StExt_ChangeMasteryPerkPoints(index, 1); };
+			if (level == 350) { StExt_ChangeMasteryPerkPoints(index, 1); };
+			if (level == 400) { StExt_ChangeMasteryPerkPoints(index, 1); };
 			if (level == 450) { StExt_ChangeMasteryPerkPoints(index, 1); };
+			if (level == 600) { StExt_ChangeMasteryPerkPoints(index, 1); };
+			if (level == 750) { StExt_ChangeMasteryPerkPoints(index, 1); };
+			if (level == 900) { StExt_ChangeMasteryPerkPoints(index, 1); };
 		};
 		expNow = expNow - expNext;
 		expNext = (level * 2) * StExt_Mastery_ExpPerLevel;

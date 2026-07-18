@@ -1193,3 +1193,53 @@ func void StExt_LevelingOnTick()
 	StExt_HeroMasteriesLearned = StExt_GetLearnedMasteriesCount();
 	StExt_HeroMasteriesMax = StExt_GetMaxMasteriesToLearn();
 };
+
+//===================================================================//
+//		Migracja punktow perkow v2 (progi 350/400/600/750/900)		 //
+//===================================================================//
+// Progi punktow strzelaja TYLKO w momencie wbicia poziomu masterii -
+// postac, ktora juz przekroczyla nowy prog, nigdy by go nie dostala.
+// Ta migracja (wolana raz per save z StExt_OnLoadEnd) przyznaje zalegle
+// punkty za nowe progi wstecz. Stare progi (100-300, 450) NIE sa tu
+// liczone - te postac dostala normalnie przy wbijaniu.
+
+func void StExt_MigrateMasteryPerkPointsV2_One(var int masteryId)
+{
+	var int lvl;
+	var int granted;
+
+	lvl = StExt_Array_GetInt(StExt_MasteryArrayIndex_Progress, masteryId);
+	granted = 0;
+	if (lvl >= 350) { granted += 1; };
+	if (lvl >= 400) { granted += 1; };
+	if (lvl >= 600) { granted += 1; };
+	if (lvl >= 750) { granted += 1; };
+	if (lvl >= 900) { granted += 1; };
+	if (granted > 0)
+	{
+		StExt_ChangeMasteryPerkPoints(masteryId, granted);
+		StExt_Trace(concatstrings(concatstrings("MIGRACJA perk-pkt: masteria ", inttostring(masteryId)), concatstrings(" +", inttostring(granted))));
+	};
+};
+
+func void StExt_MigrateMasteryPerkPointsV2()
+{
+	if (StExt_MasteryPerkPoints_MigratedV2) { return; };
+	StExt_MasteryPerkPoints_MigratedV2 = true;
+	StExt_MigrateMasteryPerkPointsV2_One(0);
+	StExt_MigrateMasteryPerkPointsV2_One(1);
+	StExt_MigrateMasteryPerkPointsV2_One(2);
+	StExt_MigrateMasteryPerkPointsV2_One(3);
+	StExt_MigrateMasteryPerkPointsV2_One(4);
+	StExt_MigrateMasteryPerkPointsV2_One(5);
+	StExt_MigrateMasteryPerkPointsV2_One(6);
+	StExt_MigrateMasteryPerkPointsV2_One(7);
+	StExt_MigrateMasteryPerkPointsV2_One(8);
+	StExt_MigrateMasteryPerkPointsV2_One(9);
+	StExt_MigrateMasteryPerkPointsV2_One(10);
+	StExt_MigrateMasteryPerkPointsV2_One(11);
+	StExt_MigrateMasteryPerkPointsV2_One(12);
+	StExt_MigrateMasteryPerkPointsV2_One(13);
+	StExt_MigrateMasteryPerkPointsV2_One(14);
+	StExt_MigrateMasteryPerkPointsV2_One(15);
+};
