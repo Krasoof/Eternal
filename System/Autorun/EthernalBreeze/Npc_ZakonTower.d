@@ -25,6 +25,23 @@ const string StExt_ZakonTower_WP_Deco1 = "SHORE_MONSTER_02_01";
 const string StExt_ZakonTower_WP_Deco2 = "SHORE_MONSTER_04_01";
 const string StExt_ZakonTower_WP_Tower = "SHORE_MONSTER_05_01";
 
+//--------------------------------------------------------------
+// *** Rutyny garnizonu ***
+//--------------------------------------------------------------
+// NPC bez daily_routine NIGDY nie wchodzi w stan ZS -> nie rejestruje
+// percepcji -> nie widzi gracza, nie atakuje i stoi jak posag ("moby
+// stoja w miejscu, nie atakuja"). Kazdy upior trzyma warte na SWOIM
+// waypoincie - garnizon rozklada sie po obozie i wiezy, zamiast zbijac
+// sie w kupe przy moscie.
+func void rtn_start_99730() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
+func void rtn_start_99731() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
+func void rtn_start_99733() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
+func void rtn_start_99734() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Deco1); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Deco1); };
+func void rtn_start_99735() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Deco2); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Deco2); };
+func void rtn_start_99736() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
+func void rtn_start_99737() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Deco2); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Deco2); };
+func void rtn_start_99738() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
+
 // Journal wrapper: creates the topic on first use so it works even on saves
 // that started the quest before the journal existed (b_logentry to a missing
 // topic is silently lost). Every log goes through here.
@@ -69,6 +86,7 @@ instance bdt_99730_ZakonTowerWraith1(npc_default)
     mdl_applyoverlaymds(bdt_99730_ZakonTowerWraith1, "Humans_Militia.mds");
     b_givenpctalents(bdt_99730_ZakonTowerWraith1); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99730;
     StExt_ZakonTower_TrashSetup(bdt_99730_ZakonTowerWraith1);
 };
 
@@ -79,6 +97,7 @@ instance bdt_99731_ZakonTowerWraith2(npc_default)
     mdl_applyoverlaymds(bdt_99731_ZakonTowerWraith2, "Humans_Militia.mds");
     b_givenpctalents(bdt_99731_ZakonTowerWraith2); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99731;
     StExt_ZakonTower_TrashSetup(bdt_99731_ZakonTowerWraith2);
 };
 
@@ -92,6 +111,7 @@ instance bdt_99733_ZakonTowerHerold(npc_default)
     mdl_applyoverlaymds(bdt_99733_ZakonTowerHerold, "Humans_Mage.mds");
     b_givenpctalents(bdt_99733_ZakonTowerHerold); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99733;
     StExt_ZakonBoss_Setup(bdt_99733_ZakonTowerHerold, 2);
 };
 
@@ -102,6 +122,7 @@ instance bdt_99734_ZakonTowerWraith3(npc_default)
     mdl_applyoverlaymds(bdt_99734_ZakonTowerWraith3, "Humans_Militia.mds");
     b_givenpctalents(bdt_99734_ZakonTowerWraith3); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99734;
     StExt_ZakonTower_TrashSetup(bdt_99734_ZakonTowerWraith3);
 };
 
@@ -112,6 +133,7 @@ instance bdt_99735_ZakonTowerWraith4(npc_default)
     mdl_applyoverlaymds(bdt_99735_ZakonTowerWraith4, "Humans_Militia.mds");
     b_givenpctalents(bdt_99735_ZakonTowerWraith4); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99735;
     StExt_ZakonTower_TrashSetup(bdt_99735_ZakonTowerWraith4);
 };
 
@@ -122,6 +144,7 @@ instance bdt_99736_ZakonTowerKnight1(npc_default)
     mdl_applyoverlaymds(bdt_99736_ZakonTowerKnight1, "Humans_Militia.mds");
     b_givenpctalents(bdt_99736_ZakonTowerKnight1); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99736;
     StExt_ZakonTower_TrashSetup(bdt_99736_ZakonTowerKnight1);
 };
 
@@ -132,6 +155,7 @@ instance bdt_99737_ZakonTowerKnight2(npc_default)
     mdl_applyoverlaymds(bdt_99737_ZakonTowerKnight2, "Humans_Militia.mds");
     b_givenpctalents(bdt_99737_ZakonTowerKnight2); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99737;
     StExt_ZakonTower_TrashSetup(bdt_99737_ZakonTowerKnight2);
 };
 
@@ -142,6 +166,7 @@ instance bdt_99738_ZakonTowerKnight3(npc_default)
     mdl_applyoverlaymds(bdt_99738_ZakonTowerKnight3, "Humans_Militia.mds");
     b_givenpctalents(bdt_99738_ZakonTowerKnight3); fight_tactic = fai_human_master;
     aivar[6] = true;
+    daily_routine = rtn_start_99738;
     StExt_ZakonTower_TrashSetup(bdt_99738_ZakonTowerKnight3);
 };
 
@@ -158,8 +183,8 @@ func void StExt_ZakonTower_WaveKill(var int wave)
 		StExt_ZakonTower_Stage = 2;
 		StExt_ZakonTower_WaveKills = 0;
 		wld_insertnpc(bdt_99733_ZakonTowerHerold, StExt_ZakonTower_WP_Camp);
-		wld_insertnpc(bdt_99734_ZakonTowerWraith3, StExt_ZakonTower_WP_Camp);
-		wld_insertnpc(bdt_99735_ZakonTowerWraith4, StExt_ZakonTower_WP_Deco1);
+		wld_insertnpc(bdt_99734_ZakonTowerWraith3, StExt_ZakonTower_WP_Deco1);
+		wld_insertnpc(bdt_99735_ZakonTowerWraith4, StExt_ZakonTower_WP_Deco2);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco1);
 		wld_insertnpc(zombie01, StExt_ZakonTower_WP_Deco2);
 		StExt_ZakonTower_Log("Droga wolna. Pod wieza stoi oboz umarlych - prowadzi go Herold Utopionego.");
@@ -188,7 +213,7 @@ func void ai_ondead_bdt_99733_ZakonTowerHerold()
 	StExt_ZakonTower_Stage = 3;
 	StExt_ZakonTower_WaveKills = 0;
 	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
+	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Deco2);
 	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
 	StExt_ZakonTower_Log("Herold Utopionego padl. Upiorny garnizon wciaz broni wiezy.");
 };
@@ -264,7 +289,7 @@ func void dia_none_99702_SoulMaster_TowerHint_info()
 	else
 	{
 		wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
-		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
+		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Deco2);
 		wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
 		StExt_ZakonTower_Log("Cel: wytnij upiorny garnizon w wiezy.");
 		ai_printbonus("Upiorni rycerze bronia wiezy - wytnij ich do nogi.");
