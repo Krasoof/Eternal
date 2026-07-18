@@ -1105,7 +1105,11 @@ const string StExt_Str_MasteryPerk_Name_0[StExt_MasteryPerk_Max] =
 	"Basalt Sculptor",
 	"Firewalker",
 	"Magma Strike",
-	"Fire Eater"
+	"Fire Eater",
+	"Blazing Edge",
+	"Seal of Flames",
+	"Fire Conduit",
+	"Fire Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 {
@@ -1124,7 +1128,11 @@ const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 	"Fire golems are 0.5% more powerful per level of pyromancy.",
 	"+5% to fire resistance and +10% to maximum fire resistance",
 	"Adds 50% of weapon damage as fire damage.",
-	"Restores health equal to 20% of fire damage taken."
+	"Restores health equal to 20% of fire damage taken.",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Ice
 const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
@@ -1144,7 +1152,11 @@ const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
 	"Ice drift",
 	"Ice crust",
 	"Water Cover",
-	"Frost"
+	"Frost",
+	"Frozen Edge",
+	"Seal of Frost",
+	"Ice Conduit",
+	"Ice Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 {
@@ -1163,7 +1175,11 @@ const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 	"+5% magic resistance and +10% to maximum magic resistance",
 	"Adds 50% of weapon damage as magic damage.",
 	"10% of damage taken is restored as mana",
-	"10% chance to freeze the melee attacker"
+	"10% chance to freeze the melee attacker",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Electric
 const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
@@ -1183,7 +1199,11 @@ const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
 	"Spark",
 	"Inductor",
 	"Capacitor",
-	"Breakdown"
+	"Breakdown",
+	"Sparking Edge",
+	"Seal of Storms",
+	"Storm Conduit",
+	"Storm Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 {
@@ -1202,7 +1222,11 @@ const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 	"+5% to the speed of all actions",
 	"The attacking enemy takes 1-5 damage for each level of Electromancy.",
 	"10% of damage taken is restored as energy shield",
-	"Deals 25% of weapon damage as chain lightning damage."
+	"Deals 25% of weapon damage as chain lightning damage.",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Air
 const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
@@ -1222,7 +1246,11 @@ const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
 	"A Gust of Wind",
 	"Air Shield",
 	"Fair Wind",
-	"Vacuum"
+	"Vacuum",
+	"Gale Edge",
+	"Seal of Gales",
+	"Wind Conduit",
+	"Wind Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 {
@@ -1241,7 +1269,11 @@ const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 	"Adds 50% of weapon damage as knockback damage.",
 	"+0.2% chance to deflect a projectile per Aeromancy level",
 	"1% Life and Mana Regeneration while sprinting",
-	"+50 choke damage to all weapons and magic"
+	"+50 choke damage to all weapons and magic",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Earth
 const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
@@ -1261,7 +1293,11 @@ const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
 	"Earth Shield",
 	"Granite Armor",
 	"Weighting agent",
-	"Recoil"
+	"Recoil",
+	"Stone Edge",
+	"Seal of Stone",
+	"Earth Conduit",
+	"Earth Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 {
@@ -1280,7 +1316,11 @@ const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 	"+1 to protection against crushing and cutting damage for each level of geomancy",
 	"The attacking enemy takes 3 melee bludgeoning damage for each level of Geomancy.",
 	"Adds 50% of weapon damage as blunt damage.",
-	"10% chance to stun the attacking enemy"
+	"10% chance to stun the attacking enemy",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Light
 const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
@@ -1300,7 +1340,11 @@ const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
 	"Amulet",
 	"Inspiration",
 	"Unwaveringness",
-	"Leadership"
+	"Leadership",
+	"Radiant Edge",
+	"Seal of Radiance",
+	"Light Conduit",
+	"Light Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 {
@@ -1319,7 +1363,11 @@ const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 	"When attacking, there is a 10% chance that you and your allies will gain +3 to defense against everything for each level of light magic.",
 	"When attacking, there is a 10% chance that you and your allies will gain +10 life for each level of light magic.",
 	"When attacking, there is a 10% chance that you and your allies will receive +3 to stat regeneration for each level of Light Magic.",
-	"When attacking, there is a 10% chance that you and your allies will receive +3 damage for each level of Light Magic."
+	"When attacking, there is a 10% chance that you and your allies will receive +3 damage for each level of Light Magic.",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Dark
 const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
@@ -1339,7 +1387,11 @@ const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
 	"The Siphon of Life",
 	"Decline",
 	"Vulnerability",
-	"Filth"
+	"Filth",
+	"Umbral Edge",
+	"Seal of Shadow",
+	"Dark Conduit",
+	"Dark Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 {
@@ -1358,7 +1410,11 @@ const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 	"When attacking, there is a 10% chance to cast a curse that steals 1 life point from the enemy for every 5 levels of dark magic.",
 	"When attacking, there is a 10% chance to inflict a curse that weakens the target's stats by 0.5% for each level of dark magic.",
 	"When attacking, there is a 10% chance to cast a curse that weakens the target's defense by 3 for each level of dark magic.",
-	"Adds 50% of weapon damage as ongoing dark magic damage."
+	"Adds 50% of weapon damage as ongoing dark magic damage.",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Death
 const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
@@ -1378,7 +1434,11 @@ const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
 	"Death Mage",
 	"Bone Aegis",
 	"Choir of the Dead",
-	"Sacrificial Blade"
+	"Sacrificial Blade",
+	"Deathly Edge",
+	"Seal of Rot",
+	"Death Conduit",
+	"Death Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 {
@@ -1397,7 +1457,11 @@ const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 	"Death spells are 25% more powerful.",
 	"+1 to magic defense for each level of death magic",
 	"Adds 50% of the damage dealt by Death spells as magic damage over time.",
-	"Adds 50% of weapon damage as bonus magic damage against living enemies."
+	"Adds 50% of weapon damage as bonus magic damage against living enemies.",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Life
 const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
@@ -1417,7 +1481,11 @@ const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
 	"Bison Skin",
 	"Wolf Bite",
 	"Bee Sting",
-	"Snake's Fang"
+	"Snake's Fang",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 {
@@ -1436,7 +1504,11 @@ const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 	"Animal transformations gain 25% more defense.",
 	"Animal transformation has +5 cutting damage for each level of life magic.",
 	"Animal transformation has +5 piercing damage for each level of life magic.",
-	"Animal transformation deals +5 poison damage per level of Life Magic."
+	"Animal transformation deals +5 poison damage per level of Life Magic.",
+	"",
+	"",
+	"",
+	""
 };
 // Golem
 const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
@@ -1456,7 +1528,11 @@ const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
 	"Hammer Strike",
 	"Stunned",
 	"Accumulation",
-	"Shake"
+	"Shake",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 {
@@ -1475,7 +1551,11 @@ const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 	"Summoned golems deal +3 crushing damage per level of golemcrafting.",
 	"Summoned golems have a 0.3% chance to stun the enemy per level of Golemcrafting.",
 	"Summoned golems restore health equal to 20% of the damage taken.",
-	"Summoned golems gain the 'Concussion' ability."
+	"Summoned golems gain the 'Concussion' ability.",
+	"",
+	"",
+	"",
+	""
 };
 // Demon
 const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
@@ -1495,7 +1575,11 @@ const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
 	"Demoralization",
 	"The Hand of Nergal",
 	"Hand of Hell",
-	"Materialization"
+	"Materialization",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 {
@@ -1514,7 +1598,11 @@ const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 	"When attacking, demons have a chance to inflict a curse that weakens the target's defense by 0.5% for each level of demonology.",
 	"Demons gain the ability to cast 'Darkness Ball'",
 	"Demons gain the ability to cast 'Fireball'",
-	"Demons gain the ability to cast 'Blink'"
+	"Demons gain the ability to cast 'Blink'",
+	"",
+	"",
+	"",
+	""
 };
 // Necro
 const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
@@ -1534,7 +1622,11 @@ const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
 	"Vampirism",
 	"Bone Shield",
 	"Dead Dexterity",
-	"Finger of Death"
+	"Finger of Death",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 {
@@ -1553,7 +1645,11 @@ const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 	"Summoned undead steal 5% of damage dealt as health.",
 	"Summoned undead reflect 5% of damage taken back",
 	"Summoned undead are 0.3% faster per level of necromancy.",
-	"Summoned undead gain the ability to cast 'Death Ball'"
+	"Summoned undead gain the ability to cast 'Death Ball'",
+	"",
+	"",
+	"",
+	""
 };
 // Shaman
 const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
@@ -1573,7 +1669,11 @@ const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
 	"Ethereal Vampirism",
 	"Shaman",
 	"Ancestral Fury",
-	"Spiritual Connection"
+	"Spiritual Connection",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 {
@@ -1592,7 +1692,11 @@ const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 	"Steals 0.1% of energy shield and mana for each level of spirit magic.",
 	"+1% to totem power for each level of spirit magic",
 	"+10 additional fire totem damage per level of spirit magic",
-	"Totems gain the ability to cast 'Mass Heal'"
+	"Totems gain the ability to cast 'Mass Heal'",
+	"",
+	"",
+	"",
+	""
 };
 // MartialArts
 const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
@@ -1612,7 +1716,11 @@ const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
 	"The Guard",
 	"Assassin",
 	"Veteran Fighter",
-	"Fighter"
+	"Fighter",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 {
@@ -1631,7 +1739,11 @@ const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 	"+3 melee cleave damage per Warrior Mastery level",
 	"+3 melee pierce damage per Warrior Mastery level",
 	"Each melee weapon proficiency level above 100% increases damage by 1%",
-	"+0.5% melee damage per Warrior Mastery level"
+	"+0.5% melee damage per Warrior Mastery level",
+	"",
+	"",
+	"",
+	""
 };
 
 // Agile
@@ -1652,7 +1764,11 @@ const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] =
 	"Rune Tempering",
 	"Inaccessibility",
 	"Besieged",
-	"Grace"
+	"Grace",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 {
@@ -1671,7 +1787,11 @@ const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 	"+0.1% chance to absorb a spell per level of Defense Mastery",
 	"+10% chance to block all damage while holding a shield",
 	"+0.5% chance to stun the attacker for each level of Defense Mastery while holding a shield",
-	"+0.1% chance to deflect projectiles"
+	"+0.1% chance to deflect projectiles",
+	"",
+	"",
+	"",
+	""
 };
 // Archery
 const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
@@ -1691,7 +1811,11 @@ const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
 	"Killer",
 	"Orc Slayer",
 	"To destroy evil",
-	"Golem Slayer"
+	"Golem Slayer",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 {
@@ -1710,7 +1834,11 @@ const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 	"+1% damage against humans in ranged combat for each level of shooting mastery",
 	"+1% damage against Orcs in ranged combat for each level of shooting mastery",
 	"+1% damage against undead and evil in ranged combat for each level of marksmanship mastery",
-	"+1% damage against ranged golems per level of marksmanship"
+	"+1% damage against ranged golems per level of marksmanship",
+	"",
+	"",
+	"",
+	""
 };
 
 // generic perks

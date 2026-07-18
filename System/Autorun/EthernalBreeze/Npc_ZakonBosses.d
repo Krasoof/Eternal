@@ -38,9 +38,14 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	var int wsub;
 
 	if (!hlp_isvalidnpc(self)) { return; };
+	// TEMP DIAG (crash-on-looting): every step of the boss drop goes to the
+	// trace so we can see whether the game dies while GENERATING the loot
+	// (here, at death) or later, while DISPLAYING it (DLL: ItemInfoPanel).
+	StExt_Trace(concatstrings(">> ZakonBoss_GiveLoot tier=", inttostring(tier)));
 	// item power ~ hero level (so drops match you, not level-430 nonsense).
 	power = (hero.level * 7) + (kapitel * 40) + (tier * 80);
 	createinvitems(self, itmi_gold, 800 + hlp_random(400) + (kapitel * 300) + (tier * 250));
+	StExt_Trace(concatstrings("   .. zloto ok, power=", inttostring(power)));
 
 	roll = hlp_random(6);
 	if (roll <= 1)
@@ -58,8 +63,11 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	else if (roll == 3) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"); }
 	else if (roll == 4) { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Jewelry"); }
 	else { itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_AnyChestArmor"); };
+	StExt_Trace(concatstrings("   .. GenerateRandomItem type=", inttostring(itemType)));
 	itmId = StExt_GenerateRandomItem(itemType, power);
+	StExt_Trace(concatstrings("   .. wygenerowany itmId=", inttostring(itmId)));
 	StExt_CreateRandomItem(self, itmId, 1, false);
+	StExt_Trace("<< ZakonBoss_GiveLoot OK");
 	// (guaranteed second legendary-jewelry drop REMOVED - legendaries now
 	// come from the global 5% boss roll in zs_dead, weapons/jewelry only)
 };
@@ -110,10 +118,18 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	bBaseHp = 25000 + (kapitel * 20000) + (hero.level * 2000) + (tier * 10000);
 	slf.attribute[1] = (bBaseHp * (100 + ((bSlot - 1) * 10))) / 100;
 	slf.attribute[0] = slf.attribute[1];
-	// str/dex now also scale with hero level (evened out) so the boss is a real
-	// threat, not just an HP sponge. Kept gentler than HP to avoid one-shots.
+	// str/dex: NIGDY ponizej bazy NB (zgloszenie: "fanatyk bil dobrze, boss po 10").
+	// b_setattributestochapter zna krzywa pancerza gracza - to strojenie autorow
+	// Returninga. Nasz wzor NADPISYWAL ja w dol (~260 przy hero lvl 35), wiec boss
+	// wychodzil slabszy od zwyklego fanatyka z tego samego rozdzialu. Teraz wzor
+	// jest tylko PODLOGA: bierzemy wieksza z dwoch wartosci.
+	var int bsNb;
+	bsNb = slf.attribute[4];
 	slf.attribute[4] = 120 + (kapitel * 40) + (tier * 30) + (hero.level * 2);
+	if (slf.attribute[4] < bsNb) { slf.attribute[4] = bsNb; };
+	bsNb = slf.attribute[5];
 	slf.attribute[5] = 120 + (kapitel * 40) + (tier * 30) + (hero.level * 2);
+	if (slf.attribute[5] < bsNb) { slf.attribute[5] = bsNb; };
 	slf.level = 10 + (kapitel * 8) + tier + (hero.level / 2);
 	b_setfightskills(slf, StExt_ValidateValueRange(60 + (kapitel * 8) + (tier * 5), 60, 100));
 
@@ -126,18 +142,15 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
 	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
 
-	// Every boss carries a REAL weapon (they used to swing basic clubs or
-	// fists): a regular sword/axe by id, scaled to chapter+hero, equipped
-	// on spawn. Works for the ch2+ skeleton rigs too (human anim system).
-	var int bWeapType;
-	var int bWeapItm;
-	var int bWeapRoll; bWeapRoll = slf.id % 4;
-	if (bWeapRoll == 0)      { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
-	else if (bWeapRoll == 1) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H"); }
-	else if (bWeapRoll == 2) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); }
-	else                     { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe1H"); };
-	bWeapItm = StExt_GetRegularItem(bWeapType, 40 + (kapitel * 25) + (hero.level * 2) + (tier * 10));
-	if (bWeapItm > 0) { createinvitems(slf, bWeapItm, 1); npc_equipitem(slf, bWeapItm); };
+	// BRON PRZENIESIONA POZA INSTANCJE - patrz StExt_ZakonBoss_GiveWeapon nizej.
+	// Bylo tu StExt_GetRegularItem(...), czyli tworzenie DYNAMICZNEJ INSTANCJI
+	// przedmiotu w srodku inicjalizacji instancji NPC-a. Parser budowal jeden
+	// obiekt, a my kazalismy mu w tym samym momencie zbudowac drugi. Efekt
+	// (zgloszony z zywej gry): bron bossa miala 0 obrazen (staty nigdy nie
+	// doszly) i WYWALALA GRE przy probie podniesienia jej z trupa.
+	// Dowod z boku: StExt_ZakonBoss_GiveLoot robi to samo (GenerateRandomItem)
+	// i dziala bez zarzutu - bo leci z ai_ondead, czyli z normalnego kontekstu.
+	// Jedyna roznica byl MOMENT wywolania.
 
 	// Chapter 1: bosses stay HUMAN brutes exactly as-is (user call).
 	// Chapter 2+: the Zakon sends UNDEAD champions - skeleton rig + monster
@@ -162,6 +175,61 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 		if (tier >= 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Whirlwind); };
 		if (tier >= 4) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk); };
 	};
+};
+
+// Bron bossa - nadawana PO wstawieniu NPC-a do swiata, nigdy z bloku instancji.
+// Musi byc wolana zaraz za kazdym wld_insertnpc(boss) - patrz oba miejsca spawnu.
+// Idempotentna: jak boss juz cos trzyma, nie dokladamy drugiej.
+func void StExt_ZakonBoss_GiveWeapon(var c_npc slf, var int tier)
+{
+	var int bWeapType;
+	var int bWeapItm;
+	var int bWeapRoll;
+
+	if (!hlp_isvalidnpc(slf)) { return; };
+	if (npc_hasequippedmeleeweapon(slf)) { return; };	// juz uzbrojony
+
+	// Generowana bron przez ten sam item-class system, ktorego uzywa CALY loot
+	// w tym modzie (GiveLoot, Herold/Fanatyk w Npc_ZakonTower.d - dziala od
+	// dawna bez zarzutu). Twarde ID (ITMW_ZWEIHAENDER1 itd, poprzednia proba)
+	// byly zle: dzialaly w rece NPC podczas walki, ale crashowaly przy
+	// renderowaniu w oknie lootu - user zglosil crash na "lekkim mieczu
+	// dwurecznym" mimo ze to byla "bezpieczna" statyczna instancja. Root cause
+	// crashu lezy w silniku (oInventory.cpp Draw()/DrawItemInfo, patrz fix w
+	// DrawItemInfo_StExt/Draw_StExt w DLL) - nie w WYBORZE konkretnej broni.
+	// Prawdziwa naprawa jest tam; tutaj wracamy do sprawdzonego mechanizmu
+	// zamiast improwizowac wlasne ID i walczyc z silnikiem po omacku.
+	bWeapRoll = slf.id % 4;
+	if (bWeapRoll == 0)      { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"); }
+	else if (bWeapRoll == 1) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H"); }
+	else if (bWeapRoll == 2) { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"); }
+	else                     { bWeapType = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe1H"); };
+	bWeapItm = StExt_GetRegularItem(bWeapType, (hero.level * 7) + (kapitel * 40) + (tier * 80));
+	if (bWeapItm > 0)
+	{
+		// TYLKO do plecaka - BEZ npc_equipitem (hipoteza usera, potwierdzona
+		// tropem z trace'a). Force-equip podczepial wizual swiezo wygenerowanej
+		// dynamicznej instancji pod wezel modelu bossa (plecy/pas); smierc
+		// odczepiala, a podniesienie z ziemi czytalo residuum -> crash (deferred,
+		// po zakonczeniu DoTakeVob, ItemClassData byl WAZNY wiec to nie on).
+		// Bez equip: AI walki dobiera bron z plecaka sama, standardowym wzorcem
+		// Gothica - dokladnie jak zwykly NPC, ktorego bron podnosi sie bez crasha.
+		createinvitems(slf, bWeapItm, 1);
+	};
+	StExt_Trace(concatstrings("<< GiveWeapon(inv-only) id=", inttostring(slf.id)));
+	StExt_Trace(concatstrings("   .. sila bossa: ", inttostring(slf.attribute[4])));
+};
+
+// Tier po id - Setup dostaje go parametrem, ale spawn juz nie, a nie chcemy
+// drugiego zrodla prawdy. Odwzorowuje dokladnie wywolania StExt_ZakonBoss_Setup.
+func int StExt_ZakonBoss_TierById(var int id)
+{
+	if (id == 99720) { return 4; };					// slot 10
+	if ((id >= 99717) && (id <= 99719)) { return 3; };	// sloty 7-9
+	if ((id >= 99714) && (id <= 99716)) { return 2; };	// sloty 4-6
+	if ((id >= 99711) && (id <= 99713)) { return 1; };	// sloty 1-3
+	if (id == 99724) { return 4; };					// cel lowow ch5
+	return 3;										// pozostale cele lowow
 };
 
 //--------------------------------------------------------------
@@ -277,6 +345,18 @@ func void StExt_ZakonHunt_SpawnCurrent()
 	else if (ch == 3) { wld_insertnpc(bdt_99722_ZakonHunt3, "NW_TROLLAREA_PATH_80"); }
 	else if (ch == 4) { wld_insertnpc(bdt_99723_ZakonHunt4, "NW_TROLLAREA_RITUALFOREST_11"); }
 	else { wld_insertnpc(bdt_99724_ZakonHunt5, "NW_TROLLAREA_PORTALTEMPEL_40"); };
+
+	// Bron DOPIERO TERAZ - po wstawieniu, poza instancja (generowanie w bloku
+	// instancji dawalo bron 0-dmg + crash przy podnoszeniu). WEWNATRZ okna
+	// rx_saveparservars: GetRegularItem smieci w rejestrach parsera - wywolany
+	// poza oknem zabieral dialogowi 'self' i dialog przestawal sie zamykac.
+	var c_npc hn;
+	if (ch <= 1) { hn = Hlp_GetNpc(bdt_99710_ZakonHeretic); }
+	else if (ch == 2) { hn = Hlp_GetNpc(bdt_99721_ZakonHunt2); }
+	else if (ch == 3) { hn = Hlp_GetNpc(bdt_99722_ZakonHunt3); }
+	else if (ch == 4) { hn = Hlp_GetNpc(bdt_99723_ZakonHunt4); }
+	else { hn = Hlp_GetNpc(bdt_99724_ZakonHunt5); };
+	if (hlp_isvalidnpc(hn)) { StExt_ZakonBoss_GiveWeapon(hn, StExt_ZakonBoss_TierById(hn.id)); };
 	rx_restoreparservars();
 };
 
@@ -402,6 +482,24 @@ func void ai_ondead_bdt_99720_ZakonBoss10() { StExt_ZakonBoss_GiveLoot(4); StExt
 // exists in the world and is alive. A crashed/failed spawn used to leave
 // StExt_ZakonBoss_Active = true forever, blocking every future summon;
 // StExt_ZakonBoss_ActiveSlot defaults to 0, so old stuck saves self-heal.
+// Slot (1-10) -> instancja bossa. Jedno miejsce z tym mapowaniem: uzywa go
+// i AliveNow, i nadawanie broni po spawnie. Dwie kopie by sie rozjechaly.
+func c_npc StExt_ZakonBoss_BySlot(var int slot)
+{
+	var c_npc n;
+	if (slot == 1)      { n = Hlp_GetNpc(bdt_99711_ZakonBoss1); }
+	else if (slot == 2) { n = Hlp_GetNpc(bdt_99712_ZakonBoss2); }
+	else if (slot == 3) { n = Hlp_GetNpc(bdt_99713_ZakonBoss3); }
+	else if (slot == 4) { n = Hlp_GetNpc(bdt_99714_ZakonBoss4); }
+	else if (slot == 5) { n = Hlp_GetNpc(bdt_99715_ZakonBoss5); }
+	else if (slot == 6) { n = Hlp_GetNpc(bdt_99716_ZakonBoss6); }
+	else if (slot == 7) { n = Hlp_GetNpc(bdt_99717_ZakonBoss7); }
+	else if (slot == 8) { n = Hlp_GetNpc(bdt_99718_ZakonBoss8); }
+	else if (slot == 9) { n = Hlp_GetNpc(bdt_99719_ZakonBoss9); }
+	else                { n = Hlp_GetNpc(bdt_99720_ZakonBoss10); };
+	return n;
+};
+
 func int StExt_ZakonBoss_AliveNow()
 {
 	var c_npc n;
@@ -478,8 +576,17 @@ func void StExt_ZakonBoss_SummonNext()
 	else if (pick == 7) { wld_insertnpc(bdt_99718_ZakonBoss8, "NW_TROLLAREA_PATH_65"); }
 	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, "NW_TROLLAREA_PATH_65"); }
 	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
-	rx_restoreparservars();
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
+
+	// Bron DOPIERO TERAZ - po wstawieniu do swiata, poza blokiem instancji
+	// (generowanie itemu w instancji dawalo bron 0-dmg + crash przy podnoszeniu).
+	// UWAGA: wciaz WEWNATRZ okna rx_saveparservars! GetRegularItem tworzy
+	// dynamiczna instancje i smieci w rejestrach parsera - wywolany poza oknem
+	// zabieral dialogowi 'self' i "podejmij probe" przestawalo sie zamykac.
+	var c_npc bn;
+	bn = StExt_ZakonBoss_BySlot(StExt_ZakonBoss_ActiveSlot);
+	if (hlp_isvalidnpc(bn)) { StExt_ZakonBoss_GiveWeapon(bn, StExt_ZakonBoss_TierById(bn.id)); };
+	rx_restoreparservars();
 	// Deferred teleport: fires ~15 frames later, AFTER the dialog has fully
 	// closed - teleporting the hero DURING the dialog left it stuck open.
 	StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaTeleport_Callback", 15);
@@ -562,6 +669,7 @@ func int dia_none_99702_SoulMaster_Reward_condition()
 func void dia_none_99702_SoulMaster_Reward_info()
 {
 	var int ch;
+	StExt_Say(StExt_Str_SoulMaster_Name, "Dziesieciu padlo z twojej reki. Zakon placi swoje dlugi - wybierz pancerz i nos go tak, zeby nastepna dziesiatka bala sie go z daleka.");
 	ch = StExt_ZakonHunt_CurChapter();
 	if (ch <= 1)
 	{
@@ -632,6 +740,7 @@ func int dia_none_99702_SoulMaster_Summon_condition()
 };
 func void dia_none_99702_SoulMaster_Summon_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Zakon wzywa - ty zabijasz. Taki jest uklad. Arena czeka na wybrzezu.");
 	StExt_ZakonBoss_SummonNext();
 	ai_stopprocessinfos(self);
 };
@@ -653,6 +762,7 @@ func int dia_none_99702_SoulMaster_Hint_condition()
 };
 func void dia_none_99702_SoulMaster_Hint_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Cel na ten rozdzial jest wybrany. Znajdz go, zabij i przynies mi jego dusze. Bez duszy nie wracaj.");
 	StExt_ZakonHunt_SpawnCurrent();
 	StExt_ZakonHunt_PrintHint();
 	ai_stopprocessinfos(self);

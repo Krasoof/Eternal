@@ -1,4 +1,14 @@
 
+// Spellblade (2026-07-18): szablon 4 rol x 8 drzewek zywiolow, sloty
+// 16-19 W KAZDYM drzewku zywiolu (0-7) pod TYMI SAMYMI indeksami -
+// jeden zestaw stalych obsluguje wszystkie zywioly. Drzewka 8-15
+// (nie-zywioly) maja te sloty PUSTE (puste nazwy w lokalizacji,
+// StatsWindow je pomija). StExt_MasteryPerk_Max = 20 (Constants.d).
+const int StExt_MasteryPerkIndex_Element_Blade = 16;	// +25% zywiolu na broni (StExt_CalcElementHitAmount)
+const int StExt_MasteryPerkIndex_Element_Seal = 17;		// proc pieczeci zywiolu: interwal -1 (min 2), moc +20%
+const int StExt_MasteryPerkIndex_Element_Conduit = 18;	// buildup +50%, koszt many zywiolu na broni -25%
+const int StExt_MasteryPerkIndex_Element_Erupt = 19;	// erupcja zywiolu +30%
+
 // Fire perks
 const int StExt_MasteryPerkIndex_Fire_AshHerald = 0;
 const int StExt_MasteryPerkIndex_Fire_Burner = 1;

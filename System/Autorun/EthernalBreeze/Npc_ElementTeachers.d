@@ -151,7 +151,7 @@ instance none_99701_DarkMaster(npc_default)
     name = StExt_Str_DarkMaster_Name;
     guild = gil_none;
     id = 99701;
-    voice = 14;
+    voice = 13;	// bylo 14 (user: "tragiczny") -> 13, glebszy/mroczniejszy meski SVM
     flags = 0;
     npctype = npctype_main;
     aivar[93] = true;

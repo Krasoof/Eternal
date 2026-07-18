@@ -1,10 +1,12 @@
 // Weapon seals - gemstones that imbue the equipped weapon with an offensive
 // elemental spell. Used from the inventory (MAPSEALED scheme -> on_state ->
 // StExt_ApplySeal), which stores the spell + power on the weapon's item
-// extension (DLL). The seal then procs passively every N hits:
-//   Lesser (power 60)  -> every 3rd hit
-//   Normal (power 100) -> every 2nd hit
-//   Greater (power 160) -> every hit
+// extension (DLL). The seal then procs passively every N hits, where
+// N = 6 - power/80, clamp 2..6 (StExt_GetSealProcInterval - JEDYNE zrodlo
+// prawdy, wolane tez przez tooltip):
+//   Lesser (power 60)  -> every 6th hit
+//   Normal (power 100) -> every 5th hit
+//   Greater (power 160) -> every 4th hit (rosnie z levelem pieczeci)
 // Proc cost (mana for magic weapons, stamina otherwise) = 10 + power/10.
 // Visual reuses the base-game moonstone gem prototype.
 

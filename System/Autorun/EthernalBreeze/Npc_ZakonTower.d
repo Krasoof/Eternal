@@ -50,9 +50,13 @@ func void StExt_ZakonTower_TrashSetup(var c_npc slf)
 	slf.level = 5 + (kapitel * 5) + (hero.level / 3);
 	b_setfightskills(slf, StExt_ValidateValueRange(40 + (kapitel * 6), 40, 90));
 
-	// wraiths carry real (regular) blades too - no bare fists
+	// wraiths carry real (regular) blades too - no bare fists.
+	// TYLKO do plecaka - BEZ npc_equipitem (ten sam bug co u bossow, potwierdzony
+	// crashem przy podejsciu do wiezy). Force-equip swiezo wygenerowanej dynamicznej
+	// instancji podpinal jej wizual pod wezel modelu przy spawnie -> crash. AI walki
+	// dobiera bron z plecaka sama. Patrz StExt_ZakonBoss_GiveWeapon.
 	var int twWeap; twWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"), 30 + (kapitel * 20) + hero.level);
-	if (twWeap > 0) { createinvitems(slf, twWeap, 1); npc_equipitem(slf, twWeap); };
+	if (twWeap > 0) { createinvitems(slf, twWeap, 1); };
 };
 
 //--------------------------------------------------------------
@@ -208,6 +212,9 @@ func int dia_none_99702_SoulMaster_Tower_condition()
 };
 func void dia_none_99702_SoulMaster_Tower_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Zar Dusz sciaga umarlych jak scierwo sciaga wrony. Kaplica przestaje byc bezpieczna.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wybralem nowy dom dla Zakonu: stara wieze na wybrzezu. Problem w tym, ze ktos w niej juz mieszka.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Upiory garnizonu. Wytnij je co do jednego - Zakon nie dzieli dachu z umarlymi, ktorych sam nie zabil.");
 	StExt_ZakonTower_Stage = 1;
 	StExt_ZakonTower_WaveKills = 0;
 	// ALL spawns AT the tower itself - the forest-road WP put mobs where the
@@ -236,6 +243,7 @@ func int dia_none_99702_SoulMaster_TowerHint_condition()
 };
 func void dia_none_99702_SoulMaster_TowerHint_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wieza na wybrzezu, na polnoc stad. Wskazalem raz - drugi raz wskazuje palcem, trzeciego nie bedzie.");
 	snd_play("STEXT_VOICE_M3");	// sound test hook - Mistrz mruczy pod nosem
 	// SELF-HEAL: asking for directions RE-SUMMONS the current wave at the
 	// tower - repairs saves whose mobs got lost at the old road waypoint
@@ -276,6 +284,8 @@ instance dia_none_99702_SoulMaster_TowerDone(c_info)
 func int dia_none_99702_SoulMaster_TowerDone_condition() { return (StExt_ZakonTower_Stage == 4); };
 func void dia_none_99702_SoulMaster_TowerDone_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wieza stoi pusta - czuje to stad. Dobra robota, rycerzu.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Zakon przenosi sie o swicie. Wez te dusze - naleza sie temu, kto oczyscil dom.");
 	StExt_ZakonTower_Stage = 5;
 	createinvitems(hero, itmi_stext_bosssoul, 2);
 	snd_play("STEXT_VOICE_M2");	// Mistrz: "Wieza pamieta swojego pana..."

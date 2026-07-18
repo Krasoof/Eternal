@@ -121,20 +121,67 @@ func int StExt_GetWeaponBurstStat(var c_item weap)
 };
 
 // Shared burst formula for the H-skill and seal procs.
-func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int extraBase)
+// Rdzen SKALARNY (same inty): wolany przez runtime ORAZ tooltip (DLL ->
+// CallFunc) - jedno zrodlo prawdy. Selekcja proficiency/atrybutu z flag
+// broni odtwarza 1:1 StExt_GetWeaponProficiency/GetWeaponBurstStat.
+func int StExt_CalcBurstPowerScalar(var int spellId, var int extraBase, var int weaponDmg, var int weaponFlags, var int usesMana)
 {
 	var int power;
 	var int element;
 	element = StExt_GetSpellElementIndex(spellId);
-	power = 20 + extraBase + StExt_CalcWeaponTotalDamage(weap);
+	power = 20 + extraBase + weaponDmg;
 	power += StExt_GetElementMasteryPowerStat(element) + (StExt_GetElementMasteryLevel(element) * 2);
-	power += StExt_GetWeaponProficiency(weap);
-	power += StExt_GetWeaponBurstStat(weap);
+	// proficiency (1h/2h/bow/xbow)
+	if (StExt_ValueHasFlag(weaponFlags, item_bow)) { power += StExt_PcStats[StExt_PcStats_Index_BowMastery]; }
+	else if (StExt_ValueHasFlag(weaponFlags, item_crossbow)) { power += StExt_PcStats[StExt_PcStats_Index_CBowMastery]; }
+	else if (StExt_ValueHasFlag(weaponFlags, item_2hd_axe) || StExt_ValueHasFlag(weaponFlags, item_2hd_swd)) { power += StExt_PcStats[StExt_PcStats_Index_2hMastery]; }
+	else { power += StExt_PcStats[StExt_PcStats_Index_1hMastery]; };
+	// attribute: magic -> int + moc magiczna; bow/xbow/dagger -> dex; else str
+	if (usesMana) { power += atr_intellect + StExt_PcStats[StExt_PcStats_Index_MagicPower]; }
+	else if (StExt_ValueHasFlag(weaponFlags, item_bow) || StExt_ValueHasFlag(weaponFlags, item_crossbow) || StExt_ValueHasFlag(weaponFlags, item_dag)) { power += hero.attribute[5]; }
+	else { power += hero.attribute[4]; };
 	power += StExt_GetPermilleFromValue(power, StExt_SoulKnight_BonusPermille());
 	// jewelry affixes: weapon SEAL/rune damage (flat + capped %)
 	power += StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapSealDam);
 	power += StExt_GetPermilleFromValue(power, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapSealDamPerc), 0, 150));
 	return power;
+};
+
+func int StExt_CalcWeaponBurstPower(var c_item weap, var int spellId, var int extraBase)
+{
+	return StExt_CalcBurstPowerScalar(spellId, extraBase, StExt_CalcWeaponTotalDamage(weap), weap.flags, StExt_WeaponSkillUsesMana(weap));
+};
+
+// Jedno zrodlo prawdy dla zywiolu na broni: TEN wzor liczy bonus per hit
+// i TEN SAM wzor wola tooltip (DLL -> CallFunc). Zmieniasz tu - zmienia
+// sie i cios, i opis na broni.
+// INT + moc magiczna zasilaja zywiol na KAZDEJ broni (lustro sily w
+// fizycznym ciosie) - wczesniej fizyczny topor mial z 550 INT rowne zero.
+func int StExt_CalcElementHitAmount(var int element, var int sealPower, var int realDamage, var int usesMana)
+{
+	var int amount;
+	var int mLvl;
+
+	if ((element < StExt_MasteryIndex_Fire) || (element > StExt_MasteryIndex_Death)) { return 0; };
+	mLvl = StExt_GetElementMasteryLevel(element);
+
+	amount = sealPower / 2;
+	amount += StExt_GetElementMasteryPowerStat(element) / 6;
+	amount += mLvl * 5;
+	amount += (atr_intellect / 10) + (StExt_PcStats[StExt_PcStats_Index_MagicPower] / 10);
+	amount += StExt_GetPermilleFromValue(realDamage, StExt_ValidateValueRange((mLvl * 4) + (atr_intellect / 5), 0, 350));
+	amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
+	// magic weapons empower the element further (dawny czlon atr_intellect/20
+	// wchlonal wspolny skladnik INT powyzej)
+	if (usesMana) { amount += amount / 2; };
+	// Spellblade perk "Ostrze Zywiolow": +30% weapon element damage
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_ElementBlade)) { amount += StExt_GetPermilleFromValue(amount, 300); };
+	// Mastery spellblade (slot 16): +25% zywiolu tego drzewka
+	if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Blade)) { amount += StExt_GetPermilleFromValue(amount, 250); };
+	// jewelry affixes: weapon ELEMENT damage (flat + capped %)
+	amount += StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDam);
+	amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDamPerc), 0, 150));
+	return amount;
 };
 
 func int StExt_HasAnyItemAbility() { return true; };
@@ -193,15 +240,17 @@ func event OnWeaponSkillKeyPress()
 	ai_printbonus(StExt_Str_WeaponSkill_Charged);
 };
 
-// Add elemental damage straight into the current hit's damage channels.
+// Add elemental damage straight into the current hit's PIERCE channels.
+// Zywiol PRZEBIJA pancerz (decyzja 2026-07-18): DLL aplikuje PierceDamage
+// PO odjeciu protekcji; immunitet (protection < 0) nadal respektowany.
 func void StExt_AddElementHitDamage(var int element, var int amount)
 {
 	if (amount <= 0) { return; };
-	if (element == StExt_MasteryIndex_Fire) { StExt_ExtraDamageInfo.Damage[dam_index_fire] += amount; return; };
-	if (element == StExt_MasteryIndex_Air) { StExt_ExtraDamageInfo.Damage[dam_index_fly] += amount; return; };
-	if (element == StExt_MasteryIndex_Earth) { StExt_ExtraDamageInfo.Damage[dam_index_blunt] += amount; return; };
+	if (element == StExt_MasteryIndex_Fire) { StExt_ExtraDamageInfo.PierceDamage[dam_index_fire] += amount; return; };
+	if (element == StExt_MasteryIndex_Air) { StExt_ExtraDamageInfo.PierceDamage[dam_index_fly] += amount; return; };
+	if (element == StExt_MasteryIndex_Earth) { StExt_ExtraDamageInfo.PierceDamage[dam_index_blunt] += amount; return; };
 	// ice / electric / light / dark / death -> magic channel
-	StExt_ExtraDamageInfo.Damage[dam_index_magic] += amount;
+	StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += amount;
 };
 
 // Call from StExt_Hero_AfterOffenceHandler on the hero's next landed hit:
@@ -220,6 +269,7 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 
 	power = StExt_CalcWeaponBurstPower(weap, spellId, StExt_GetItemSealPower(weap));
 	StExt_AddElementHitDamage(StExt_GetSpellElementIndex(spellId), power);
+	StExt_ElementBuildup_Feed(target, StExt_GetSpellElementIndex(spellId), power);
 	ai_printbonus(StExt_Str_WeaponSkill_Released);
 };
 
@@ -233,10 +283,13 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 // (X from seal power); each proc costs mana (magic) / stamina (else).
 
 // Strong seal -> every 2 hits; weak -> every 6. Never every single hit.
-func int StExt_GetSealProcInterval(var int sealPower)
+// Wzor wolany takze przez tooltip (DLL -> CallFunc) - jedno zrodlo prawdy.
+func int StExt_GetSealProcInterval(var int sealPower, var int element)
 {
 	var int n;
 	n = 6 - (sealPower / 80);
+	// Mastery spellblade (slot 17): proc o jeden hit wczesniej
+	if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Seal)) { n -= 1; };
 	return StExt_ValidateValueRange(n, 2, 6);
 };
 
@@ -287,6 +340,84 @@ func void StExt_GainElementMasteryFromUse(var int element, var int chance)
 	if (hlp_random(100) < chance) { StExt_AddMasteryExp(element, 1); };
 };
 
+// Pelna moc procu pieczeci zywiolowej (rdzen skalarny; runtime + tooltip).
+// Baza pieczeci jest POLOWIONA (weapon dmg + masteria juz siedza w
+// CalcBurstPowerScalar - pelne sealPower liczyloby sie podwojnie), calosc
+// skalowana +60%, potem perki.
+func int StExt_CalcSealProcPower(var int sealSpell, var int sealPower, var int weaponDmg, var int weaponFlags, var int usesMana)
+{
+	var int power;
+	power = StExt_CalcBurstPowerScalar(sealSpell, sealPower / 2, weaponDmg, weaponFlags, usesMana);
+	power = StExt_ApplyPercentToValue(power, 60);
+	// Spellblade perk "Mistrz Pieczeci": +30% elemental seal spell damage
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealMaster)) { power += StExt_GetPermilleFromValue(power, 300); };
+	// Mastery spellblade (slot 17): +20% mocy procu pieczeci tego zywiolu
+	if (StExt_IsSpellbladePerk(StExt_GetSpellElementIndex(sealSpell), StExt_MasteryPerkIndex_Element_Seal)) { power += StExt_GetPermilleFromValue(power, 200); };
+	// Costly perk "Splot Many": elemental seal also scales with max mana
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealManaScale)) { power += hero.attribute[atr_mana_max] / 5; };
+	return power;
+};
+
+// Baza krwawienia per tick (bez czlonu %maxHP celu - ten dolicza runtime).
+func int StExt_CalcBleedTickBase(var int sealPower, var int sealLvl)
+{
+	var int physStat;
+	physStat = hero.attribute[4];
+	if (hero.attribute[5] > physStat) { physStat = hero.attribute[5]; };
+	return (physStat / 10) + (sealPower / 12) + (sealLvl * 3);
+};
+
+// Permille ciosu ignorujace pancerz (pieczec Przebicia); cap 70%.
+func int StExt_CalcPiercePermille(var int sealPower, var int sealLvl)
+{
+	var int physStat;
+	physStat = hero.attribute[4];
+	if (hero.attribute[5] > physStat) { physStat = hero.attribute[5]; };
+	return StExt_ValidateValueRange(40 + (physStat / 4) + (sealPower / 8) + (sealLvl * 4), 40, 700);
+};
+
+//===================================================================//
+//		Tooltip (DLL -> CallFunc): TE SAME wzory co runtime			 //
+//===================================================================//
+// ItemInfoPanel wola te funkcje zamiast utrzymywac reczne lustra wzorow
+// w C++ (lustra rozjezdzaly sie z runtime - "dziwne liczby na broni").
+// Kontrakt CallFunc: argumenty i zwrot wylacznie int.
+
+func int StExt_Tooltip_ElementPerHit(var int spellId, var int sealPower, var int weaponDmg, var int usesMana)
+{
+	return StExt_CalcElementHitAmount(StExt_GetSpellElementIndex(spellId), sealPower, weaponDmg, usesMana);
+};
+
+func int StExt_Tooltip_SealProcInterval(var int sealSpell, var int sealPower)
+{
+	return StExt_GetSealProcInterval(sealPower, StExt_GetSpellElementIndex(sealSpell));
+};
+
+func int StExt_Tooltip_BurstPower(var int spellId, var int extraBase, var int weaponDmg, var int weaponFlags, var int usesMana)
+{
+	return StExt_CalcBurstPowerScalar(spellId, extraBase, weaponDmg, weaponFlags, usesMana);
+};
+
+func int StExt_Tooltip_SealProcDamage(var int sealSpell, var int sealPower, var int weaponDmg, var int weaponFlags, var int usesMana)
+{
+	return StExt_CalcSealProcPower(sealSpell, sealPower, weaponDmg, weaponFlags, usesMana);
+};
+
+func int StExt_Tooltip_BleedTick(var int sealPower, var int sealLvl)
+{
+	var int amount;
+	amount = StExt_CalcBleedTickBase(sealPower, sealLvl);
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
+	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 6; };
+	amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_BleedingPowerPerc), 0, 250));
+	return amount;
+};
+
+func int StExt_Tooltip_PiercePermille(var int sealPower, var int sealLvl)
+{
+	return StExt_CalcPiercePermille(sealPower, sealLvl);
+};
+
 // Call from StExt_Hero_AfterOffenceHandler on every landed hit.
 func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_item weap)
 {
@@ -315,32 +446,19 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		// capped at 12% of max mana per landed hit.
 		manaCost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max],
 			StExt_ValidateValueRange(8 + (weap.damagetotal / 5) + (StExt_GetItemSealPower(weap) / 10), 8, 120));
+		// Mastery spellblade (slot 18, Conduit): -25% kosztu many zywiolu
+		if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Conduit)) { manaCost -= StExt_GetPercentFromValue(manaCost, 25); };
 		manaCost = StExt_ValidateValueMin(manaCost, 1);
 		if (hero.attribute[atr_mana] >= manaCost)
 		{
 			hero.attribute[atr_mana] = hero.attribute[atr_mana] - manaCost;
 
-			// Flat elemental per hit, scaled HARD with element mastery so a
-			// perk weapon stays competitive with the big % weapon bonuses in
-			// the mastery trees. Also adds a small % of the hit's real damage
-			// (grows with mastery level) so it keeps pace with weapon scaling.
-			amount = StExt_GetItemSealPower(weap) / 2;
-			amount += StExt_GetElementMasteryPowerStat(element) / 6;
-			amount += StExt_GetElementMasteryLevel(element) * 5;
-			amount += StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(StExt_GetElementMasteryLevel(element) * 4, 0, 250));
-			amount += StExt_GetPermilleFromValue(amount, StExt_SoulKnight_BonusPermille());
-
-			// magic weapons empower the element further
-			if (StExt_WeaponSkillUsesMana(weap))
-			{
-				amount += (amount / 2) + (atr_intellect / 20);
-			};
-			// Spellblade perk "Ostrze Zywiolow": +30% weapon element damage
-			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_ElementBlade)) { amount += StExt_GetPermilleFromValue(amount, 300); };
-			// jewelry affixes: weapon ELEMENT damage (flat + capped %)
-			amount += StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDam);
-			amount += StExt_GetPermilleFromValue(amount, StExt_ValidateValueRange(StExt_GetPcStat(StExt_PcStats_Index_ExtraWeapElementDamPerc), 0, 150));
+			// Pelny wzor w StExt_CalcElementHitAmount (jedno zrodlo prawdy,
+			// wolane tez przez tooltip). Skaluje z INT/moca magiczna na
+			// KAZDEJ broni + masteria zywiolu + % realnego ciosu.
+			amount = StExt_CalcElementHitAmount(element, StExt_GetItemSealPower(weap), StExt_DamageInfo.RealDamage, StExt_WeaponSkillUsesMana(weap));
 			StExt_AddElementHitDamage(element, amount);
+			StExt_ElementBuildup_Feed(target, element, amount);
 			// slow mastery trickle from channeling the weapon's element
 			StExt_GainElementMasteryFromUse(element, 4);
 		};
@@ -375,9 +493,8 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		};
 
 		// Physical seals scale MAINLY from the dominant physical stat (STR
-		// or DEX, whichever is higher). A physical build stacks that stat to
-		// ~4x the value of an element mastery, so it is the seal power that
-		// is the minor floor here, while the stat drives the effect.
+		// or DEX, whichever is higher) - baza w StExt_CalcBleedTickBase /
+		// StExt_CalcPiercePermille (wspolne z tooltipem).
 		physStat = hero.attribute[4];
 		if (hero.attribute[5] > physStat) { physStat = hero.attribute[5]; };
 
@@ -387,7 +504,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			// target's MAX HP that grows with seal level. The %-max-HP term keeps
 			// bleed relevant against 100k-300k HP bosses without one-shotting
 			// trash (0.5%/tick at lvl 10 -> 3%/tick at lvl 60, capped 30 permille).
-			amount = (physStat / 10) + (sealPower / 12) + (sealLvl * 3);
+			amount = StExt_CalcBleedTickBase(sealPower, sealLvl);
 			amount += StExt_GetPermilleFromValue(target.attribute[atr_hitpoints_max], StExt_ValidateValueRange(sealLvl / 2, 0, 30));
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 6; };
@@ -399,7 +516,7 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 		{
 			// armor piercing: % of the hit ignores protection (true damage).
 			// scales with STR/DEX, seal power AND seal level; capped at 70%.
-			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_ValidateValueRange(40 + (physStat / 4) + (sealPower / 8) + (sealLvl * 4), 40, 700));
+			amount = StExt_GetPermilleFromValue(StExt_DamageInfo.RealDamage, StExt_CalcPiercePermille(sealPower, sealLvl));
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_BloodSeal)) { amount += StExt_GetPermilleFromValue(amount, 300); };
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 8; };
 			StExt_ExtraDamageInfo.Damage += amount;
@@ -409,21 +526,16 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	};
 
 	StExt_WeaponSeal_HitCounter += 1;
-	if (StExt_WeaponSeal_HitCounter < StExt_GetSealProcInterval(sealPower)) { return; };
+	if (StExt_WeaponSeal_HitCounter < StExt_GetSealProcInterval(sealPower, StExt_GetSpellElementIndex(sealSpell))) { return; };
 	// unpaid proc stays pending: counter is only reset after payment
 	if (!StExt_PaySealCost(weap, sealPower)) { return; };
 	StExt_WeaponSeal_HitCounter = 0;
 
-	// seal base is HALVED (weapon damage + mastery are already added inside
-	// CalcWeaponBurstPower - passing full sealPower double-counted); then the
-	// whole burst is scaled to 60% so a seal supplements the hit, not eclipses it.
-	power = StExt_CalcWeaponBurstPower(weap, sealSpell, sealPower / 2);
-	power = StExt_ApplyPercentToValue(power, 60);
-	// Spellblade perk "Mistrz Pieczeci": +30% elemental seal spell damage
-	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealMaster)) { power += StExt_GetPermilleFromValue(power, 300); };
-	// Costly perk "Splot Many": elemental seal also scales with max mana
-	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealManaScale)) { power += hero.attribute[atr_mana_max] / 5; };
+	// Pelny wzor (baza polowiona, +60%, perki) w StExt_CalcSealProcPower -
+	// jedno zrodlo prawdy, wolane tez przez tooltip.
+	power = StExt_CalcSealProcPower(sealSpell, sealPower, StExt_CalcWeaponTotalDamage(weap), weap.flags, StExt_WeaponSkillUsesMana(weap));
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
+	StExt_ElementBuildup_Feed(target, StExt_GetSpellElementIndex(sealSpell), power);
 	StExt_SealGainXp(weap);
 	// slow mastery trickle from actively casting the seal's element
 	StExt_GainElementMasteryFromUse(StExt_GetSpellElementIndex(sealSpell), 12);
@@ -648,7 +760,18 @@ func void StExt_ItemAbilitiesController()
 		{
 			// persistent glow attached to the weapon itself (item effect,
 			// same engine feature as burning swords); refresh if it differs
-			if (!hlp_strcmp(weap.effect, StExt_GetElementGlowFx(element))) { weap.effect = StExt_GetElementGlowFx(element); };
+			// TEMP DIAG: crash zglaszany DOKLADNIE przy podniesieniu broni bossa.
+			// To jest ta linia - moment, w ktorym doczepiamy efekt do broni. Od
+			// 17.07 te efekty maja emadjustshptoorigin=1, czyli silnik siega po
+			// SIATKE tej broni (oVisFx.cpp: CalcPFXMesh -> shpMesh = origin->GetVisual()).
+			// Jesli vob broni znika w tym samym czasie (podnoszenie = usuniecie ze
+			// swiata), emiter zostaje z wiszacym wskaznikiem. Log ma to rozstrzygnac.
+			if (!hlp_strcmp(weap.effect, StExt_GetElementGlowFx(element)))
+			{
+				StExt_Trace(concatstrings(concatstrings(">> glow: naklada '", StExt_GetElementGlowFx(element)), concatstrings("' na bron, element=", inttostring(element))));
+				weap.effect = StExt_GetElementGlowFx(element);
+				StExt_Trace("<< glow: nalozony OK");
+			};
 
 			// Charged: bright pulse. NO periodic shimmer otherwise - the
 			// repeated point-light FX stuck to the hero's hand and left a

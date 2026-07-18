@@ -55,6 +55,13 @@ func void StExt_UpdateEquipmentDamageInfo()
 	if (StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Light)) { StExt_RuneDamageInfo += StExt_PcStats[StExt_PcStats_Index_LightMasteryPower]; };
 	if (StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Death)) { StExt_RuneDamageInfo += StExt_PcStats[StExt_PcStats_Index_DeathMasteryPower]; };
 	if (StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Life) || StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Poision)) { StExt_RuneDamageInfo += StExt_PcStats[StExt_PcStats_Index_LifeMasteryPower]; };
+
+	// TEMP DIAG (sledztwo "runy dzialaja jak chca"): sklad bazy runicznej.
+	var string rdDiag;
+	rdDiag = concatstrings("RUNY baza: int=", inttostring(atr_intellect));
+	rdDiag = concatstrings(rdDiag, concatstrings(" kregi=", inttostring(countlearnspell)));
+	rdDiag = concatstrings(rdDiag, concatstrings(" suma=", inttostring(StExt_RuneDamageInfo)));
+	StExt_Trace(rdDiag);
 };
 
 func void StExt_AddSncDamage_Script(var int damage, var int isSummon)
@@ -109,6 +116,17 @@ func int StExt_ExtraDamageBlockRequired(var int spellId)
 
 func int StExt_DontKillByExtraDamage(var c_npc atk, var c_npc target)
 {
+	// THE HERO IS NEVER PROTECTED.
+	// This guard exists for ONE reason: so the player's stray AoE/DOT does not
+	// murder peaceful townsfolk. It was never meant to shield the player.
+	// Without this line the hero was immortal against any damage whose attacker
+	// is unknown (boss waves/blinks, DOT ticks, environment): the fall-through
+	// below returns true for every peaceful human, and the hero is a peaceful
+	// human - so the engine clamped the killing blow to leave exactly 1 HP
+	// (Damage.cpp, ChangeAttribute_StExt: value = -(attribute[0] - 1)).
+	// Reported live: "boss nie mogl mnie dobic, caly czas bylem na 1 HP".
+	if (hlp_isvalidnpc(target) && npc_isplayer(target)) { return false; };
+
 	if (!hlp_isvalidnpc(target) || !hlp_isvalidnpc(atk))
 	{
 		if (hlp_isvalidnpc(target)) {
@@ -1023,9 +1041,160 @@ func void StExt_CheckTargetImmortality(var c_npc atk, var c_npc target)
 		target.protection[prot_magic] = 500;
 	};
 
-	if (removeImmortality) 
-	{ 
-		target.flags = target.flags & (~npc_flag_immortal); 
+	if (removeImmortality)
+	{
+		target.flags = target.flags & (~npc_flag_immortal);
 		target.flags = target.flags & (~npc_flag_xaradrim);
 	};
+};
+
+
+//===================================================================//
+//			Elemental buildup v3: 8 zywiolow, jawne API				 //
+//===================================================================//
+// Deterministyczny pasek (zero RNG). Kazde zrodlo zywiolu KARMI pasek
+// JAWNYM wywolaniem StExt_ElementBuildup_Feed: bron z zywiolem, skill
+// broni, proc pieczeci (ItemAbilitiesController) oraz runy/zwoje
+// (DamageController, initial hit gracza). Pakiety extra/DoT/AoE/reflect
+// NIE karmia - brak petli samonapedzajacych. Erupcja przy ladunku
+// >= 30% maxHP celu (x3 bossy Zakonu 99710-99725); zmiana zywiolu
+// resetuje ladunek. v2 mapowal KANALY obrazen (fire/magic/fly/fall),
+// przez co 5 z 8 zywiolow zlewalo sie w "PORAZENIE" - stad rewrite.
+
+func int StExt_GetElementIndexFromDamageType(var int damageType)
+{
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Fire)) { return StExt_MasteryIndex_Fire; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Ice)) { return StExt_MasteryIndex_Ice; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Electric)) { return StExt_MasteryIndex_Electric; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Air)) { return StExt_MasteryIndex_Air; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Earth)) { return StExt_MasteryIndex_Earth; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Light)) { return StExt_MasteryIndex_Light; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Dark)) { return StExt_MasteryIndex_Dark; };
+	if (StExt_ValueHasFlag(damageType, StExt_DamageType_Death)) { return StExt_MasteryIndex_Death; };
+	return StExt_Null;
+};
+
+// Bezpieczny odczyt perka spellblade: perki 16-19 istnieja tylko w
+// drzewkach zywiolow (0-7), kazdy inny indeks = false.
+func int StExt_IsSpellbladePerk(var int element, var int perkId)
+{
+	if ((element < StExt_MasteryIndex_Fire) || (element > StExt_MasteryIndex_Death)) { return false; };
+	return StExt_IsMasteryPerkLearned(element, perkId);
+};
+
+func void StExt_ElementBuildup_Erupt(var c_npc target, var int element)
+{
+	var int dmg;
+	var int magnitude;
+
+	magnitude = 100;
+	if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Erupt)) { magnitude = 130; };
+
+	StExt_Trace(concatstrings("ERUPCJA zywiol=", inttostring(element)));
+
+	// Erupcje ida kanalami PIERCE (pelne przebicie protekcji) - % maxHP
+	// celu nie moze byc zjadany przez pancerz, inaczej erupcja na bossie
+	// z wysoka protekcja bylaby kosmetyka.
+	if (element == StExt_MasteryIndex_Fire)
+	{
+		printscreencolor("PLOMIENNA ERUPCJA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_FIREWAVE", target);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2);
+		dmg = StExt_GetPercentFromValue(dmg, magnitude);
+		StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, dmg, dam_index_fire);
+	}
+	else if (element == StExt_MasteryIndex_Ice)
+	{
+		printscreencolor("ZAMROZENIE!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_ICECUBE", target);
+		rx_stuntarget(target, 2);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else if (element == StExt_MasteryIndex_Electric)
+	{
+		printscreencolor("PORAZENIE!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_LIGHTNINGFLASH", target);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else if (element == StExt_MasteryIndex_Air)
+	{
+		printscreencolor("CYKLON!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_MASTEROFDISASTER", target);
+		rx_stuntarget(target, 1);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_fly] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else if (element == StExt_MasteryIndex_Earth)
+	{
+		printscreencolor("WSTRZAS!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_STONEFIRST", target);
+		rx_stuntarget(target, 1);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_blunt] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else if (element == StExt_MasteryIndex_Light)
+	{
+		printscreencolor("OSLEPIENIE!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_LIGHTSTAR", target);
+		rx_stuntarget(target, 1);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 6);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else if (element == StExt_MasteryIndex_Dark)
+	{
+		printscreencolor("MROCZNY DRENAZ!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_SUCKENERGY", target);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += StExt_GetPercentFromValue(dmg, magnitude);
+	}
+	else
+	{
+		printscreencolor("ZGNILIZNA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		rx_playeffect("SPELLFX_SWARM", target);
+		dmg = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
+		StExt_ExtraDamageInfo.PierceDamage[dam_index_magic] += StExt_GetPercentFromValue(dmg, magnitude);
+	};
+};
+
+func void StExt_ElementBuildup_Feed(var c_npc target, var int element, var int amount)
+{
+	var int charge;
+	var int threshold;
+	var string ebDiag;
+
+	if ((element < StExt_MasteryIndex_Fire) || (element > StExt_MasteryIndex_Death)) { return; };
+	if (amount <= 0) { return; };
+	if (!hlp_isvalidnpc(target)) { return; };
+	if (npc_isplayer(target)) { return; };
+	if (c_npcisdown(target)) { return; };
+
+	if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Conduit)) { amount += StExt_GetPercentFromValue(amount, 50); };
+
+	// jeden pasek na cel: typ = zywiol+1 (0 oznacza "pusty"), zmiana
+	// zywiolu resetuje ladunek
+	if (StExt_GetNpcVar(target, StExt_AiVar_ElementBuildupType) != (element + 1))
+	{
+		StExt_SetNpcVar(target, StExt_AiVar_ElementBuildupType, element + 1);
+		StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
+	};
+	charge = StExt_GetNpcVar(target, StExt_AiVar_ElementBuildup) + amount;
+
+	threshold = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 30);
+	if ((target.id >= 99710) && (target.id <= 99725)) { threshold = threshold * 3; };
+
+	// TEMP DIAG (weryfikacja v3): kazde karmienie paska.
+	ebDiag = concatstrings("EB el=", inttostring(element));
+	ebDiag = concatstrings(ebDiag, concatstrings(" +", inttostring(amount)));
+	ebDiag = concatstrings(ebDiag, concatstrings(" c=", inttostring(charge)));
+	ebDiag = concatstrings(ebDiag, concatstrings("/", inttostring(threshold)));
+	StExt_Trace(ebDiag);
+
+	if (charge >= threshold)
+	{
+		StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
+		StExt_ElementBuildup_Erupt(target, element);
+	}
+	else { StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, charge); };
 };

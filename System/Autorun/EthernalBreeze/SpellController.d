@@ -183,9 +183,33 @@ func void StExt_OnSpellCast()
 	
 	StExt_OnSpellPreCast();
 	StExt_SpellInfo.ManaCost = StExt_PcCastManaSpent;
+	// Pomiar delty bywa zerowy (spelle NO_MANADEC / reczne odejmowanie w
+	// SpellsOverrides miedzy probkami). Silnik zna faktyczna inwestycje
+	// (EngineManaInvested z DLL) - prawda to wieksza z obu, a brakujaca
+	// roznice dobieramy z paska, zeby runa NIGDY nie byla darmowa.
+	if (StExt_SpellInfo.EngineManaInvested > StExt_SpellInfo.ManaCost)
+	{
+		var int manaShortfall; manaShortfall = StExt_SpellInfo.EngineManaInvested - StExt_SpellInfo.ManaCost;
+		hero.attribute[atr_mana] = StExt_ValidateValueRange(hero.attribute[atr_mana] - manaShortfall, 0, hero.attribute[atr_mana_max]);
+		StExt_SpellInfo.ManaCost = StExt_SpellInfo.EngineManaInvested;
+	};
 	extraManaCost = StExt_ProcessSpellConsumption(StExt_SpellInfo.ManaCost);
 	if(extraManaCost > 0) { hero.attribute[atr_mana] = StExt_ValidateValueRange(hero.attribute[atr_mana] - extraManaCost, 0, hero.attribute[atr_mana_max]); };
-	StExt_ApplyManaCostReduction(StExt_SpellInfo.ManaCost + extraManaCost, activespell);	
+	StExt_ApplyManaCostReduction(StExt_SpellInfo.ManaCost + extraManaCost, activespell);
+
+	// TEMP DIAG (sledztwo many): pelny rachunek kazdego castu.
+	var string mnDiag;
+	mnDiag = concatstrings("MANA cast id=", inttostring(activespell));
+	mnDiag = concatstrings(mnDiag, concatstrings(" delta=", inttostring(StExt_PcCastManaSpent)));
+	mnDiag = concatstrings(mnDiag, concatstrings(" engine=", inttostring(StExt_SpellInfo.EngineManaInvested)));
+	mnDiag = concatstrings(mnDiag, concatstrings(" koszt=", inttostring(StExt_SpellInfo.ManaCost)));
+	mnDiag = concatstrings(mnDiag, concatstrings(" podatek=", inttostring(extraManaCost)));
+	mnDiag = concatstrings(mnDiag, concatstrings(" manaTeraz=", inttostring(hero.attribute[atr_mana])));
+	StExt_Trace(mnDiag);
+	if ((StExt_SpellInfo.ManaCost <= 0) && (StExt_GetSpellDamageFlags(activespell) != 0))
+	{
+		StExt_Trace(concatstrings("MANA WARN: spell obrazeniowy z kosztem 0! id=", inttostring(activespell)));
+	};
 		
 	if ((activespell == spl_light) || (activespell == spl_teleporttaverne) || (activespell == spl_teleportowdemontower) || (activespell == spl_teleportoc) || 
 	(activespell == spl_teleportpassow) || (activespell == spl_teleportpassnw) || (activespell == spl_teleportxardas) || (activespell == spl_teleportmonastery) || 
@@ -337,6 +361,12 @@ func int StExt_CastSpell(var int spellId, var c_npc atk, var c_npc target, var i
 		StExt_PrintDebug("StExt_CastSpell(...)", concatstrings("Incorrect spell id: ", inttostring(spellId)), atk, target);
 		return false;
 	};
+	// TEMP DIAG: "bialy cyklon na odbicie dmg" - kazdy skryptowy cast do logu.
+	// Jak przy cyklonie pojawi sie tu id 60 (MasterOfDisaster) / 71 (Whirlwind)
+	// castowane przez GRACZA, to zrodlo = reflect (DamageController:761) rzucajacy
+	// SpellId z ability bossa, ktory nie jest spellem.
+	if (npc_isplayer(atk)) { StExt_Trace(concatstrings("CASTSPELL przez GRACZA id=", inttostring(spellId))); }
+	else { StExt_Trace(concatstrings(concatstrings("CASTSPELL id=", inttostring(spellId)), concatstrings(" atkInst=", inttostring(hlp_getinstanceid(atk))))); };
 	
 	projName = StExt_GetSpellFx(spellId);
 	if (StExt_StringIsEmpty(projName)) {

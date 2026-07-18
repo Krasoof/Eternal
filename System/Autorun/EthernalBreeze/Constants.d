@@ -210,7 +210,7 @@ const int StExt_IncomingDamageFlag_Index_Contextual = 128;
 // *** Masteries index ***
 const int StExt_CorruptionPerk_Max = 20;
 const int StExt_MasteryIndex_Max = 16;
-const int StExt_MasteryPerk_Max = 16;
+const int StExt_MasteryPerk_Max = 20;	// 16 bazowych + 4 spellblade (sloty 16-19; wzrost tablic jest save-safe, silnik laduje po nazwie+liczbie)
 const int StExt_Perk_Max = 47;	// +3 Spellblade + 2 mana/stamina seal-scaling generic perks
 const int StExt_ArtifactSkill_Max = 16;
 const int StExt_Mastery_ExpPerLevel = 1000;

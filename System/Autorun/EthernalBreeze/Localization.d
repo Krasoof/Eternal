@@ -1382,7 +1382,11 @@ const string StExt_Str_MasteryPerk_Name_0[StExt_MasteryPerk_Max] =
 	"����������� ���������",
 	"�������",
 	"�������� ����",
-	"������"
+	"������",
+	"Blazing Edge",
+	"Seal of Flames",
+	"Fire Conduit",
+	"Fire Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] = 
 {
@@ -1401,7 +1405,11 @@ const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 	"�������� ������ ������ �� 0.5% �� ������ ������� ����������",
 	"+5% � ������������� ���� � +10% � ������������� ������������� ����",
 	"��������� 50% �� ����� ������� � ���� ��������� �����",
-	"���������� �������� � ������� 20% �� ����������� ��������� �����"
+	"���������� �������� � ������� 20% �� ����������� ��������� �����",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Ice
 const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] = 
@@ -1421,7 +1429,11 @@ const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
 	"�������",
 	"������� �����",
 	"������ ����",
-	"��������"
+	"��������",
+	"Frozen Edge",
+	"Seal of Frost",
+	"Ice Conduit",
+	"Ice Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] = 
 {
@@ -1440,7 +1452,11 @@ const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 	"+5% ������������� ����� � +10% � ������������� ������������� �����",
 	"��������� 50% �� ����� ������� � ���� ����������� �����",
 	"10% �� ����������� ����� ������������ � ���� ����",
-	"10% ���� ���������� ���������� � ������� ���"
+	"10% ���� ���������� ���������� � ������� ���",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Electric
 const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] = 
@@ -1460,7 +1476,11 @@ const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
 	"�����",
 	"��������",
 	"�����������",
-	"������"
+	"������",
+	"Sparking Edge",
+	"Seal of Storms",
+	"Storm Conduit",
+	"Storm Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] = 
 {
@@ -1479,7 +1499,11 @@ const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 	"+5% � �������� ���� ��������",
 	"��������� ��������� �������� 1-5 ����� �� ������ ������� �������������",
 	"10% �� ����������� ����� ������������ � ���� ������-����",
-	"������� 25% �� ����� ������� � ���� ������� ����� �������"
+	"������� 25% �� ����� ������� � ���� ������� ����� �������",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Air
 const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] = 
@@ -1499,7 +1523,11 @@ const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
 	"����� �����",
 	"��������� ���",
 	"�������� �����",
-	"������"
+	"������",
+	"Gale Edge",
+	"Seal of Gales",
+	"Wind Conduit",
+	"Wind Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] = 
 {
@@ -1518,7 +1546,11 @@ const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 	"��������� 50% �� ����� ������� � ���� ����� ��������",
 	"+0.2% ���� ��������� ������ �� ������ ������� ����������",
 	"1% ����������� ����� � ���� �� ����� �������",
-	"+50 ����� ������� � ������ ���� ������ � �����"
+	"+50 ����� ������� � ������ ���� ������ � �����",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Earth
 const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] = 
@@ -1538,7 +1570,11 @@ const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
 	"��� �����",
 	"��������� �����",
 	"�����������",
-	"������"
+	"������",
+	"Stone Edge",
+	"Seal of Stone",
+	"Earth Conduit",
+	"Earth Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] = 
 {
@@ -1557,7 +1593,11 @@ const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 	"+1 � ������ �� ��������� � �������� ����� �� ������ ������� ���������",
 	"��������� ��������� �������� 3 ��������� ����� � ������� ��� �� ������ ������� ���������",
 	"��������� 50% �� ����� ������ � ���� ��������� �����",
-	"10% ���� �������� ���������� ����������"
+	"10% ���� �������� ���������� ����������",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Light
 const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] = 
@@ -1577,7 +1617,11 @@ const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
 	"������",
 	"�������������",
 	"���������������",
-	"���������"
+	"���������",
+	"Radiant Edge",
+	"Seal of Radiance",
+	"Light Conduit",
+	"Light Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] = 
 {
@@ -1596,7 +1640,11 @@ const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 	"��� ����� ���� 10% ���� ��� �� � ��������� �������� +3 � ������ �� ����� �� ������ ������� ����� �����",
 	"��� ����� ���� 10% ���� ��� �� � ��������� �������� +10 � ����� �� ������ ������� ����� �����",
 	"��� ����� ���� 10% ���� ��� �� � ��������� �������� +3 � ����������� ������������� �� ������ ������� ����� �����",
-	"��� ����� ���� 10% ���� ��� �� � ��������� �������� +3 � ����� �� ������ ������� ����� �����"
+	"��� ����� ���� 10% ���� ��� �� � ��������� �������� +3 � ����� �� ������ ������� ����� �����",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Dark
 const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] = 
@@ -1616,7 +1664,11 @@ const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
 	"����� �����",
 	"������",
 	"����������",
-	"�������"
+	"�������",
+	"Umbral Edge",
+	"Seal of Shadow",
+	"Dark Conduit",
+	"Dark Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] = 
 {
@@ -1635,7 +1687,11 @@ const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 	"��� ����� ���� 10% ���� �������� ��������� ���������� 1 ��. ����� ���������� �� ������ 5 ������� ������ �����",
 	"��� ����� ���� 10% ���� �������� ��������� ����������� �������������� ���� �� 0.5% �� ������ ������� ������ �����",
 	"��� ����� ���� 10% ���� �������� ��������� ����������� ������ ���� �� 3 �� ������ ������� ������ �����",
-	"��������� 50% �� ����� ������ � ���� ���������������� ����������� ����� �����"
+	"��������� 50% �� ����� ������ � ���� ���������������� ����������� ����� �����",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Death
 const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] = 
@@ -1655,7 +1711,11 @@ const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
 	"��� ������",
 	"�������� �����",
 	"��� ��������",
-	"���������� ������"
+	"���������� ������",
+	"Deathly Edge",
+	"Seal of Rot",
+	"Death Conduit",
+	"Death Cataclysm"
 };
 const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] = 
 {
@@ -1674,7 +1734,11 @@ const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 	"���������� ������ ������ �� 25%",
 	"+1 � ������ �� ����� �� ������ ������� ����� ������",
 	"��������� 50% �� ����� ���������� ������ � ���� ���������������� ����������� �����",
-	"��������� 50% �� ����� ������ � ���� ��������������� ����������� ����� ������ �����"
+	"��������� 50% �� ����� ������ � ���� ��������������� ����������� ����� ������ �����",
+	"Spellblade: +25% weapon element damage. Works with any weapon - the element scales with INT, magic power and mastery.",
+	"Spellblade: this element's seal procs 1 hit sooner (min. every 2) and hits +20% harder.",
+	"Spellblade: +50% element buildup rate, -25% weapon element mana cost.",
+	"Spellblade: this element's eruption deals +30% more."
 };
 // Life
 const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] = 
@@ -1694,7 +1758,11 @@ const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
 	"����� ������",
 	"������ ����",
 	"�������� ����",
-	"������� ����"
+	"������� ����",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] = 
 {
@@ -1713,7 +1781,11 @@ const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 	"������������� � �������� �������� �� 25% ������ ������",
 	"������������� � �������� ����� +5 �������� ����� �� ������ ������� ����� �����",
 	"������������� � �������� ����� +5 �������� ����� �� ������ ������� ����� �����",
-	"������������� � �������� ����� +5 ����� ���� �� ������ ������� ����� �����"
+	"������������� � �������� ����� +5 ����� ���� �� ������ ������� ����� �����",
+	"",
+	"",
+	"",
+	""
 };
 // Golem
 const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] = 
@@ -1733,7 +1805,11 @@ const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
 	"���� ������",
 	"�����������",
 	"�����������",
-	"����������"
+	"����������",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] = 
 {
@@ -1752,7 +1828,11 @@ const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 	"���������� ������ ������� +3 ����� ���������� �� ������ ������� ��������������",
 	"���������� ������ �������� ���� 0.3% �������� ���������� �� ������ ������� ��������������",
 	"���������� ������ ���������� �������� � ������� 20% �� ����������� �����",
-	"���������� ������ �������� ����������� '����������'"
+	"���������� ������ �������� ����������� '����������'",
+	"",
+	"",
+	"",
+	""
 };
 // Demon
 const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] = 
@@ -1772,7 +1852,11 @@ const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
 	"�������������",
 	"����� �������",
 	"����� ���",
-	"��������������"
+	"��������������",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] = 
 {
@@ -1791,7 +1875,11 @@ const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 	"��� ����� ������ ����� �������� ��������� ����������� ������ ���� �� 0.5% �� ������ ������� �����������",
 	"������ �������� ����������� ��������� '��� ����'",
 	"������ �������� ����������� ��������� '�������� ���'",
-	"������ �������� ����������� ��������� '�����'"
+	"������ �������� ����������� ��������� '�����'",
+	"",
+	"",
+	"",
+	""
 };
 // Necro
 const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] = 
@@ -1811,7 +1899,11 @@ const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
 	"���������",
 	"�������� ���",
 	"������� ��������",
-	"����� ������"
+	"����� ������",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] = 
 {
@@ -1830,7 +1922,11 @@ const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 	"���������� ������ �������� 5% ����������� ����� � ���� ��������",
 	"���������� ������ �������� 5% ����������� ����� �������",
 	"���������� ������ ������� �� 0.3% �� ������ ������� �����������",
-	"���������� ������ �������� ����������� ��������� '��� ������'"
+	"���������� ������ �������� ����������� ��������� '��� ������'",
+	"",
+	"",
+	"",
+	""
 };
 // Shaman
 const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] = 
@@ -1850,7 +1946,11 @@ const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
 	"������� ���������",
 	"�����",
 	"������ �������",
-	"�������� �����"
+	"�������� �����",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] = 
 {
@@ -1869,7 +1969,11 @@ const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 	"�������� 0.1% ������-���� � ���� �� ������ ������� ����� ����",
 	"+1% � ���� ������� �� ������ ������� ����� ����",
 	"+10 � ��������������� ����� ������� ����� �� ������ ������� ����� ����",
-	"������ �������� ����������� ��������� '�������� �������'"
+	"������ �������� ����������� ��������� '�������� �������'",
+	"",
+	"",
+	"",
+	""
 };
 // MartialArts
 const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] = 
@@ -1889,7 +1993,11 @@ const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
 	"��������",
 	"�������",
 	"�������-����",
-	"����"
+	"����",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] = 
 {
@@ -1906,7 +2014,11 @@ const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 	"+3 � ����� ����������� � ������� ��� �� ������ ������� ���������� �����",
 	"+3 � ����� ���������� � ������� ��� �� ������ ������� ���������� �����",
 	"������ ������� �������� ������� �������� ��� ����� 100% ����������� ���� �� 1%",
-	"+0.5% � ����� � ������� ��� �� ������ ������� ���������� �����"
+	"+0.5% � ����� � ������� ��� �� ������ ������� ���������� �����",
+	"",
+	"",
+	"",
+	""
 };
 // Agile
 const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] = 
@@ -1926,7 +2038,11 @@ const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] =
 	"������ �������",
 	"��������������",
 	"����������",
-	"������"
+	"������",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] = 
 {
@@ -1945,7 +2061,11 @@ const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 	"+0.1% ���� ��������� ���������� �� ������ ������� ���������� ������",
 	"+10% ���� ����������� ���� ���� �� ����� � �����",
 	"+0.5% ���� �������� ���������� �� ������ ������� ���������� ������, ���� ���� ��� � �����",
-	"+0.1% ���� ��������� ������"
+	"+0.1% ���� ��������� ������",
+	"",
+	"",
+	"",
+	""
 };
 // Archery
 const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] = 
@@ -1965,7 +2085,11 @@ const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
 	"������",
 	"����������� �����",
 	"��������� ���",
-	"����������� �������"
+	"����������� �������",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] = 
 {
@@ -1984,7 +2108,11 @@ const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 	"+1% � ����� ������ ����� � ������� ��� �� ������ ������� ���������� ��������",
 	"+1% � ����� ������ ����� � ������� ��� �� ������ ������� ���������� ��������",
 	"+1% � ����� ������ ������ � ��� � ������� ��� �� ������ ������� ���������� ��������",
-	"+1% � ����� ������ ������� � ������� ��� �� ������ ������� ���������� ��������"
+	"+1% � ����� ������ ������� � ������� ��� �� ������ ������� ���������� ��������",
+	"",
+	"",
+	"",
+	""
 };
 
 // generic perks

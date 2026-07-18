@@ -40,6 +40,14 @@
 	func int StExt_GetInstanceIdByName(var string name);
 	func int StExt_UpdatePcStats();
 	func int StExt_GetPcStat(var int idx);
+// TEMP DIAG: cicha linia do stext_trace.log (flush natychmiastowy, przezywa crash).
+// ai_print* spamuje ekran, DEBUG_MSG jest wycinany w Release - to jedyna droga.
+func void StExt_Trace(var string msg);
+
+// Napisy dialogowe (dymek) dla NPC moda - omija brakujace OU. Pokazuje tekst
+// wprost przez zCView::DialogMessageCXY, z kolejki, linia po linii. Uzywac
+// zamiast AI_Output tam, gdzie nie ma wpisu OU (czyli w calym modzie).
+func void StExt_Say(var string speaker, var string text);
 	
 	func void StExt_Info_AddChoice(var int menu, var string optName, var string optFunc);
 	func void StExt_Info_BuildItemGeneratorPresetsChoices(var int menu, var string optFunc);
@@ -322,6 +330,10 @@ class C_ExtraDamageInfo
 	var int MaxTargets;
 	var int Radius;
     var int IsProcessed;
+	// Kanaly przebijajace: aplikowane w DLL PO odjeciu protekcji (zywioly
+	// przebijaja pancerz - decyzja 2026-07-18). Immunitet (protection<0)
+	// nadal respektowany. NOWE POLA TYLKO NA KONCU (lustro C++ w Damage.h).
+	var int PierceDamage[8];
 };
 
 class C_IncomingDamageInfo
@@ -486,6 +498,10 @@ class C_SpellInfo
 	var int IsDot;
 	var int IsStream;
 	var int ManaCost;
+	// Faktyczna inwestycja many wg SILNIKA (oCSpell.manaInvested, ustawiane
+	// w DLL przed StExt_OnSpellCast). Pomiar delty bywa zerowy (NO_MANADEC),
+	// silnik wie lepiej. NOWE POLA TYLKO NA KONCU (lustro w StExt_Classes.h).
+	var int EngineManaInvested;
 };
 
 class C_NpcAbility

@@ -1310,7 +1310,11 @@ const string StExt_Str_MasteryPerk_Name_0[StExt_MasteryPerk_Max] =
 	"Rzezbiarz Bazaltu",
 	"Chodzacy po Ogniu",
 	"Uderzenie Magmy",
-	"Pozeracz Ognia"
+	"Pozeracz Ognia",
+	"Plonace Ostrze",
+	"Pieczec Plomieni",
+	"Przewodnik Ognia",
+	"Kataklizm Ognia"
 };
 const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 {
@@ -1329,7 +1333,11 @@ const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 	"Ogniste golemy sa o 0,5% silniejsze za kazdy poziom pirokinetyki.",
 	"+5% do odpornosci na ogien i +10% do maksymalnej odpornosci na ogien",
 	"Dodaje 50% obrazen broni jako obrazenia od ognia.",
-	"Przywraca zdrowie rowne 20% otrzymanych obrazen od ognia."
+	"Przywraca zdrowie rowne 20% otrzymanych obrazen od ognia.",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Ice
 const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
@@ -1349,7 +1357,11 @@ const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
 	"Lodowy Dryf",
 	"Lodowa Skorupa",
 	"Wodna Powloka",
-	"Mroz"
+	"Mroz",
+	"Mrozne Ostrze",
+	"Pieczec Mrozu",
+	"Przewodnik Lodu",
+	"Kataklizm Lodu"
 };
 const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 {
@@ -1368,7 +1380,11 @@ const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 	"+5% odpornosci na magie i +10% do maksymalnej odpornosci na magie",
 	"Dodaje 50% obrazen broni jako obrazenia magiczne.",
 	"10% otrzymanych obrazen zostaje przywrocone jako mana",
-	"10% szansy na zamrozenie atakujacego w walce wrecz"
+	"10% szansy na zamrozenie atakujacego w walce wrecz",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Electric
 const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
@@ -1388,7 +1404,11 @@ const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
 	"Iskra",
 	"Induktor",
 	"Kondensator",
-	"Zwarcie"
+	"Zwarcie",
+	"Iskrzace Ostrze",
+	"Pieczec Burzy",
+	"Przewodnik Blyskawic",
+	"Kataklizm Burzy"
 };
 const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 {
@@ -1407,7 +1427,11 @@ const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 	"+5% do szybkosci wszystkich dzialan",
 	"Atakujacy wrog otrzymuje 1-5 obrazen za kazdy poziom elektromancji.",
 	"10% otrzymanych obrazen zostaje przywrocone jako tarcza energii",
-	"Zadaje 25% obrazen broni jako obrazenia lancuchowej blyskawicy."
+	"Zadaje 25% obrazen broni jako obrazenia lancuchowej blyskawicy.",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Air
 const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
@@ -1427,7 +1451,11 @@ const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
 	"Podmuch Wiatru",
 	"Tarcza Powietrza",
 	"Pomyslny Wiatr",
-	"Proznia"
+	"Proznia",
+	"Wietrzne Ostrze",
+	"Pieczec Wichru",
+	"Przewodnik Wiatru",
+	"Kataklizm Wichru"
 };
 const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 {
@@ -1446,7 +1474,11 @@ const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 	"Dodaje 50% obrazen broni jako obrazenia odrzutu.",
 	"+0,2% szansy na odbicie pocisku za kazdy poziom aeromancji",
 	"1% regeneracji zycia i many podczas biegu",
-	"+50 do obrazen duszenia dla calej broni i magii"
+	"+50 do obrazen duszenia dla calej broni i magii",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Earth
 const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
@@ -1466,7 +1498,11 @@ const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
 	"Tarcza Ziemi",
 	"Granitowa Zbroja",
 	"Obciaznik",
-	"Odrzut"
+	"Odrzut",
+	"Kamienne Ostrze",
+	"Pieczec Skaly",
+	"Przewodnik Ziemi",
+	"Kataklizm Ziemi"
 };
 const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 {
@@ -1485,7 +1521,11 @@ const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 	"+1 do ochrony przed obrazeniami miazdzacymi i siecznymi za kazdy poziom geomancji",
 	"Atakujacy wrog otrzymuje 3 obrazenia obuchowe w walce wrecz za kazdy poziom geomancji.",
 	"Dodaje 50% obrazen broni jako obrazenia obuchowe.",
-	"10% szansy na ogluszenie atakujacego wroga"
+	"10% szansy na ogluszenie atakujacego wroga",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Light
 const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
@@ -1505,7 +1545,11 @@ const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
 	"Amulet",
 	"Natchnienie",
 	"Niezlomnosc",
-	"Przywodztwo"
+	"Przywodztwo",
+	"Swietliste Ostrze",
+	"Pieczec Blasku",
+	"Przewodnik Swiatla",
+	"Kataklizm Swiatla"
 };
 const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 {
@@ -1524,7 +1568,11 @@ const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 	"Podczas ataku jest 10% szansy, ze ty i twoi sojusznicy zyskacie +3 do obrony przed wszystkim za kazdy poziom jasnej magii.",
 	"Podczas ataku jest 10% szansy, ze ty i twoi sojusznicy zyskacie +10 zycia za kazdy poziom jasnej magii.",
 	"Podczas ataku jest 10% szansy, ze ty i twoi sojusznicy otrzymacie +3 do regeneracji statystyk za kazdy poziom jasnej magii.",
-	"Podczas ataku jest 10% szansy, ze ty i twoi sojusznicy otrzymacie +3 do obrazen za kazdy poziom jasnej magii."
+	"Podczas ataku jest 10% szansy, ze ty i twoi sojusznicy otrzymacie +3 do obrazen za kazdy poziom jasnej magii.",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Dark
 const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
@@ -1544,7 +1592,11 @@ const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
 	"Wysysacz Zycia",
 	"Upadek",
 	"Podatnosc",
-	"Plugastwo"
+	"Plugastwo",
+	"Mroczne Ostrze",
+	"Pieczec Cienia",
+	"Przewodnik Mroku",
+	"Kataklizm Mroku"
 };
 const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 {
@@ -1563,7 +1615,11 @@ const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 	"Podczas ataku jest 10% szansy na rzucenie klatwy kradnacej 1 punkt zycia wroga za kazde 5 poziomow mrocznej magii.",
 	"Podczas ataku jest 10% szansy na nalozenie klatwy oslabiajacej statystyki celu o 0,5% za kazdy poziom mrocznej magii.",
 	"Podczas ataku jest 10% szansy na rzucenie klatwy oslabiajacej obrone celu o 3 za kazdy poziom mrocznej magii.",
-	"Dodaje 50% obrazen broni jako trwajace obrazenia mrocznej magii."
+	"Dodaje 50% obrazen broni jako trwajace obrazenia mrocznej magii.",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Death
 const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
@@ -1583,7 +1639,11 @@ const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
 	"Mag Smierci",
 	"Kosciana Egida",
 	"Chor Umarlych",
-	"Ofiarne Ostrze"
+	"Ofiarne Ostrze",
+	"Ostrze Smierci",
+	"Pieczec Zgnilizny",
+	"Przewodnik Smierci",
+	"Kataklizm Smierci"
 };
 const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 {
@@ -1602,7 +1662,11 @@ const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 	"Zaklecia smierci sa o 25% silniejsze.",
 	"+1 do obrony przed magia za kazdy poziom magii smierci",
 	"Dodaje 50% obrazen zadawanych przez zaklecia smierci jako obrazenia magiczne w czasie.",
-	"Dodaje 50% obrazen broni jako dodatkowe obrazenia magiczne przeciw zywym wrogom."
+	"Dodaje 50% obrazen broni jako dodatkowe obrazenia magiczne przeciw zywym wrogom.",
+	"Spellblade: +25% obrazen zywiolu na broni. Dziala z kazda bronia - zywiol skaluje sie z INT, moca magiczna i masteria.",
+	"Spellblade: pieczec tego zywiolu procuje o 1 cios wczesniej (min. co 2) i bije +20% mocniej.",
+	"Spellblade: +50% ladowania paska zywiolu, -25% kosztu many zywiolu na broni.",
+	"Spellblade: erupcja tego zywiolu zadaje +30% mocy."
 };
 // Life
 const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
@@ -1622,7 +1686,11 @@ const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
 	"Skora Bizona",
 	"Ugryzienie Wilka",
 	"Zadlo Pszczoly",
-	"Kiel Weza"
+	"Kiel Weza",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 {
@@ -1641,7 +1709,11 @@ const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 	"Przemiany w zwierzeta zyskuja o 25% wiecej obrony.",
 	"Przemiana w zwierze ma +5 do obrazen siecznych za kazdy poziom magii zycia.",
 	"Przemiana w zwierze ma +5 do obrazen klutych za kazdy poziom magii zycia.",
-	"Przemiana w zwierze zadaje +5 obrazen trujacych za kazdy poziom magii zycia."
+	"Przemiana w zwierze zadaje +5 obrazen trujacych za kazdy poziom magii zycia.",
+	"",
+	"",
+	"",
+	""
 };
 // Golem
 const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
@@ -1661,7 +1733,11 @@ const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
 	"Uderzenie Mlota",
 	"Ogluszony",
 	"Akumulacja",
-	"Wstrzas"
+	"Wstrzas",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 {
@@ -1680,7 +1756,11 @@ const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 	"Przyzwane golemy zadaja +3 obrazenia miazdzace za kazdy poziom tworzenia golemow.",
 	"Przyzwane golemy maja 0,3% szansy na ogluszenie wroga za kazdy poziom tworzenia golemow.",
 	"Przyzwane golemy przywracaja zdrowie rowne 20% otrzymanych obrazen.",
-	"Przyzwane golemy zyskuja zdolnosc 'Wstrzas'."
+	"Przyzwane golemy zyskuja zdolnosc 'Wstrzas'.",
+	"",
+	"",
+	"",
+	""
 };
 // Demon
 const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
@@ -1700,7 +1780,11 @@ const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
 	"Demoralizacja",
 	"Dlon Nergala",
 	"Dlon Piekla",
-	"Materializacja"
+	"Materializacja",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 {
@@ -1719,7 +1803,11 @@ const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 	"Podczas ataku demony maja szanse nalozyc klatwe oslabiajaca obrone celu o 0,5% za kazdy poziom demonologii.",
 	"Demony zyskuja zdolnosc rzucania 'Kuli Mroku'",
 	"Demony zyskuja zdolnosc rzucania 'Kuli Ognia'",
-	"Demony zyskuja zdolnosc rzucania 'Mgnienia'"
+	"Demony zyskuja zdolnosc rzucania 'Mgnienia'",
+	"",
+	"",
+	"",
+	""
 };
 // Necro
 const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
@@ -1739,7 +1827,11 @@ const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
 	"Wampiryzm",
 	"Kosciana Tarcza",
 	"Martwa Zrecznosc",
-	"Palec Smierci"
+	"Palec Smierci",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 {
@@ -1758,7 +1850,11 @@ const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 	"Przyzwani nieumarli kradna 5% zadanych obrazen jako zdrowie.",
 	"Przyzwani nieumarli odbijaja 5% otrzymanych obrazen",
 	"Przyzwani nieumarli sa o 0,3% szybsi za kazdy poziom nekromancji.",
-	"Przyzwani nieumarli zyskuja zdolnosc rzucania 'Kuli Smierci'"
+	"Przyzwani nieumarli zyskuja zdolnosc rzucania 'Kuli Smierci'",
+	"",
+	"",
+	"",
+	""
 };
 // Shaman
 const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
@@ -1778,7 +1874,11 @@ const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
 	"Eteryczny Wampiryzm",
 	"Szaman",
 	"Furia Przodkow",
-	"Duchowe Polaczenie"
+	"Duchowe Polaczenie",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 {
@@ -1797,7 +1897,11 @@ const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 	"Kradnie 0,1% tarczy energii i many za kazdy poziom magii ducha.",
 	"+1% do mocy totemow za kazdy poziom magii ducha",
 	"+10 dodatkowych obrazen od ognia dla totemow za kazdy poziom magii ducha",
-	"Totemy zyskuja zdolnosc rzucania 'Masowego Leczenia'"
+	"Totemy zyskuja zdolnosc rzucania 'Masowego Leczenia'",
+	"",
+	"",
+	"",
+	""
 };
 // MartialArts
 const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
@@ -1817,7 +1921,11 @@ const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
 	"Straznik",
 	"Skrytobojca",
 	"Weteran Walki",
-	"Wojak"
+	"Wojak",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 {
@@ -1836,7 +1944,11 @@ const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 	"+3 do obrazen rozlupujacych w walce wrecz za kazdy poziom mistrzostwa wojownika",
 	"+3 do obrazen klutych w walce wrecz za kazdy poziom mistrzostwa wojownika",
 	"Kazdy poziom bieglosci w broni do walki wrecz powyzej 100% zwieksza obrazenia o 1%",
-	"+0,5% obrazen w walce wrecz za kazdy poziom mistrzostwa wojownika"
+	"+0,5% obrazen w walce wrecz za kazdy poziom mistrzostwa wojownika",
+	"",
+	"",
+	"",
+	""
 };
 
 // Agile
@@ -1857,7 +1969,11 @@ const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] =
 	"Runiczne Hartowanie",
 	"Niedostepnosc",
 	"Oblezony",
-	"Laska"
+	"Laska",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 {
@@ -1876,7 +1992,11 @@ const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 	"+0,1% szansy na pochloniecie zaklecia za kazdy poziom mistrzostwa obrony",
 	"+10% szansy na zablokowanie wszystkich obrazen podczas trzymania tarczy",
 	"+0,5% szansy na ogluszenie atakujacego za kazdy poziom mistrzostwa obrony podczas trzymania tarczy",
-	"+0,1% szansy na odbicie pociskow"
+	"+0,1% szansy na odbicie pociskow",
+	"",
+	"",
+	"",
+	""
 };
 // Archery
 const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
@@ -1896,7 +2016,11 @@ const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
 	"Zabojca",
 	"Pogromca Orkow",
 	"Niszczyciel Zla",
-	"Pogromca Golemow"
+	"Pogromca Golemow",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 {
@@ -1915,7 +2039,11 @@ const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 	"+1% obrazen przeciw ludziom w walce dystansowej za kazdy poziom mistrzostwa strzelectwa",
 	"+1% obrazen przeciw orkom w walce dystansowej za kazdy poziom mistrzostwa strzelectwa",
 	"+1% obrazen przeciw nieumarlym i zlu w walce dystansowej za kazdy poziom mistrzostwa strzelectwa",
-	"+1% obrazen przeciw golemom w walce dystansowej za kazdy poziom mistrzostwa strzelectwa"
+	"+1% obrazen przeciw golemom w walce dystansowej za kazdy poziom mistrzostwa strzelectwa",
+	"",
+	"",
+	"",
+	""
 };
 
 // generic perks

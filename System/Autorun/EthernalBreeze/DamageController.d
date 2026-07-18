@@ -500,11 +500,22 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 	
 	StExt_PrintDamageDebugStack("StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
 
-	// Ciernie: Zakon bosses reflect a slice of the damage they take back at
-	// the attacker (thorns). No spell / no on-death. Clamped so it can't kill.
+	// CIERNIE USUNIETE (2026-07-17, zgloszenie z zywej gry).
+	// Bossy odbijaly 15% otrzymanych obrazen prosto w atrybut gracza:
+	//   atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(hp - reflect, 1);
+	// Intencja ("clamped so it can't kill") wyszla dokladnie odwrotnie:
+	// 1. odbicie NIE zabijalo - PRZYPINALO gracza do 1 HP,
+	// 2. a HP == 1 jest dla silnika stanem nieprzytomnosci
+	//    (oNpc_Damage.cpp: bUnconscious = (GetAttribute(HITPOINTS) == 1)),
+	// 3. wiec kazdy kolejny cios tylko ODNAWIAL omdlenie zamiast zabic.
+	// Gracz lezal nietykalny na 1 HP, boss mlocil w nieskonczonosc.
+	// Zgloszenie: "nie mogl mnie zabic, dobic, caly czas bylem na 1 HP".
+	// Dodatkowo zapis szedl PROSTO w atrybut, omijajac cala sciezke obrazen -
+	// zadna bramka (DontKill, ProcessHpDamage) nawet o nim nie wiedziala.
+	// Balans: user - "tego sie nie da zesustainowac w pierwszym rozdziale".
+	// Zmiana tempa zostaje: to kanon (walka bez wyuczalnego rytmu).
 	if ((target.id >= 99710) && (target.id <= 99725) && npc_isplayer(atk) && (RealDamage > 0))
 	{
-		atk.attribute[atr_hitpoints] = StExt_ValidateValueMin(atk.attribute[atr_hitpoints] - StExt_GetPermilleFromValue(RealDamage, 150), 1);
 		// Tempo shift also when the boss TAKES a hit (10%), so a dominating
 		// player still faces rhythm changes. Same -10..+300 range.
 		if (StExt_Chance(10))
@@ -729,17 +740,36 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	// per-parry stamina drain instead).
 	if ((atk.id >= 99710) && (atk.id <= 99725))
 	{
-		target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), 1);
+		// Ten sam blad co Ciernie wyzej: "ValidateValueMin(..., 1)" nie chronilo
+		// gracza - PRZYPINALO go do 1 HP, a HP==1 = nieprzytomnosc w silniku, czyli
+		// nesmiertelnosc. Teraz chip po prostu NIE WCHODZI, jesli nie masz go z czego
+		// zaplacic. Dobija bron bossa, nie ksiegowosc.
+		var int chip; chip = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2);
+		if (target.attribute[atr_hitpoints] > chip)
+		{
+			target.attribute[atr_hitpoints] -= chip;
+		};
 	};
 
 	// reflect spell
-	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_ReflectSpellChance])) 
+	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_ReflectSpellChance]))
 	{
 		StExt_DamageInfo.BlockDamage = StExt_DamageInfo.BlockDamage | StExt_DamageBlockReason_SpellReflected;
 		tmp = StExt_DamageInfo.TotalDamage;
 		if (tmp <= 0) { tmp = StExt_DamageInfo.RealDamage; };
-		tmp = 10 + StExt_GetPercentFromValue(tmp, 50);		
-		StExt_CastSpell(StExt_DamageInfo.SpellId, target, atk, tmp);
+		tmp = 10 + StExt_GetPercentFromValue(tmp, 50);
+		// Odbic castem mozna TYLKO prawdziwy spell (id z puli spelli).
+		// ABILITY bossow (np. Wicher) maja idy spoza puli - ich "odbicie"
+		// castowalo losowe smieci, m.in. biale AoE rzucajace przeciwnikami
+		// wokol gracza ("cyklon na odbiciu"). Ability = sam blok obrazen.
+		if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) && (StExt_DamageInfo.SpellId > 0) && (StExt_DamageInfo.SpellId < max_spell))
+		{
+			StExt_CastSpell(StExt_DamageInfo.SpellId, target, atk, tmp);
+		}
+		else
+		{
+			StExt_Trace(concatstrings("REFLECT bez casta (ability/zly id): id=", inttostring(StExt_DamageInfo.SpellId)));
+		};
 	};
 	// absorb spell
 	if ((StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) && StExt_Chance(StExt_PcStats[StExt_PcStats_Index_AbsorbSpellChance])) 
@@ -801,8 +831,25 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_PcStats[StExt_PcStats_Index_ExtraRangeDamPerc]);
 		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 3 * StExt_Talent_Progression[StExt_MasteryIndex_Archery]);
 	};	
-	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability)) 
-	{ 
+	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability))
+	{
+		// TEMP DIAG (sledztwo "runy dzialaja jak chca"): co realnie przyszlo
+		// w hicie spell/ability + protekcje celu (zlewka kanalu magic).
+		var string shDiag;
+		shDiag = concatstrings("SPELL-HIT id=", inttostring(StExt_DamageInfo.SpellId));
+		shDiag = concatstrings(shDiag, concatstrings(" typ=", inttostring(DamageType)));
+		shDiag = concatstrings(shDiag, concatstrings(" scroll=", inttostring(StExt_SpellInfo.IsScroll)));
+		shDiag = concatstrings(shDiag, concatstrings(" real=", inttostring(RealDamage)));
+		StExt_Trace(shDiag);
+		shDiag = concatstrings("SPELL-HIT kanaly: fire=", inttostring(StExt_DamageInfo.Damage[dam_index_fire]));
+		shDiag = concatstrings(shDiag, concatstrings(" magic=", inttostring(StExt_DamageInfo.Damage[dam_index_magic])));
+		shDiag = concatstrings(shDiag, concatstrings(" fly=", inttostring(StExt_DamageInfo.Damage[dam_index_fly])));
+		shDiag = concatstrings(shDiag, concatstrings(" fall=", inttostring(StExt_DamageInfo.Damage[dam_index_fall])));
+		shDiag = concatstrings(shDiag, concatstrings(" | prot fire=", inttostring(target.protection[prot_fire])));
+		shDiag = concatstrings(shDiag, concatstrings(" magic=", inttostring(target.protection[prot_magic])));
+		shDiag = concatstrings(shDiag, concatstrings(" fly=", inttostring(target.protection[prot_fly])));
+		StExt_Trace(shDiag);
+
 		StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraSpellDam];
 		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_PcStats[StExt_PcStats_Index_ExtraSpellDamPerc]);
 		// Jewelry affixes: source-specific spell damage - RUNE casts vs SCROLL
@@ -876,6 +923,14 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		};
 		if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Life) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Poision)) {
 			StExt_ExtraDamageInfo.Damage[dam_index_fall] += StExt_PcStats[StExt_PcStats_Index_LifeMasteryPower];
+		};
+
+		// Buildup v3: RUNY i ZWOJE karmia pasek zywiolu (element z flag
+		// DamageType spella, nie z kanalow obrazen). Ability broni karmi
+		// osobno w ItemAbilitiesController - tu tylko czyste Spell.
+		if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell))
+		{
+			StExt_ElementBuildup_Feed(target, StExt_GetElementIndexFromDamageType(DamageType), RealDamage);
 		};
 	};
 	
@@ -1289,70 +1344,13 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		if (StExt_KnightPerk_Pact) { StExt_RecouperateHp(atk, StExt_GetPermilleFromValue(RealDamage, 20)); };
 	};
 
-	// *** ELEMENTAL BUILDUP (deterministic - zero RNG) ***
-	// v2: charges from the hit's ACTUAL elemental damage components (fire /
-	// magic / fly / poison), so it works with ANY weapon or spell that deals
-	// elemental damage - v1 required a weapon seal, which most builds lack
-	// ("wybuch nie dziala"). Dominant element of the hit feeds the gauge;
-	// switching the dominant element resets it. Eruption at charge >= 30% of
-	// the target's max HP (x3 for Zakon bosses):
-	//   fire -> burn DoT ~16% maxHP, magic -> +8% maxHP burst,
-	//   fly -> 1.5s stagger + 4%, poison -> 8% maxHP rot.
-	if (!npc_isplayer(target) && (RealDamage > 0))
-	{
-		var int ebAmount; var int ebKey;
-		ebAmount = 0; ebKey = 0;
-		if (StExt_DamageInfo.Damage[dam_index_fire] > ebAmount)  { ebAmount = StExt_DamageInfo.Damage[dam_index_fire];  ebKey = 1; };
-		if (StExt_DamageInfo.Damage[dam_index_magic] > ebAmount) { ebAmount = StExt_DamageInfo.Damage[dam_index_magic]; ebKey = 2; };
-		if (StExt_DamageInfo.Damage[dam_index_fly] > ebAmount)   { ebAmount = StExt_DamageInfo.Damage[dam_index_fly];   ebKey = 3; };
-		if (StExt_DamageInfo.Damage[dam_index_fall] > ebAmount)  { ebAmount = StExt_DamageInfo.Damage[dam_index_fall];  ebKey = 4; };
-		if ((ebKey > 0) && (ebAmount > 0))
-		{
-			var int ebCharge;
-			if (StExt_GetNpcVar(target, StExt_AiVar_ElementBuildupType) != ebKey)
-			{
-				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildupType, ebKey);
-				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
-			};
-			ebCharge = StExt_GetNpcVar(target, StExt_AiVar_ElementBuildup) + ebAmount;
-
-			var int ebThreshold; ebThreshold = StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 30);
-			if ((target.id >= 99710) && (target.id <= 99725)) { ebThreshold = ebThreshold * 3; };
-
-			if (ebCharge >= ebThreshold)
-			{
-				StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, 0);
-				// per-element name, TOP-RIGHT corner; light single-target FX
-				// (the Thunderstorm ambience kept the sky permanently dark)
-				if (ebKey == 1)
-				{
-					printscreencolor("PLOMIENNA ERUPCJA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
-					rx_playeffect("SPELLFX_FIREWAVE", target);
-					StExt_AddDotDamageToExtraDamageInfo(StExt_ExtraDamageInfo, 8, StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 2), dam_index_fire);
-				}
-				else if (ebKey == 2)
-				{
-					printscreencolor("PORAZENIE!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
-					rx_playeffect("SPELLFX_LIGHTNINGFLASH", target);
-					StExt_ExtraDamageInfo.Damage[dam_index_magic] += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8);
-				}
-				else if (ebKey == 3)
-				{
-					printscreencolor("CYKLON!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
-					rx_playeffect("SPELLFX_MASTEROFDISASTER", target);
-					rx_stuntarget(target, 1);
-					StExt_ExtraDamageInfo.Damage += StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 4);
-				}
-				else
-				{
-					printscreencolor("ZGNILIZNA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
-					rx_playeffect("SPELLFX_ICEWAVE", target);
-					target.attribute[atr_hitpoints] = StExt_ValidateValueMin(target.attribute[atr_hitpoints] - StExt_GetPercentFromValue(target.attribute[atr_hitpoints_max], 8), 1);
-				};
-			}
-			else { StExt_SetNpcVar(target, StExt_AiVar_ElementBuildup, ebCharge); };
-		};
-	};
+	// *** ELEMENTAL BUILDUP v3 ***
+	// Pasek per ZYWIOL (8 paskow, nie 4 kanaly) - cala logika w
+	// StExt_ElementBuildup_Feed / _Erupt (DamageUtils.d). Zrodla karmia
+	// JAWNIE: bron z zywiolem, skill, proc pieczeci (ItemAbilities-
+	// Controller) oraz runy/zwoje (galaz Spell wyzej). v2 zgadywal zywiol
+	// z dominujacego KANALU obrazen - 5 z 8 zywiolow zlewalo sie w
+	// "PORAZENIE", a ziemia/wiatr w "CYKLON" (biale AoE).
 
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee) && !isRiposte)
 	{

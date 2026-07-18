@@ -1386,7 +1386,11 @@ const string StExt_Str_MasteryPerk_Name_0[StExt_MasteryPerk_Max] =
 	"Basaltschnitzer",
 	"Feuergänger",
 	"Magma-Schlag",
-	"Feuerfresser"
+	"Feuerfresser",
+	"Flammenklinge",
+	"Siegel der Flammen",
+	"Leiter des Feuers",
+	"Kataklysmus des Feuers"
 };
 const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] = 
 {
@@ -1405,7 +1409,11 @@ const string StExt_Str_MasteryPerk_Desc_0[StExt_MasteryPerk_Max] =
 	"Feuergolems sind 0,5% mächtiger für jeden Level in dieser Schule",
 	"+5% Feuerresistenz und +10% maximale Feuerresistenz",
 	"Fügt 50% des Waffenschadens als Feuerschaden hinzu",
-	"Stellt Lebenspunkte in Höhe von 20% des erlittenen Feuerschadens wieder her"
+	"Stellt Lebenspunkte in Höhe von 20% des erlittenen Feuerschadens wieder her",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Ice
 const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] = 
@@ -1425,7 +1433,11 @@ const string StExt_Str_MasteryPerk_Name_1[StExt_MasteryPerk_Max] =
 	"Eisscholle",
 	"Eiskruste",
 	"Wasserdecke",
-	"Frost"
+	"Frost",
+	"Frostklinge",
+	"Siegel des Frosts",
+	"Leiter des Eises",
+	"Kataklysmus des Eises"
 };
 const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] = 
 {
@@ -1444,7 +1456,11 @@ const string StExt_Str_MasteryPerk_Desc_1[StExt_MasteryPerk_Max] =
 	"+5% Magieresistenz und +10% maximale Magieresistenz",
 	"Fügt 50% des Waffenschadens als Magieschaden hinzu",
 	"10% des erlittenen Schadens werden als Mana wiederhergestellt",
-	"10% Chance Nahkampfangreifer einzufrieren"
+	"10% Chance Nahkampfangreifer einzufrieren",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Electric
 const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
@@ -1464,7 +1480,11 @@ const string StExt_Str_MasteryPerk_Name_2[StExt_MasteryPerk_Max] =
 	"Funke",
 	"Induktor",
 	"Kondensator",
-	"Störung"
+	"Störung",
+	"Funkenklinge",
+	"Siegel des Sturms",
+	"Leiter des Blitzes",
+	"Kataklysmus des Sturms"
 };
 const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 {
@@ -1483,7 +1503,11 @@ const string StExt_Str_MasteryPerk_Desc_2[StExt_MasteryPerk_Max] =
 	"+10% Geschwindigkeit für alle Aktionen",
 	"Der angreifende Gegner erleidet 1-5 Schaden für jeden Level in dieser Schule",
 	"10% des erlittenen Schadens werden als Energieschild wiederhergestellt",
-	"Fügt 25% des Waffenschadens als Kettenblitzschaden zu"
+	"Fügt 25% des Waffenschadens als Kettenblitzschaden zu",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Air
 const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
@@ -1503,7 +1527,11 @@ const string StExt_Str_MasteryPerk_Name_3[StExt_MasteryPerk_Max] =
 	"Windböe",
 	"Luftschild",
 	"Sanfter Wind",
-	"Vakuum"
+	"Vakuum",
+	"Sturmklinge",
+	"Siegel des Windes",
+	"Leiter des Windes",
+	"Kataklysmus des Windes"
 };
 const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 {
@@ -1522,7 +1550,11 @@ const string StExt_Str_MasteryPerk_Desc_3[StExt_MasteryPerk_Max] =
 	"Fügt 50% des Waffenschadens als Rückstoß-Schaden hinzu",
 	"+0,2% Chance ein Projektil abzuwehren für jeden Level in dieser Schule",
 	"1% Lebens- und Manaregeneration während des Sprints",
-	"+50 Erstickungsschaden für jede Waffe und Magie"
+	"+50 Erstickungsschaden für jede Waffe und Magie",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Earth
 const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
@@ -1542,7 +1574,11 @@ const string StExt_Str_MasteryPerk_Name_4[StExt_MasteryPerk_Max] =
 	"Schild der Erde",
 	"Granitrüstung",
 	"Beschwerungsmittel",
-	"Rückstoß"
+	"Rückstoß",
+	"Steinklinge",
+	"Siegel des Steins",
+	"Leiter der Erde",
+	"Kataklysmus der Erde"
 };
 const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 {
@@ -1561,7 +1597,11 @@ const string StExt_Str_MasteryPerk_Desc_4[StExt_MasteryPerk_Max] =
 	"+1 Schutz gegen Zerquetschungs- und Hiebschaden für jeden Level in dieser Schule",
 	"Der angreifende Gegner erleidet 3 Nahkampf-Klingenschaden für jeden Level in dieser Schule",
 	"Fügt 50% des Waffenschadens als Klingenschaden hinzu",
-	"10% Chance den angreifenden Gegner zu betäuben"
+	"10% Chance den angreifenden Gegner zu betäuben",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Light
 const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
@@ -1581,7 +1621,11 @@ const string StExt_Str_MasteryPerk_Name_5[StExt_MasteryPerk_Max] =
 	"Amulett",
 	"Inspiration",
 	"Unerschütterlichkeit",
-	"Führung"
+	"Führung",
+	"Lichtklinge",
+	"Siegel des Lichts",
+	"Leiter des Lichts",
+	"Kataklysmus des Lichts"
 };
 const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 {
@@ -1600,7 +1644,11 @@ const string StExt_Str_MasteryPerk_Desc_5[StExt_MasteryPerk_Max] =
 	"Beim Angriff besteht eine 10% Chance, dass du und deine Verbündeten +3 Verteidigung gegen alles für jeden Level in dieser Schule erhalten",
 	"Beim Angriff besteht eine 10% Chance, dass du und deine Verbündeten +10 Leben für jeden Level in dieser Schule erhalten,",
 	"Beim Angriff besteht eine 10% Chance, dass du und deine Verbündeten +3 Regeneration für jeden Level in dieser Schule erhalten,",
-	"Beim Angriff besteht eine 10% Chance, dass du und deine Verbündeten +3 Schaden für jeden Level in dieser Schule erhalten"
+	"Beim Angriff besteht eine 10% Chance, dass du und deine Verbündeten +3 Schaden für jeden Level in dieser Schule erhalten",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Dark
 const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
@@ -1620,7 +1668,11 @@ const string StExt_Str_MasteryPerk_Name_6[StExt_MasteryPerk_Max] =
 	"Lebenssiphon",
 	"Niedergang",
 	"Verwundbarkeit",
-	"Schmutz"
+	"Schmutz",
+	"Schattenklinge",
+	"Siegel des Schattens",
+	"Leiter des Schattens",
+	"Kataklysmus des Schattens"
 };
 const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 {
@@ -1639,7 +1691,11 @@ const string StExt_Str_MasteryPerk_Desc_6[StExt_MasteryPerk_Max] =
 	"Beim Angriff besteht eine 10% Chance einen Fluch zu wirken, der 1 Lebenspunkt pro 5 Level in dieser Schule vom Feind stiehlt",
 	"Beim Angriff besteht eine 10% Chance einen Fluch zu wirken, der die Werte des Ziels um 0,5% für jeden Level in dieser Schule schwächt",
 	"Beim Angriff besteht eine 10% Chance einen Fluch zu wirken, der die Verteidigung des Ziels um 3 für jeden Level in dieser Schule schwächt",
-	"Fügt 50% des Waffenschadens als anhaltenden Schaden durch Dunkle Magie hinzu"
+	"Fügt 50% des Waffenschadens als anhaltenden Schaden durch Dunkle Magie hinzu",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Death
 const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
@@ -1659,7 +1715,11 @@ const string StExt_Str_MasteryPerk_Name_7[StExt_MasteryPerk_Max] =
 	"Todesmagier",
 	"Knochen-Schild",
 	"Chor der Toten",
-	"Opfermesser"
+	"Opfermesser",
+	"Todesklinge",
+	"Siegel der Faeulnis",
+	"Leiter des Todes",
+	"Kataklysmus des Todes"
 };
 const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 {
@@ -1678,7 +1738,11 @@ const string StExt_Str_MasteryPerk_Desc_7[StExt_MasteryPerk_Max] =
 	"Todeszauber sind 25% mächtiger",
 	"+1 auf Magieschutz für jeden Level in dieser Schule",
 	"Fügt 50% des Schadens von Todeszaubern als anhaltenden Magieschaden hinzu",
-	"Fügt 50% des Waffenschadens als zusätzlichen Magieschaden gegen Lebewesen hinzu"
+	"Fügt 50% des Waffenschadens als zusätzlichen Magieschaden gegen Lebewesen hinzu",
+	"Spellblade: +25% Elementarschaden der Waffe. Mit jeder Waffe - das Element skaliert mit INT, Magiekraft und Meisterschaft.",
+	"Spellblade: das Elementsiegel prockt 1 Schlag frueher (min. alle 2) und trifft +20% haerter.",
+	"Spellblade: +50% Elementaufladung, -25% Manakosten des Waffenelements.",
+	"Spellblade: die Eruption dieses Elements verursacht +30% mehr."
 };
 // Life
 const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
@@ -1698,7 +1762,11 @@ const string StExt_Str_MasteryPerk_Name_8[StExt_MasteryPerk_Max] =
 	"Bisonsfell",
 	"Wolfsbiss",
 	"Bienenstich",
-	"Schlangenzahn"
+	"Schlangenzahn",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 {
@@ -1717,7 +1785,11 @@ const string StExt_Str_MasteryPerk_Desc_8[StExt_MasteryPerk_Max] =
 	"Tierverwandlungen erhalten 25% mehr Verteidigung",
 	"Tierverwandlungen verursachen +5 Hiebschaden für jeden Level in dieser Schule",
 	"Tierverwandlungen verursachen +5 Stichschaden für jeden Level in dieser Schule",
-	"Tierverwandlungen verursachen +5 Giftschaden für jeden Level in dieser Schule"
+	"Tierverwandlungen verursachen +5 Giftschaden für jeden Level in dieser Schule",
+	"",
+	"",
+	"",
+	""
 };
 // Golem
 const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
@@ -1737,7 +1809,11 @@ const string StExt_Str_MasteryPerk_Name_9[StExt_MasteryPerk_Max] =
 	"Hammerschlag",
 	"Benommen",
 	"Akkumulation",
-	"Erschütterung"
+	"Erschütterung",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 {
@@ -1756,7 +1832,11 @@ const string StExt_Str_MasteryPerk_Desc_9[StExt_MasteryPerk_Max] =
 	"Golems verursachen +3 Schlag-Schaden für jeden Level in dieser Schule",
 	"Golems haben eine Chance von 0,3% den Feind zu betäuben für jeden Level in dieser Schule",
 	"Golems stellen Lebenspunkte in Höhe von 20% des erlittenen Schadens wieder her",
-	"Golems erhalten die Fähigkeit 'Erschütterung'"
+	"Golems erhalten die Fähigkeit 'Erschütterung'",
+	"",
+	"",
+	"",
+	""
 };
 // Demon
 const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
@@ -1776,7 +1856,11 @@ const string StExt_Str_MasteryPerk_Name_10[StExt_MasteryPerk_Max] =
 	"Niedertracht",
 	"Die Hand Nergals",
 	"Die Hand Eligors",
-	"Materialization"
+	"Materialization",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 {
@@ -1795,7 +1879,11 @@ const string StExt_Str_MasteryPerk_Desc_10[StExt_MasteryPerk_Max] =
 	"Dämonen können einen Fluch wirken, der die Verteidigung des Ziels um 0,5% für jeden Level in dieser Schule schwächt",
 	"Dämonen erhalten die Fähigkeit 'Dunkle Kugel' zu wirken",
 	"Dämonen erhalten die Fähigkeit 'Feuerball' zu wirken",
-	"Dämonen erhalten die Fähigkeit 'Teleportation' zu wirken"
+	"Dämonen erhalten die Fähigkeit 'Teleportation' zu wirken",
+	"",
+	"",
+	"",
+	""
 };
 // Necro
 const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
@@ -1815,7 +1903,11 @@ const string StExt_Str_MasteryPerk_Name_11[StExt_MasteryPerk_Max] =
 	"Vampirismus",
 	"Knochenschild",
 	"Tote Geschicklichkeit",
-	"Finger des Todes"
+	"Finger des Todes",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 {
@@ -1834,7 +1926,11 @@ const string StExt_Str_MasteryPerk_Desc_11[StExt_MasteryPerk_Max] =
 	"Beschworene Untote stehlen 5% des verursachten Schadens als Leben",
 	"Beschworene Untote reflektieren 5% des erlittenen Schadens",
 	"Beschworene Untote sind 0,3% schneller für jeden Level in dieser Schule",
-	"Beschworene Untote erhalten die Fähigkeit 'Todesball' zu wirken"
+	"Beschworene Untote erhalten die Fähigkeit 'Todesball' zu wirken",
+	"",
+	"",
+	"",
+	""
 };
 // Shaman
 const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] = 
@@ -1854,7 +1950,11 @@ const string StExt_Str_MasteryPerk_Name_12[StExt_MasteryPerk_Max] =
 	"Ätherischer Vampirismus",
 	"Schamane",
 	"Ahnzorn",
-	"Geistige Verbindung"
+	"Geistige Verbindung",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] = 
 {
@@ -1873,7 +1973,11 @@ const string StExt_Str_MasteryPerk_Desc_12[StExt_MasteryPerk_Max] =
 	"+0,1% Energieschild- und Mana-Diebstahl für jeden Level in dieser Schule",
 	"+1% Totemkraft für jeden Level in dieser Schule",
 	"+10 zusätzlicher Feuerschaden für Totems für jeden Level in dieser Schule",
-	"Totems erhalten die Fähigkeit, 'Massenheilung' zu wirken"
+	"Totems erhalten die Fähigkeit, 'Massenheilung' zu wirken",
+	"",
+	"",
+	"",
+	""
 };
 // MartialArts
 const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] = 
@@ -1893,7 +1997,11 @@ const string StExt_Str_MasteryPerk_Name_13[StExt_MasteryPerk_Max] =
 	"Der Wächter",
 	"Attentäter",
 	"Meisterkämpfer",
-	"Gladiator"
+	"Gladiator",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] = 
 {
@@ -1912,7 +2020,11 @@ const string StExt_Str_MasteryPerk_Desc_13[StExt_MasteryPerk_Max] =
 	"+3 Schneidschaden im Nahkampf pro Stufe der Kriegskunst",
 	"+3 Stichschaden im Nahkampf pro Stufe der Kriegskunst",
 	"Jede Nahkampf-Waffenfertigkeit über 100% erhöht den Schaden um 1%",
-	"+0,5% Nahkampfschaden pro Stufe der Kriegskunst"
+	"+0,5% Nahkampfschaden pro Stufe der Kriegskunst",
+	"",
+	"",
+	"",
+	""
 };
 /// Agile
 const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] =
@@ -1932,7 +2044,11 @@ const string StExt_Str_MasteryPerk_Name_14[StExt_MasteryPerk_Max] =
 	"Runenhärtung",
 	"Unzugänglichkeit",
 	"Belagert",
-	"Anmut"
+	"Anmut",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 {
@@ -1951,7 +2067,11 @@ const string StExt_Str_MasteryPerk_Desc_14[StExt_MasteryPerk_Max] =
 	"+0,1% Chance einen Zauber zu absorbieren für jeden Level in dieser Schule",
 	"+10% Chance allen Schaden beim Tragen eines Schildes zu blocken",
 	"+0,5% Chance den Angreifer beim Tragen eines Schildes zu betäuben für jeden Level in dieser Schule",
-	"+0,1% Chance ein Projektil abzuwehren"
+	"+0,1% Chance ein Projektil abzuwehren",
+	"",
+	"",
+	"",
+	""
 };
 // Archery
 const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
@@ -1971,7 +2091,11 @@ const string StExt_Str_MasteryPerk_Name_15[StExt_MasteryPerk_Max] =
 	"Killer",
 	"Orkenschlächter",
 	"Das Böse vernichten",
-	"Golemjäger"
+	"Golemjäger",
+	"",
+	"",
+	"",
+	""
 };
 const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 {
@@ -1990,7 +2114,11 @@ const string StExt_Str_MasteryPerk_Desc_15[StExt_MasteryPerk_Max] =
 	"+1% Schaden gegen Menschen im Fernkampf für jeden Level in dieser Schule",
 	"+1% Schaden gegen Orks im Fernkampf für jeden Level in dieser Schule",
 	"+1% Fernkampfschaden gegen Untote und das Böse für jeden Level in dieser Schule",
-	"+1% Schaden gegen Golems im Fernkampf für jeden Level in dieser Schule"
+	"+1% Schaden gegen Golems im Fernkampf für jeden Level in dieser Schule",
+	"",
+	"",
+	"",
+	""
 };
 
 // generic perks

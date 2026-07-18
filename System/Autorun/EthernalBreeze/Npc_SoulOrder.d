@@ -13,7 +13,7 @@ instance none_99702_SoulMaster(npc_default)
     name = StExt_Str_SoulMaster_Name;
     guild = gil_none;
     id = 99702;
-    voice = 14;
+    voice = 12;	// bylo 14 ("tragiczny") -> 12, standardowy konkretny meski SVM
     flags = 0;
     npctype = npctype_main;
     aivar[93] = true;
@@ -45,6 +45,32 @@ func void rtn_none_99702_SoulMaster()
 //--------------------------------------------------------------
 // *** Joining: two-stage element choice (irreversible) ***
 //--------------------------------------------------------------
+//--------------------------------------------------------------
+// *** Powitanie - Mistrz PRZEMAWIA (dymek z napisami przez StExt_Say) ***
+//--------------------------------------------------------------
+// PROOF systemu napisow: silnikowy AI_Output nie dziala (brak OU), wiec Mistrz
+// mowi przez StExt_Say - tekst leci wprost do dymka, linia po linii. Ton:
+// surowy mentor. Odpala sie raz przy pierwszej rozmowie (important, non-perm).
+instance dia_none_99702_SoulMaster_Greet(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 1;
+    condition = dia_none_99702_SoulMaster_Greet_condition;
+    information = dia_none_99702_SoulMaster_Greet_info;
+    permanent = false;
+    important = true;
+    description = "Kim jestescie?";
+};
+func int dia_none_99702_SoulMaster_Greet_condition() { return !StExt_SoulKnight_Member; };
+func void dia_none_99702_SoulMaster_Greet_info()
+{
+	StExt_Say(StExt_Str_SoulMaster_Name, "Stoj. Czuje na tobie Zar - cudze smierci, ktore nosisz jak plaszcz. Wiekszosc ludzi nie czuje go, dopoki ich nie strawi.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Nazywaja nas Rycerzami Dusz. Bledne miano. Nie jestesmy rycerzami. Jestesmy tymi, ktorzy nauczyli sie ZYWIC smiercia, zamiast przed nia uciekac.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Chcesz mocy - widze to, kazdy chce. Ale moc Zakonu ma cene. Wiekszosc placi ja bez wahania... dopoki nie zrozumie, co oddala.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wroc, gdy bedziesz gotow zlozyc przysiege. I nie przychodz, jesli szukasz litosci. Tutaj jej nie ma.");
+	ai_stopprocessinfos(self);
+};
+
 instance dia_none_99702_SoulMaster_Join(c_info)
 {
     npc = none_99702_SoulMaster;
@@ -114,6 +140,9 @@ func void StExt_SoulOrder_CancelJoin()
 
 func void dia_none_99702_SoulMaster_Join_info()
 {
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wiec jednak wrociles. Dobrze. Sluchaj uwaznie, bo powtorze to tylko raz.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wybierzesz DWA zywioly. Tylko dwa. W nich urosniesz w sile, jakiej nie zaznasz nigdzie indziej. Reszte - zapomnisz. Na zawsze. Zakon nie znosi polowicznosci.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wybieraj rozwaznie. Tej przysiegi nie cofniesz - a ja nie bede sluchal skarg.");
 	ai_printbonus(StExt_Str_SoulKnight_PickFirst);
 	info_clearchoices(dia_none_99702_SoulMaster_Join);
 	info_addchoice(dia_none_99702_SoulMaster_Join, dialog_back, StExt_SoulOrder_CancelJoin);
@@ -151,12 +180,14 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 	else { weap = npc_getequippedmeleeweapon(hero); };
 	if (!hlp_isvaliditem(weap))
 	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Z czym mam pracowac? Dobadz zelaza, ktore ma przyjac dusze.");
 		ai_printred(StExt_Str_Seal_NoWeapon);
 		ai_stopprocessinfos(self);
 		return;
 	};
 	if (npc_hasitems(hero, itmi_gold) < 1000)
 	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Tysiac sztuk zlota. Rytual ma cene i nie ja ja ustalam.");
 		ai_printred(StExt_Str_Enchant_NotEnoughGold);
 		ai_stopprocessinfos(self);
 		return;
@@ -172,6 +203,7 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 	}
 	else
 	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "To zelazo nie zna zywiolu. Dusza nie ma sie czego uchwycic - przynies bron z pieczecia albo perkiem.");
 		ai_printred(StExt_Str_WeaponSkill_NoElement);
 		ai_stopprocessinfos(self);
 		return;
@@ -181,6 +213,7 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 	npc_removeinvitems(hero, itmi_gold, 1000);
 	StExt_SoulKnight_SoulsInfused += 1;
 	rx_playeffect("spellfx_incovation_violet", hero);
+	StExt_Say(StExt_Str_SoulMaster_Name, "Gotowe. Dusza wtopiona w ostrze - czujesz? Ono teraz pamieta, jak sie zabija.");
 	ai_printbonus(StExt_Str_SoulInfuse_Done);
 	ai_stopprocessinfos(self);
 };
@@ -223,6 +256,14 @@ instance dia_none_99702_SoulMaster_Lore(c_info)
 func int dia_none_99702_SoulMaster_Lore_condition() { return StExt_SoulKnight_Member; };
 func void dia_none_99702_SoulMaster_Lore_info()
 {
+	if (StExt_ZakonLore_Stage > StExt_ZakonHunt_Done)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Nie dzis. Przeszlosc Zakonu placi sie krwia - przynies mi kolejna glowe, wtedy opowiem wiecej.");
+	}
+	else
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Sluchaj uwaznie. Rzadko o tym mowie, a dwa razy nie powtarzam. Zapisz to sobie, jesli musisz.");
+	};
 	StExt_ZakonLore_Reveal();
 	ai_stopprocessinfos(self);
 };
@@ -290,4 +331,8 @@ func void StExt_Knight_BuildMenu()
 	info_addchoice(dia_none_99702_SoulMaster_Knight, dialog_back, StExt_Knight_Exit);
 };
 
-func void dia_none_99702_SoulMaster_Knight_info() { StExt_Knight_BuildMenu(); };
+func void dia_none_99702_SoulMaster_Knight_info()
+{
+	StExt_Say(StExt_Str_SoulMaster_Name, "Sztuki Rycerza Dusz. Placi sie duszami bossow - zlota tu nie przyjmuje, zloto jest dla kupcow.");
+	StExt_Knight_BuildMenu();
+};

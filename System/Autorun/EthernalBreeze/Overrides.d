@@ -1,5 +1,30 @@
+//--------------------------------------------------------------
+// *** Bossowie Zakonu ZABIJAJA, nie oglusza​ja ***
+//--------------------------------------------------------------
+// Silnik (oNpc_Damage.cpp, OnDamage_Condition) decyduje "smierc czy omdlenie"
+// tak:  bUnconscious = (HP == 1);  a dla ludzkiego napastnika bronia sieczna
+// bDamageNotLethal &= (bBlunt || bEdge || bDamageDontKill) - i jesli C_DropUnconscious
+// przepusci, ustawia bIsUnconscious zamiast bIsDead. To jest oryginalna mechanika
+// Gothica ("budzisz sie obrabowany") i przy wiesniakach jest w porzadku.
+//
+// Przy bossie jest katastrofa i wyszla na zywym tescie: Ciernie bossa zbijaja
+// gracza do 1 HP, HP==1 => bUnconscious => KAZDY kolejny cios tylko odnawia
+// omdlenie zamiast zabic. Gracz lezy nietykalny na 1 HP, boss mloci w nieskonczonosc.
+// Zgloszenie: "nie mogl mnie zabic, dobic, caly czas bylem na 1 HP".
+//
+// Zakon to gildia dark-souls: jej bossowie maja zabijac. Ids 99710-99725 (kanon
+// architektury bossow) nie ogluszaja NIGDY - ani gracza, ani nikogo.
+func int C_DropUnconscious()
+{
+	if (hlp_isvalidnpc(other))
+	{
+		if ((other.id >= 99710) && (other.id <= 99725)) { return false; };
+	};
+	return C_DropUnconscious_old();
+};
+
 // Main loop...
-func void rx_mainloop() 
+func void rx_mainloop()
 {
 	StExt_ProcessPcStats_Overcap();
 	rx_mainloop_old();
