@@ -25,6 +25,9 @@ Data/STEXT_Assets.vdf
 # ElevenLabs API key - NIGDY do repo
 tools/.eleven_key
 
+# Wygenerowane WAV-y dubbingu (artefakty; regeneracja: tools/eleven_batch_say.ps1)
+tools/voices_say/
+
 # Third-party reference repos (study only, never commit)
 _refs/
 

@@ -44,10 +44,16 @@
 // ai_print* spamuje ekran, DEBUG_MSG jest wycinany w Release - to jedyna droga.
 func void StExt_Trace(var string msg);
 
-// Napisy dialogowe (dymek) dla NPC moda - omija brakujace OU. Pokazuje tekst
-// wprost przez zCView::DialogMessageCXY, z kolejki, linia po linii. Uzywac
-// zamiast AI_Output tam, gdzie nie ma wpisu OU (czyli w calym modzie).
+// Kwestia dialogowa NPC moda. v2: DLL rejestruje wpis OU w runtime
+// (STEXT_SAY_<CRC32 tekstu>) i wrzuca natywny EV_OUTPUT do kolejki NPC -
+// dymek jest silnikowy (skip, zamkniecie z dialogiem). Dubbing: wystarczy
+// WAV o nazwie OU w Sound/Speech. speaker zostaje w API (imie i tak
+// pokazuje silnik). Uzywac zamiast AI_Output w calym modzie.
 func void StExt_Say(var string speaker, var string text);
+
+// Czy sesja dialogowa (InfoManager) nadal trwa - akcje "po dialogu"
+// (teleporty itp.) maja na tym czekac, bo linie Say graja sekundami.
+func int StExt_IsDialogActive();
 	
 	func void StExt_Info_AddChoice(var int menu, var string optName, var string optFunc);
 	func void StExt_Info_BuildItemGeneratorPresetsChoices(var int menu, var string optFunc);

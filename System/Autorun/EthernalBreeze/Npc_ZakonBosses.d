@@ -595,6 +595,14 @@ func void StExt_ZakonBoss_SummonNext()
 
 func void StExt_ZakonArenaTeleport_Callback()
 {
+	// Linie Say graja teraz natywnie (sekundy) - sztywne 15 klatek strzelalo
+	// teleportem w POLOWIE kwestii Mistrza i wieszalo okno dialogu. Czekamy,
+	// az sesja dialogowa realnie sie skonczy, dopiero wtedy teleport.
+	if (StExt_IsDialogActive())
+	{
+		StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaTeleport_Callback", 15);
+		return;
+	};
 	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
 };
 
