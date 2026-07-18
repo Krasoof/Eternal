@@ -296,12 +296,20 @@ func int StExt_GetSealProcInterval(var int sealPower, var int element)
 // Deduct the per-proc cost of an ELEMENTAL seal. It casts a spell, so it
 // always costs MANA regardless of weapon type; no mana means no proc (the
 // weapon still swings). Physical seals pay stamina in their own branch.
+// Koszt = % MAX many (kanon: nigdy flat) - stary flat 10+moc/10 byl
+// niewidzialny przy poznogrowych pulach many ("runy broni nie jedza
+// many"). Moc 160 -> 3.5% max many per proc, floor 10 pkt.
 func int StExt_PaySealCost(var c_item weap, var int sealPower)
 {
 	var int cost;
-	cost = 10 + (sealPower / 10);
+	cost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max], StExt_ValidateValueRange(15 + (sealPower / 8), 15, 60));
+	// Mastery spellblade (slot 18, Conduit): -25% kosztu many zywiolu broni
+	if (StExt_IsSpellbladePerk(StExt_GetSpellElementIndex(StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId)), StExt_MasteryPerkIndex_Element_Conduit)) { cost -= StExt_GetPercentFromValue(cost, 25); };
+	cost = StExt_ValidateValueMin(cost, 10);
 	if (hero.attribute[atr_mana] < cost) { return false; };
 	hero.attribute[atr_mana] = hero.attribute[atr_mana] - cost;
+	// TEMP DIAG (runy broni maja jesc mane): rachunek kazdego procu.
+	StExt_Trace(concatstrings(concatstrings("SEAL proc: koszt=", inttostring(cost)), concatstrings(" manaTeraz=", inttostring(hero.attribute[atr_mana]))));
 	return true;
 };
 

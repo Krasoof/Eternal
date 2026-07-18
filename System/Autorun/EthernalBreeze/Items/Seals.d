@@ -7,7 +7,9 @@
 //   Lesser (power 60)  -> every 6th hit
 //   Normal (power 100) -> every 5th hit
 //   Greater (power 160) -> every 4th hit (rosnie z levelem pieczeci)
-// Proc cost (mana for magic weapons, stamina otherwise) = 10 + power/10.
+// Proc cost: ZAWSZE mana (proc castuje spell), % MAX many:
+// permille = 15 + power/8 (clamp 15..60), floor 10 pkt - patrz
+// StExt_PaySealCost. Flat kosztow tu nie ma (kanon: % max, nigdy flat).
 // Visual reuses the base-game moonstone gem prototype.
 
 instance itse_stext_seal_fire_lesser(c_item)
