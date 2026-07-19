@@ -45,20 +45,29 @@ $Spoken = @{}
 $spokenPath = Join-Path $PSScriptRoot "eleven_say_spoken.psd1"
 if (Test-Path $spokenPath) { $Spoken = Import-PowerShellDataFile $spokenPath }
 
+# Glosy per mowca: token pierwszego argumentu StExt_Say -> voice id.
+# Linie gracza (sentinel "HERO") NIE dostaja dubbingu (kanon: hero bez glosu).
+function Resolve-VoiceId([string]$speakerToken) {
+    if ($speakerToken -match 'Kowal') { return 'SOYHLrjzK2X1ezoPC6cr' }   # Harry - Fierce Warrior (design HubSouls)
+    return $VoiceId                                                        # domyslnie: Adam (Mistrz Zakonu)
+}
+
 # --- ekstrakcja linii ---
 $lines = @()
 Get-ChildItem $scriptsDir -Recurse -Filter "*.d" | ForEach-Object {
     $content = [System.IO.File]::ReadAllText($_.FullName, [System.Text.Encoding]::GetEncoding(28591))
-    foreach ($m in [regex]::Matches($content, 'StExt_Say\s*\([^,]+,\s*"([^"]*)"\s*\)')) {
-        $text = $m.Groups[1].Value
+    foreach ($m in [regex]::Matches($content, 'StExt_Say\s*\(\s*([^,]+),\s*"([^"]*)"\s*\)')) {
+        $speaker = $m.Groups[1].Value.Trim()
+        $text = $m.Groups[2].Value
         if ($text.Trim().Length -eq 0) { continue }
+        if ($speaker -match 'HERO') { continue }    # linie gracza: napisy bez glosu
         $crc = Get-SayCrc32 $text
         if (-not ($lines | Where-Object { $_.Crc -eq $crc })) {
-            $lines += [pscustomobject]@{ Crc = $crc; File = $_.Name; Text = $text }
+            $lines += [pscustomobject]@{ Crc = $crc; File = $_.Name; Text = $text; Voice = (Resolve-VoiceId $speaker) }
         }
     }
 }
-Write-Output ("Znaleziono {0} unikalnych linii StExt_Say" -f $lines.Count)
+Write-Output ("Znaleziono {0} unikalnych linii StExt_Say (bez linii HERO)" -f $lines.Count)
 
 if ($DryRun) {
     foreach ($l in $lines) {
@@ -87,7 +96,7 @@ foreach ($l in $lines) {
         model_id = $Model
         voice_settings = @{ stability = $Stability; similarity_boost = $Similarity; style = 0.0; use_speaker_boost = $true }
     } | ConvertTo-Json -Compress
-    $uri = "https://api.elevenlabs.io/v1/text-to-speech/$VoiceId/stream?output_format=pcm_22050"
+    $uri = "https://api.elevenlabs.io/v1/text-to-speech/$($l.Voice)/stream?output_format=pcm_22050"
     $tmpPcm = [IO.Path]::GetTempFileName()
     try {
         Invoke-WebRequest -Uri $uri -Method Post -Headers @{ "xi-api-key" = $key; "Content-Type" = "application/json" } `

@@ -138,6 +138,18 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
+	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
+	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)
+	if (!StExt_HubSmithAppear && StExt_SoulKnight_Member && (kapitel >= 1))
+	{
+		if (currentlevel == newworld_zen)
+		{
+			StExt_HubSmithAppear = true;
+			rx_saveparservars();
+			wld_insertnpc(none_99760_HubSmith, "SHORE_MONSTER_02_01");
+			rx_restoreparservars();
+		};
+	};
 	// Zakon hunted targets (incl. the ch1 heretic) spawn ON DEMAND via the
 	// Soul Master's hunt dialog - no init-once spawn, works on old saves.
 	StExt_InitializeWorldRandomizer();

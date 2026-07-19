@@ -26,5 +26,13 @@
     '17ECDE66' = 'Wieża stoi pusta - czuję to stąd. Dobra robota, rycerzu.'
     'E83CB456' = 'Zakon przenosi się o świcie. Weź te dusze - należą się temu, kto oczyścił dom.'
     '02420450' = 'Weź Runę Zakonu. Zawsze zaprowadzi cię z powrotem do mnie.'
+    'A4B79C08' = 'Dobądź żelazo, które mam przekuć. Młot nie bije w powietrze.'
+    'D6566731' = 'Tego żelaza nie przekuję. Ono już wie, czym jest.'
+    '9A664184' = 'Młot pamięta. Ręce pamiętają. Odbierz - to już nie jest ta sama broń.'
+    'BBC9A8F6' = 'Nie pytaj o imię. Zostawiłem je w ogniu, dawno temu. Ogień go nie oddał.'
+    '00FD20FD' = 'Kuję, bo ręce pamiętają to, czego głowa nie. Młot wie więcej ode mnie.'
+    'CDD5FA21' = 'Ty śmierdzisz duszami, wędrowcze. Tyle ich nosisz... a wciąż ci mało.'
+    '36BA6FE9' = 'Dusze... tak. Może wśród nich znajdę okruch tego, czym byłem. Pójdę. Ale niczego nie obiecuję.'
+    '0F0A5260' = 'Nie wiem. Zostały po mnie trzy rzeczy... rozsypane tam, gdzie umarli. Znajdź je, a może i mnie znajdziesz.'
+    '8BBEF306' = 'Coś wraca. Twarz przy kowadle. Jeszcze dwa... jeszcze jeden... Przynieś resztę.'
 }
-
