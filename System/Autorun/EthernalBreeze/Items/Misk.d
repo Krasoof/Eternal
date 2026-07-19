@@ -726,3 +726,30 @@ func void use_itmi_stext_scoutstone()
 	if (!npc_isplayer(self)) { return; };
 	printscreencolor(npc_getnearestwp(hero), StExt_Null, 45, StExt_DefaultFont, 5, StExt_Color_Header);
 };
+
+// Runa Zakonu Dusz - powrot do Mistrza (kaplica przy Bigfarm, patrz
+// ModController: NW_BIGFARM_CHAPEL_03). NIE zuzywa sie - on_state w tym
+// modzie nie konsumuje itemu (pieczecie zdejmuja sie same przez
+// npc_removeinvitems; tu celowo tego nie robimy). Wydawana na starcie
+// wyprawy na Wieze Umarlych + samonaprawa w TowerHint dla starych sejwow.
+instance itmi_stext_zakonrune(c_item)
+{
+	name = "Runa Zakonu Dusz";
+	mainflag = item_kat_potions;	// proven usable pattern (patrz scoutstone)
+	flags = item_mission;
+	value = 1;
+	visual = "ITRU_HELPRUNE.3DS";
+	material = mat_stone;
+	scemename = "MAP";
+	description = name;
+	text[1] = "Szept Mistrza prowadzi z powrotem do kaplicy Zakonu.";
+	text[5] = "Nie zuzywa sie.";
+	on_state = use_itmi_stext_zakonrune;
+	inv_animate = 1;
+};
+func void use_itmi_stext_zakonrune()
+{
+	if (!npc_isplayer(self)) { return; };
+	rx_playeffect("SPELLFX_TELEPORT", hero);
+	AI_Teleport(hero, "NW_BIGFARM_CHAPEL_03");
+};

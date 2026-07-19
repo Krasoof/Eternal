@@ -25,4 +25,6 @@
     '2E9DAC89' = 'Wieża na wybrzeżu, na północ stąd. Wskazałem raz - drugi raz wskazuję palcem, trzeciego nie będzie.'
     '17ECDE66' = 'Wieża stoi pusta - czuję to stąd. Dobra robota, rycerzu.'
     'E83CB456' = 'Zakon przenosi się o świcie. Weź te dusze - należą się temu, kto oczyścił dom.'
+    '02420450' = 'Weź Runę Zakonu. Zawsze zaprowadzi cię z powrotem do mnie.'
 }
+

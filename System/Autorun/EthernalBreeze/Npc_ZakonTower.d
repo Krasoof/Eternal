@@ -230,7 +230,8 @@ func void ai_ondead_bdt_99733_ZakonTowerHerold()
 	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
 	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Deco2);
 	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
-	StExt_ZakonTower_Log("Herold Utopionego padl. Upiorny garnizon wciaz broni wiezy.");
+	ai_printbonus("Trzej Upiorni Rycerze staneli na wartach (0/3)");
+	StExt_ZakonTower_Log("Herold Utopionego padl. TRZEJ Upiorni Rycerze staneli na wartach: jeden przy obozie, jeden na wybrzezu, jeden w samej wiezy. Wytnij wszystkich.");
 };
 
 //--------------------------------------------------------------
@@ -255,6 +256,9 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	StExt_Say(StExt_Str_SoulMaster_Name, "Zar Dusz sciaga umarlych jak scierwo sciaga wrony. Kaplica przestaje byc bezpieczna.");
 	StExt_Say(StExt_Str_SoulMaster_Name, "Wybralem nowy dom dla Zakonu: stara wieze na wybrzezu. Problem w tym, ze ktos w niej juz mieszka.");
 	StExt_Say(StExt_Str_SoulMaster_Name, "Upiory garnizonu. Wytnij je co do jednego - Zakon nie dzieli dachu z umarlymi, ktorych sam nie zabil.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Wez Rune Zakonu. Zawsze zaprowadzi cie z powrotem do mnie.");
+	createinvitems(hero, itmi_stext_zakonrune, 1);
+	ai_printbonus("Otrzymales: Runa Zakonu Dusz");
 	StExt_ZakonTower_Stage = 1;
 	StExt_ZakonTower_WaveKills = 0;
 	// ALL spawns AT the tower itself - the forest-road WP put mobs where the
@@ -285,6 +289,12 @@ func void dia_none_99702_SoulMaster_TowerHint_info()
 {
 	StExt_Say(StExt_Str_SoulMaster_Name, "Wieza na wybrzezu, na polnoc stad. Wskazalem raz - drugi raz wskazuje palcem, trzeciego nie bedzie.");
 	snd_play("STEXT_VOICE_M3");	// sound test hook - Mistrz mruczy pod nosem
+	// samonaprawa: runa powrotu dla sejwow sprzed jej wprowadzenia
+	if (npc_hasitems(hero, itmi_stext_zakonrune) == 0)
+	{
+		createinvitems(hero, itmi_stext_zakonrune, 1);
+		ai_printbonus("Otrzymales: Runa Zakonu Dusz");
+	};
 	// SELF-HEAL: asking for directions RE-SUMMONS the current wave at the
 	// tower - repairs saves whose mobs got lost at the old road waypoint
 	// (extra copies are harmless: ai_ondead counts kills either way).
@@ -306,8 +316,8 @@ func void dia_none_99702_SoulMaster_TowerHint_info()
 		wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
 		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Deco2);
 		wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
-		StExt_ZakonTower_Log("Cel: wytnij upiorny garnizon w wiezy.");
-		ai_printbonus("Upiorni rycerze bronia wiezy - wytnij ich do nogi.");
+		StExt_ZakonTower_Log("Cel: trzej Upiorni Rycerze - przy obozie, na wybrzezu i w samej wiezy. Wytnij wszystkich.");
+		ai_printbonus("Trzej rycerze: oboz, wybrzeze, wieza. Licznik pokaze postep.");
 	};
 	ai_stopprocessinfos(self);
 };
