@@ -402,6 +402,44 @@ func int StExt_CalcPiercePermille(var int sealPower, var int sealLvl)
 // w C++ (lustra rozjezdzaly sie z runtime - "dziwne liczby na broni").
 // Kontrakt CallFunc: argumenty i zwrot wylacznie int.
 
+// Realny cios per postac: projekcja obrazen PO naszych skalowaniach -
+// silnikowa baza (bron + statystyka wiodaca wg typu) + flat/procentowe
+// bonusy melee/range + bonus klasy broni (DLL, PcStats 319-324 przez
+// GetPcStat - indeksow 311+ parser nie czyta wprost). SZACUNEK: bez
+// crita, bez pancerza celu, bez zywiolu/pieczeci (maja wlasne linie);
+// dex-miecze NB (bit_item_pierce_damage) licza tu jak STR - przyblizenie.
+func int StExt_Tooltip_RealHit(var int weaponDmg, var int weaponFlags, var int hasSpell)
+{
+	var int proj;
+	var int prc;
+
+	proj = weaponDmg;
+	if (StExt_ValueHasFlag(weaponFlags, item_dag) || StExt_ValueHasFlag(weaponFlags, item_bow) || StExt_ValueHasFlag(weaponFlags, item_crossbow)) { proj += hero.attribute[5]; }
+	else if (hasSpell) { proj += atr_intellect; }
+	else { proj += hero.attribute[4]; };
+
+	if (StExt_ValueHasFlag(weaponFlags, item_bow) || StExt_ValueHasFlag(weaponFlags, item_crossbow))
+	{
+		proj += StExt_PcStats[StExt_PcStats_Index_ExtraDamage] + StExt_PcStats[StExt_PcStats_Index_ExtraRangeDam];
+		if (StExt_ValueHasFlag(weaponFlags, item_bow)) { proj += StExt_PcStats[StExt_PcStats_Index_BowExtraDam]; }
+		else { proj += StExt_PcStats[StExt_PcStats_Index_CBowExtraDam]; };
+		prc = StExt_PcStats[StExt_PcStats_Index_ExtraDamagePerc] + StExt_PcStats[StExt_PcStats_Index_ExtraRangeDamPerc] + (3 * StExt_Talent_Progression[StExt_MasteryIndex_Archery]);
+	}
+	else
+	{
+		proj += StExt_PcStats[StExt_PcStats_Index_ExtraDamage] + StExt_PcStats[StExt_PcStats_Index_ExtraMeleeDam];
+		if (StExt_ValueHasFlag(weaponFlags, item_swd) || StExt_ValueHasFlag(weaponFlags, item_axe) || StExt_ValueHasFlag(weaponFlags, item_dag)) { proj += StExt_PcStats[StExt_PcStats_Index_1hExtraDam]; };
+		if (StExt_ValueHasFlag(weaponFlags, item_2hd_swd) || StExt_ValueHasFlag(weaponFlags, item_2hd_axe)) { proj += StExt_PcStats[StExt_PcStats_Index_2hExtraDam]; };
+		prc = StExt_PcStats[StExt_PcStats_Index_ExtraDamagePerc] + StExt_PcStats[StExt_PcStats_Index_ExtraMeleeDamPerc] + (3 * StExt_Talent_Progression[StExt_MasteryIndex_MartialArts]);
+		// bonus klasy broni z DLL: miecz 319/320, topor 321/322, sztylet 323/324 (flat/permille)
+		if (StExt_ValueHasFlag(weaponFlags, item_dag)) { proj += StExt_GetPcStat(323); prc += StExt_GetPcStat(324); }
+		else if (StExt_ValueHasFlag(weaponFlags, item_axe) || StExt_ValueHasFlag(weaponFlags, item_2hd_axe)) { proj += StExt_GetPcStat(321); prc += StExt_GetPcStat(322); }
+		else { proj += StExt_GetPcStat(319); prc += StExt_GetPcStat(320); };
+	};
+	proj += StExt_GetPermilleFromValue(proj, prc);
+	return proj;
+};
+
 func int StExt_Tooltip_ElementPerHit(var int spellId, var int sealPower, var int weaponDmg, var int usesMana)
 {
 	return StExt_CalcElementHitAmount(StExt_GetSpellElementIndex(spellId), sealPower, weaponDmg, usesMana);
