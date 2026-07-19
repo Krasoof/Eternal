@@ -317,6 +317,12 @@ func void StExt_Knight_Buy_Wrath()    { if (StExt_Knight_TryPay(3))  { StExt_Kni
 func void StExt_Knight_Buy_Stalwart() { if (StExt_Knight_TryPay(5))  { StExt_KnightPerk_Stalwart = true; ai_printbonus("Niezlomnosc: blok kosztuje polowe staminy."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
 func void StExt_Knight_Buy_Crush()    { if (StExt_Knight_TryPay(8))  { StExt_KnightPerk_Crush = true;    ai_printbonus("Miazdzacy Cios: co 4. trafienie +40%."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
 func void StExt_Knight_Buy_Pact()     { if (StExt_Knight_TryPay(12)) { StExt_KnightPerk_Pact = true;     ai_printbonus("Pakt Dusz: 2% obrazen wraca jako zycie."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
+// Blogoslawienstwo Cienia (integracja PotD): tylko dla WAMPIRA (globalny
+// RX_VampireLevel z NB; odczyt globala jest bezpieczny niezaleznie od tego,
+// czy plugin PotD aktywny - symbol siedzi w skompilowanym GOTHIC.DAT).
+// Efekty: pragnienie krwi zerowane co tick (ModController), dzienna kara
+// -15% kompensowana w naszym pipeline obrazen (DamageController).
+func void StExt_Knight_Buy_Shadow()   { if (StExt_Knight_TryPay(3))  { StExt_KnightPerk_Shadow = true;   ai_printbonus("Blogoslawienstwo Cienia: slonce i pragnienie nie rozkazuja juz Rycerzowi."); }; info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
 func void StExt_Knight_Exit() { info_clearchoices(dia_none_99702_SoulMaster_Knight); ai_stopprocessinfos(self); };
 
 func void StExt_Knight_BuildMenu()
@@ -328,6 +334,7 @@ func void StExt_Knight_BuildMenu()
 	if (!StExt_KnightPerk_Stalwart) { info_addchoice(dia_none_99702_SoulMaster_Knight, "Niezlomnosc: blok za polowe staminy (5 dusz)", StExt_Knight_Buy_Stalwart); };
 	if (!StExt_KnightPerk_Crush)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Miazdzacy Cios: co 4. trafienie +40% (8 dusz)", StExt_Knight_Buy_Crush); };
 	if (!StExt_KnightPerk_Pact)     { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pakt Dusz: lifesteal 2% (12 dusz)", StExt_Knight_Buy_Pact); };
+	if ((RX_VampireLevel >= 1) && !StExt_KnightPerk_Shadow) { info_addchoice(dia_none_99702_SoulMaster_Knight, "Blogoslawienstwo Cienia: bez kar slonca, krew opcjonalna (3 dusze)", StExt_Knight_Buy_Shadow); };
 	info_addchoice(dia_none_99702_SoulMaster_Knight, dialog_back, StExt_Knight_Exit);
 };
 

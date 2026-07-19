@@ -2,10 +2,10 @@
 //===================================================================//
 //		Zakon Dusz - "Wieza Umarlych" relocation quest (acts 1-3)	 //
 //===================================================================//
-// PotD injects the ruined shore tower into NEWWORLD at runtime; its
-// waypoints (SHORE_MONSTER_*, NW_FOREST_PATH_80_I_MOVEMENT8_012) only
-// resolve in a running game, never in the base waynet - that is expected,
-// do not "fix" by swapping to base WPs.
+// KOREKTA (2026-07-19, skan waynetu + sejwow): SHORE_MONSTER_01..04 to
+// zwykle WP BAZOWEGO waynetu NEWWORLD (nie PotD). SHORE_MONSTER_05_01
+// NIE ISTNIEJE NIGDZIE - wld_insertnpc na nim laduje NPC w punkcie
+// (0,0,0) swiata (dowod w sejwie). NIE uzywac 05_01.
 // Stage flow (StExt_ZakonTower_Stage):
 //   0 idle -> 1 road ambush -> 2 siege camp + Herold -> 3 tower floors
 //   -> 4 cleared, report to Master -> 5 done.
@@ -23,7 +23,7 @@ const string StExt_ZakonTower_WP_Road  = "NW_FOREST_PATH_80_I_MOVEMENT8_012";
 const string StExt_ZakonTower_WP_Camp  = "SHORE_MONSTER_03_01";
 const string StExt_ZakonTower_WP_Deco1 = "SHORE_MONSTER_02_01";
 const string StExt_ZakonTower_WP_Deco2 = "SHORE_MONSTER_04_01";
-const string StExt_ZakonTower_WP_Tower = "SHORE_MONSTER_05_01";
+const string StExt_ZakonTower_WP_Tower = "SHORE_MONSTER_02_01";	// MARTWY ALIAS: 05_01 nie istnieje (patrz naglowek); symbol zostaje dla save-compat, wskazuje realny WP
 
 //--------------------------------------------------------------
 // *** Rutyny garnizonu ***

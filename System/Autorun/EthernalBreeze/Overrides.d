@@ -152,6 +152,9 @@ func void rx_ast_updatemonsterstats()
 		if(!StExt_IsSummonOrHero(self) && (self.aivar[43] != id_totem) && (self.aivar[43] != id_wisp) && (hlp_getinstanceid(self) != hlp_getinstanceid(wisp_detector)))
 		{
 			StExt_Npc_RandomizeStats(self);
+			// Med-tier floor PRZED infuzja: infuzja mnozy sie na podlodze,
+			// elita zostaje elita (patrz StExt_Npc_ApplyTierFloor).
+			StExt_Npc_ApplyTierFloor(self);
 			StExt_Npc_InfuseWithMagic(self);
 			StExt_Npc_ApplyLevelBonus(self);
 			StExt_Npc_InitializeExtraStats(self);

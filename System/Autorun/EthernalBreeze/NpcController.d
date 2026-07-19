@@ -1484,3 +1484,54 @@ func void rx_rt_setnpcstats(var c_npc slf)
     b_setfightskills(slf, skill);
 	StExt_CreateRotNpcItems(slf);
 };
+
+//===================================================================//
+//			Med-tier floor (release 2026-07-20)						 //
+//===================================================================//
+// NB nie ma zadnej krzywej mobow: nie-zainfuzowany NPC = baza NB x globalne
+// slidery, wiec srodkowa gra "pada na strzala i nic nie robi". Floor
+// PODNOSI (nigdy nie obniza) staty kwalifikujacych sie NPC do podlogi
+// rosnacej z rozdzialem i poziomem gracza. Wpiety w lancuch statowania
+// PRZED infuzja (Overrides.d) - infuzja mnozy sie na floorze, elita
+// zostaje elita. Target usera: mid mob zyje 3-5 ciosow i bije ~15-25%
+// HP gracza. Stale w Constants.d (TierFloor_*).
+func void StExt_Npc_ApplyTierFloor(var c_npc slf)
+{
+	var int floorV;
+
+	if (!StExt_Config_EnableTierFloors) { return; };
+	if (!hlp_isvalidnpc(slf)) { return; };
+	if (slf.level < StExt_Config_TierFloor_MinLevel) { return; };
+	if (rx_isboss(slf)) { return; };
+	if ((slf.id >= 99700) && (slf.id <= 99799)) { return; };	// NPC Zakonu/huba maja wlasne krzywe
+
+	// HP: ~4-6 ciosow gracza w srodku gry
+	floorV = StExt_GetPercentFromValue(2000 + (kapitel * 1200) + (hero.level * 120), StExt_Config_TierFloor_Mult);
+	if (slf.attribute[1] < floorV)
+	{
+		slf.attribute[1] = floorV;
+		slf.attribute[0] = floorV;
+	};
+	// STR/DEX: cios ma bolec (15-25% HP gracza zamiast 4-8%)
+	floorV = StExt_GetPercentFromValue(40 + (kapitel * 22) + hero.level, StExt_Config_TierFloor_Mult);
+	if (slf.attribute[4] < floorV) { slf.attribute[4] = floorV; };
+	if (slf.attribute[5] < floorV) { slf.attribute[5] = floorV; };
+	// obrazenia: kazdy UZYWANY kanal do podlogi
+	floorV = StExt_GetPercentFromValue(30 + (kapitel * 18) + (hero.level / 2), StExt_Config_TierFloor_Mult);
+	if ((slf.damage[0] > 0) && (slf.damage[0] < floorV)) { slf.damage[0] = floorV; };
+	if ((slf.damage[1] > 0) && (slf.damage[1] < floorV)) { slf.damage[1] = floorV; };
+	if ((slf.damage[2] > 0) && (slf.damage[2] < floorV)) { slf.damage[2] = floorV; };
+	if ((slf.damage[3] > 0) && (slf.damage[3] < floorV)) { slf.damage[3] = floorV; };
+	if ((slf.damage[4] > 0) && (slf.damage[4] < floorV)) { slf.damage[4] = floorV; };
+	if ((slf.damage[5] > 0) && (slf.damage[5] < floorV)) { slf.damage[5] = floorV; };
+	if ((slf.damage[6] > 0) && (slf.damage[6] < floorV)) { slf.damage[6] = floorV; };
+	if ((slf.damage[7] > 0) && (slf.damage[7] < floorV)) { slf.damage[7] = floorV; };
+	// protekcje 1..6: strzala nie zdejmuje 100%; immunitet (<0) nietykany
+	floorV = StExt_GetPercentFromValue(30 + (kapitel * 15), StExt_Config_TierFloor_Mult);
+	if ((slf.protection[1] >= 0) && (slf.protection[1] < floorV)) { slf.protection[1] = floorV; };
+	if ((slf.protection[2] >= 0) && (slf.protection[2] < floorV)) { slf.protection[2] = floorV; };
+	if ((slf.protection[3] >= 0) && (slf.protection[3] < floorV)) { slf.protection[3] = floorV; };
+	if ((slf.protection[4] >= 0) && (slf.protection[4] < floorV)) { slf.protection[4] = floorV; };
+	if ((slf.protection[5] >= 0) && (slf.protection[5] < floorV)) { slf.protection[5] = floorV; };
+	if ((slf.protection[6] >= 0) && (slf.protection[6] < floorV)) { slf.protection[6] = floorV; };
+};

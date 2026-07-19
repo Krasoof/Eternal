@@ -141,6 +141,7 @@ var int StExt_KnightPerk_Wrath;		// Gniew Rycerza: riposta +100% zamiast +50% (3
 var int StExt_KnightPerk_Stalwart;	// Niezlomnosc: drenaz staminy za blok 8% -> 4% (5 dusz)
 var int StExt_KnightPerk_Crush;		// Miazdzacy Cios: co 4. trafienie wrecz +40% obrazen (8 dusz)
 var int StExt_KnightPerk_Pact;		// Pakt Dusz: lifesteal 2% obrazen wrecz (12 dusz)
+var int StExt_KnightPerk_Shadow;	// Blogoslawienstwo Cienia (wampir PotD): krew opcjonalna + dzien bez kary (3 dusze)
 var int StExt_KnightCrush_Counter;
 var int StExt_KnightWrath_Counter;	// deterministic riposte: every 4th parade
 

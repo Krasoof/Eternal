@@ -835,6 +835,13 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 	// handle bonus damage
 	StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraDamage];
 	StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, StExt_PcStats[StExt_PcStats_Index_ExtraDamagePerc]);
+	// Blogoslawienstwo Cienia: kompensacja dziennego -15% wampira PotD.
+	// Odwrotnosc malusa liczona od wartosci PO nim: +176 permille (150/850).
+	// Okno dnia ~6-21 przybliza slonce PotD; drobne krawedzie akceptowalne.
+	if (StExt_KnightPerk_Shadow && (RX_VampireLevel >= 1) && Wld_IsTime(6, 0, 21, 0))
+	{
+		StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 176);
+	};
 	if (StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee)) 
 	{ 
 		StExt_ExtraDamageInfo.Damage += StExt_PcStats[StExt_PcStats_Index_ExtraMeleeDam];

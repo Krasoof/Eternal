@@ -30,8 +30,12 @@ instance none_99760_HubSmith(npc_default)
 };
 func void rtn_none_99760_HubSmith()
 {
-    ta_smith_sharp(8, 0, 22, 0, "SHORE_MONSTER_05_01");
-    ta_smith_sharp(22, 0, 8, 0, "SHORE_MONSTER_05_01");
+    // SHORE_MONSTER_05_01 NIE ISTNIEJE w zadnym waynecie (skan sejwow:
+    // NPC z tym WP laduje w punkcie 0,0,0 swiata!). Kowal trzyma sie
+    // swojego realnego spawnu 02_01; ta_smith_sharp bez kowadla opada
+    // do stania - akceptowalne.
+    ta_smith_sharp(8, 0, 22, 0, "SHORE_MONSTER_02_01");
+    ta_smith_sharp(22, 0, 8, 0, "SHORE_MONSTER_02_01");
 };
 
 //--------------------------------------------------------------

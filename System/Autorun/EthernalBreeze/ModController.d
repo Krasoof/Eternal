@@ -539,6 +539,10 @@ func void StExt_ModController()
 {
 	Hlp_DoEvent("StExt_Evt_MainLoop");
 	if (StExt_GamePaused()) { return; };
+	// Blogoslawienstwo Cienia: pragnienie krwi wampira PotD nigdy nie
+	// wzbiera (prog 100% w RX_VampireThirstTimer to JEDYNY wyzwalacz kar;
+	// picie krwi zostaje jako czysty buff).
+	if (StExt_KnightPerk_Shadow) { RX_VampireThirstTimer = 0; };
 	if (!StExt_ModInitialized) 
 	{
 		if (rx_herocreated && givepack) { StExt_InitializeMod(); }

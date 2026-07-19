@@ -25,7 +25,21 @@ const int StExt_SealLevelMax = 60;	// seals level across the whole game (early/m
 // zweryfikowana w runtime waynecie; osiagalna bez ekranu ladowania).
 // Zmiana areny = zmiana tej jednej stalej.
 const string StExt_ZakonArena_Wp = "NW_CRYPT_IN_05";
-const int StExt_ZakonArena_LeashDist = 4000;	// dalej od bossa = warp-back (leash)
+const int StExt_ZakonArena_LeashDist = 3000;	// dalej od bossa = warp-back; 30 m = tuz za progiem krypty (skan: wnetrze ma 26 m srednicy, prog ~11-20 m od IN_05)
+
+// Master switch calego logowania sledczego (DLL StExt_Trace + stext_damage/
+// combat.log). RELEASE: false - kazda linia trace to fopen/fclose na dysku,
+// per CIOS w walce. Wlaczac tylko do debugowania konkretnego zgloszenia.
+const int StExt_Config_TraceEnabled = false;
+
+// *** Med-tier floor (release 2026-07-20) ***
+// NB nie definiuje zadnej krzywej mobow - baza x slidery. Floor podnosi
+// (NIGDY nie obniza) staty kwalifikujacych sie NPC do podlogi rosnacej
+// z rozdzialem i poziomem gracza. Target: mid mob zyje 3-5 ciosow gracza
+// i bije ~15-25% jego HP. Infuzja liczy sie PO floorze (elita zostaje elita).
+const int StExt_Config_EnableTierFloors = true;
+const int StExt_Config_TierFloor_MinLevel = 8;	// ponizej = mlody trash, zostaje trashem
+const int StExt_Config_TierFloor_Mult = 100;	// globalny mnoznik podlog (%)
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

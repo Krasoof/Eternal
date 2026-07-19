@@ -772,7 +772,32 @@ func void StExt_ZakonArenaTeleport_Callback()
 		return;
 	};
 	AI_Teleport(hero, StExt_ZakonArena_Wp);
+	// Czyszczenie krypty z rezydentow (skan sejwa: szkielet 8 m i 5 wilkow
+	// 15 m od ringu!) - wokol BOSSA (on juz stoi w krypcie; gracz dopiero
+	// doleci AI-kolejka). Walka ma byc boss vs gracz.
+	var c_npc bnClear;
+	bnClear = StExt_ZakonBoss_BySlot(StExt_ZakonBoss_ActiveSlot);
+	if (hlp_isvalidnpc(bnClear))
+	{
+		StExt_ForEachNpcInRadius(bnClear, 3000, "StExt_ZakonArena_ClearInit", "StExt_ZakonArena_ClearCond", "StExt_ZakonArena_ClearResident");
+	};
 	StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaLeash_Callback", 30);
+};
+
+// Rezydent krypty -> teleport na cmentarne pole NW_CRYPT_MONSTER05 (98 m
+// od areny; realny WP wg skanu). Filtr pomija gracza, NPC Zakonu/huba,
+// summony i trupy. Zero zabijania = zero exploitow XP/lootu.
+func void StExt_ZakonArena_ClearInit() { };
+func int StExt_ZakonArena_ClearCond() { return true; };
+func void StExt_ZakonArena_ClearResident()
+{
+	if (!hlp_isvalidnpc(StExt_Self)) { return; };
+	if (npc_isplayer(StExt_Self)) { return; };
+	if ((StExt_Self.id >= 99700) && (StExt_Self.id <= 99799)) { return; };
+	if (StExt_IsSummonOrHero(StExt_Self)) { return; };
+	if (npc_isdead(StExt_Self)) { return; };
+	AI_Teleport(StExt_Self, "NW_CRYPT_MONSTER05");
+	StExt_Trace(concatstrings("ARENA clear: rezydent wyproszony id=", inttostring(StExt_Self.id)));
 };
 
 // Leash krypty: proba ucieczki z areny = warp-back do bossa. Deterministycznie
