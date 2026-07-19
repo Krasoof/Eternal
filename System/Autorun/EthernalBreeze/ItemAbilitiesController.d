@@ -287,7 +287,9 @@ func void StExt_TriggerWeaponSkillOnHit(var c_npc atk, var c_npc target, var c_i
 func int StExt_GetSealProcInterval(var int sealPower, var int element)
 {
 	var int n;
-	n = 6 - (sealPower / 80);
+	// /110 (bylo /80): floor 2 dobijany dopiero przy mocy 440 - endgame
+	// pieczeci lvl ~50+, nie polowa rozdzialu 2 (krzywa 60-poziomowa).
+	n = 6 - (sealPower / 110);
 	// Mastery spellblade (slot 17): proc o jeden hit wczesniej
 	if (StExt_IsSpellbladePerk(element, StExt_MasteryPerkIndex_Element_Seal)) { n -= 1; };
 	return StExt_ValidateValueRange(n, 2, 6);
@@ -302,7 +304,9 @@ func int StExt_GetSealProcInterval(var int sealPower, var int element)
 func int StExt_PaySealCost(var c_item weap, var int sealPower)
 {
 	var int cost;
-	cost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max], StExt_ValidateValueRange(15 + (sealPower / 8), 15, 60));
+	// /12 clamp 80 (bylo /8 clamp 60): koszt rosnie wolniej, ale sufit
+	// wyzej (8% max many) - wysoko wlevelowana pieczec ma byc DROGA.
+	cost = StExt_GetPermilleFromValue(hero.attribute[atr_mana_max], StExt_ValidateValueRange(15 + (sealPower / 12), 15, 80));
 	// Mastery spellblade (slot 18, Conduit): -25% kosztu many zywiolu broni
 	if (StExt_IsSpellbladePerk(StExt_GetSpellElementIndex(StExt_GetItemProperty(weap, StExt_ItemProp_SealSpellId)), StExt_MasteryPerkIndex_Element_Conduit)) { cost -= StExt_GetPercentFromValue(cost, 25); };
 	cost = StExt_ValidateValueMin(cost, 10);
@@ -313,9 +317,14 @@ func int StExt_PaySealCost(var c_item weap, var int sealPower)
 	return true;
 };
 
-// Seal leveling: every successful proc grants xp. Threshold grows with
-// level, and each level-up adds a BIGGER power step (10 + 2*level), so
-// a leveled seal scales better and better instead of staying flat.
+// Seal leveling: every successful proc grants xp.
+// Krzywa 60-poziomowa (2026-07-19): stara krzywa byla z ery capu 10 -
+// prog 12+lvl*10 dawal ~18.4k procow do 60, a moc +4+lvl sypala +2070
+// (martwa progresja: interwal floorowal przy lvl ~15, mana capowala tuz
+// za nim). Teraz: prog 20+lvl*3 (~6.5k procow do 60, levelowanie w
+// KAZDYM akcie gry), moc +2+lvl/6 (+250 do 60 - sufity wzorow dobijane
+// dopiero w prawdziwym endgame). Czlon +0.5%/lvl w obrazeniach procu
+// wchodzi z Faza 5 (DLL, arg tooltipa).
 func void StExt_SealGainXp(var c_item weap)
 {
 	var int lvl;
@@ -324,7 +333,7 @@ func void StExt_SealGainXp(var c_item weap)
 	lvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
 	if (lvl >= StExt_SealLevelMax) { return; };
 	xp = StExt_GetItemProperty(weap, StExt_ItemProp_SealXp) + 1;
-	if (xp < (12 + (lvl * 10)))
+	if (xp < (20 + (lvl * 3)))
 	{
 		StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, xp);
 		return;
@@ -332,7 +341,7 @@ func void StExt_SealGainXp(var c_item weap)
 	lvl += 1;
 	StExt_SetItemProperty(weap, StExt_ItemProp_SealLevel, lvl);
 	StExt_SetItemProperty(weap, StExt_ItemProp_SealXp, 0);
-	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 4 + lvl);
+	StExt_SetItemProperty(weap, StExt_ItemProp_SealPower, StExt_GetItemProperty(weap, StExt_ItemProp_SealPower) + 2 + (lvl / 6));
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(concatstrings(StExt_Str_Seal_LevelUp, inttostring(lvl)));
 };
@@ -351,12 +360,14 @@ func void StExt_GainElementMasteryFromUse(var int element, var int chance)
 // Pelna moc procu pieczeci zywiolowej (rdzen skalarny; runtime + tooltip).
 // Baza pieczeci jest POLOWIONA (weapon dmg + masteria juz siedza w
 // CalcBurstPowerScalar - pelne sealPower liczyloby sie podwojnie), calosc
-// skalowana +60%, potem perki.
-func int StExt_CalcSealProcPower(var int sealSpell, var int sealPower, var int weaponDmg, var int weaponFlags, var int usesMana)
+// skalowana +60%, potem czlon POZIOMU pieczeci (+0.5%/lvl, do +30% przy
+// 60 - krzywa 60-poziomowa: sam level ma znaczyc, nie tylko moc), perki.
+func int StExt_CalcSealProcPower(var int sealSpell, var int sealPower, var int sealLvl, var int weaponDmg, var int weaponFlags, var int usesMana)
 {
 	var int power;
 	power = StExt_CalcBurstPowerScalar(sealSpell, sealPower / 2, weaponDmg, weaponFlags, usesMana);
 	power = StExt_ApplyPercentToValue(power, 60);
+	power += StExt_GetPermilleFromValue(power, StExt_ValidateValueRange(sealLvl * 5, 0, 300));
 	// Spellblade perk "Mistrz Pieczeci": +30% elemental seal spell damage
 	if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealMaster)) { power += StExt_GetPermilleFromValue(power, 300); };
 	// Mastery spellblade (slot 17): +20% mocy procu pieczeci tego zywiolu
@@ -406,9 +417,16 @@ func int StExt_Tooltip_BurstPower(var int spellId, var int extraBase, var int we
 	return StExt_CalcBurstPowerScalar(spellId, extraBase, weaponDmg, weaponFlags, usesMana);
 };
 
+// Stary wrapper zostaje (symboli parsera nie usuwamy) - liczy bez czlonu
+// poziomu. DLL uzywa wersji L z poziomem pieczeci.
 func int StExt_Tooltip_SealProcDamage(var int sealSpell, var int sealPower, var int weaponDmg, var int weaponFlags, var int usesMana)
 {
-	return StExt_CalcSealProcPower(sealSpell, sealPower, weaponDmg, weaponFlags, usesMana);
+	return StExt_CalcSealProcPower(sealSpell, sealPower, 0, weaponDmg, weaponFlags, usesMana);
+};
+
+func int StExt_Tooltip_SealProcDamageL(var int sealSpell, var int sealPower, var int sealLvl, var int weaponDmg, var int weaponFlags, var int usesMana)
+{
+	return StExt_CalcSealProcPower(sealSpell, sealPower, sealLvl, weaponDmg, weaponFlags, usesMana);
 };
 
 func int StExt_Tooltip_BleedTick(var int sealPower, var int sealLvl)
@@ -529,7 +547,14 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 			if (StExt_IsGenericPerkLearned(StExt_PerkIndex_SealStaminaScale)) { amount += atr_stamina / 8; };
 			StExt_ExtraDamageInfo.Damage += amount;
 		};
-		StExt_SealGainXp(weap);
+		// Pieczecie fizyczne dzialaja CO CIOS (elementarne co 2-6) - XP co
+		// 3. proc wyrownuje tempo levelowania obu rodzin do wspolnej krzywej.
+		StExt_PhysSealXp_Counter += 1;
+		if (StExt_PhysSealXp_Counter >= 3)
+		{
+			StExt_PhysSealXp_Counter = 0;
+			StExt_SealGainXp(weap);
+		};
 		return;
 	};
 
@@ -539,9 +564,10 @@ func void StExt_TriggerWeaponSealOnHit(var c_npc atk, var c_npc target, var c_it
 	if (!StExt_PaySealCost(weap, sealPower)) { return; };
 	StExt_WeaponSeal_HitCounter = 0;
 
-	// Pelny wzor (baza polowiona, +60%, perki) w StExt_CalcSealProcPower -
-	// jedno zrodlo prawdy, wolane tez przez tooltip.
-	power = StExt_CalcSealProcPower(sealSpell, sealPower, StExt_CalcWeaponTotalDamage(weap), weap.flags, StExt_WeaponSkillUsesMana(weap));
+	// Pelny wzor (baza polowiona, +60%, czlon poziomu, perki) w
+	// StExt_CalcSealProcPower - jedno zrodlo prawdy, wolane tez przez tooltip.
+	sealLvl = StExt_GetItemProperty(weap, StExt_ItemProp_SealLevel);
+	power = StExt_CalcSealProcPower(sealSpell, sealPower, sealLvl, StExt_CalcWeaponTotalDamage(weap), weap.flags, StExt_WeaponSkillUsesMana(weap));
 	StExt_CastSpell(StExt_AbilityPrefix + sealSpell, atk, target, power);
 	StExt_ElementBuildup_Feed(target, StExt_GetSpellElementIndex(sealSpell), power);
 	StExt_SealGainXp(weap);

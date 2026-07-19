@@ -72,6 +72,112 @@ func void StExt_ZakonBoss_GiveLoot(var int tier)
 	// come from the global 5% boss roll in zs_dead, weapons/jewelry only)
 };
 
+// *** Unikatowe relikty Zakonu: 10 nazwanych legend, po jednej na slot ***
+// Pierwszy kill danego slotu areny = GWARANTOWANY unikat rangi 5 (legendarny)
+// z zywiolem bossa, nazwa wlasna i epickim meshem - pelna integracja z
+// systemami (pieczecie, ranking, przekuwanie u Kowala). Kolejne kille tego
+// slotu = normalny random loot. Maska bitowa slotow globalna przez cala gre.
+func void StExt_ZakonBoss_GiveUnique()
+{
+	var int slot;
+	var int bit;
+	var int uTier;
+	var int classId;
+	var int power;
+	var int itm;
+
+	if (!hlp_isvalidnpc(self)) { return; };
+	if ((self.id < 99711) || (self.id > 99720)) { return; };
+	slot = self.id - 99710;
+	bit = StExt_IntPow(2, slot - 1);
+	if (StExt_ValueHasFlag(StExt_ZakonUnique_DroppedMask, bit)) { return; };
+	StExt_ZakonUnique_DroppedMask = StExt_ZakonUnique_DroppedMask | bit;
+
+	// tier arenowy bez TierById (tamta funkcja parsuje sie PONIZEJ OnKill,
+	// a Daedalus jest single-pass): sloty 1-3 t1, 4-6 t2, 7-9 t3, 10 t4.
+	uTier = 1 + ((slot - 1) / 3);
+	power = (hero.level * 7) + (kapitel * 40) + (uTier * 80);
+	itm = 0;
+
+	if (slot == 1)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_ICELANCE");
+		StExt_SetGeneratedItemName(itm, "Szept Zimy");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_GhostSword_01.3DS");
+	}
+	else if (slot == 2)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_LIGHTNINGFLASH");
+		StExt_SetGeneratedItemName(itm, "Gniew Burzy");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_DOOMCREST.3DS");
+	}
+	else if (slot == 3)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_DARKBALL");
+		StExt_SetGeneratedItemName(itm, "Calun Heretyka");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_BREATH_OF_BELLIAR.3DS");
+	}
+	else if (slot == 4)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Axe2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_STONEFIRST");
+		StExt_SetGeneratedItemName(itm, "Kamienny Wyrok");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_2H_DOOMAXE.3DS");
+	}
+	else if (slot == 5)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_INSTANTFIREBALL");
+		StExt_SetGeneratedItemName(itm, "Zar Pokutnika");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_1H_G3A_DAEMONBLADE_01.3DS");
+	}
+	else if (slot == 6)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_ICELANCE");
+		StExt_SetGeneratedItemName(itm, "Lodowa Litania");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_2H_HROMUNDCURSE.3DS");
+	}
+	else if (slot == 7)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_LIGHTNINGFLASH");
+		StExt_SetGeneratedItemName(itm, "Piorunowy Psalm");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_2H_GodBane_01.3ds");
+	}
+	else if (slot == 8)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_DARKBALL");
+		StExt_SetGeneratedItemName(itm, "Pozeracz Dusz");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_2H_DarkSoul.3DS");
+	}
+	else if (slot == 9)
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_STONEFIRST");
+		StExt_SetGeneratedItemName(itm, "Kosa Grobowca");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_2H_IzgulScy.3DS");
+	}
+	else
+	{
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_INSTANTFIREBALL");
+		StExt_SetGeneratedItemName(itm, "Ostatnia Modlitwa");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_1H_DEATHBRINGER_NEW.3DS");
+	};
+
+	if (itm > 0)
+	{
+		StExt_CreateRandomItem(self, itm, 1, false);
+		printscreencolor("RELIKT ZAKONU!", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
+		StExt_Trace(concatstrings("RELIKT ZAKONU wypadl: slot=", inttostring(slot)));
+	};
+};
+
 func void StExt_ZakonBoss_OnKill()
 {
 	// chapter rollover resets the per-chapter counter
@@ -83,7 +189,11 @@ func void StExt_ZakonBoss_OnKill()
 	StExt_ZakonBoss_Killed += 1;
 	StExt_ZakonBoss_Active = false;
 	StExt_ZakonBoss_ActiveSlot = 0;
-	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };	// (zwoj teleportu do Mistrza WYCIETY z dropow - definicja itemu zostaje dla starych sejwow)
+	StExt_ZakonBoss_GiveUnique();
+	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };
+	// Jednorazowa runa powrotna do kaplicy - PRZYWROCONA do dropu: arena jest
+	// teraz w krypcie i powrot na nogach bylby wedrowka przez pol mapy.
+	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_zakon_rune, 1); };
 	if (StExt_ZakonBoss_Killed >= 10) { ai_printbonus(StExt_Str_ZakonBoss_ChapterDone); }
 	else
 	{
@@ -98,6 +208,58 @@ func void StExt_ZakonHunt_OnKill(var int chapter)
 	if (hlp_isvalidnpc(self)) { createinvitems(self, itmi_stext_bosssoul, 1); };	// (zwoj teleportu do Mistrza WYCIETY z dropow - definicja itemu zostaje dla starych sejwow)
 	StExt_ZakonBoss_GiveLoot(3);
 	ai_printbonus(StExt_Str_ZakonHunt_Dead);
+};
+
+// Kit bossa per zywiol (id%5): fala + blink-strike + self-speed + summon
+// (pod zagrywke fazy 50%) + pasywka on-hit + peleryna-aura (tozsamosc
+// wizualna kazdego slotu). Max 8 z 10 slotow ability na NPC.
+// ZAKAZ kanoniczny: zadnych rodzin on-death, zadnych infuzji-czarow.
+func void StExt_ZakonBoss_ApplyKit(var c_npc slf, var int tier)
+{
+	var int elem; elem = slf.id % 5;
+	if (elem == 0)
+	{	// OGIEN
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Firewave);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_FireBlink);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_SummonFireGolem);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveFireDamage);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveFireCape);
+	}
+	else if (elem == 1)
+	{	// LOD
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Icewave);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_IceBlink);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_SummonIceGolem);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveFreeze);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveIceCape);
+	}
+	else if (elem == 2)
+	{	// BLYSKAWICE
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Electrowave);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_ElectroBlink);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_SummonSkeletonArcher);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveStun);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveElectricCape);
+	}
+	else if (elem == 3)
+	{	// MROK
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Darkwave);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_DarkBlink);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_SummonZombie);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveCurser);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveDarkCape);
+	}
+	else
+	{	// ZIEMIA
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Quake);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_QuakeBlink);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_SummonGolem);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveEarthQuake);
+		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveEarthCape);
+	};
+	StExt_Npc_AddAbility(slf, StExt_Npc_Ability_BuffSelfExtraSpeed);
+	if (tier >= 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Whirlwind); };
+	if (tier >= 4) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk); };
 };
 
 // Shared statting: human boss scaled by chapter and player level.
@@ -142,6 +304,18 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	slf.protection[4] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// fly
 	slf.protection[5] = 80 + (kapitel * 30) + (tier * 30) + (hero.level / 4);	// magic
 
+	// Kuratorowana infuzja per zywiol (PROCENTY od bazy, kanon): +30%
+	// protekcji wlasnego zywiolu, -20% przeciwnego = celowa slabosc
+	// (counterplay: bij bossa zywiolem, ktorego nienawidzi). Dziala na
+	// bazowa bron i SPELLE gracza; zywiol na broni idzie kanalem pierce
+	// i protekcji nie widzi - slabosc czuja glownie casterzy, tak ma byc.
+	var int bzElem; bzElem = slf.id % 5;
+	if (bzElem == 0)      { slf.protection[3] += StExt_GetPercentFromValue(slf.protection[3], 30); slf.protection[5] -= StExt_GetPercentFromValue(slf.protection[5], 20); }
+	else if (bzElem == 1) { slf.protection[5] += StExt_GetPercentFromValue(slf.protection[5], 30); slf.protection[3] -= StExt_GetPercentFromValue(slf.protection[3], 20); }
+	else if (bzElem == 2) { slf.protection[5] += StExt_GetPercentFromValue(slf.protection[5], 30); slf.protection[4] -= StExt_GetPercentFromValue(slf.protection[4], 20); }
+	else if (bzElem == 3) { slf.protection[5] += StExt_GetPercentFromValue(slf.protection[5], 30); slf.protection[3] -= StExt_GetPercentFromValue(slf.protection[3], 20); }
+	else                  { slf.protection[1] += StExt_GetPercentFromValue(slf.protection[1], 30); slf.protection[4] -= StExt_GetPercentFromValue(slf.protection[4], 20); };
+
 	// BRON PRZENIESIONA POZA INSTANCJE - patrz StExt_ZakonBoss_GiveWeapon nizej.
 	// Bylo tu StExt_GetRegularItem(...), czyli tworzenie DYNAMICZNEJ INSTANCJI
 	// przedmiotu w srodku inicjalizacji instancji NPC-a. Parser budowal jeden
@@ -165,15 +339,9 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 		mdl_setvisualbody(slf, "Ske_Body", default, default, "", default, default, -1);
 		slf.start_aistate = zs_mm_allscheduler;
 
-		var int elem; elem = slf.id % 5;
-		if (elem == 0)      { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Firewave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_FireBlink); }
-		else if (elem == 1) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Icewave);     StExt_Npc_AddAbility(slf, StExt_Npc_Ability_IceBlink); }
-		else if (elem == 2) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Electrowave); StExt_Npc_AddAbility(slf, StExt_Npc_Ability_ElectroBlink); }
-		else if (elem == 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Darkwave);    StExt_Npc_AddAbility(slf, StExt_Npc_Ability_DarkBlink); }
-		else                { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Quake);       StExt_Npc_AddAbility(slf, StExt_Npc_Ability_QuakeBlink); };
-		StExt_Npc_AddAbility(slf, StExt_Npc_Ability_BuffSelfExtraSpeed);
-		if (tier >= 3) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Whirlwind); };
-		if (tier >= 4) { StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk); };
+		// Pelny kit per slot (fala/blink/summon/pasywka/aura) - patrz
+		// StExt_ZakonBoss_ApplyKit wyzej.
+		StExt_ZakonBoss_ApplyKit(slf, tier);
 	};
 };
 
@@ -537,8 +705,8 @@ func int StExt_ZakonBlackTroll_Dead()
 // just idles). They spawn at this same waypoint.
 func void rtn_zakon_arena_guard()
 {
-	ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PATH_65");
-	ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PATH_65");
+	ta_stand_guarding(8, 0, 23, 0, StExt_ZakonArena_Wp);
+	ta_stand_guarding(23, 0, 8, 0, StExt_ZakonArena_Wp);
 };
 
 func void StExt_ZakonBoss_SummonNext()
@@ -564,18 +732,18 @@ func void StExt_ZakonBoss_SummonNext()
 	StExt_ZakonBoss_Active = true;
 	pick = StExt_ZakonBoss_Killed; // sequential: next in line
 	rx_saveparservars();
-	// Duels spawn away from the chapel hub (Shiva/traders) so fights don't
-	// interrupt NPCs in inhabited areas - isolated trollarea path instead.
-	if (pick == 0) { wld_insertnpc(bdt_99711_ZakonBoss1, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 1) { wld_insertnpc(bdt_99712_ZakonBoss2, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 2) { wld_insertnpc(bdt_99713_ZakonBoss3, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 3) { wld_insertnpc(bdt_99714_ZakonBoss4, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 4) { wld_insertnpc(bdt_99715_ZakonBoss5, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 5) { wld_insertnpc(bdt_99716_ZakonBoss6, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 6) { wld_insertnpc(bdt_99717_ZakonBoss7, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 7) { wld_insertnpc(bdt_99718_ZakonBoss8, "NW_TROLLAREA_PATH_65"); }
-	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, "NW_TROLLAREA_PATH_65"); }
-	else { wld_insertnpc(bdt_99720_ZakonBoss10, "NW_TROLLAREA_PATH_65"); };
+	// Pojedynki w KRYPCIE (StExt_ZakonArena_Wp): zamknieta podziemna komora
+	// z dala od huba, klimat Zakonu Dusz; leash pilnuje, zeby gracz nie uciekl.
+	if (pick == 0) { wld_insertnpc(bdt_99711_ZakonBoss1, StExt_ZakonArena_Wp); }
+	else if (pick == 1) { wld_insertnpc(bdt_99712_ZakonBoss2, StExt_ZakonArena_Wp); }
+	else if (pick == 2) { wld_insertnpc(bdt_99713_ZakonBoss3, StExt_ZakonArena_Wp); }
+	else if (pick == 3) { wld_insertnpc(bdt_99714_ZakonBoss4, StExt_ZakonArena_Wp); }
+	else if (pick == 4) { wld_insertnpc(bdt_99715_ZakonBoss5, StExt_ZakonArena_Wp); }
+	else if (pick == 5) { wld_insertnpc(bdt_99716_ZakonBoss6, StExt_ZakonArena_Wp); }
+	else if (pick == 6) { wld_insertnpc(bdt_99717_ZakonBoss7, StExt_ZakonArena_Wp); }
+	else if (pick == 7) { wld_insertnpc(bdt_99718_ZakonBoss8, StExt_ZakonArena_Wp); }
+	else if (pick == 8) { wld_insertnpc(bdt_99719_ZakonBoss9, StExt_ZakonArena_Wp); }
+	else { wld_insertnpc(bdt_99720_ZakonBoss10, StExt_ZakonArena_Wp); };
 	StExt_ZakonBoss_ActiveSlot = pick + 1;	// remember who is out there (for the alive-check)
 
 	// Bron DOPIERO TERAZ - po wstawieniu do swiata, poza blokiem instancji
@@ -603,7 +771,99 @@ func void StExt_ZakonArenaTeleport_Callback()
 		StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaTeleport_Callback", 15);
 		return;
 	};
-	AI_Teleport(hero, "NW_TROLLAREA_PATH_65");
+	AI_Teleport(hero, StExt_ZakonArena_Wp);
+	StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaLeash_Callback", 30);
+};
+
+// Leash krypty: proba ucieczki z areny = warp-back do bossa. Deterministycznie
+// (zero RNG), co 30 klatek; lancuch samo-rozbraja sie, gdy boss nie zyje -
+// miedzy walkami nie kreci sie zaden callback.
+func void StExt_ZakonArenaLeash_Callback()
+{
+	var c_npc bn;
+	if (!StExt_ZakonBoss_AliveNow()) { return; };
+	bn = StExt_ZakonBoss_BySlot(StExt_ZakonBoss_ActiveSlot);
+	if (hlp_isvalidnpc(bn) && !StExt_IsDialogActive())
+	{
+		if (npc_getdisttonpc(hero, bn) > StExt_ZakonArena_LeashDist)
+		{
+			AI_Teleport(hero, StExt_ZakonArena_Wp);
+			printscreencolor("ZAKON NIE UZNAJE UCIECZKI!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+			StExt_Trace("ARENA leash: warp-back gracza do krypty");
+		};
+	};
+	StExt_InitializeCallback(hero, hero, "StExt_ZakonArenaLeash_Callback", 30);
+};
+
+//--------------------------------------------------------------
+// *** FAZY BOSSA (75/50/25% HP) ***
+//--------------------------------------------------------------
+// Trigger w DamageController (boss obrywa, prog przekroczony -> latch w
+// NpcVar StExt_AiVar_BossPhase + 1-klatkowy callback tutaj). Zagrywki sa
+// DETERMINISTYCZNE (zero RNG w triggerach - kanon), a wspolna sygnatura
+// to wstrzas ekranu jak u Kruka z Returninga (FX_EarthQuake).
+// CH1 = fazy-lite (bossy-ludzie bez kitu abilities): wstrzas + tempo +
+// heal na 25%. Pelne zagrywki (fala/summon/buff z kitu) od CH2, gdzie
+// Setup konwertuje bossa na nieumarlego z dzialajacym kitem.
+
+// Zagrywka z kitu: zdejmij cooldowny i odpal gotowa ability wybranego
+// typu. Brak pasujacej (np. gracz poza zasiegiem) = lagodna degradacja
+// do samego wstrzasu+tempa, odnotowana w trace.
+func void StExt_ZakonBossPhase_CastFromKit(var c_npc bn, var int abilityType)
+{
+	var int dist;
+	var int abilitySlot;
+
+	StExt_Npc_ResetAllAbilityCooldowns(bn);
+	dist = npc_getdisttonpc(bn, hero);
+	abilitySlot = StExt_Npc_SelectAbility(bn, abilityType, StExt_NpcAbility_Flag_OnCast, dist);
+	if ((abilitySlot > StExt_Null) && (abilitySlot < StExt_Npc_MaxNpcAbilities))
+	{
+		StExt_Npc_UseAbility(bn, hero, StExt_CurrentNpcAbility, abilitySlot, StExt_NpcAbility_Event_OnCastAbility);
+	}
+	else
+	{
+		StExt_Trace(concatstrings("BOSS faza: brak ability typu ", inttostring(abilityType)));
+	};
+};
+
+func void StExt_ZakonBossPhase_Callback()
+{
+	var c_npc bn;
+	var int phase;
+
+	bn = Hlp_GetNpc(StExt_BossAbilityTrigger_InstId);
+	if (!hlp_isvalidnpc(bn)) { return; };
+	if (c_npcisdown(bn)) { return; };
+	phase = StExt_GetNpcVar(bn, StExt_AiVar_BossPhase);
+
+	// wspolna sygnatura fazy: wstrzas kamery (patent Kruka) + quake na bossie
+	rx_playeffect("FX_EarthQuake", hero);
+	rx_playeffect("spellfx_quake", bn);
+	StExt_Trace(concatstrings(concatstrings("BOSS faza=", inttostring(phase)), concatstrings(" id=", inttostring(bn.id))));
+
+	if (phase == 1)
+	{
+		// 75%: STALY skok tempa +150 + fala zywiolu z kitu
+		StExt_Npc_ChangeAiv(bn, aivrx_npc_speed, 150 - rx_getnpcvar(bn, aivrx_npc_speed));
+		printscreencolor("BOSS PRZYSPIESZA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Spell); };
+	}
+	else if (phase == 2)
+	{
+		// 50%: drugi staly krok tempa +225 + przyzwanie z kitu
+		StExt_Npc_ChangeAiv(bn, aivrx_npc_speed, 225 - rx_getnpcvar(bn, aivrx_npc_speed));
+		printscreencolor("BOSS WZYWA POMOC!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Summon); };
+	}
+	else
+	{
+		// 25%: JEDYNY self-heal walki (latch faz gwarantuje 1x na walke;
+		// kazde przyzwanie wstawia swiezego NPC = naturalny reset latcha)
+		StExt_CastSelfHeal(bn, 35, 0);
+		printscreencolor("BOSS SIE LECZY!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Buff); };
+	};
 };
 
 //--------------------------------------------------------------

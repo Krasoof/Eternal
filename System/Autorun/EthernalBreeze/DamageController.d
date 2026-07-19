@@ -522,6 +522,23 @@ func void StExt_Npc_AfterDefenceHandler(var c_npc atk, var c_npc target, var c_i
 		{
 			StExt_Npc_ChangeAiv(target, aivrx_npc_speed, (-10 + hlp_random(311)) - rx_getnpcvar(target, aivrx_npc_speed));
 		};
+
+		// *** FAZY BOSSA (75/50/25% HP) - zero RNG, latch w NpcVar ***
+		// Przekroczony prog -> DOKLADNIE jedna zagrywka fazowa, odpalona
+		// 1-klatkowym callbackiem POZA pipeline'em obrazen (casty w srodku
+		// pipeline'u mieszaja w rejestrach parsera - lekcja z GiveWeapon).
+		// Duzy cios przez kilka progow = jedna zagrywka najwyzszej fazy.
+		var int bpPhase; bpPhase = 0;
+		var int bpHpPerc; bpHpPerc = (target.attribute[atr_hitpoints] * 100) / StExt_ValidateValueMin(target.attribute[atr_hitpoints_max], 1);
+		if (bpHpPerc <= 25) { bpPhase = 3; }
+		else if (bpHpPerc <= 50) { bpPhase = 2; }
+		else if (bpHpPerc <= 75) { bpPhase = 1; };
+		if (bpPhase > StExt_GetNpcVar(target, StExt_AiVar_BossPhase))
+		{
+			StExt_SetNpcVar(target, StExt_AiVar_BossPhase, bpPhase);
+			StExt_BossAbilityTrigger_InstId = hlp_getinstanceid(target);
+			StExt_InitializeCallback(target, hero, "StExt_ZakonBossPhase_Callback", 1);
+		};
 	};
 
 	if ((target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura)) { StExt_Aura_AfterDefenceHandler(atk, target, weap); };

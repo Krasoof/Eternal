@@ -106,6 +106,13 @@ var int StExt_ZakonBoss_Killed;
 var int StExt_ZakonBoss_Active;
 var int StExt_ZakonBoss_ActiveSlot;	// 1..10 = which arena boss is summoned & should be alive (0 = none). Robust re-summon guard.
 
+// Pieczecie fizyczne: licznik XP (co 3. proc, wyrownanie tempa z elementarnymi)
+var int StExt_PhysSealXp_Counter;
+
+// Unikatowe relikty Zakonu: maska bitowa slotow areny (bit = unikat juz wypadl;
+// globalna przez cala gre, stare sejwy startuja od 0)
+var int StExt_ZakonUnique_DroppedMask;
+
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
 var int StExt_SmithFragments;	// 0-3 okruchy imienia (tier uslugi)

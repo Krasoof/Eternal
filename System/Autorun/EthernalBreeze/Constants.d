@@ -20,6 +20,12 @@ const int StExt_PhysSeal_Pierce = 9002;
 const int StExt_ItemProp_SealLevel = 26;
 const int StExt_ItemProp_SealXp = 27;
 const int StExt_SealLevelMax = 60;	// seals level across the whole game (early/mid/late), not maxed in chapter 1
+
+// Arena Zakonu: JEDYNE zrodlo prawdy o miejscu walk (krypta w NEWWORLD,
+// zweryfikowana w runtime waynecie; osiagalna bez ekranu ladowania).
+// Zmiana areny = zmiana tej jednej stalej.
+const string StExt_ZakonArena_Wp = "NW_CRYPT_IN_05";
+const int StExt_ZakonArena_LeashDist = 4000;	// dalej od bossa = warp-back (leash)
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;
@@ -1095,6 +1101,7 @@ const int StExt_AiVar_Appearence_VoiceIndex = 161;
 const int StExt_AiVar_ElementBuildup = 170;		// accumulated elemental charge on this npc
 const int StExt_AiVar_ElementBuildupType = 171;	// element index being accumulated (switch = reset)
 const int StExt_AiVar_BossCastCounter = 172;	// boss special-move hit counter (shockwave every 5th hit)
+const int StExt_AiVar_BossPhase = 173;			// latch faz bossa: 0 pelne HP, 1 <=75%, 2 <=50%, 3 <=25% (archiwizowany w sejwie)
 
 // *** Legendary bonus catalog (xls + jewelry MD) ***
 // One bonus per legendary item, persisted in item prop 28 (free slot in the

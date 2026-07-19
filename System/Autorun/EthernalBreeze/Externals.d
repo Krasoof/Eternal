@@ -125,6 +125,12 @@ func int StExt_IsDialogActive();
 	
 	func int StExt_GenerateRandomItem(var int type, var int power);
 	func int StExt_GenerateRankedItem(var int type, var int power, var int rank);
+// Unikaty bossow: generacja z wymuszona ranga ORAZ zywiolem (symbol spella);
+// settery nazwy wlasnej i mesha dzialaja na wygenerowanym itemie i MUSZA byc
+// wolane PRZED createinvitems (ApplyItemExtension naklada je przy inicjalizacji).
+	func int StExt_GenerateUniqueItem(var int type, var int power, var int rank, var string elemSpellSym);
+	func int StExt_SetGeneratedItemName(var int itmIndex, var string name);
+	func int StExt_SetGeneratedItemVisual(var int itmIndex, var string visual);
 	func int StExt_GetRegularItem(var int type, var int power);
 	func void StExt_UseEnchantedItem();
 
