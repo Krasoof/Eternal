@@ -1071,6 +1071,20 @@ func int StExt_GetElementIndexFromDamageType(var int damageType)
 	return StExt_Null;
 };
 
+// Nazwa zywiolu dla komunikatow buildupu (lokalna kopia: pelny helper
+// nazw siedzi w ElementProfessionController, parsowanym PO tym pliku).
+func string StExt_ElementBuildup_Name(var int element)
+{
+	if (element == StExt_MasteryIndex_Fire) { return "OGIEN"; };
+	if (element == StExt_MasteryIndex_Ice) { return "LOD"; };
+	if (element == StExt_MasteryIndex_Electric) { return "BLYSKAWICE"; };
+	if (element == StExt_MasteryIndex_Air) { return "WICHER"; };
+	if (element == StExt_MasteryIndex_Earth) { return "ZIEMIA"; };
+	if (element == StExt_MasteryIndex_Light) { return "SWIATLO"; };
+	if (element == StExt_MasteryIndex_Dark) { return "MROK"; };
+	return "SMIERC";
+};
+
 // Bezpieczny odczyt perka spellblade: perki 16-19 istnieja tylko w
 // drzewkach zywiolow (0-7), kazdy inny indeks = false.
 func int StExt_IsSpellbladePerk(var int element, var int perkId)
@@ -1187,6 +1201,25 @@ func void StExt_ElementBuildup_Feed(var c_npc target, var int element, var int a
 	ebDiag = concatstrings(ebDiag, concatstrings(" c=", inttostring(charge)));
 	ebDiag = concatstrings(ebDiag, concatstrings("/", inttostring(threshold)));
 	StExt_Trace(ebDiag);
+
+	// Czytelnosc systemu: gracz widzi, ze zywiol wzbiera. Komunikat TYLKO
+	// przy przekroczeniu progu 50% / 90% ladunku (prev < prog <= charge),
+	// wiec zero spamu per cios. Erupcja pisze na y=2, my na y=6.
+	var int ebPrev; ebPrev = charge - amount;
+	var int ebMark;
+	ebMark = StExt_GetPercentFromValue(threshold, 90);
+	if ((ebPrev < ebMark) && (charge >= ebMark) && (charge < threshold))
+	{
+		printscreencolor(concatstrings(StExt_ElementBuildup_Name(element), " ZARAZ WYBUCHNIE!"), 62, 6, StExt_DefaultFont, 2, StExt_Color_Header);
+	}
+	else
+	{
+		ebMark = StExt_GetPercentFromValue(threshold, 50);
+		if ((ebPrev < ebMark) && (charge >= ebMark))
+		{
+			printscreencolor(concatstrings(StExt_ElementBuildup_Name(element), " wzbiera..."), 62, 6, StExt_DefaultFont, 1, StExt_Color_Header);
+		};
+	};
 
 	if (charge >= threshold)
 	{
