@@ -31,18 +31,18 @@ const string StExt_ZakonTower_WP_Tower = "SHORE_MONSTER_05_01";
 // NPC bez daily_routine NIGDY nie wchodzi w stan ZS -> nie rejestruje
 // percepcji -> nie widzi gracza, nie atakuje i stoi jak posag ("moby
 // stoja w miejscu, nie atakuja").
-// KAZDA FALA W JEDNYM MIEJSCU (user: szukanie po posterunkach = kurwica):
-// upiory i rycerze pod wieza, oboz Herolda w komplecie przy obozie.
+// WSZYSTKIE FALE W JEDNYM MIEJSCU: placyk obozu (WP_Camp - tam gdzie
+// Herold; user zna to miejsce z walki). Zadnego szukania po posterunkach.
 // Rutyny musza wskazywac ten sam WP co insert, inaczej wartownicy
 // rozejda sie na wlasne posterunki.
-func void rtn_start_99730() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
-func void rtn_start_99731() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
+func void rtn_start_99730() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp); };
+func void rtn_start_99731() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp); };
 func void rtn_start_99733() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
 func void rtn_start_99734() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
 func void rtn_start_99735() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp);  ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp);  };
-func void rtn_start_99736() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
-func void rtn_start_99737() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
-func void rtn_start_99738() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Tower); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Tower); };
+func void rtn_start_99736() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp); };
+func void rtn_start_99737() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp); };
+func void rtn_start_99738() { ta_stand_guarding(8, 0, 20, 0, StExt_ZakonTower_WP_Camp); ta_stand_guarding(20, 0, 8, 0, StExt_ZakonTower_WP_Camp); };
 
 // Journal wrapper: creates the topic on first use so it works even on saves
 // that started the quest before the journal existed (b_logentry to a missing
@@ -229,11 +229,11 @@ func void ai_ondead_bdt_99733_ZakonTowerHerold()
 {
 	StExt_ZakonTower_Stage = 3;
 	StExt_ZakonTower_WaveKills = 0;
-	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Tower);
-	ai_printbonus("Trzej Upiorni Rycerze bronia wiezy (0/3)");
-	StExt_ZakonTower_Log("Herold Utopionego padl. TRZEJ Upiorni Rycerze bronia teraz wiezy - wszyscy razem. Wytnij ich.");
+	wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Camp);
+	wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Camp);
+	wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
+	ai_printbonus("Trzej Upiorni Rycerze na placu przed wieza (0/3)");
+	StExt_ZakonTower_Log("Herold Utopionego padl. TRZEJ Upiorni Rycerze staneli na placu obozu - tam gdzie padl Herold. Wytnij ich.");
 };
 
 //--------------------------------------------------------------
@@ -265,10 +265,10 @@ func void dia_none_99702_SoulMaster_Tower_info()
 	StExt_ZakonTower_WaveKills = 0;
 	// ALL spawns AT the tower itself - the forest-road WP put mobs where the
 	// player never found them; SHORE_MONSTER_* were verified in-game.
-	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Tower);
-	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Tower);
+	wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Camp);
+	wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Camp);
 	snd_play("STEXT_VOICE_M1");	// Mistrz: "Zar przyciagnal umarlych..."
-	StExt_ZakonTower_Log("Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Upiory garnizonu czekaja W WIEZY - wytnij je.");
+	StExt_ZakonTower_Log("Zar Dusz przyciagnal umarlych pod kaplice. Mistrz wybral nowy dom: stara wieze na wybrzezu. Upiory garnizonu czekaja NA PLACU OBOZU przed wieza - wytnij je.");
 	ai_stopprocessinfos(self);
 };
 
@@ -302,9 +302,9 @@ func void dia_none_99702_SoulMaster_TowerHint_info()
 	// (extra copies are harmless: ai_ondead counts kills either way).
 	if (StExt_ZakonTower_Stage == 1)
 	{
-		wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Tower);
-		wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Tower);
-		StExt_ZakonTower_Log("Cel: dwa upiory garnizonu W STAREJ WIEZY na wybrzezu.");
+		wld_insertnpc(bdt_99730_ZakonTowerWraith1, StExt_ZakonTower_WP_Camp);
+		wld_insertnpc(bdt_99731_ZakonTowerWraith2, StExt_ZakonTower_WP_Camp);
+		StExt_ZakonTower_Log("Cel: dwa upiory garnizonu na placu obozu przed stara wieza na wybrzezu.");
 		ai_printbonus("Upiory sa w starej wiezy na wybrzezu. Mistrz wskazal - ida tam ZNOWU.");
 	}
 	else if (StExt_ZakonTower_Stage == 2)
@@ -315,11 +315,11 @@ func void dia_none_99702_SoulMaster_TowerHint_info()
 	}
 	else
 	{
-		wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Tower);
-		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Tower);
-		wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Tower);
-		StExt_ZakonTower_Log("Cel: trzej Upiorni Rycerze przy wiezy - wszyscy razem. Wytnij ich.");
-		ai_printbonus("Trzej rycerze bronia wiezy. Licznik pokaze postep.");
+		wld_insertnpc(bdt_99736_ZakonTowerKnight1, StExt_ZakonTower_WP_Camp);
+		wld_insertnpc(bdt_99737_ZakonTowerKnight2, StExt_ZakonTower_WP_Camp);
+		wld_insertnpc(bdt_99738_ZakonTowerKnight3, StExt_ZakonTower_WP_Camp);
+		StExt_ZakonTower_Log("Cel: trzej Upiorni Rycerze na placu obozu przed wieza - wszyscy razem. Wytnij ich.");
+		ai_printbonus("Trzej rycerze na placu przed wieza. Licznik pokaze postep.");
 	};
 	ai_stopprocessinfos(self);
 };
