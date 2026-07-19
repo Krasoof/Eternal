@@ -19,6 +19,14 @@ func int C_DropUnconscious()
 	if (hlp_isvalidnpc(other))
 	{
 		if ((other.id >= 99710) && (other.id <= 99725)) { return false; };
+		// Garnizon Wiezy Umarlych (99730-99738): nieumarli NIE padaja
+		// nieprzytomni. Nokaut nie odpala ai_ondead - gracz "zabijal"
+		// rycerza, licznik questa stal w miejscu ("zabilem go i nic").
+		if ((other.id >= 99730) && (other.id <= 99738)) { return false; };
+	};
+	if (hlp_isvalidnpc(self))
+	{
+		if ((self.id >= 99730) && (self.id <= 99738)) { return false; };
 	};
 	return C_DropUnconscious_old();
 };

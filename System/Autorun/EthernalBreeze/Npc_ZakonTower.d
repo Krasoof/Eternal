@@ -175,7 +175,21 @@ instance bdt_99738_ZakonTowerKnight3(npc_default)
 //--------------------------------------------------------------
 func void StExt_ZakonTower_WaveKill(var int wave)
 {
+	var int shown;
 	StExt_ZakonTower_WaveKills += 1;
+
+	// Feedback postepu - gracz musi wiedziec, ilu zostalo ("zabilem go
+	// i nic"). Kopie z re-summonow moga przebic cel, wyswietlamy max cel.
+	if ((wave == 1) && (StExt_ZakonTower_Stage == 1))
+	{
+		shown = StExt_ValidateValueRange(StExt_ZakonTower_WaveKills, 0, 2);
+		ai_printbonus(concatstrings(concatstrings("Upior garnizonu padl (", inttostring(shown)), "/2)"));
+	}
+	else if ((wave == 3) && (StExt_ZakonTower_Stage == 3))
+	{
+		shown = StExt_ValidateValueRange(StExt_ZakonTower_WaveKills, 0, 3);
+		ai_printbonus(concatstrings(concatstrings("Upiorny rycerz padl (", inttostring(shown)), "/3)"));
+	};
 
 	// Act 1 cleared -> spawn the siege camp (Herold + escort + zombie set dressing)
 	if ((wave == 1) && (StExt_ZakonTower_Stage == 1) && (StExt_ZakonTower_WaveKills >= 2))
@@ -193,6 +207,7 @@ func void StExt_ZakonTower_WaveKill(var int wave)
 	if ((wave == 3) && (StExt_ZakonTower_Stage == 3) && (StExt_ZakonTower_WaveKills >= 3))
 	{
 		StExt_ZakonTower_Stage = 4;
+		ai_printbonus("Wieza oczyszczona. Wroc do Mistrza Zakonu.");
 		StExt_ZakonTower_Log("Wieza oczyszczona z umarlych. Mistrz Zakonu czeka na wiesci.");
 	};
 };
