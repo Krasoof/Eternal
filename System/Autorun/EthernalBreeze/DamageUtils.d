@@ -56,12 +56,9 @@ func void StExt_UpdateEquipmentDamageInfo()
 	if (StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Death)) { StExt_RuneDamageInfo += StExt_PcStats[StExt_PcStats_Index_DeathMasteryPower]; };
 	if (StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Life) || StExt_ValueHasFlag(spellDamageFlags, StExt_DamageType_Poision)) { StExt_RuneDamageInfo += StExt_PcStats[StExt_PcStats_Index_LifeMasteryPower]; };
 
-	// TEMP DIAG (sledztwo "runy dzialaja jak chca"): sklad bazy runicznej.
-	var string rdDiag;
-	rdDiag = concatstrings("RUNY baza: int=", inttostring(atr_intellect));
-	rdDiag = concatstrings(rdDiag, concatstrings(" kregi=", inttostring(countlearnspell)));
-	rdDiag = concatstrings(rdDiag, concatstrings(" suma=", inttostring(StExt_RuneDamageInfo)));
-	StExt_Trace(rdDiag);
+	// (Traca skladu bazy runicznej WYCIETA po potwierdzeniu w logu:
+	// int=638, kregi=16 -> suma=1742 - skalowanie INT dziala; funkcja
+	// odswieza sie co klatke i zalewala log milionami linii.)
 };
 
 func void StExt_AddSncDamage_Script(var int damage, var int isSummon)
