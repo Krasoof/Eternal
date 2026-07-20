@@ -1129,7 +1129,7 @@ instance dia_none_99666_StonedTrader_Enchant(c_info)
     permanent = true;
     description = StExt_Str_Enchant_Offer;
 };
-func int dia_none_99666_StonedTrader_Enchant_condition() { return true; };
+func int dia_none_99666_StonedTrader_Enchant_condition() { return false; };	// PRZENIESIONE do Kowala (Npc_HubSmith) - symbol zostaje dla save-compat
 func void dia_none_99666_StonedTrader_Enchant_info()
 {
 	StExt_Shiva_EnchantInPlace(false, 500 + (hero.level * 25));
@@ -1145,7 +1145,7 @@ instance dia_none_99666_StonedTrader_Reroll(c_info)
     permanent = true;
     description = StExt_Str_Reroll_Offer;
 };
-func int dia_none_99666_StonedTrader_Reroll_condition() { return true; };
+func int dia_none_99666_StonedTrader_Reroll_condition() { return false; };	// PRZENIESIONE do Kowala (Npc_HubSmith)
 func void dia_none_99666_StonedTrader_Reroll_info()
 {
 	StExt_Shiva_RerollInPlace(false, 3000);
@@ -1221,7 +1221,7 @@ instance dia_none_99666_StonedTrader_EnchantArmor(c_info)
     permanent = true;
     description = StExt_Str_EnchantArmor_Offer;
 };
-func int dia_none_99666_StonedTrader_EnchantArmor_condition() { return true; };
+func int dia_none_99666_StonedTrader_EnchantArmor_condition() { return false; };	// PRZENIESIONE: pancerz wzmacnia Mistrz duszami (Npc_SoulOrder)
 func void dia_none_99666_StonedTrader_EnchantArmor_info()
 {
 	StExt_Shiva_EnchantInPlace(true, 500 + (hero.level * 25));
@@ -1237,7 +1237,7 @@ instance dia_none_99666_StonedTrader_RerollArmor(c_info)
     permanent = true;
     description = StExt_Str_RerollArmor_Offer;
 };
-func int dia_none_99666_StonedTrader_RerollArmor_condition() { return true; };
+func int dia_none_99666_StonedTrader_RerollArmor_condition() { return false; };	// PRZENIESIONE: pancerz wzmacnia Mistrz duszami (Npc_SoulOrder)
 func void dia_none_99666_StonedTrader_RerollArmor_info()
 {
 	StExt_Shiva_RerollInPlace(true, 3000);

@@ -131,6 +131,9 @@ func int StExt_IsDialogActive();
 	func int StExt_GenerateUniqueItem(var int type, var int power, var int rank, var string elemSpellSym);
 	func int StExt_SetGeneratedItemName(var int itmIndex, var string name);
 	func int StExt_SetGeneratedItemVisual(var int itmIndex, var string visual);
+// Wymuszony zywiol wygenerowanego itemu (wybor gracza u Kowala). Wolac PRZED
+// createinvitems - ustawia SpellId/SpellPower na rozszerzeniu.
+	func int StExt_SetGeneratedItemElement(var int itmIndex, var int spellId, var int power);
 	func int StExt_GetRegularItem(var int type, var int power);
 	func void StExt_UseEnchantedItem();
 

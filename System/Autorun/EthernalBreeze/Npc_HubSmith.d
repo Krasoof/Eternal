@@ -47,12 +47,17 @@ func int StExt_HubSmith_Cost()
 	return (3000 + (kapitel * 1500)) - (StExt_SmithFragments * 800);
 };
 
-func void StExt_HubSmith_Reforge()
+// Przekucie z WYBOREM ZYWIOLU. element = StExt_MasteryIndex_Fire..Death
+// albo StExt_Null (bez zywiolu - samo przelosowanie bonusow).
+// Zywiol nakladamy na ROZSZERZENIE nowej instancji PRZED createinvitems
+// (kontrakt setterow: ApplyItemExtension nalozy je przy tworzeniu itemu).
+func void StExt_HubSmith_Reforge(var int element)
 {
 	var c_item weap;
 	var int cost;
 	var int power;
 	var int newId;
+	var int elemSpell;
 
 	if (npc_hasreadiedmeleeweapon(hero)) { weap = npc_getreadiedweapon(hero); }
 	else { weap = npc_getequippedmeleeweapon(hero); };
@@ -92,13 +97,42 @@ func void StExt_HubSmith_Reforge()
 	// i crashuje (access violation 3F800000 = 1.0f jako adres funkcji;
 	// stara mina z broni bossow). Gracz zaklada z plecaka.
 	StExt_Trace(concatstrings(concatstrings("KOWAL przekucie stara=", inttostring(hlp_getinstanceid(weap))), concatstrings(" -> nowa=", inttostring(newId))));
+
+	// WYBRANY ZYWIOL: wtapiany w nowe ostrze zanim item powstanie.
+	// StExt_RollElementSpell losuje konkretny czar z puli danego zywiolu,
+	// wiec dwa ognisty miecze nie sa identyczne.
+	if (element != StExt_Null)
+	{
+		elemSpell = StExt_RollElementSpell(element);
+		if (elemSpell > 0) { StExt_SetGeneratedItemElement(newId, elemSpell, power); };
+	};
+
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
 	b_playerfinditem_stext(newId, 1);
-	StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz nowe zelazo z sakwy i zaloz je.");
-	ai_printbonus("Kowal przekul twoja bron - zaloz ja z plecaka.");
+	if (element != StExt_Null)
+	{
+		StExt_Say("Bezimienny Kowal", "Zywiol siedzi w stali. Odbierz zelazo z sakwy i zaloz je.");
+		ai_printbonus(concatstrings("Kowal wkul zywiol: ", StExt_ElementBuildup_Name(element)));
+	}
+	else
+	{
+		StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz nowe zelazo z sakwy i zaloz je.");
+		ai_printbonus("Kowal przekul twoja bron - zaloz ja z plecaka.");
+	};
 	ai_stopprocessinfos(self);
 };
+
+// Menu wyboru zywiolu (parametrowe funkcje info_addchoice musza byc bezargumentowe)
+func void StExt_HubSmith_Reforge_None()     { StExt_HubSmith_Reforge(StExt_Null); };
+func void StExt_HubSmith_Reforge_Fire()     { StExt_HubSmith_Reforge(StExt_MasteryIndex_Fire); };
+func void StExt_HubSmith_Reforge_Ice()      { StExt_HubSmith_Reforge(StExt_MasteryIndex_Ice); };
+func void StExt_HubSmith_Reforge_Electric() { StExt_HubSmith_Reforge(StExt_MasteryIndex_Electric); };
+func void StExt_HubSmith_Reforge_Air()      { StExt_HubSmith_Reforge(StExt_MasteryIndex_Air); };
+func void StExt_HubSmith_Reforge_Earth()    { StExt_HubSmith_Reforge(StExt_MasteryIndex_Earth); };
+func void StExt_HubSmith_Reforge_Light()    { StExt_HubSmith_Reforge(StExt_MasteryIndex_Light); };
+func void StExt_HubSmith_Reforge_Dark()     { StExt_HubSmith_Reforge(StExt_MasteryIndex_Dark); };
+func void StExt_HubSmith_Reforge_Death()    { StExt_HubSmith_Reforge(StExt_MasteryIndex_Death); };
 
 //--------------------------------------------------------------
 // *** Spotkanie / werbunek (DS) ***
@@ -156,7 +190,22 @@ instance dia_none_99760_HubSmith_Reforge(c_info)
     description = "Przekuj moja bron.";
 };
 func int dia_none_99760_HubSmith_Reforge_condition() { return (StExt_Hub_Smith >= 2); };
-func void dia_none_99760_HubSmith_Reforge_info() { StExt_HubSmith_Reforge(); };
+func void StExt_HubSmith_ReforgeExit() { info_clearchoices(dia_none_99760_HubSmith_Reforge); ai_stopprocessinfos(self); };
+func void dia_none_99760_HubSmith_Reforge_info()
+{
+	StExt_Say("Bezimienny Kowal", concatstrings(concatstrings("Zelazo przyjmie jeden zywiol. Wybierz, ktory - i placz ", inttostring(StExt_HubSmith_Cost())), " sztuk zlota."));
+	info_clearchoices(dia_none_99760_HubSmith_Reforge);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, dialog_back, StExt_HubSmith_ReforgeExit);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, "Bez zywiolu - tylko przekuj", StExt_HubSmith_Reforge_None);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Death, StExt_HubSmith_Reforge_Death);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Dark, StExt_HubSmith_Reforge_Dark);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Light, StExt_HubSmith_Reforge_Light);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Earth, StExt_HubSmith_Reforge_Earth);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Air, StExt_HubSmith_Reforge_Air);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Electric, StExt_HubSmith_Reforge_Electric);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Ice, StExt_HubSmith_Reforge_Ice);
+	info_addchoice(dia_none_99760_HubSmith_Reforge, StExt_Str_El_Fire, StExt_HubSmith_Reforge_Fire);
+};
 
 // Wskazowka o okruchach imienia (hak pod questy-fragmenty)
 instance dia_none_99760_HubSmith_Fragments(c_info)
