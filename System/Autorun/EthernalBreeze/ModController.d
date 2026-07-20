@@ -138,21 +138,41 @@ func void StExt_InitializeWorld()
 			rx_restoreparservars();
 		};
 	};
+	// Zakon hunted targets (incl. the ch1 heretic) spawn ON DEMAND via the
+	// Soul Master's hunt dialog - no init-once spawn, works on old saves.
+	StExt_InitializeWorldRandomizer();
+};
+
+// Spawny BRAMKOWANE stanem gracza (czlonkostwo/rozdzial) - MUSZA byc
+// sprawdzane CYKLICZNIE, nie raz w StExt_InitializeWorld. Ten init leci
+// TYLKO przy tworzeniu postaci (guard StExt_ModInitialized), gdy nikt nie
+// jest jeszcze w Zakonie - dlatego Kowal nigdy sie nie spawnowal. Latch
+// StExt_*Appear gwarantuje spawn dokladnie raz, w chwili spelnienia warunku.
+// Wolane z ticku ModControllera i z OnLoadEnd. Save-safe (same latche).
+func void StExt_CheckGatedSpawns()
+{
+	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)
 	if (!StExt_HubSmithAppear && StExt_SoulKnight_Member && (kapitel >= 1))
 	{
-		if (currentlevel == newworld_zen)
+		StExt_HubSmithAppear = true;
+		rx_saveparservars();
+		wld_insertnpc(none_99760_HubSmith, "SHORE_MONSTER_02_01");
+		rx_restoreparservars();
+		ai_printbonus("Bezimienny Kowal osiadl w ruinach wiezy na wybrzezu.");
+	};
+	// Runa przeprowadzki - samonaprawa dla sejwow po oczyszczeniu wiezy
+	// (Stage>=5) sprzed jej wprowadzenia. Latch = raz.
+	if (!StExt_HubRuneGiven && (StExt_ZakonTower_Stage >= 5))
+	{
+		StExt_HubRuneGiven = true;
+		if (npc_hasitems(hero, itmi_stext_hubrune) == 0)
 		{
-			StExt_HubSmithAppear = true;
-			rx_saveparservars();
-			wld_insertnpc(none_99760_HubSmith, "SHORE_MONSTER_02_01");
-			rx_restoreparservars();
+			createinvitems(hero, itmi_stext_hubrune, 1);
+			ai_printbonus("Otrzymales: Runa Przeprowadzki Zakonu");
 		};
 	};
-	// Zakon hunted targets (incl. the ch1 heretic) spawn ON DEMAND via the
-	// Soul Master's hunt dialog - no init-once spawn, works on old saves.
-	StExt_InitializeWorldRandomizer();
 };
 
 func void StExt_ValidateModValues()
@@ -556,7 +576,8 @@ func void StExt_ModController()
 		return;
 	};
 	StExt_CheckUid(hero);
-	
+	StExt_CheckGatedSpawns();
+
 	StExt_CheckModVersion();
 	StExt_CalculateDiff();
 	StExt_CheatController();
@@ -679,8 +700,9 @@ func void StExt_OnLoadEnd(var int slotIndex)
 	StExt_KillAllSpecialSummons();
 	StExt_LoadGlobalSymbols();
 	StExt_MigrateMasteryPerkPointsV2();
+	StExt_CheckGatedSpawns();	// Kowal itp. natychmiast po wczytaniu (nie czekaj na tick)
 	StExt_StartUncaper();
-	StExt_DisplayModMenu = false;	
+	StExt_DisplayModMenu = false;
 	
 	RX_ToggleLootParts(StExt_Config_EnableEnemiesArmorLoot);
 	Hlp_DoEvent("StExt_Evt_OnLoadEnd");

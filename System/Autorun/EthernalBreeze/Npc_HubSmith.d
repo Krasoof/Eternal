@@ -81,7 +81,14 @@ func void StExt_HubSmith_Reforge()
 		return;
 	};
 
+	// BUG-FIX: dotad newId bylo liczone i IGNOROWANE - gracz placil, bron
+	// sie nie zmieniala. Teraz pelny swap jak u Shivy: stara out -> nowa in
+	// -> zaloz (ten sam typ bazowy, przelosowane bonusy).
+	StExt_Trace(concatstrings(concatstrings("KOWAL przekucie stara=", inttostring(hlp_getinstanceid(weap))), concatstrings(" -> nowa=", inttostring(newId))));
 	npc_removeinvitems(hero, itmi_gold, cost);
+	npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
+	b_playerfinditem_stext(newId, 1);
+	npc_equipitem(hero, newId);
 	StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz - to juz nie jest ta sama bron.");
 	ai_printbonus("Kowal przekuwa twoja bron.");
 	ai_stopprocessinfos(self);

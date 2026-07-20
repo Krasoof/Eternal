@@ -229,16 +229,16 @@ func void StExt_Npc_RandomizeEquipment(var c_npc slf)
 	// Melee weapon generate
 	if (StExt_Chance(meleeWeaponChance))
 	{
-		if (StExt_IsNpcMage(slf) || StExt_IsNpcNovise(slf)) { meleeWeap = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"), weapPower); }
+		if (StExt_IsNpcMage(slf) || StExt_IsNpcNovise(slf)) { meleeWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon"), weapPower); }
 		else if (rx_getchance(50)) {
-			meleeWeap = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_2hWeapon"), weapPower);
+			meleeWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_2hWeapon"), weapPower);
 		}
 		else
 		{
-			meleeWeap = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_1hWeapon"), weapPower);
+			meleeWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_1hWeapon"), weapPower);
 			if (rx_getchance(shieldChance))
 			{ 
-				shield = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Shield"), weapPower);
+				shield = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Shield"), weapPower);
 				rx_setnpcvar(slf, aivrx_npc_atr_shield, 150);
 			};
 		};
@@ -250,12 +250,12 @@ func void StExt_Npc_RandomizeEquipment(var c_npc slf)
 	{
 		if (rx_getchance(50)) 
 		{ 
-			rangeWeap = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_BowWeapon"), weapPower);
+			rangeWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_BowWeapon"), weapPower);
 			createinvitems(slf, itrw_arrow, munitionCount);
 		}
 		else
 		{
-			rangeWeap = StExt_GenerateRandomItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_CBowWeapon"), weapPower);
+			rangeWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_CBowWeapon"), weapPower);
 			createinvitems(slf, itrw_bolt, munitionCount);
 		};
 		isGenerated = true;

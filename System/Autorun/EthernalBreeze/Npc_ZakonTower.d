@@ -338,8 +338,11 @@ func void dia_none_99702_SoulMaster_TowerDone_info()
 {
 	StExt_Say(StExt_Str_SoulMaster_Name, "Wieza stoi pusta - czuje to stad. Dobra robota, rycerzu.");
 	StExt_Say(StExt_Str_SoulMaster_Name, "Zakon przenosi sie o swicie. Wez te dusze - naleza sie temu, kto oczyscil dom.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "I wez te rune. Zaprowadzi cie prosto do naszej nowej siedziby, gdy tylko zechcesz.");
 	StExt_ZakonTower_Stage = 5;
 	createinvitems(hero, itmi_stext_bosssoul, 2);
+	createinvitems(hero, itmi_stext_hubrune, 1);
+	ai_printbonus("Otrzymales: Runa Przeprowadzki Zakonu (do siedziby na wybrzezu)");
 	snd_play("STEXT_VOICE_M2");	// Mistrz: "Wieza pamieta swojego pana..."
 	StExt_ZakonTower_Log("Wieza nalezy do Zakonu. Mistrz mowi, ze wieza pamieta swojego pana - i ze trzeba bedzie go obudzic, by go zabic. Rytual dopiero przed nami.");
 	log_settopicstatus(StExt_Topic_ZakonTower, log_success);

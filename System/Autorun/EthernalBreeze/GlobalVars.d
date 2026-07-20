@@ -113,6 +113,10 @@ var int StExt_PhysSealXp_Counter;
 // globalna przez cala gre, stare sejwy startuja od 0)
 var int StExt_ZakonUnique_DroppedMask;
 
+// Runa przeprowadzki wreczona (latch - samonaprawa dla sejwow, ktore przeszly
+// oczyszczenie wiezy zanim runa istniala)
+var int StExt_HubRuneGiven;
+
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
 var int StExt_SmithFragments;	// 0-3 okruchy imienia (tier uslugi)

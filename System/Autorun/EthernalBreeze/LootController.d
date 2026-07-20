@@ -82,7 +82,9 @@ func int StExt_GiveExtraFoodLoot_Loop(var int index)
 	};
 	tmpPower = hlp_random(StExt_GiveExtraFoodLoot_Loop_Power);
 	tmpCount = hlp_random(StExt_GiveExtraFoodLoot_Loop_ItemsCount);
-	tmpCount = StExt_ValidateValueRange(tmpCount, 1, StExt_GiveExtraFoodLoot_Loop_ItemsCount);
+	// Per-stack cap: bez tego jeden hlp_random moglo pochlonac caly budzet
+	// = jeden gigantyczny stos chleba. Max 3 sztuki na wpis.
+	tmpCount = StExt_ValidateValueRange(tmpCount, 1, 3);
 	
 	if ((tmpPower >= StExt_GiveExtraFoodLoot_Loop_Tier4_Cond) && !StExt_GiveExtraFoodLoot_Loop_TopItemGet && rx_getchance(StExt_TopItemChanceMod))
 	{
@@ -111,8 +113,12 @@ func void StExt_GiveExtraFoodLoot(var c_npc slf, var int power, var int chest)
 	};
 	StExt_PrintDebugStack("StExt_GiveExtraFoodLoot(var c_npc slf, var int power, var int chest)");
 	
-	itemsCount = 2 + hlp_random(5) + (power / 10);
+	// Budzet jedzenia ODPIETY od mocy: bossy/championy maja power x4/x2.67
+	// (StExt_CalcBodyLootPower), a dawne "+ power/10" robilo z tego 80-100
+	// chleba. Fabularnie boss nie nosi bochenka na plecach. Garsc, nie stos.
+	itemsCount = 2 + hlp_random(4);
 	itemsCount = StExt_ApplyItemCountConfigs(itemsCount, StExt_Config_Luck_Quantity, StExt_Config_Luck_RandomLootQuantityMod_Food);
+	itemsCount = StExt_ValidateValueRange(itemsCount, 1, 6);
 	itemsPower = StExt_ApplyItemPowerConfigs(power, StExt_Config_Luck_Power, StExt_Config_Luck_RandomLootPowerMod_Food);
 	if ((itemsCount <= 0) || (itemsPower <= 0)) { return; };
 	
@@ -179,7 +185,8 @@ func void StExt_GiveExtraMagicLoot(var c_npc slf, var int power, var int chest)
 	};
 	StExt_PrintDebugStack("StExt_GiveExtraMagicLoot(var c_npc slf, var int power, var int chest)");
 	
-	itemsCount = 1 + hlp_random(3) + (power / 10);	
+	itemsCount = 1 + hlp_random(3) + (power / 40);	// nerf: boss/champion power x4 pompowal ilosc; skalowanie /10 -> /40
+	itemsCount = StExt_ValidateValueRange(itemsCount, 1, 8);
 	itemsCount = StExt_ApplyItemCountConfigs(itemsCount, StExt_Config_Luck_Quantity, StExt_Config_Luck_RandomLootQuantityMod_Magic);
 	itemsPower = StExt_ApplyItemPowerConfigs(power, StExt_Config_Luck_Power, StExt_Config_Luck_RandomLootPowerMod_Magic);
 	if ((itemsCount <= 0) || (itemsPower <= 0)) { return; };
@@ -248,7 +255,8 @@ func void StExt_GiveExtraMiskLoot(var c_npc slf, var int power, var int chest)
 	};
 	StExt_PrintDebugStack("StExt_GiveExtraMiskLoot(var c_npc slf, var int power, var int chest)");
 	
-	itemsCount = 2 + hlp_random(4) + (power / 10);
+	itemsCount = 2 + hlp_random(4) + (power / 40);	// nerf junk ("mean typu chleb"): /10 -> /40
+	itemsCount = StExt_ValidateValueRange(itemsCount, 1, 8);
 	itemsCount = StExt_ApplyItemCountConfigs(itemsCount, StExt_Config_Luck_Quantity, StExt_Config_Luck_RandomLootQuantityMod_Misk);
 	itemsPower = StExt_ApplyItemPowerConfigs(power, StExt_Config_Luck_Power, StExt_Config_Luck_RandomLootPowerMod_Misk);	
 	if ((itemsCount <= 0) || (itemsPower <= 0)) { return; };
@@ -318,7 +326,8 @@ func void StExt_GiveExtraAlchemyLoot(var c_npc slf, var int power, var int chest
 	};
 	StExt_PrintDebugStack("StExt_GiveExtraAlchemyLoot(var c_npc slf, var int power, var int chest)");
 	
-	itemsCount = 1 + hlp_random(4) + (power / 10);
+	itemsCount = 1 + hlp_random(4) + (power / 40);	// nerf alchemia: /10 -> /40
+	itemsCount = StExt_ValidateValueRange(itemsCount, 1, 8);
 	itemsCount = StExt_ApplyItemCountConfigs(itemsCount, StExt_Config_Luck_Quantity, StExt_Config_Luck_RandomLootQuantityMod_Alchemy);
 	itemsPower = StExt_ApplyItemPowerConfigs(power, StExt_Config_Luck_Power, StExt_Config_Luck_RandomLootPowerMod_Alchemy);
 	if ((itemsCount <= 0) || (itemsPower <= 0)) { return; };	
@@ -356,7 +365,8 @@ func void StExt_GiveExtraMunitionLoot(var c_npc slf, var int power, var int ches
 	};
 	StExt_PrintDebugStack("StExt_GiveExtraMunitionLoot(var c_npc slf, var int power, var int chest)");
 	
-	itemsCount = 5 + hlp_random(10) + ((power + 1) / 3);	
+	itemsCount = 5 + hlp_random(10) + ((power + 1) / 10);	// nerf amunicji: /3 -> /10 (strzaly dalej w porzadnej ilosci)
+	itemsCount = StExt_ValidateValueRange(itemsCount, 1, 40);
 	itemsCount = StExt_ApplyItemCountConfigs(itemsCount, StExt_Config_Luck_Quantity, StExt_Config_Luck_RandomLootQuantityMod_Munition);
 	if (itemsCount <= 0) { return; };
 	
@@ -384,10 +394,11 @@ func void StExt_GiveExtraMagicWeaponLoot(var c_npc slf, var int power, var int c
 	
 	itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MagicWeapon");
 	itemsCount = 1;	
-	StExt_PrintLootDebug("MagicWeapon", power, itemsCount);	
-	
-	if (StExt_Chance(StExt_Config_Luck_ChanceForEnchantedDrop)) { itmId = StExt_GenerateRandomItem(itemType, power); }
-	else { itmId = StExt_GetRegularItem(itemType, power); };
+	StExt_PrintLootDebug("MagicWeapon", power, itemsCount);
+
+	// Bron ZAWSZE bazowa - magiczne wylacznie z bossow (decyzja usera).
+	// Afiksy dokladasz sam zaklinajac u Shivy/Kowala.
+	itmId = StExt_GetRegularItem(itemType, power);
 	StExt_CreateRandomItem(slf, itmId, itemsCount, chest);
 };
 
@@ -409,10 +420,10 @@ func void StExt_GiveExtraMeleeWeaponLoot(var c_npc slf, var int power, var int c
 	
 	itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_MeleeWeapon");
 	itemsCount = 1;	
-	StExt_PrintLootDebug("MeleeWeapon", power, itemsCount);	
-	
-	if (StExt_Chance(StExt_Config_Luck_ChanceForEnchantedDrop)) { itmId = StExt_GenerateRandomItem(itemType, power); }
-	else { itmId = StExt_GetRegularItem(itemType, power); };
+	StExt_PrintLootDebug("MeleeWeapon", power, itemsCount);
+
+	// Bron ZAWSZE bazowa - magiczne wylacznie z bossow.
+	itmId = StExt_GetRegularItem(itemType, power);
 	StExt_CreateRandomItem(slf, itmId, itemsCount, chest);
 };
 
@@ -434,10 +445,10 @@ func void StExt_GiveExtraRangeWeaponLoot(var c_npc slf, var int power, var int c
 	
 	itemType = StExt_SelectItemClassFromList("StExt_ItemClass_List_RangeWeapon");
 	itemsCount = 1;	
-	StExt_PrintLootDebug("Range", power, itemsCount);	
-	
-	if (StExt_Chance(StExt_Config_Luck_ChanceForEnchantedDrop)) { itmId = StExt_GenerateRandomItem(itemType, power); }
-	else { itmId = StExt_GetRegularItem(itemType, power); };
+	StExt_PrintLootDebug("Range", power, itemsCount);
+
+	// Bron ZAWSZE bazowa - magiczne wylacznie z bossow.
+	itmId = StExt_GetRegularItem(itemType, power);
 	StExt_CreateRandomItem(slf, itmId, itemsCount, chest);
 };
 

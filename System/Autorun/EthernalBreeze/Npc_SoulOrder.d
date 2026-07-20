@@ -219,6 +219,71 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 };
 
 //--------------------------------------------------------------
+// *** Wtapianie dusz w ZBROJE (nowa usluga - reuse enchant-in-place) ***
+//--------------------------------------------------------------
+// Analogicznie do broni, ale pancerz nie ma pieczeci - uzywa sprawdzonej
+// maszynerii enchant/reroll-in-place (ta sama co dziala u Shivy na zbroi),
+// tylko placonej DUSZAMI. Plain pancerz -> magiczny; magiczny -> mocniejszy
+// przelosowany. Ten sam typ/mesh zachowany, po zamianie auto-equip.
+instance dia_none_99702_SoulMaster_InfuseArmor(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 5;
+    condition = dia_none_99702_SoulMaster_InfuseArmor_condition;
+    information = dia_none_99702_SoulMaster_InfuseArmor_info;
+    permanent = true;
+    description = "Wtop dusze w moj pancerz.";
+};
+func int dia_none_99702_SoulMaster_InfuseArmor_condition()
+{
+	return StExt_SoulKnight_Member && (npc_hasitems(hero, itmi_stext_bosssoul) > 0);
+};
+func void dia_none_99702_SoulMaster_InfuseArmor_info()
+{
+	var c_item armor;
+	var int power;
+	var int newId;
+
+	armor = npc_getequippedarmor(hero);
+	if (!hlp_isvaliditem(armor))
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Nagi rycerz to trup. Zaloz pancerz, w ktory mam wtopic dusze.");
+		ai_printred(StExt_Str_Enchant_NoArmor);
+		ai_stopprocessinfos(self);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_gold) < 1000)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Tysiac sztuk zlota. Rytual ma cene i nie ja ja ustalam.");
+		ai_printred(StExt_Str_Enchant_NotEnoughGold);
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	power = StExt_OpenChest_GetMaxPower();
+	if (StExt_ItemHasExtension(armor)) { newId = StExt_RerollItemInPlace(armor, power); }
+	else { newId = StExt_EnchantItemInPlace(armor, power); };
+	if (newId <= 0)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Ten pancerz nie przyjmie duszy.");
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	StExt_Trace(concatstrings(concatstrings("INFUZJA PANCERZ stara=", inttostring(hlp_getinstanceid(armor))), concatstrings(" -> nowa=", inttostring(newId))));
+	npc_removeinvitems(hero, itmi_stext_bosssoul, 1);
+	npc_removeinvitems(hero, itmi_gold, 1000);
+	npc_removeinvitems(hero, hlp_getinstanceid(armor), 1);
+	b_playerfinditem_stext(newId, 1);
+	npc_equipitem(hero, newId);
+	StExt_SoulKnight_SoulsInfused += 1;
+	rx_playeffect("spellfx_incovation_violet", hero);
+	StExt_Say(StExt_Str_SoulMaster_Name, "Dusza wrosla w stal. Teraz pancerz broni cie tak, jak bronil jej wlasciciela.");
+	ai_printbonus("Dusza wtopiona w pancerz.");
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
 // *** Lore: the fallen order (journal, deepens with progress) ***
 //--------------------------------------------------------------
 // Each visit reveals the next fragment, up to what your hunt progress

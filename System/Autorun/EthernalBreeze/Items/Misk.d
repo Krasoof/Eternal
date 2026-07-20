@@ -702,6 +702,30 @@ func void use_itmi_stext_zakon_rune()
 	ai_printbonus(StExt_Str_ZakonRune_Used);
 };
 
+// Runa DO nowego huba Zakonu (kuznia na wybrzezu, SHORE_MONSTER_02).
+// NIE zuzywa sie - dojazd do Kowala/wieży ma byc wielokrotny. Wręcza ją
+// Mistrz po oczyszczeniu Wieży Umarlych ("Zakon przenosi sie o swicie").
+instance itmi_stext_hubrune(c_item)
+{
+	name = "Runa Przeprowadzki Zakonu";
+	mainflag = item_kat_potions;
+	flags = item_mission;
+	value = 500;
+	visual = "ItSc_Shrink_New.3ds";
+	material = mat_stone;
+	scemename = "MAP";
+	description = name;
+	text[1] = "Przenosi do nowej siedziby Zakonu na wybrzezu. Nie zuzywa sie.";
+	on_state = use_itmi_stext_hubrune;
+	inv_animate = 1;
+};
+func void use_itmi_stext_hubrune()
+{
+	if (!npc_isplayer(self)) { return; };
+	AI_Teleport(hero, "SHORE_MONSTER_02_01");
+	ai_printbonus("Runa przenosi cie do siedziby Zakonu.");
+};
+
 // Dev/scouting tool (spawn: insert itmi_stext_scoutstone): prints the nearest
 // waypoint so locations can be pinned in-game for quest design (e.g. the old
 // zombie-boss tower for the Zakon relocation quest). Not sold, not dropped.

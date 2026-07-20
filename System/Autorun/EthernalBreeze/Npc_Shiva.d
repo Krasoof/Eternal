@@ -1052,9 +1052,14 @@ func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
 		return;
 	};
 
+	StExt_Trace(concatstrings(concatstrings("ENCHANT stara=", inttostring(hlp_getinstanceid(itm))), concatstrings(" -> nowa=", inttostring(newId))));
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
 	b_playerfinditem_stext(newId, 1);
+	// Auto-zaloz nowy przedmiot: bez tego zaklinana bron trafia do plecaka
+	// niezalozona i z nowa nazwa - gracz widzi "dostalem inna bron". Zaklada
+	// TEN SAM typ bazowy (mesh zachowany), tylko z magicznym afiksem.
+	npc_equipitem(hero, newId);
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Enchant_Done);
 };
@@ -1106,9 +1111,11 @@ func void StExt_Shiva_RerollInPlace(var int forArmor, var int cost)
 		return;
 	};
 
+	StExt_Trace(concatstrings(concatstrings("REROLL stara=", inttostring(hlp_getinstanceid(itm))), concatstrings(" -> nowa=", inttostring(newId))));
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
 	b_playerfinditem_stext(newId, 1);
+	npc_equipitem(hero, newId);
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Reroll_Done);
 };
@@ -1146,8 +1153,12 @@ func void dia_none_99666_StonedTrader_Reroll_info()
 };
 
 //--------------------------------------------------------------
-// *** Boss soul infusion: empower the weapon's seal/element ***
+// *** MARTWY: wtapianie dusz przeniesione do Zakonu Dusz ***
 //--------------------------------------------------------------
+// condition = return false -> ta opcja NIGDY sie nie pokazuje. Nie kasujemy
+// instancji (save-compat: silnik trzyma stan dialogow po symbolu c_info).
+// Wtapianie broni ORAZ zbroi jest u Mistrza (Npc_SoulOrder.d). Shiva zostaje
+// przy enchant/reroll za zloto (dzialaja).
 instance dia_none_99666_StonedTrader_SoulInfuse(c_info)
 {
     npc = none_99666_StonedTrader;
