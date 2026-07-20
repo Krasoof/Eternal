@@ -41,6 +41,12 @@ const int StExt_Config_TraceEnabled = false;
 // (NIGDY nie obniza) staty kwalifikujacych sie NPC do podlogi rosnacej
 // z rozdzialem i poziomem gracza. Target: mid mob zyje 3-5 ciosow gracza
 // i bije ~15-25% jego HP. Infuzja liczy sie PO floorze (elita zostaje elita).
+// Kuznia Bezimiennego: rytual kucia zzera dusze (waluta premium), a stal
+// bez zywiolu kuje sie MOCNIEJ (buff fizyka - kto rezygnuje z magii,
+// dostaje surowo lepsze ostrze; mnoznik mocy generacji w procentach).
+const int StExt_HubSmith_SoulCost = 5;
+const int StExt_HubSmith_PhysPowerBonus = 100;	// +100% mocy rolla przy kuciu bez zywiolu
+
 const int StExt_Config_EnableTierFloors = true;
 const int StExt_Config_TierFloor_MinLevel = 8;	// ponizej = mlody trash, zostaje trashem
 const int StExt_Config_TierFloor_Mult = 100;	// globalny mnoznik podlog (%)

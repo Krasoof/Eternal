@@ -75,9 +75,18 @@ func void StExt_HubSmith_Reforge(var int element)
 		ai_stopprocessinfos(self);
 		return;
 	};
+	if (npc_hasitems(hero, itmi_stext_bosssoul) < StExt_HubSmith_SoulCost)
+	{
+		StExt_Say("Bezimienny Kowal", concatstrings(concatstrings("Sam ogien nie wystarczy. Przynies ", inttostring(StExt_HubSmith_SoulCost)), " dusz - one karmia palenisko."));
+		ai_stopprocessinfos(self);
+		return;
+	};
 
 	// moc rosnie z odzyskanym imieniem: pusty kowal kuje slabo, pelny - legendy
 	power = (hero.level * 6) + (kapitel * 25) + (StExt_SmithFragments * 40);
+	// BUFF FIZYKA: rezygnacja z zywiolu = mocniejsza stal. Kowal wklada cala
+	// moc rytualu w samo ostrze, wiec baza rolluje sie duzo wyzej.
+	if (element == StExt_Null) { power += StExt_GetPercentFromValue(power, StExt_HubSmith_PhysPowerBonus); };
 	// ZWYKLA (niemagiczna) bron: enchant (baza->magic). JUZ magiczna: reroll
 	// (RerollInPlace wymaga istniejacej ekstensji - na golej broni zwracalo
 	// <=0 i "nic nie przekuwa"). To byl powod zgloszenia.
@@ -108,17 +117,18 @@ func void StExt_HubSmith_Reforge(var int element)
 	};
 
 	npc_removeinvitems(hero, itmi_gold, cost);
+	npc_removeinvitems(hero, itmi_stext_bosssoul, StExt_HubSmith_SoulCost);
 	npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
 	b_playerfinditem_stext(newId, 1);
 	if (element != StExt_Null)
 	{
 		StExt_Say("Bezimienny Kowal", "Zywiol siedzi w stali. Odbierz zelazo z sakwy i zaloz je.");
-		ai_printbonus(concatstrings("Kowal wkul zywiol: ", StExt_ElementBuildup_Name(element)));
+		ai_printbonus(concatstrings("Zelazo przyjelo zywiol: ", StExt_ElementBuildup_Name(element)));
 	}
 	else
 	{
-		StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz nowe zelazo z sakwy i zaloz je.");
-		ai_printbonus("Kowal przekul twoja bron - zaloz ja z plecaka.");
+		StExt_Say("Bezimienny Kowal", "Zadnej magii - sama stal, kuta do konca. Takie ostrze nie zawodzi. Odbierz je z sakwy.");
+		ai_printbonus("Ostrze przekute - stal mocniejsza niz zwykle.");
 	};
 	ai_stopprocessinfos(self);
 };
@@ -175,7 +185,7 @@ func void dia_none_99760_HubSmith_Recruit_info()
 	StExt_Say("HERO", "Chodz do wiezy. Bede ci przynosil dusze, ty bedziesz kul.");
 	StExt_Say("Bezimienny Kowal", "Dusze... tak. Moze wsrod nich znajde okruch tego, czym bylem. Pojde. Ale niczego nie obiecuje.");
 	StExt_Hub_Smith = 2;
-	ai_printbonus("Bezimienny Kowal dolaczyl do huba. Przekuwa bronie u siebie w wiezy.");
+	ai_printbonus("Bezimienny Kowal przystal do Zakonu. Kuje przy wiezy na wybrzezu.");
 	ai_stopprocessinfos(self);
 };
 

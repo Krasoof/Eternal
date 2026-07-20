@@ -405,7 +405,7 @@ func void StExt_Knight_Exit() { info_clearchoices(dia_none_99702_SoulMaster_Knig
 func void StExt_Knight_BuildMenu()
 {
 	info_clearchoices(dia_none_99702_SoulMaster_Knight);
-	ai_printbonus(concatstrings("Dusze bossow: ", inttostring(npc_hasitems(hero, itmi_stext_bosssoul))));
+	ai_printbonus(concatstrings("Dusze poleglych: ", inttostring(npc_hasitems(hero, itmi_stext_bosssoul))));
 	if (!StExt_KnightPerk_Armor)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Pancerz Dusz: -8% obrazen wrecz (2 dusze)", StExt_Knight_Buy_Armor); };
 	if (!StExt_KnightPerk_Wrath)    { info_addchoice(dia_none_99702_SoulMaster_Knight, "Gniew Rycerza: 20% szansy na riposte po paradzie (3 dusze)", StExt_Knight_Buy_Wrath); };
 	if (!StExt_KnightPerk_Stalwart) { info_addchoice(dia_none_99702_SoulMaster_Knight, "Niezlomnosc: blok za polowe staminy (5 dusz)", StExt_Knight_Buy_Stalwart); };
@@ -417,6 +417,6 @@ func void StExt_Knight_BuildMenu()
 
 func void dia_none_99702_SoulMaster_Knight_info()
 {
-	StExt_Say(StExt_Str_SoulMaster_Name, "Sztuki Rycerza Dusz. Placi sie duszami bossow - zlota tu nie przyjmuje, zloto jest dla kupcow.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Sztuki Rycerza Dusz. Placi sie duszami poleglych - zlota tu nie przyjmuje, zloto jest dla kupcow.");
 	StExt_Knight_BuildMenu();
 };

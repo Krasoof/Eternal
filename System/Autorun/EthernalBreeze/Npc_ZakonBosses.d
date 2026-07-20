@@ -871,14 +871,14 @@ func void StExt_ZakonBossPhase_Callback()
 	{
 		// 75%: STALY skok tempa +150 + fala zywiolu z kitu
 		StExt_Npc_ChangeAiv(bn, aivrx_npc_speed, 150 - rx_getnpcvar(bn, aivrx_npc_speed));
-		printscreencolor("BOSS PRZYSPIESZA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		printscreencolor("WROG PRZYSPIESZA!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Spell); };
 	}
 	else if (phase == 2)
 	{
 		// 50%: drugi staly krok tempa +225 + przyzwanie z kitu
 		StExt_Npc_ChangeAiv(bn, aivrx_npc_speed, 225 - rx_getnpcvar(bn, aivrx_npc_speed));
-		printscreencolor("BOSS WZYWA POMOC!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		printscreencolor("WROG WZYWA POMOC!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Summon); };
 	}
 	else
@@ -886,7 +886,7 @@ func void StExt_ZakonBossPhase_Callback()
 		// 25%: JEDYNY self-heal walki (latch faz gwarantuje 1x na walke;
 		// kazde przyzwanie wstawia swiezego NPC = naturalny reset latcha)
 		StExt_CastSelfHeal(bn, 35, 0);
-		printscreencolor("BOSS SIE LECZY!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
+		printscreencolor("WROG SIE LECZY!", 62, 2, StExt_DefaultFont, 2, StExt_Color_Header);
 		if (kapitel >= 2) { StExt_ZakonBossPhase_CastFromKit(bn, StExt_NpcAbility_Type_Buff); };
 	};
 };
