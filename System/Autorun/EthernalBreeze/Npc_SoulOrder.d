@@ -38,8 +38,20 @@ instance none_99702_SoulMaster(npc_default)
 };
 func void rtn_none_99702_SoulMaster()
 {
-    ta_stand_armscrossed(8, 0, 23, 0, "NW_BIGFARM_CHAPEL_03");
-    ta_stand_armscrossed(23, 0, 8, 0, "NW_BIGFARM_CHAPEL_03");
+    // Po oczyszczeniu Wiezy Umarlych Zakon "przenosi sie o swicie" - Mistrz
+    // staje w nowej siedzibie na wybrzezu (przy Kowalu). Rutyna trzyma go
+    // tam takze po wczytaniu sejwa; jednorazowa relokacja biezacej sesji
+    // robi StExt_CheckGatedSpawns (AI_Teleport).
+    if (StExt_ZakonHub_Relocated)
+    {
+        ta_stand_armscrossed(8, 0, 23, 0, StExt_ZakonHub_Wp);
+        ta_stand_armscrossed(23, 0, 8, 0, StExt_ZakonHub_Wp);
+    }
+    else
+    {
+        ta_stand_armscrossed(8, 0, 23, 0, "NW_BIGFARM_CHAPEL_03");
+        ta_stand_armscrossed(23, 0, 8, 0, "NW_BIGFARM_CHAPEL_03");
+    };
 };
 
 //--------------------------------------------------------------
@@ -228,7 +240,7 @@ func void dia_none_99702_SoulMaster_Infuse_info()
 instance dia_none_99702_SoulMaster_InfuseArmor(c_info)
 {
     npc = none_99702_SoulMaster;
-    nr = 5;
+    nr = 8;	// nr=5 kolidowalo z dia_none_99702_SoulMaster_Tower (Npc_ZakonTower) - opcja sie nie pokazywala
     condition = dia_none_99702_SoulMaster_InfuseArmor_condition;
     information = dia_none_99702_SoulMaster_InfuseArmor_info;
     permanent = true;

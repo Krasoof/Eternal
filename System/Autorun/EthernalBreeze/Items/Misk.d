@@ -722,7 +722,7 @@ instance itmi_stext_hubrune(c_item)
 func void use_itmi_stext_hubrune()
 {
 	if (!npc_isplayer(self)) { return; };
-	AI_Teleport(hero, "SHORE_MONSTER_02_01");
+	AI_Teleport(hero, StExt_ZakonHub_Wp);
 	ai_printbonus("Runa przenosi cie do siedziby Zakonu.");
 };
 

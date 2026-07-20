@@ -151,6 +151,7 @@ func void StExt_InitializeWorld()
 // Wolane z ticku ModControllera i z OnLoadEnd. Save-safe (same latche).
 func void StExt_CheckGatedSpawns()
 {
+	var c_npc zhMaster;
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)
@@ -158,7 +159,7 @@ func void StExt_CheckGatedSpawns()
 	{
 		StExt_HubSmithAppear = true;
 		rx_saveparservars();
-		wld_insertnpc(none_99760_HubSmith, "SHORE_MONSTER_02_01");
+		wld_insertnpc(none_99760_HubSmith, StExt_ZakonHub_Wp);
 		rx_restoreparservars();
 		ai_printbonus("Bezimienny Kowal osiadl w ruinach wiezy na wybrzezu.");
 	};
@@ -171,6 +172,19 @@ func void StExt_CheckGatedSpawns()
 		{
 			createinvitems(hero, itmi_stext_hubrune, 1);
 			ai_printbonus("Otrzymales: Runa Przeprowadzki Zakonu");
+		};
+	};
+	// Relokacja Mistrza do nowej siedziby (Zakon "przenosi sie o swicie" po
+	// oczyszczeniu wiezy). Latch + AI_Teleport dla biezacej sesji; rutyna
+	// Mistrza trzyma go tam po wczytaniu.
+	if (!StExt_ZakonHub_Relocated && (StExt_ZakonTower_Stage >= 5))
+	{
+		StExt_ZakonHub_Relocated = true;
+		zhMaster = Hlp_GetNpc(none_99702_SoulMaster);
+		if (hlp_isvalidnpc(zhMaster))
+		{
+			AI_Teleport(zhMaster, StExt_ZakonHub_Wp);
+			ai_printbonus("Zakon przeniosl siedzibe na wybrzeze. Mistrz czeka tam.");
 		};
 	};
 };

@@ -117,6 +117,11 @@ var int StExt_ZakonUnique_DroppedMask;
 // oczyszczenie wiezy zanim runa istniala)
 var int StExt_HubRuneGiven;
 
+// Mistrz przeniesiony do nowej siedziby na wybrzezu (po oczyszczeniu wiezy).
+// Steruje rutyna Mistrza (stoi w kaplicy albo w nowym hubie) i jednorazowa
+// relokacja w StExt_CheckGatedSpawns.
+var int StExt_ZakonHub_Relocated;
+
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
 var int StExt_SmithFragments;	// 0-3 okruchy imienia (tier uslugi)

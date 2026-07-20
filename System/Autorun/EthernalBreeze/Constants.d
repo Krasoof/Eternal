@@ -24,6 +24,9 @@ const int StExt_SealLevelMax = 60;	// seals level across the whole game (early/m
 // Arena Zakonu: JEDYNE zrodlo prawdy o miejscu walk (krypta w NEWWORLD,
 // zweryfikowana w runtime waynecie; osiagalna bez ekranu ladowania).
 // Zmiana areny = zmiana tej jednej stalej.
+// Nowa siedziba Zakonu na wybrzezu (Mistrz + Kowal + cel runy przeprowadzki
+// = TEN SAM punkt, zeby hub byl jednym miejscem, nie rozrzuconym po plazy).
+const string StExt_ZakonHub_Wp = "SHORE_MONSTER_02_01";
 const string StExt_ZakonArena_Wp = "NW_CRYPT_IN_05";
 const int StExt_ZakonArena_LeashDist = 3000;	// dalej od bossa = warp-back; 30 m = tuz za progiem krypty (skan: wnetrze ma 26 m srednicy, prog ~11-20 m od IN_05)
 

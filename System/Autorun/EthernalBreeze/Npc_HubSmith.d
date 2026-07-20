@@ -73,7 +73,11 @@ func void StExt_HubSmith_Reforge()
 
 	// moc rosnie z odzyskanym imieniem: pusty kowal kuje slabo, pelny - legendy
 	power = (hero.level * 6) + (kapitel * 25) + (StExt_SmithFragments * 40);
-	newId = StExt_RerollItemInPlace(weap, power);
+	// ZWYKLA (niemagiczna) bron: enchant (baza->magic). JUZ magiczna: reroll
+	// (RerollInPlace wymaga istniejacej ekstensji - na golej broni zwracalo
+	// <=0 i "nic nie przekuwa"). To byl powod zgloszenia.
+	if (StExt_ItemHasExtension(weap)) { newId = StExt_RerollItemInPlace(weap, power); }
+	else { newId = StExt_EnchantItemInPlace(weap, power); };
 	if (newId <= 0)
 	{
 		StExt_Say("Bezimienny Kowal", "Tego zelaza nie przekuje. Ono juz wie, czym jest.");
