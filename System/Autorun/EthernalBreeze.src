@@ -72,6 +72,7 @@ EthernalBreeze\Npc_SoulOrder.d
 EthernalBreeze\Npc_ZakonBosses.d
 EthernalBreeze\Npc_ZakonTower.d
 EthernalBreeze\Npc_HubSmith.d
+EthernalBreeze\Npc_DarkKnights.d
 EthernalBreeze\Dialog.d
 EthernalBreeze\Dialog_Learn.d
 EthernalBreeze\Dialog_Debug.d

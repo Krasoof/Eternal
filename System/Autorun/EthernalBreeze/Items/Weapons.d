@@ -387,7 +387,33 @@ instance itmw_stext_holy_hammer(c_item)
     inv_animate = 1;
 };
 
-instance itmw_stext_steel_club(c_item) 
+// Nagroda finalowa "Drogi Beliara" (Npc_DarkKnights.d) - wreczana przez
+// Mistrza Mrocznych Rycerzy po zabiciu Lorda Isgarotha. Ciemny mesh z puli
+// reliktow (sprawdzony w grze). Staty samodzielne, nie skalowane systemem dusz.
+instance itmw_stext_beliar_reaper(c_item)
+{
+    name = "Zniwiarz Zmierzchu";
+    mainflag = item_kat_nf;
+    flags = item_mission | item_2hd_swd;
+    material = mat_metal;
+    value = 8000;
+    damagetotal = 200;
+    damagetype = dam_edge;
+    range = 120;
+    cond_atr[2] = atr_strength;
+    cond_value[2] = 150;
+    on_equip = equip_2h_medium;
+    on_unequip = unequip_2h_medium;
+    visual = "ItMw_2H_DarkSoul.3DS";
+    description = name;
+    text[1] = "Ostrze naznaczone reka Beliara.";
+    text[2] = "Pije swiatlo tak, jak inni pija krew.";
+    text[5] = name_value;
+    count[5] = value;
+    inv_animate = 1;
+};
+
+instance itmw_stext_steel_club(c_item)
 {
     name = itmw_stext_steel_club_name;
     cond_atr[2] = atr_strength;

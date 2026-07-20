@@ -122,6 +122,12 @@ var int StExt_HubRuneGiven;
 // relokacja w StExt_CheckGatedSpawns.
 var int StExt_ZakonHub_Relocated;
 
+// *** Droga Beliara - questline Mrocznych Rycerzy (Npc_DarkKnights.d) ***
+var int StExt_DarkKnight_Stage;		// 0 Q1-of, 1 Q1-akt, 2 Q2-of ... 9 Q5-akt, 10 koniec
+var int StExt_DarkKnight_Kills;		// licznik zabojstw biezacego zadania (reset przy przyjeciu)
+var int StExt_DarkKnight_TopicMade;	// latch utworzenia tematu dziennika
+var int StExt_DarkKnight_RelicTaken;	// Q2: relikwia zabrana
+
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
 var int StExt_SmithFragments;	// 0-3 okruchy imienia (tier uslugi)

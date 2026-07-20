@@ -48,8 +48,9 @@ if (Test-Path $spokenPath) { $Spoken = Import-PowerShellDataFile $spokenPath }
 # Glosy per mowca: token pierwszego argumentu StExt_Say -> voice id.
 # Linie gracza (sentinel "HERO") NIE dostaja dubbingu (kanon: hero bez glosu).
 function Resolve-VoiceId([string]$speakerToken) {
-    if ($speakerToken -match 'Kowal') { return 'SOYHLrjzK2X1ezoPC6cr' }   # Harry - Fierce Warrior (design HubSouls)
-    return $VoiceId                                                        # domyslnie: Adam (Mistrz Zakonu)
+    if ($speakerToken -match 'Kowal') { return 'SOYHLrjzK2X1ezoPC6cr' }        # Harry - Fierce Warrior (design HubSouls)
+    if ($speakerToken -match 'DarkTeacher') { return 'N2lVS1w4EtoT3dr4eOWO' }  # Callum - Husky Trickster (Mistrz Mrocznych Rycerzy: chropawy, zlowieszczy, oddany Beliarowi; free-premade)
+    return $VoiceId                                                            # domyslnie: Adam (Mistrz Zakonu)
 }
 
 # --- ekstrakcja linii ---

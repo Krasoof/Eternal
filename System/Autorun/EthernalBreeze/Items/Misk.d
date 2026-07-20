@@ -726,6 +726,33 @@ func void use_itmi_stext_hubrune()
 	ai_printbonus("Runa przenosi cie do siedziby Zakonu.");
 };
 
+// Trofea "Drogi Beliara" (Npc_DarkKnights.d) - dowody krwi. Niesione w
+// sakwie, bez uzycia (item_kat_none). Wizual sprawdzony (scoutstone).
+instance itmi_stext_beliar_sigil(c_item)
+{
+	name = "Pieczec Beliara";
+	mainflag = item_kat_none;
+	flags = item_mission;
+	value = 0;
+	visual = "ItMi_Rockcrystal.3ds";
+	material = mat_stone;
+	description = name;
+	text[1] = "Znak Mrocznego Boga, wypalony w martwym ciele wroga.";
+	inv_animate = 1;
+};
+instance itmi_stext_desecrated_relic(c_item)
+{
+	name = "Zbezczeszczona Relikwia";
+	mainflag = item_kat_none;
+	flags = item_mission;
+	value = 0;
+	visual = "ItMi_Rockcrystal.3ds";
+	material = mat_metal;
+	description = name;
+	text[1] = "Swietosc paladynow, splugawiona i martwa w twoich rekach.";
+	inv_animate = 1;
+};
+
 // Dev/scouting tool (spawn: insert itmi_stext_scoutstone): prints the nearest
 // waypoint so locations can be pinned in-game for quest design (e.g. the old
 // zombie-boss tower for the Zakon relocation quest). Not sold, not dropped.
