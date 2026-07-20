@@ -280,14 +280,13 @@ func void ai_ondead_bdt_99783_PaladynHonor3() { };
 // Bramka wszedzie: hero.guild == GIL_DMT + stage. Kwestie przez StExt_Say
 // (ton mistrza: arogancki, wladczy, oddany Beliarowi).
 
-// Bramka czlonkostwa. Returning ma GIL_DMT + rangi GIL_DMT1/2/3 (pasuja do
-// zbroi DARKTEACHERARMORDK2/DK3). Ktora wartosc dostaje gracz - nie odczytam ze
-// skompilowanych skryptow (grep widzi symbole, nie ciala), wiec przyjmujemy
-// dowolna z nich. Non-Rycerz i tak nigdy nie ma zadnej z tych gildii.
-func int StExt_DK_IsMember()
-{
-	return (hero.guild == GIL_DMT) || (hero.guild == GIL_DMT1) || (hero.guild == GIL_DMT2) || (hero.guild == GIL_DMT3);
-};
+// Bramka czlonkostwa gildii Mrocznych Rycerzy. GIL_DMT to jedyna gildia DMT
+// widoczna dla parsera Autorun - "rangi" GIL_DMT1/2/3 mialy trafienia w grepie
+// AB_Scripts.vdf, ale NIE sa uzywalnymi stalymi (parser: Unknown identifier
+// GIL_DMT3). Lekcja: grep-hit w VDF != symbol dostepny w parserze. Gdyby gracz
+// jednak trzymal inna wartosc guild, questline bylby niewidoczny - wtedy
+// sprawdzamy realny hero.guild w konsoli i korygujemy (patch save-compat).
+func int StExt_DK_IsMember() { return (hero.guild == GIL_DMT); };
 
 // --- Q1: Krew na Dowod ---
 instance dia_dmtteacher_stext_q1(c_info)
