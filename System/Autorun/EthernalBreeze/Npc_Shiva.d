@@ -1056,12 +1056,11 @@ func void StExt_Shiva_EnchantInPlace(var int forArmor, var int cost)
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
 	b_playerfinditem_stext(newId, 1);
-	// Auto-zaloz nowy przedmiot: bez tego zaklinana bron trafia do plecaka
-	// niezalozona i z nowa nazwa - gracz widzi "dostalem inna bron". Zaklada
-	// TEN SAM typ bazowy (mesh zachowany), tylko z magicznym afiksem.
-	npc_equipitem(hero, newId);
+	// NIE zakladamy automatycznie - npc_equipitem na swiezej instancji
+	// dynamicznej w trakcie dialogu crashuje (3F800000). Zaklada gracz.
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Enchant_Done);
+	ai_printbonus("Zaloz zaklieta bron z plecaka.");
 };
 
 // Stat mixing for ALREADY-MAGIC items: fresh roll on the SAME item.
@@ -1115,9 +1114,10 @@ func void StExt_Shiva_RerollInPlace(var int forArmor, var int cost)
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(itm), 1);
 	b_playerfinditem_stext(newId, 1);
-	npc_equipitem(hero, newId);
+	// bez auto-equip (crash 3F800000 na swiezej instancji w dialogu)
 	rx_playeffect("spellfx_incovation_violet", hero);
 	ai_printbonus(StExt_Str_Reroll_Done);
+	ai_printbonus("Zaloz bron z plecaka.");
 };
 
 instance dia_none_99666_StonedTrader_Enchant(c_info)

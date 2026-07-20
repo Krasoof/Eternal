@@ -287,11 +287,11 @@ func void dia_none_99702_SoulMaster_InfuseArmor_info()
 	npc_removeinvitems(hero, itmi_gold, 1000);
 	npc_removeinvitems(hero, hlp_getinstanceid(armor), 1);
 	b_playerfinditem_stext(newId, 1);
-	npc_equipitem(hero, newId);
+	// bez auto-equip (crash 3F800000 na swiezej instancji w dialogu) - gracz zaklada
 	StExt_SoulKnight_SoulsInfused += 1;
 	rx_playeffect("spellfx_incovation_violet", hero);
-	StExt_Say(StExt_Str_SoulMaster_Name, "Dusza wrosla w stal. Teraz pancerz broni cie tak, jak bronil jej wlasciciela.");
-	ai_printbonus("Dusza wtopiona w pancerz.");
+	StExt_Say(StExt_Str_SoulMaster_Name, "Dusza wrosla w stal. Zaloz pancerz - broni cie teraz tak, jak bronil swojego pana.");
+	ai_printbonus("Dusza wtopiona w pancerz - zaloz go z plecaka.");
 	ai_stopprocessinfos(self);
 };
 

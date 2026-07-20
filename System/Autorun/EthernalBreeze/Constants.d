@@ -25,8 +25,9 @@ const int StExt_SealLevelMax = 60;	// seals level across the whole game (early/m
 // zweryfikowana w runtime waynecie; osiagalna bez ekranu ladowania).
 // Zmiana areny = zmiana tej jednej stalej.
 // Nowa siedziba Zakonu na wybrzezu (Mistrz + Kowal + cel runy przeprowadzki
-// = TEN SAM punkt, zeby hub byl jednym miejscem, nie rozrzuconym po plazy).
-const string StExt_ZakonHub_Wp = "SHORE_MONSTER_02_01";
+// = TEN SAM punkt). SHORE_MONSTER_03_01 = OBOZ walk wiezy (gracz zna to
+// miejsce), nie pusta plaza 02_01 63 m dalej ("runa laduje obok huba").
+const string StExt_ZakonHub_Wp = "SHORE_MONSTER_03_01";
 const string StExt_ZakonArena_Wp = "NW_CRYPT_IN_05";
 const int StExt_ZakonArena_LeashDist = 3000;	// dalej od bossa = warp-back; 30 m = tuz za progiem krypty (skan: wnetrze ma 26 m srednicy, prog ~11-20 m od IN_05)
 

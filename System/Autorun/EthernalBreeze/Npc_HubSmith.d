@@ -30,12 +30,12 @@ instance none_99760_HubSmith(npc_default)
 };
 func void rtn_none_99760_HubSmith()
 {
-    // SHORE_MONSTER_05_01 NIE ISTNIEJE w zadnym waynecie (skan sejwow:
-    // NPC z tym WP laduje w punkcie 0,0,0 swiata!). Kowal trzyma sie
-    // swojego realnego spawnu 02_01; ta_smith_sharp bez kowadla opada
-    // do stania - akceptowalne.
-    ta_smith_sharp(8, 0, 22, 0, "SHORE_MONSTER_02_01");
-    ta_smith_sharp(22, 0, 8, 0, "SHORE_MONSTER_02_01");
+    // Kowal stoi w hubie Zakonu (oboz na wybrzezu, StExt_ZakonHub_Wp =
+    // SHORE_MONSTER_03_01) - razem z Mistrzem po jego relokacji. Na starym
+    // sejwie, gdzie Kowal spawnowal sie na 02_01, ta rutyna sprowadzi go
+    // do obozu po wczytaniu. ta_smith_sharp bez kowadla opada do stania.
+    ta_smith_sharp(8, 0, 22, 0, StExt_ZakonHub_Wp);
+    ta_smith_sharp(22, 0, 8, 0, StExt_ZakonHub_Wp);
 };
 
 //--------------------------------------------------------------
@@ -86,15 +86,17 @@ func void StExt_HubSmith_Reforge()
 	};
 
 	// BUG-FIX: dotad newId bylo liczone i IGNOROWANE - gracz placil, bron
-	// sie nie zmieniala. Teraz pelny swap jak u Shivy: stara out -> nowa in
-	// -> zaloz (ten sam typ bazowy, przelosowane bonusy).
+	// sie nie zmieniala. Teraz pelny swap: stara out -> nowa in. NIE zakladamy
+	// automatycznie: npc_equipitem na SWIEZO wygenerowanej instancji
+	// dynamicznej (STEXT_GENERATED_*) w trakcie DIALOGU psuje stan konwersacji
+	// i crashuje (access violation 3F800000 = 1.0f jako adres funkcji;
+	// stara mina z broni bossow). Gracz zaklada z plecaka.
 	StExt_Trace(concatstrings(concatstrings("KOWAL przekucie stara=", inttostring(hlp_getinstanceid(weap))), concatstrings(" -> nowa=", inttostring(newId))));
 	npc_removeinvitems(hero, itmi_gold, cost);
 	npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
 	b_playerfinditem_stext(newId, 1);
-	npc_equipitem(hero, newId);
-	StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz - to juz nie jest ta sama bron.");
-	ai_printbonus("Kowal przekuwa twoja bron.");
+	StExt_Say("Bezimienny Kowal", "Mlot pamieta. Rece pamietaja. Odbierz nowe zelazo z sakwy i zaloz je.");
+	ai_printbonus("Kowal przekul twoja bron - zaloz ja z plecaka.");
 	ai_stopprocessinfos(self);
 };
 
