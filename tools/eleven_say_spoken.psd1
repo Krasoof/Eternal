@@ -54,4 +54,11 @@
     '20EB7A5D' = 'Krew ich najjaśniejszego wsiąkła w twoje ręce. Beliar cię widzi - a ja, po raz pierwszy, nie widzę w tobie nikogo.'
     '66EA2C1E' = 'Weź to ostrze. Pije światło tak, jak inni piją krew. Od dziś jesteś Mroczną Ręką Beliara.'
     '5439EE75' = 'Wskazałem raz. Nie każ mi powtarzać - Beliar nie ceni tępych ostrzy.'
+    # --- Kowal / Mistrz Zakonu: linie zmienione w tej sesji (immersja), wymowa PL ---
+    '037D866B' = 'Żywioł siedzi w stali. Odbierz żelazo z sakwy i załóż je.'
+    '2F7D2F62' = 'Żadnej magii - sama stal, kuta do końca. Takie ostrze nie zawodzi. Odbierz je z sakwy.'
+    '57636879' = 'Nagi rycerz to trup. Załóż pancerz, w który mam wtopić duszę.'
+    'A34E3AE1' = 'Dusza wrosła w stal. Załóż pancerz - broni cię teraz tak, jak bronił swojego pana.'
+    '4D69FE4E' = 'Sztuki Rycerza Dusz. Płaci się duszami poległych - złota tu nie przyjmuję, złoto jest dla kupców.'
+    'FDFD647D' = 'I weź tę runę. Zaprowadzi cię prosto do naszej nowej siedziby, gdy tylko zechcesz.'
 }

@@ -280,7 +280,14 @@ func void ai_ondead_bdt_99783_PaladynHonor3() { };
 // Bramka wszedzie: hero.guild == GIL_DMT + stage. Kwestie przez StExt_Say
 // (ton mistrza: arogancki, wladczy, oddany Beliarowi).
 
-func int StExt_DK_IsMember() { return (hero.guild == GIL_DMT); };
+// Bramka czlonkostwa. Returning ma GIL_DMT + rangi GIL_DMT1/2/3 (pasuja do
+// zbroi DARKTEACHERARMORDK2/DK3). Ktora wartosc dostaje gracz - nie odczytam ze
+// skompilowanych skryptow (grep widzi symbole, nie ciala), wiec przyjmujemy
+// dowolna z nich. Non-Rycerz i tak nigdy nie ma zadnej z tych gildii.
+func int StExt_DK_IsMember()
+{
+	return (hero.guild == GIL_DMT) || (hero.guild == GIL_DMT1) || (hero.guild == GIL_DMT2) || (hero.guild == GIL_DMT3);
+};
 
 // --- Q1: Krew na Dowod ---
 instance dia_dmtteacher_stext_q1(c_info)
