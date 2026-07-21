@@ -155,7 +155,7 @@ instance weak_glimmer_stextcyan(item_glimmer_proto)
     vissizeendscale = 3.0;
 };
 instance mfx_stext_wglow_fire(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -180,7 +180,7 @@ instance mfx_stext_wglow_fire(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -189,16 +189,16 @@ instance mfx_stext_wglow_fire(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "255 120 0";
     vistexcolorend_s = "255 30 0";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_ice(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -223,7 +223,7 @@ instance mfx_stext_wglow_ice(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -232,16 +232,16 @@ instance mfx_stext_wglow_ice(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "150 220 255";
     vistexcolorend_s = "40 120 255";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_electric(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -266,7 +266,7 @@ instance mfx_stext_wglow_electric(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -275,16 +275,16 @@ instance mfx_stext_wglow_electric(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "255 255 120";
     vistexcolorend_s = "255 200 0";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_air(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -309,7 +309,7 @@ instance mfx_stext_wglow_air(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -318,16 +318,16 @@ instance mfx_stext_wglow_air(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "220 255 230";
     vistexcolorend_s = "120 200 180";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_earth(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -352,7 +352,7 @@ instance mfx_stext_wglow_earth(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -361,16 +361,16 @@ instance mfx_stext_wglow_earth(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "200 150 80";
     vistexcolorend_s = "120 80 40";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_light(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -395,7 +395,7 @@ instance mfx_stext_wglow_light(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -404,16 +404,16 @@ instance mfx_stext_wglow_light(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "255 245 200";
     vistexcolorend_s = "255 220 120";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_dark(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -438,7 +438,7 @@ instance mfx_stext_wglow_dark(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -447,16 +447,16 @@ instance mfx_stext_wglow_dark(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "160 60 220";
     vistexcolorend_s = "60 0 120";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
 
 instance mfx_stext_wglow_death(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;
@@ -481,7 +481,7 @@ instance mfx_stext_wglow_death(c_particlefx) {
     dirangleelevvar = 180.0;
     velavg = 0.0;
     velvar = 0.003;
-    lsppartavg = 520.0;
+    lsppartavg = 340.0;
     flygravity_s = "0 0 0";
     visname_s = "DESTROYUNDEAD2.TGA";
     visorientation_s = "VELO";
@@ -490,10 +490,10 @@ instance mfx_stext_wglow_death(c_particlefx) {
     vistexaniislooping = 1;
     vistexcolorstart_s = "120 255 120";
     vistexcolorend_s = "20 140 60";
-    vissizestart_s = "15 19";
-    vissizeendscale = 0.75;
+    vissizestart_s = "9 12";
+    vissizeendscale = 0.55;
     visalphafunc_s = "ADD";
-    visalphastart = 105.0;
+    visalphastart = 140.0;
     visalphaend = 30.0;
     useemittersfor = 1;
 };
@@ -501,7 +501,7 @@ instance mfx_stext_wglow_death(c_particlefx) {
 // Legendary ARMOR aura: subtle golden glitter emitted from the WEARER's
 // body mesh. Short particle life + no lights = no trailing dots.
 instance mfx_stext_legendarmor(c_particlefx) {
-    ppsvalue = 26.0;
+    ppsvalue = 36.0;
     ppsscalekeys_s = "3";
     ppsislooping = 1;
     ppsissmooth = 1;

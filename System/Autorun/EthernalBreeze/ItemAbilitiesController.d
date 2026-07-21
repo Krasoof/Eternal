@@ -864,21 +864,11 @@ func void StExt_ItemAbilitiesController()
 	// shows "Moc legendarna" now, rendered by the DLL from prop 28)
 	StExt_LegendJewelryMask = StExt_ScanLegendJewelry(hero);
 
-	// LEGENDARY ARMOR AURA: subtle golden body glitter while a rank-5 armor
-	// is worn (replay every 2 ticks; short particle life, so no dot trails).
-	var c_item laArm; laArm = npc_getequippedarmor(hero);
-	if (hlp_isvaliditem(laArm))
-	{
-		if (StExt_GetItemRank(laArm) >= StExt_ItemRankLegendary)
-		{
-			StExt_ArmorAura_Tick -= 1;
-			if (StExt_ArmorAura_Tick <= 0)
-			{
-				rx_playeffect("SPELLFX_STEXT_LEGENDARMOR", hero);
-				StExt_ArmorAura_Tick = 2;
-			};
-		};
-	};
+	// LEGENDARY ARMOR AURA: WYLACZONA (decyzja usera 2026-07-21). Efekt uporczywie
+	// nie trzymal sie modelu postaci - jako emiter MESH rozsypywal sie obok, a po
+	// zamianie na sfere nadal nie siadal. Poswiata na BRONI zostaje i dziala dobrze;
+	// zbroja rozpoznawalna jest po randze/opisie, nie po FX. Kod usuniety, nie
+	// zakomentowany na pol - globalne StExt_ArmorAura_Tick zostaje (save-compat).
 
 	if (StExt_WeaponSkill_Cooldown <= 0) { return; };
 	if (accelerationactive) { StExt_WeaponSkill_Cooldown -= accelerationratio; }
