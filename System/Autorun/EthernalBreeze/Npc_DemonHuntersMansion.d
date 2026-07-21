@@ -3,7 +3,7 @@
 //===================================================================//
 // Jako Mroczny Rycerz (sluga Beliara) gracz jest w realnej wojnie z Lowcami
 // Demonow (kanon Returninga: Mroczny Rycerz = ich wrog w kaplicy, przyzwany
-// demon = pomiot Beliara). Mistrz Angel + lowcy w dworku za farma Onara.
+// demon = pomiot Beliara). Ich gniazdo jest w PORCIE - tam kieruje quest.
 //
 // PRAWDZIWI lowcy (zero kopii): wojna gildii przez wld_setguildattitude sprawia,
 // ze REALNE NPC lowcow atakuja gracza i sa zabijalni - realne konsekwencje.
@@ -11,12 +11,12 @@
 // ustawiam wrogosc dla OBU wzgledem hero.guild (gracz-Rycerz ma guild=16, nie
 // GIL_DMT=11 - patrz Dark Knights), a diagnostyk potwierdzi ktora.
 //
-// CHARAKTER ITERACYJNY: gildia lowcow + zachowanie callbacku dworku ustalane w
-// grze diagnostykiem (jak hero.guild). Ten plik = pierwszy inkrement (wojna +
-// diagnostyk + test zaludnienia + szkielet questa).
+// CHARAKTER ITERACYJNY: gildia lowcow ustalana w grze diagnostykiem (jak hero.guild),
+// bo w plikach jej nie odczytamy. Quest: wojna gildii + zlecenie + nagroda.
+
 
 const string StExt_DH_Topic = "Krucjata Beliara";
-const string StExt_DH_WP = "NW_BIGFARM_FOREST_01";	// las za farma Onara (dworek lowcow)
+const string StExt_DH_WP = "NW_CITY_HABOUR_03";	// port - gniazdo lowcow (spawn brakujacych)
 
 // Wojna gildii (StExt_DH_SetGuildWar) zdefiniowana w ModController.d (parse-order:
 // wolana z CheckGatedSpawns w pliku 54, ten plik = 76). Tu tylko ja wolamy.
@@ -91,17 +91,11 @@ func void dia_dmtteacher_stext_dhdiag_info()
 	ai_stopprocessinfos(self);
 };
 
-// USUNIETO test zaludnienia dworku: wolanie bazowego callbacku RX_CALLBACK_DH_GOTOMANSION
-// z WNETRZA dialogu zawieszalo rozmowe (ta sama klasa co crash auto-equip - nie ruszamy
-// stanu swiata w trakcie dialogu). Do tego wszystkie zgadywane nazwy NPC daly -1, wiec
-// event i tak nie mial czego przeniesc. Wracamy do tego dopiero po empirycznym
-// zidentyfikowaniu lowcow skanerem (StExt_DH_ScanNearbyGuilds w menu debug).
-
-// IDENTYFIKACJA LOWCOW: przelacznik podgladu gildii CELU (StExt_DH_ShowFocusGuild).
-// Daedalus nie ma petli (mod nigdzie nie uzywa while), a zgadywanie nazw instancji
-// zawiodlo (wszystkie -1). Wiec: wlaczasz podglad u Mistrza, idziesz do lowcow,
-// patrzysz na jednego i czytasz jego gildie z ekranu. Rysowanie jest w ModControllerze
-// (tick), bo w dialogu focusem jest rozmowca.
+// IDENTYFIKACJA LOWCOW (historia): zgadywanie nazw instancji zawiodlo (wszystkie -1),
+// dopiero ekstrakcja CALYCH tokenow z VDF dala prawdziwe: DH_MAINNPC, DH_NPCSEVERIN,
+// DH_VILANDNPC, DH_SLD_MERCENARY_01/02 (kazda potwierdzona handlerem AI_ONDEAD_*).
+// Podglad gildii CELU (StExt_DH_ShowFocusGuild) rysowany jest z ticku ModControllera,
+// bo w dialogu focusem jest rozmowca. Daedalus nie ma petli - stad brak skanu po liscie.
 
 //--------------------------------------------------------------
 // *** Zlecenie: wybij lowcow (szkielet, do finalizacji po diagnostyku) ***
@@ -119,10 +113,10 @@ func int dia_dmtteacher_stext_dhhunt_condition() { return StExt_DK_IsMember() &&
 func void dia_dmtteacher_stext_dhhunt_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Lowcy demonow poluja na wszystko, co nosi cien Beliara - a ty niesiesz go jak sztandar.");
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Zagniezdzili sie w dworku za farma Onara, w lesie nad jeziorem. Wytnij ich gniazdo. Ich mistrz Angel ma pasc pierwszy.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Zagniezdzili sie w porcie, przy nabrzezu. Wytnij ich gniazdo. Ich mistrz ma pasc pierwszy.");
 	StExt_DH_SetGuildWar();
 	StExt_DH_Stage = 1;
-	StExt_DH_Log("Lowcy demonow zajeli dworek za farma Onara. Mistrz Angel i jego lowcy maja zginac - Beliar zabierze im dom.");
+	StExt_DH_Log("Lowcy demonow trzymaja gniazdo w porcie, przy nabrzezu. Ich mistrz i jego ludzie maja zginac.");
 	ai_stopprocessinfos(self);
 };
 
@@ -159,12 +153,12 @@ func void dia_dmtteacher_stext_dhhunt_done_info()
 	};
 	StExt_DarkKnights_GrantBeliarKarma(150);
 	StExt_DarkKnights_GrantReward(8000, 15);
-	StExt_DH_Log("Mistrz lowcow martwy, gniazdo zniszczone. Dworek za farma Onara nalezy teraz do cienia. Ich kusza pije teraz swiatlo.");
+	StExt_DH_Log("Mistrz lowcow martwy, gniazdo w porcie wyrzniete. Ich kusza pije teraz swiatlo.");
 	Log_SetTopicStatus(StExt_DH_Topic, LOG_SUCCESS);
 	ai_stopprocessinfos(self);
 };
 
-// Powtarzalna wskazowka - samonaprawa, gdyby lowcy sie rozeszli/nie doszli do dworku.
+// Powtarzalna wskazowka - przypomina gdzie sa i dospawnowuje brakujacych lowcow.
 // Zdejmuje latch, wiec tick zwola ich ponownie (AI_Teleport, poza dialogiem).
 instance dia_dmtteacher_stext_dhhint(c_info)
 {
@@ -178,7 +172,7 @@ instance dia_dmtteacher_stext_dhhint(c_info)
 func int dia_dmtteacher_stext_dhhint_condition() { return StExt_DK_IsMember() && (StExt_DH_Stage == 1); };
 func void dia_dmtteacher_stext_dhhint_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "W dworku za farma Onara, w lesie nad jeziorem. Zbiore ich tam dla ciebie - idz i skoncz to.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "W porcie, przy nabrzezu - tam trzymaja swoje gniazdo. Idz i skoncz to.");
 	StExt_DH_Relocated = false;	// tick zwola ich na nowo
 	ai_stopprocessinfos(self);
 };

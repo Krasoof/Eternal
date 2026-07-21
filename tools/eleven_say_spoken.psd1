@@ -92,4 +92,7 @@
     'D25FFCC9' = 'Ich mistrz martwy, gniazdo wyrżnięte. Krzyż nie ochronił ich przed Beliarem.'
     '9A18A950' = 'Weź ich własną kuszę. Przekułem ją w ogniu - teraz pije światło, któremu służyła.'
     '91E53021' = 'W dworku za farmą Onara, w lesie nad jeziorem. Zbiorę ich tam dla ciebie - idź i skończ to.'
+    # --- Lowcy: gniazdo w porcie (po korekcie lokalizacji) ---
+    'D0AA1A29' = 'Zagnieździli się w porcie, przy nabrzeżu. Wytnij ich gniazdo. Ich mistrz ma paść pierwszy.'
+    '8D304BD1' = 'W porcie, przy nabrzeżu - tam trzymają swoje gniazdo. Idź i skończ to.'
 }

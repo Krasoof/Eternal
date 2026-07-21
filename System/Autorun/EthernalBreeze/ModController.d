@@ -189,22 +189,17 @@ func void StExt_DH_SetGuildWar()
 	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_MakeNpcHostile(n);
 };
 
-// Zwolanie PRAWDZIWYCH lowcow do dworku za farma Onara (zero kopii - przenosimy
-// te same instancje). AI_Teleport z TICKU, nie z dialogu (wolanie eventu/teleportu
-// w trakcie rozmowy zawieszalo dialog). Latch = raz. WP jako literal, bo stala
-// StExt_DH_WP siedzi w pliku 76, a ten kod parsuje sie jako 54.
-func void StExt_DH_TeleportOne(var c_npc n)
-{
-	if (!hlp_isvalidnpc(n)) { return; };
-	if (npc_isdead(n)) { return; };
-	AI_Teleport(n, "NW_BIGFARM_FOREST_01");
-};
+// LOWCY ZYJA W PORCIE - tam jest ich gniazdo i tam kieruje quest.
+// Porzucone: przenoszenie ich do dworku przez AI_Teleport. To komenda KOLEJKI AI,
+// a NPC oddalony od gracza w ogole nie tyka swojego AI - wiec teleport nigdy sie
+// nie wykonywal i lowcy zostawali w porcie (potwierdzone w grze). Zamiast walczyc
+// z silnikiem, quest prowadzi tam, gdzie oni faktycznie sa.
 
-// Diagnostyk potwierdzil: w tym zapisie lowcy NIE ISTNIEJA w swiecie (ich watek
-// nieaktywny). Dlatego: jesli lowca istnieje - teleportujemy, jesli NIE - wstawiamy
-// go do swiata. To NIE sa kopie: skoro oryginalu nigdzie nie ma, wld_insertnpc
-// powoluje te jedyna, prawdziwa instancje (zero duplikacji, zero psucia ich watku).
-func void StExt_DH_RelocateToMansion()
+// Dospawnowuje TYLKO tych lowcow, ktorych w danym zapisie w ogole nie ma (watek
+// nieaktywny). Istniejacych NIE ruszamy - siedza w porcie i tam po nich idziemy.
+// To nie kopie: gdy oryginalu nigdzie nie ma, wld_insertnpc powoluje te jedyna,
+// prawdziwa instancje.
+func void StExt_DH_EnsureHunters()
 {
 	var c_npc n;
 	if (StExt_DH_Relocated) { return; };
@@ -212,18 +207,12 @@ func void StExt_DH_RelocateToMansion()
 	if (currentlevel != newworld_zen) { return; };
 	StExt_DH_Relocated = true;
 	rx_saveparservars();
-	n = hlp_getnpc(DH_MAINNPC);
-	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_MAINNPC, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_NPCSEVERIN);
-	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_NPCSEVERIN, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_VILANDNPC);
-	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_VILANDNPC, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_01);
-	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_02);
-	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_CITY_HABOUR_03"); };
+	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_CITY_HABOUR_03"); };
+	n = hlp_getnpc(DH_VILANDNPC);        if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_VILANDNPC, "NW_CITY_HABOUR_03"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_CITY_HABOUR_03"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_CITY_HABOUR_03"); };
 	rx_restoreparservars();
-	ai_printbonus("Lowcy demonow zebrali sie w dworku za farma Onara.");
 };
 
 func void StExt_CheckGatedSpawns()
@@ -233,7 +222,7 @@ func void StExt_CheckGatedSpawns()
 	// sie przy wczytaniu). Setter zwraca od razu dla nie-Rycerza; globalne, wiec
 	// przed bramka newworld. Idempotentne.
 	StExt_DH_SetGuildWar();
-	StExt_DH_RelocateToMansion();	// po przyjeciu zlecenia sciaga lowcow do dworku (z ticku!)
+	StExt_DH_EnsureHunters();	// dospawnuj brakujacych lowcow (istniejacych nie ruszamy)
 	// Diagnostyk identyfikacji Lowcow: podglad gildii CELU (patrz na NPC).
 	// W dialogu focusem jest rozmowca, dlatego rysujemy z ticku, nie z dialogu.
 	if (StExt_DH_ShowFocusGuild && hlp_isvalidnpc(StExt_FocusNpc))
