@@ -119,14 +119,30 @@ func void ai_ondead_bdt_99794_Belmond()
 	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Amulet"), (hero.level * 7) + (kapitel * 40) + 380, StExt_ItemRankLegendary, "SPL_DARKBALL");
 	if (itm > 0)
 	{
-		StExt_SetGeneratedItemName(itm, "Oko Belmonda");
+		StExt_SetGeneratedItemName(itm, "Zgaszone Swiatlo");
 		StExt_CreateRandomItem(self, itm, 1, false);
-		printscreencolor("Belmond padl - cos przy nim lsni.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
+		printscreencolor("Swiatlo Belmonda zgaslo - cos po nim zostalo.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
 	};
 };
 
 // Wojna gildii (StExt_DH_SetGuildWar) zdefiniowana w ModController.d (parse-order:
 // wolana z CheckGatedSpawns w pliku 54, ten plik = 76). Tu tylko ja wolamy.
+
+// Spawn obstawy + Belmonda. Wolane z TICKU przez StExt_InitializeCallback PO NAZWIE -
+// tick siedzi w pliku 54, a te instancje w 76, wiec bezposrednie wolanie = parse-fail.
+// Dzieki temu obstawa pojawi sie takze wtedy, gdy zlecenie bylo przyjete WCZESNIEJ
+// (dialog przyjecia jest jednorazowy i juz sie nie odpali).
+func void StExt_DH_SpawnExtras()
+{
+	rx_saveparservars();
+	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
+	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
+	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
+	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
+	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
+	rx_restoreparservars();
+	ai_printbonus("Lowcy demonow obstawili dworek. Belmond jest wsrod nich.");
+};
 
 //--------------------------------------------------------------
 // *** Dziennik (guarded wrapper) ***
@@ -142,67 +158,11 @@ func void StExt_DH_Log(var string entry)
 	B_LogEntry(StExt_DH_Topic, entry);
 };
 
-//--------------------------------------------------------------
-// *** DIAGNOSTYK (TYMCZASOWY - usunac po ustaleniu gildii lowcow) ***
-//--------------------------------------------------------------
-// Odczyt: gildia gracza, gildia Angela (jesli zaladowany), aktualne nastawienia
-// hero<->TPL/PAL. Att w Gothicu: HOSTILE=0, ANGRY=1, NEUTRAL=2, FRIENDLY=3.
-instance dia_dmtteacher_stext_dhdiag(c_info)
-{
-    npc = DMT_DARKTEACHER;
-    nr = 730;
-    condition = dia_dmtteacher_stext_dhdiag_condition;
-    information = dia_dmtteacher_stext_dhdiag_info;
-    permanent = true;
-    description = "...(kim sa dla mnie lowcy demonow?)";
-};
-func int dia_dmtteacher_stext_dhdiag_condition() { return TRUE; };
-func void dia_dmtteacher_stext_dhdiag_info()
-{
-	var c_npc dhm;
-	// Nazwy bazowych NPC rozwiazujemy po STRINGU w runtime (StExt_GetInstanceIdByName),
-	// bo grep-hit w VDF NIE gwarantuje uzywalnego symbolu parsera (ANGEL i GIL_DMT3
-	// wywalily start). Wynik <=0 = taka instancja nie istnieje.
-	ai_printbonus(concatstrings(concatstrings("hero.guild=", inttostring(hero.guild)), concatstrings("  gildia Lowcow=", inttostring(StExt_DH_HunterGuild))));
-	if (StExt_DH_HunterGuild > 0)
-	{
-		ai_printbonus(concatstrings("att Lowcy->ja = ", inttostring(wld_getguildattitude(StExt_DH_HunterGuild, hero.guild))));
-	}
-	else
-	{
-		ai_printbonus("Gildia Lowcow jeszcze nieodczytana.");
-	};
-	// Czy mistrz lowcow w ogole ISTNIEJE w swiecie? Jesli nie - nie ma kogo
-	// przenosic ani zabijac (ich zawartosc moze byc nieaktywna w tym zapisie).
-	dhm = hlp_getnpc(DH_MAINNPC);
-	if (hlp_isvalidnpc(dhm))
-	{
-		if (npc_isdead(dhm)) { ai_printbonus("Mistrz lowcow: ISTNIEJE, ale MARTWY"); }
-		else { ai_printbonus(concatstrings("Mistrz lowcow: ZYJE, gildia=", inttostring(dhm.guild))); };
-	}
-	else
-	{
-		ai_printbonus("Mistrz lowcow: NIE ISTNIEJE w swiecie (ich watek nieaktywny)");
-	};
-	// przelacz podglad gildii CELU: idz do lowcow, spojrz na jednego, odczytaj z ekranu
-	if (StExt_DH_ShowFocusGuild)
-	{
-		StExt_DH_ShowFocusGuild = false;
-		ai_printbonus("Podglad gildii celu: WYLACZONY");
-	}
-	else
-	{
-		StExt_DH_ShowFocusGuild = true;
-		ai_printbonus("Podglad gildii celu: WLACZONY - spojrz na lowce demonow");
-	};
-	ai_stopprocessinfos(self);
-};
-
 // IDENTYFIKACJA LOWCOW (historia): zgadywanie nazw instancji zawiodlo (wszystkie -1),
 // dopiero ekstrakcja CALYCH tokenow z VDF dala prawdziwe: DH_MAINNPC, DH_NPCSEVERIN,
 // DH_VILANDNPC, DH_SLD_MERCENARY_01/02 (kazda potwierdzona handlerem AI_ONDEAD_*).
-// Podglad gildii CELU (StExt_DH_ShowFocusGuild) rysowany jest z ticku ModControllera,
-// bo w dialogu focusem jest rozmowca. Daedalus nie ma petli - stad brak skanu po liscie.
+// (diagnostyka usunieta - psula immersje).
+
 
 //--------------------------------------------------------------
 // *** Zlecenie: wybij lowcow (szkielet, do finalizacji po diagnostyku) ***
@@ -224,16 +184,8 @@ func void dia_dmtteacher_stext_dhhunt_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "I strzez sie jednego. Ich dowodca to tylko glos, ale Belmond to ostrze - jego zbroja pamieta wiecej demonow niz ty ludzi. Przy nim nosi cos, co warto zabrac.");
 	StExt_DH_SetGuildWar();
 	StExt_DH_Stage = 1;
-	// Nasza obstawa dorzucona do bazowych lowcow (spawn w oknie parservars,
-	// wzorzec Npc_DarkKnights). Bazowy event sciaga tam reszte sam.
-	rx_saveparservars();
-	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
-	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
-	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
-	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
-	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
-	rx_restoreparservars();
-	StExt_DH_ExtrasSpawned = true;
+	// Obstawa NIE jest spawnowana tutaj - robi to tick (StExt_DH_TriggerExtras),
+	// zeby zadzialala takze u graczy, ktorzy zlecenie przyjeli wczesniej.
 	StExt_DH_Log("Lowcy demonow odbudowali dworek za farma Onara i sciagaja tam sily. Ich mistrz i jego ludzie maja zginac. Najgrozniejszy jest Belmond - nosi przy sobie cos cennego.");
 	ai_stopprocessinfos(self);
 };

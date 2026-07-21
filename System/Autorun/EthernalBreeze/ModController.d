@@ -159,6 +159,11 @@ func void StExt_DH_MakeNpcHostile(var c_npc n)
 {
 	if (!hlp_isvalidnpc(n)) { return; };
 	if (npc_isdead(n)) { return; };
+	// ZDEJMIJ NIESMIERTELNOSC. Bazowi lowcy maja flage, ktora chroni ich przed
+	// przypadkowa smiercia - przez nia nie dalo sie ich dobic. Mod tez ja honoruje
+	// (Utils.d StExt_IsNpcImmortal: flags == npc_flag_immortal). Czyscimy tylko te
+	// dwie flagi, zeby nie zgubic FRIEND/GHOST.
+	if ((n.flags == npc_flag_immortal) || (n.flags == npc_flag_xaradrim)) { n.flags = npc_flag_none; };
 	npc_setattitude(n, ATT_HOSTILE);
 	npc_settempattitude(n, ATT_HOSTILE);
 };
@@ -205,11 +210,27 @@ func void StExt_DH_RestoreMansion()
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
 	StExt_DH_MansionDone = true;
-	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSION_CHANGEVOBTREE", 1);
-	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONCLEAN", 20);
-	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONUPDATECLEAN", 40);
-	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_DH_GOTOMANSION", 60);
+	// KOLEJNOSC MA ZNACZENIE (zgloszenie: "na stare voby naszly nowe"). Stan idzie
+	// od tego co jest -> CLEANED -> dopiero stan docelowy. Podmiana vobtree PRZED
+	// oznaczeniem jako czysty nakladala nowe voby na stare.
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONCLEAN", 1);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONUPDATECLEAN", 25);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSION_CHANGEVOBTREE", 50);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_DH_GOTOMANSION", 75);
 	ai_printbonus("Lowcy demonow odbudowali dworek za farma Onara i przenosza sie tam.");
+};
+
+// Spawn naszej obstawy + Belmonda. Instancje siedza w pliku 76, a ten kod parsuje
+// sie jako 54, wiec wolamy PO NAZWIE (deferred) - inaczej forward ref = parse-fail.
+// Z ticku, nie z dialogu przyjecia: dialog jest jednorazowy, wiec gracz z JUZ
+// przyjetym zleceniem nigdy by obstawy nie zobaczyl (zgloszenie: "Belmonda nie ma").
+func void StExt_DH_TriggerExtras()
+{
+	if (StExt_DH_ExtrasSpawned) { return; };
+	if (StExt_DH_Stage != 1) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	StExt_DH_ExtrasSpawned = true;	// latch TU, zeby nie spamowac callbackami
+	StExt_InitializeCallback(hero, hero, "StExt_DH_SpawnExtras", 5);
 };
 
 // Dospawnowuje TYLKO tych lowcow, ktorych w danym zapisie w ogole nie ma (watek
@@ -241,12 +262,7 @@ func void StExt_CheckGatedSpawns()
 	StExt_DH_SetGuildWar();
 	StExt_DH_EnsureHunters();	// dospawnuj brakujacych lowcow (istniejacych nie ruszamy)
 	StExt_DH_RestoreMansion();	// odpal bazowy event: dworek odrestaurowany + przeprowadzka lowcow
-	// Diagnostyk identyfikacji Lowcow: podglad gildii CELU (patrz na NPC).
-	// W dialogu focusem jest rozmowca, dlatego rysujemy z ticku, nie z dialogu.
-	if (StExt_DH_ShowFocusGuild && hlp_isvalidnpc(StExt_FocusNpc))
-	{
-		printscreencolor(concatstrings(concatstrings("cel guild=", inttostring(StExt_FocusNpc.guild)), concatstrings("  att=", inttostring(wld_getguildattitude(StExt_FocusNpc.guild, hero.guild)))), StExt_Null, 30, StExt_DefaultFont, 1, StExt_Color_Green);
-	};
+	StExt_DH_TriggerExtras();	// dorzuc nasza obstawe + Belmonda (dziala tez przy juz przyjetym zleceniu)
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)

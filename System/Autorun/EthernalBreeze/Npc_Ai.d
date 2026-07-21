@@ -498,9 +498,24 @@ func void zs_dead()
 	if (!hlp_isvalidnpc(self)) { StExt_PrintDebugStack("OnDead() - Self instance is Null!"); return; };
 	if (!hlp_isvalidnpc(other)) { StExt_PrintDebugStack("OnDead() - Other instance is Null!"); return; };
 	
+	// CELE WOJNY Z LOWCAMI DEMONOW MAJA UMIERAC NAPRAWDE.
+	// Bazowi lowcy sa chronieni przed smiercia tak jak Lord Hagen - cos trzyma im
+	// HP powyzej zera, wiec ponizsza galaz "falszywej smierci" stawiala ich z
+	// powrotem na nogi (zgloszenie: "dobijasz, a on i tak wstaje"; innych NPC dalo
+	// sie dobic normalnie). Zerujemy HP, zeby poszla zwykla sciezka smierci.
+	// Tylko gdy zlecenie jest aktywne i tylko dla naszej obstawy (99790-99794)
+	// albo NPC z gildii lowcow odczytanej w runtime.
+	if ((StExt_DH_Stage == 1) && (self.attribute[atr_hitpoints] > 0))
+	{
+		if (((self.id >= 99790) && (self.id <= 99794)) || ((StExt_DH_HunterGuild > 0) && (self.guild == StExt_DH_HunterGuild)))
+		{
+			self.attribute[atr_hitpoints] = 0;
+		};
+	};
+
 	if (self.attribute[atr_hitpoints] > 0)
 	{
-		StExt_PrintDebugStack("OnDead() -> false death detected!");		
+		StExt_PrintDebugStack("OnDead() -> false death detected!");
 		if (self.guild <= gil_seperator_hum)
 		{
 			ext_removefromslot(self, "BIP01 R CLAVICLE");
