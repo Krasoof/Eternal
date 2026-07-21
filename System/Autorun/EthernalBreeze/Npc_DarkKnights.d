@@ -22,6 +22,12 @@
 const string StExt_Topic_DarkKnights = "Droga Beliara";
 const string StExt_Str_DarkTeacher_Name = "Mroczny Rycerz Beliara";	// token mowcy (Resolve-VoiceId matchuje "DarkTeacher")
 
+// hero.guild grywalnego Mrocznego Rycerza w Returningu = 16 (USTALONE W GRZE
+// diagnostykiem u DMT_DARKTEACHER). GIL_DMT(=11) to bazowa gildia Dementorow-NPC,
+// NIE gracza. Uwaga: gdyby awans na wyzsza range (DK2/DK3) zmienil te wartosc,
+// questy moglyby zniknac - wtedy odczytac nowe hero.guild i dodac.
+const int StExt_DK_GuildId = 16;
+
 // WP celow - rozrzucone po sprawdzonych punktach NEWWORLD (te same rodziny
 // co quest Wiezy; zweryfikowane w waynecie runtime).
 const string StExt_DK_WP_Q1 = "SHORE_MONSTER_03_01";
@@ -280,13 +286,11 @@ func void ai_ondead_bdt_99783_PaladynHonor3() { };
 // Bramka wszedzie: hero.guild == GIL_DMT + stage. Kwestie przez StExt_Say
 // (ton mistrza: arogancki, wladczy, oddany Beliarowi).
 
-// Bramka czlonkostwa gildii Mrocznych Rycerzy. GIL_DMT to jedyna gildia DMT
-// widoczna dla parsera Autorun - "rangi" GIL_DMT1/2/3 mialy trafienia w grepie
-// AB_Scripts.vdf, ale NIE sa uzywalnymi stalymi (parser: Unknown identifier
-// GIL_DMT3). Lekcja: grep-hit w VDF != symbol dostepny w parserze. Gdyby gracz
-// jednak trzymal inna wartosc guild, questline bylby niewidoczny - wtedy
-// sprawdzamy realny hero.guild w konsoli i korygujemy (patch save-compat).
-func int StExt_DK_IsMember() { return (hero.guild == GIL_DMT); };
+// Bramka czlonkostwa. Gracz-Rycerz trzyma hero.guild == StExt_DK_GuildId (16,
+// ustalone w grze). Akceptujemy tez GIL_DMT(=11) jako belt-and-suspenders
+// (parser-safe symbol). GIL_DMT1/2/3 NIE uzywac - crashuja parser (Unknown
+// identifier). Non-Rycerz nigdy nie ma zadnej z tych gildii.
+func int StExt_DK_IsMember() { return (hero.guild == StExt_DK_GuildId) || (hero.guild == GIL_DMT); };
 
 // --- Q1: Krew na Dowod ---
 instance dia_dmtteacher_stext_q1(c_info)
