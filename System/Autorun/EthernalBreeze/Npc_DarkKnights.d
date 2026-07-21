@@ -105,6 +105,18 @@ func void StExt_DarkKnights_Log(var string entry)
 	B_LogEntry(StExt_Topic_DarkKnights, entry);
 };
 
+// Karma Beliara. W tym modzie "Karma Beliara" = bazowy licznik beliarpraycount
+// (tak czyta ja nasz kod: InventoryController item-cond StExt_Item_Cond_BeliarKarma
+// oraz StExt_BeliarKarma = beliarpraycount w ModController:463). Piszemy do ZRODLA
+// (beliarpraycount), bo StExt_BeliarKarma jest nadpisywany co tick. To ta sama
+// Karma, ktora zbiera sie m.in. do Pazura Beliara (400 na mistrzostwo). Droga
+// Beliara ma ja nagradzac - to caly sens sluzby.
+func void StExt_DarkKnights_GrantBeliarKarma(var int amount)
+{
+	beliarpraycount = beliarpraycount + amount;
+	ai_printbonus(concatstrings("Beliar patrzy laskawiej (+", concatstrings(inttostring(amount), " Karmy Beliara)")));
+};
+
 //--------------------------------------------------------------
 // *** Instancje (WSZYSTKIE najpierw) ***
 //--------------------------------------------------------------
@@ -332,6 +344,7 @@ func void dia_dmtteacher_stext_q1done_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Czuje jego smierc na twoich rekach. Dobrze. Wez ten znak - Beliar juz na ciebie patrzy.");
 	createinvitems(hero, itmi_stext_beliar_sigil, 1);
 	StExt_DarkKnight_Stage = 2;
+	StExt_DarkKnights_GrantBeliarKarma(40);
 	StExt_DarkKnights_Log("Aldric martwy. Mistrz przyjal dowod. Beliar patrzy.");
 	ai_stopprocessinfos(self);
 };
@@ -377,6 +390,7 @@ func void dia_dmtteacher_stext_q2done_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Daj. Czujesz ten chlod? To ich bog odwraca wzrok. Zostaw ja tutaj - niech gnije u stop Beliara.");
 	if (npc_hasitems(hero, itmi_stext_desecrated_relic) > 0) { npc_removeinvitems(hero, itmi_stext_desecrated_relic, 1); };
 	StExt_DarkKnight_Stage = 4;
+	StExt_DarkKnights_GrantBeliarKarma(50);
 	StExt_DarkKnights_Log("Splugawiona relikwia spoczela u stop Beliara. Paladyni sa slabsi, niz byli.");
 	ai_stopprocessinfos(self);
 };
@@ -420,6 +434,7 @@ func void dia_dmtteacher_stext_q3done_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Cisza. Nareszcie. Dwa imiona wykreslone z ksiegi zywych - i nikt ich juz nie wpisze z powrotem.");
 	StExt_DarkKnight_Stage = 6;
+	StExt_DarkKnights_GrantBeliarKarma(60);
 	StExt_DarkKnights_Log("Gerhard i Volker martwi na zawsze. Zaden paladyn juz ich nie wskrzesi.");
 	ai_stopprocessinfos(self);
 };
@@ -464,6 +479,7 @@ func void dia_dmtteacher_stext_q4done_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Bez glowy ciezko dowodzic. Ich zapal gasnie razem z nim. Zostal juz tylko jeden - najjasniejszy.");
 	StExt_DarkKnight_Stage = 8;
+	StExt_DarkKnights_GrantBeliarKarma(70);
 	StExt_DarkKnights_Log("Ortwin martwy, jego ludzie w rozsypce. Zostal ostatni: paladyn lord.");
 	ai_stopprocessinfos(self);
 };
@@ -511,6 +527,7 @@ func void dia_dmtteacher_stext_q5done_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Wez to ostrze. Pije swiatlo tak, jak inni pija krew. Od dzis jestes Mroczna Reka Beliara.");
 	createinvitems(hero, itmw_stext_beliar_reaper, 1);
 	StExt_DarkKnight_Stage = 10;
+	StExt_DarkKnights_GrantBeliarKarma(100);
 	StExt_DarkKnights_Log("Isgaroth martwy. Bialy zakon zlamany po cichu, jeden po drugim. Mistrz nazwal mnie Mroczna Reka Beliara.");
 	Log_SetTopicStatus(StExt_Topic_DarkKnights, LOG_SUCCESS);
 	ai_stopprocessinfos(self);
