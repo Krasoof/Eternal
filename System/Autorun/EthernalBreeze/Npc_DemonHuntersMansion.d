@@ -137,14 +137,19 @@ func void ai_ondead_bdt_99794_Belmond()
 // tick siedzi w pliku 54, a te instancje w 76, wiec bezposrednie wolanie = parse-fail.
 // Dzieki temu obstawa pojawi sie takze wtedy, gdy zlecenie bylo przyjete WCZESNIEJ
 // (dialog przyjecia jest jednorazowy i juz sie nie odpali).
+// IDEMPOTENTNY: kazdy NPC wstawiany tylko gdy NIE istnieje w swiecie. Dzieki temu
+// mozna go wolac wielokrotnie (np. po zdjeciu latcha wskazowka) bez duplikatow -
+// i naprawia sejwy, w ktorych latch ustawil sie przy starej wersji, a obstawa
+// nigdy nie weszla (zgloszenie: "nie ma Belmonda").
 func void StExt_DH_SpawnExtras()
 {
+	var c_npc n;
 	rx_saveparservars();
-	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
-	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
-	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
-	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
-	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
+	n = hlp_getnpc(bdt_99790_LowcaDemonow1); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP); };
+	n = hlp_getnpc(bdt_99791_LowcaDemonow2); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP); };
+	n = hlp_getnpc(bdt_99792_LowcaDemonow3); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP); };
+	n = hlp_getnpc(bdt_99793_LowcaDemonow4); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP); };
+	n = hlp_getnpc(bdt_99794_Belmond);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP); };
 	rx_restoreparservars();
 	ai_printbonus("Lowcy demonow obstawili dworek. Belmond jest wsrod nich.");
 };
@@ -248,6 +253,10 @@ func int dia_dmtteacher_stext_dhhint_condition() { return StExt_DK_IsMember() &&
 func void dia_dmtteacher_stext_dhhint_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "W dworku za farma Onara, w lesie nad jeziorem. Tam sie sciagneli - idz i skoncz to.");
-	StExt_DH_Relocated = false;	// tick zwola ich na nowo
+	// Zdejmij OBA latche - tick dospawnuje brakujacych bazowych lowcow ORAZ
+	// obstawe z Belmondem (SpawnExtras jest idempotentny, wiec zero duplikatow).
+	// Naprawia sejwy z latchem ustawionym przy starej wersji skryptu.
+	StExt_DH_Relocated = false;
+	StExt_DH_ExtrasSpawned = false;
 	ai_stopprocessinfos(self);
 };

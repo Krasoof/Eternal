@@ -236,6 +236,18 @@ func void StExt_Npc_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c_
 	var int baseDamage;
 	
 	StExt_PrintDamageDebugStack("StExt_Npc_BeforeOffenceHandler(var c_npc atk, var c_npc target, var c_item weap)");
+
+	// WOJNA Z LOWCAMI: kazdy NPC gildii lowcow trafiony przez gracza traci flage
+	// niesmiertelnosci (ochrona jak u Hagena). Generycznie po GILDII, bo Angel
+	// przy dworku to BAZOWA instancja przeniesiona ich eventem - jej nazwy nie
+	// znamy, wiec zdejmowanie flagi tylko z 5 znanych nazw go omijalo. Do tego
+	// bitowo (flags to maska; porownanie == nie lapie kombinacji flag).
+	// Przed obrazeniami, wiec juz TEN cios moze zabic.
+	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && npc_isplayer(atk) && (target.guild == StExt_DH_HunterGuild))
+	{
+		if (StExt_ValueHasFlag(target.flags, npc_flag_immortal)) { target.flags = target.flags - npc_flag_immortal; };
+	};
+
 	if (target.aivar[15] && !StExt_IsSummonOrHero(target) && StExt_HeroHasAnyAura) { StExt_Aura_BeforeOffenceHandler(atk, target, weap); };
 };
 

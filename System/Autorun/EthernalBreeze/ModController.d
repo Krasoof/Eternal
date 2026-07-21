@@ -159,11 +159,10 @@ func void StExt_DH_MakeNpcHostile(var c_npc n)
 {
 	if (!hlp_isvalidnpc(n)) { return; };
 	if (npc_isdead(n)) { return; };
-	// ZDEJMIJ NIESMIERTELNOSC. Bazowi lowcy maja flage, ktora chroni ich przed
-	// przypadkowa smiercia - przez nia nie dalo sie ich dobic. Mod tez ja honoruje
-	// (Utils.d StExt_IsNpcImmortal: flags == npc_flag_immortal). Czyscimy tylko te
-	// dwie flagi, zeby nie zgubic FRIEND/GHOST.
-	if ((n.flags == npc_flag_immortal) || (n.flags == npc_flag_xaradrim)) { n.flags = npc_flag_none; };
+	// ZDEJMIJ NIESMIERTELNOSC - BITOWO (flags to maska; porownanie == nie lapalo
+	// kombinacji typu FRIEND|IMMORTAL, dlatego flaga zostawala i nie dalo sie
+	// dobijac). Zdejmujemy wylacznie ten jeden bit, reszta flag nietknieta.
+	if (StExt_ValueHasFlag(n.flags, npc_flag_immortal)) { n.flags = n.flags - npc_flag_immortal; };
 	npc_setattitude(n, ATT_HOSTILE);
 	npc_settempattitude(n, ATT_HOSTILE);
 };
