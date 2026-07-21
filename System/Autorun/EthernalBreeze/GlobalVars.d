@@ -136,7 +136,8 @@ var int StExt_DH_ShowFocusGuild;	// diagnostyk: pokazuj gildie celu na ekranie
 var int StExt_DH_HunterGuild;		// gildia Lowcow odczytana z DH_MAINNPC (0 = jeszcze nieznana)
 var int StExt_DH_Relocated;		// latch: dospawnowanie brakujacych lowcow
 var int StExt_DH_MansionDone;		// latch: odpalony bazowy event dworku (odrestaurowanie + przeprowadzka)
-var int StExt_DH_ExtrasSpawned;		// latch: dorzuceni dodatkowi lowcy (zeby nie bylo za latwo)
+var int StExt_DH_ExtrasSpawned;	// latch: dorzuceni dodatkowi lowcy
+var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
 
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)

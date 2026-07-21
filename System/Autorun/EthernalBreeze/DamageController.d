@@ -726,20 +726,19 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 			var int lgab; lgab = StExt_GetItemProperty(lga, StExt_ItemProp_LegendBonus);
 			if ((lgab < 21) || (lgab > 23))
 			{
-				// Roluj TYLKO gdy jest gdzie zapisac: StExt_SetItemProperty cicho
-				// zwraca False dla przedmiotu BEZ ItemExtension. Bez tej bramki bonus
-				// losowal sie od nowa przy KAZDYM trafieniu (i spamowal komunikatem).
-				if (StExt_ItemHasExtension(lga))
+				// BONUS DETERMINISTYCZNY, nie losowy (zgloszenie: "zbroja skacze z
+				// bonusami", komunikat wyskakiwal co cios). Wyprowadzamy go z id
+				// przedmiotu, wiec TA SAMA zbroja zawsze daje TE SAMA moc - nawet
+				// gdyby zapis wlasciwosci nie chwycil. Zapis i tak probujemy zrobic.
+				lgab = 21 + (hlp_getinstanceid(lga) % 3);
+				StExt_SetItemProperty(lga, StExt_ItemProp_LegendBonus, lgab);
+				// Komunikat RAZ na sesje, nie przy kazdym trafieniu.
+				if (!StExt_ArmorLegendShown)
 				{
-					lgab = 21 + hlp_random(3);
-					StExt_SetItemProperty(lga, StExt_ItemProp_LegendBonus, lgab);
+					StExt_ArmorLegendShown = true;
 					if (lgab == 21) { ai_printbonus("Zbroja legendarna objawia moc: ZELAZNA WOLA (-10% obrazen wrecz)"); }
 					else if (lgab == 22) { ai_printbonus("Zbroja legendarna objawia moc: TARCZA DUCHA (-15% obrazen od magii)"); }
 					else { ai_printbonus("Zbroja legendarna objawia moc: PLASZCZ CIERNI (odbija 10% obrazen)"); };
-				}
-				else
-				{
-					lgab = 21;	// stabilny fallback - bez losowania i bez komunikatu
 				};
 			};
 			if ((lgab == 21) && StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee)) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 10); };

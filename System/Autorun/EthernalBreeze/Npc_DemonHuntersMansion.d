@@ -119,7 +119,7 @@ func void ai_ondead_bdt_99794_Belmond()
 	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Amulet"), (hero.level * 7) + (kapitel * 40) + 380, StExt_ItemRankLegendary, "SPL_DARKBALL");
 	if (itm > 0)
 	{
-		StExt_SetGeneratedItemName(itm, "Zgaszone Swiatlo");
+		StExt_SetGeneratedItemName(itm, "Kolia Zrodzonego z Mroku");
 		StExt_CreateRandomItem(self, itm, 1, false);
 		printscreencolor("Swiatlo Belmonda zgaslo - cos po nim zostalo.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
 	};
