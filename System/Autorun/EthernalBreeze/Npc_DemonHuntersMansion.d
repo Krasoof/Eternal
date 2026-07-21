@@ -57,36 +57,31 @@ func void dia_dmtteacher_stext_dhdiag_info()
 	// wywalily start). Wynik <=0 = taka instancja nie istnieje.
 	ai_printbonus(concatstrings("hero.guild = ", inttostring(hero.guild)));
 	ai_printbonus(concatstrings(concatstrings("att hero->TPL=", inttostring(wld_getguildattitude(hero.guild, GIL_TPL))), concatstrings(" hero->PAL=", inttostring(wld_getguildattitude(hero.guild, GIL_PAL)))));
-	ai_printbonus(concatstrings(concatstrings("id ANGEL=", inttostring(StExt_GetInstanceIdByName("ANGEL"))), concatstrings(" DH_ANHEL=", inttostring(StExt_GetInstanceIdByName("DH_ANHEL")))));
-	ai_printbonus(concatstrings(concatstrings("id SEVERIN=", inttostring(StExt_GetInstanceIdByName("SEVERIN"))), concatstrings(" DH_AZAGTOT=", inttostring(StExt_GetInstanceIdByName("DH_AZAGTOT")))));
+	// przelacz podglad gildii CELU: idz do lowcow, spojrz na jednego, odczytaj z ekranu
+	if (StExt_DH_ShowFocusGuild)
+	{
+		StExt_DH_ShowFocusGuild = false;
+		ai_printbonus("Podglad gildii celu: WYLACZONY");
+	}
+	else
+	{
+		StExt_DH_ShowFocusGuild = true;
+		ai_printbonus("Podglad gildii celu: WLACZONY - spojrz na lowce demonow");
+	};
 	ai_stopprocessinfos(self);
 };
 
-//--------------------------------------------------------------
-// *** TEST zaludnienia dworku (TYMCZASOWY) ***
-//--------------------------------------------------------------
-// Proba odpalenia bazowego eventu przejecia dworku (to co robi Bezimienny),
-// by PRAWDZIWI lowcy wprowadzili sie do dworku. Callback nieczytelny -
-// sprawdzamy w grze czy dziala i nie wywala.
-instance dia_dmtteacher_stext_dhpopulate(c_info)
-{
-    npc = DMT_DARKTEACHER;
-    nr = 731;
-    condition = dia_dmtteacher_stext_dhpopulate_condition;
-    information = dia_dmtteacher_stext_dhpopulate_info;
-    permanent = true;
-    description = "...(sciagnij lowcow do dworku)";
-};
-func int dia_dmtteacher_stext_dhpopulate_condition() { return TRUE; };
-func void dia_dmtteacher_stext_dhpopulate_info()
-{
-	StExt_DH_SetGuildWar();
-	// deferred po nazwie (bez sprawdzania arnosci przy parsowaniu = brak ryzyka
-	// parse-fail; ewentualny blad callbacku izolowany do runtime)
-	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_DH_GOTOMANSION", 1);
-	ai_printbonus("Odpalono event dworku - sprawdz czy lowcy sa w lesie za farma Onara.");
-	ai_stopprocessinfos(self);
-};
+// USUNIETO test zaludnienia dworku: wolanie bazowego callbacku RX_CALLBACK_DH_GOTOMANSION
+// z WNETRZA dialogu zawieszalo rozmowe (ta sama klasa co crash auto-equip - nie ruszamy
+// stanu swiata w trakcie dialogu). Do tego wszystkie zgadywane nazwy NPC daly -1, wiec
+// event i tak nie mial czego przeniesc. Wracamy do tego dopiero po empirycznym
+// zidentyfikowaniu lowcow skanerem (StExt_DH_ScanNearbyGuilds w menu debug).
+
+// IDENTYFIKACJA LOWCOW: przelacznik podgladu gildii CELU (StExt_DH_ShowFocusGuild).
+// Daedalus nie ma petli (mod nigdzie nie uzywa while), a zgadywanie nazw instancji
+// zawiodlo (wszystkie -1). Wiec: wlaczasz podglad u Mistrza, idziesz do lowcow,
+// patrzysz na jednego i czytasz jego gildie z ekranu. Rysowanie jest w ModControllerze
+// (tick), bo w dialogu focusem jest rozmowca.
 
 //--------------------------------------------------------------
 // *** Zlecenie: wybij lowcow (szkielet, do finalizacji po diagnostyku) ***

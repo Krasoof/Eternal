@@ -171,6 +171,12 @@ func void StExt_CheckGatedSpawns()
 	// sie przy wczytaniu). Setter zwraca od razu dla nie-Rycerza; globalne, wiec
 	// przed bramka newworld. Idempotentne.
 	StExt_DH_SetGuildWar();
+	// Diagnostyk identyfikacji Lowcow: podglad gildii CELU (patrz na NPC).
+	// W dialogu focusem jest rozmowca, dlatego rysujemy z ticku, nie z dialogu.
+	if (StExt_DH_ShowFocusGuild && hlp_isvalidnpc(StExt_FocusNpc))
+	{
+		printscreencolor(concatstrings(concatstrings("cel guild=", inttostring(StExt_FocusNpc.guild)), concatstrings("  att=", inttostring(wld_getguildattitude(StExt_FocusNpc.guild, hero.guild)))), StExt_Null, 30, StExt_DefaultFont, 1, StExt_Color_Green);
+	};
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)
