@@ -79,4 +79,11 @@
     # --- Kowal: sklep ze zbrojami ---
     '3033867C' = 'Nakułem tego przez lata. Zapłać uczciwie, a wybierzesz, co chcesz.'
     '8B1EC9DB' = 'Bierz. Kuta nie moją ręką, ale posłuży. Rangę podbijesz gdzie indziej.'
+    # --- Mistrz Zakonu: podbijanie rangi zbroi ---
+    '17AEC8F8' = 'Nagi rycerz to trup. Załóż pancerz, który mam wynieść ku legendzie.'
+    'EA3D5DD8' = 'Ta stal już nosi legendę. Wyżej nie sięgnie.'
+    'F13E70C7' = 'Legenda ma cenę w złocie. Wróć, gdy ją uzbierasz.'
+    '7E541FE6' = 'Bez dusz stal pozostanie zwykłym żelazem. Przynieś ich więcej.'
+    'E112EAF7' = 'Ta stal nie przyjmie legendy.'
+    '9F1C5F97' = 'Stal pamięta każdą duszę. Ranga rośnie - załóż ją z plecaka, by poczuć różnicę.'
 }

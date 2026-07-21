@@ -2098,6 +2098,13 @@ const int StExt_ItemRankUniq = 3;
 const int StExt_ItemRankEpic = 4;
 const int StExt_ItemRankLegendary = 5;
 
+// Podbijanie rangi zbroi u Mistrza (za zloto + dusze, stopniowo do legendarnej).
+// Koszt skaluje sie z docelowa ranga: gold = PerStep * (aktualna_ranga + 1),
+// dusze = SoulBase + (aktualna_ranga * SoulStep). Legendarna (0->5) lacz-nie ~duzo.
+const int StExt_ArmorRankUp_GoldPerStep = 50000;
+const int StExt_ArmorRankUp_SoulBase = 10;
+const int StExt_ArmorRankUp_SoulStep = 5;
+
 
 // Items classes Id definitions.
 // Calculate them like

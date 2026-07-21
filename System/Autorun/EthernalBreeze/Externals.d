@@ -152,6 +152,7 @@ func int StExt_IsDialogActive();
 	func int StExt_GetItemSeal(var c_item itm);
 	func int StExt_GetItemSealPower(var c_item itm);
 	func int StExt_GetItemRank(var c_item itm);
+	func int StExt_ChangeItemRank(var c_item itm, var int delta);	// zmiana rangi in-place (item musi miec rozszerzenie); zwraca nowa range lub -1
 	func int StExt_ScanLegendJewelry(var instance npc);
 	func int StExt_SetItemSeal(var c_item itm, var int spellId, var int power);
 	

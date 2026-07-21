@@ -296,6 +296,93 @@ func void dia_none_99702_SoulMaster_InfuseArmor_info()
 };
 
 //--------------------------------------------------------------
+// *** Podbijanie rangi zalozonej zbroi do legendarnej (zloto+dusze) ***
+//--------------------------------------------------------------
+// Statyczna zbroja (nagroda, kupiona) ma range 0 i brak rozszerzenia. Pierwszy
+// upgrade nadaje jej rozszerzenie przez EnchantItemInPlace (zachowuje look/
+// protekcje, dodaje magie), potem normalizujemy range do +1 i podbijamy o krok.
+// Zbroja juz rozszerzona -> ChangeItemRank(+1) w miejscu (zachowuje sockety/seale).
+// Koszt skaluje sie z aktualna ranga; cap na legendarnej (5).
+instance dia_none_99702_SoulMaster_RankUp(c_info)
+{
+    npc = none_99702_SoulMaster;
+    nr = 9;
+    condition = dia_none_99702_SoulMaster_RankUp_condition;
+    information = dia_none_99702_SoulMaster_RankUp_info;
+    permanent = true;
+    description = "Wynies moj pancerz ku legendzie.";
+};
+func int dia_none_99702_SoulMaster_RankUp_condition() { return StExt_SoulKnight_Member; };
+func void dia_none_99702_SoulMaster_RankUp_info()
+{
+	var c_item armor;
+	var c_item work;
+	var int rank;
+	var int goldCost;
+	var int soulCost;
+	var int newId;
+	var int power;
+	var int delta;
+
+	armor = npc_getequippedarmor(hero);
+	if (!hlp_isvaliditem(armor))
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Nagi rycerz to trup. Zaloz pancerz, ktory mam wyniesc ku legendzie.");
+		ai_stopprocessinfos(self);
+		return;
+	};
+	rank = StExt_GetItemRank(armor);
+	if (rank >= StExt_ItemRankLegendary)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Ta stal juz nosi legende. Wyzej nie siegnie.");
+		ai_stopprocessinfos(self);
+		return;
+	};
+	goldCost = StExt_ArmorRankUp_GoldPerStep * (rank + 1);
+	soulCost = StExt_ArmorRankUp_SoulBase + (rank * StExt_ArmorRankUp_SoulStep);
+	if (npc_hasitems(hero, itmi_gold) < goldCost)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Legenda ma cene w zlocie. Wroc, gdy ja uzbierasz.");
+		ai_printred(concatstrings(StExt_Str_NeedGold, inttostring(goldCost)));
+		ai_stopprocessinfos(self);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_stext_bosssoul) < soulCost)
+	{
+		StExt_Say(StExt_Str_SoulMaster_Name, "Bez dusz stal pozostanie zwyklym zelazem. Przynies ich wiecej.");
+		ai_printbonus(concatstrings("Potrzeba dusz poleglych: ", inttostring(soulCost)));
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	work = armor;
+	if (!StExt_ItemHasExtension(armor))
+	{
+		power = StExt_OpenChest_GetMaxPower();
+		newId = StExt_EnchantItemInPlace(armor, power);
+		if (newId <= 0)
+		{
+			StExt_Say(StExt_Str_SoulMaster_Name, "Ta stal nie przyjmie legendy.");
+			ai_stopprocessinfos(self);
+			return;
+		};
+		npc_removeinvitems(hero, hlp_getinstanceid(armor), 1);
+		b_playerfinditem_stext(newId, 1);
+		work = npc_getitembyid(hero, newId);
+	};
+
+	npc_removeinvitems(hero, itmi_gold, goldCost);
+	npc_removeinvitems(hero, itmi_stext_bosssoul, soulCost);
+	// dokladnie +1 ranga wzgledem stanu wyjsciowego (normalizuje ew. wysoki roll enchantu)
+	delta = (rank + 1) - StExt_GetItemRank(work);
+	if (delta != 0) { StExt_ChangeItemRank(work, delta); };
+	rx_playeffect("spellfx_incovation_violet", hero);
+	StExt_Say(StExt_Str_SoulMaster_Name, "Stal pamieta kazda dusze. Ranga rosnie - zaloz ja z plecaka, by poczuc roznice.");
+	ai_printbonus(concatstrings("Ranga zbroi: ", inttostring(StExt_GetItemRank(work))));
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
 // *** Lore: the fallen order (journal, deepens with progress) ***
 //--------------------------------------------------------------
 // Each visit reveals the next fragment, up to what your hunt progress

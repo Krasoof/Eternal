@@ -894,16 +894,42 @@ func void StExt_ZakonBossPhase_Callback()
 //--------------------------------------------------------------
 // *** F4: chapter armor reward ***
 //--------------------------------------------------------------
+// Daje statyczna zbroje jako LEGENDARNA: nadaje jej rozszerzenie przez
+// EnchantItemInPlace (zachowuje nazwe/wyglad/protekcje + dodaje magie), swap,
+// potem ChangeItemRank do rangi 5. Fallback: jesli enchant sie nie uda, gracz
+// dostaje zwykla statyczna zbroje (nadal uzyteczna). Bezpieczne w dialogu
+// (wzorzec infuzji pancerza - bez auto-equip).
+func void StExt_ZakonReward_GiveLegendary(var int armorInstance)
+{
+	var c_item armor;
+	var int newId;
+	var c_item work;
+	var int power;
+	var int delta;
+	createinvitems(hero, armorInstance, 1);
+	armor = npc_getitembyid(hero, armorInstance);
+	if (!hlp_isvaliditem(armor)) { return; };
+	power = (hero.level * 7) + (kapitel * 40) + 300;
+	newId = StExt_EnchantItemInPlace(armor, power);
+	if (newId <= 0) { return; };
+	npc_removeinvitems(hero, armorInstance, 1);
+	b_playerfinditem_stext(newId, 1);
+	work = npc_getitembyid(hero, newId);
+	if (!hlp_isvaliditem(work)) { return; };
+	delta = StExt_ItemRankLegendary - StExt_GetItemRank(work);
+	if (delta > 0) { StExt_ChangeItemRank(work, delta); };
+};
+
 func void StExt_ZakonReward_Give()
 {
 	var int ch;
 	ch = StExt_ZakonHunt_CurChapter();
 	StExt_ZakonReward_Chapter = kapitel;
-	if (ch <= 1) { createinvitems(hero, itar_stext_zakon_novdark, 1); }
-	else if (ch == 2) { createinvitems(hero, itar_stext_zakon_royal, 1); }
-	else if (ch == 3) { createinvitems(hero, itar_stext_zakon_templar, 1); }
-	else if (ch == 4) { createinvitems(hero, itar_stext_zakon_guardian, 1); }
-	else { createinvitems(hero, itar_stext_zakon_crusader, 1); };
+	if (ch <= 1) { StExt_ZakonReward_GiveLegendary(itar_stext_zakon_novdark); }
+	else if (ch == 2) { StExt_ZakonReward_GiveLegendary(itar_stext_zakon_royal); }
+	else if (ch == 3) { StExt_ZakonReward_GiveLegendary(itar_stext_zakon_templar); }
+	else if (ch == 4) { StExt_ZakonReward_GiveLegendary(itar_stext_zakon_guardian); }
+	else { StExt_ZakonReward_GiveLegendary(itar_stext_zakon_crusader); };
 	ai_printbonus(StExt_Str_ZakonReward_Given);
 };
 
@@ -913,7 +939,7 @@ func void StExt_ZakonReward_Give()
 func void StExt_ZakonReward_Pick(var int itm)
 {
 	StExt_ZakonReward_Chapter = kapitel;
-	createinvitems(hero, itm, 1);
+	StExt_ZakonReward_GiveLegendary(itm);
 	ai_printbonus(StExt_Str_ZakonReward_Given);
 	info_clearchoices(dia_none_99702_SoulMaster_Reward);
 	ai_stopprocessinfos(self);
