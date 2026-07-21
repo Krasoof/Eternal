@@ -128,6 +128,11 @@ var int StExt_DarkKnight_Kills;		// licznik zabojstw biezacego zadania (reset pr
 var int StExt_DarkKnight_TopicMade;	// latch utworzenia tematu dziennika
 var int StExt_DarkKnight_RelicTaken;	// Q2: relikwia zabrana
 
+// *** Wojna z Lowcami Demonow (Npc_DemonHuntersMansion.d) ***
+var int StExt_DH_WarSet;		// latch: wrogosc gildii ustawiona (info)
+var int StExt_DH_TopicMade;		// latch tematu dziennika
+var int StExt_DH_Stage;			// 0 nieprzyjete, 1 aktywne, 2 gniazdo wyrznieté
+
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
 var int StExt_SmithFragments;	// 0-3 okruchy imienia (tier uslugi)

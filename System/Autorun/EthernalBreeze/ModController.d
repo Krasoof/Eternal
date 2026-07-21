@@ -149,9 +149,28 @@ func void StExt_InitializeWorld()
 // jest jeszcze w Zakonie - dlatego Kowal nigdy sie nie spawnowal. Latch
 // StExt_*Appear gwarantuje spawn dokladnie raz, w chwili spelnienia warunku.
 // Wolane z ticku ModControllera i z OnLoadEnd. Save-safe (same latche).
+// Wojna gildii Beliar vs Lowcy Demonow: prawdziwi lowcy (GIL_TPL/GIL_PAL) wrodzy
+// gildii gracza-Rycerza. Definicja TU (nie w Npc_DemonHuntersMansion.d, plik 76),
+// bo wolamy z CheckGatedSpawns (plik 54) - forward call = parse-fail. Inline check
+// gildii gracza (literal 16 = StExt_DK_GuildId, || GIL_DMT; symboli z pliku 76 nie
+// mozna referowac wstecz). GIL_ATTITUDES resetuje sie przy load - re-aplikacja co tick.
+func void StExt_DH_SetGuildWar()
+{
+	if ((hero.guild != 16) && (hero.guild != GIL_DMT)) { return; };
+	wld_setguildattitude(hero.guild, GIL_TPL, ATT_HOSTILE);
+	wld_setguildattitude(GIL_TPL, hero.guild, ATT_HOSTILE);
+	wld_setguildattitude(hero.guild, GIL_PAL, ATT_HOSTILE);
+	wld_setguildattitude(GIL_PAL, hero.guild, ATT_HOSTILE);
+	StExt_DH_WarSet = true;
+};
+
 func void StExt_CheckGatedSpawns()
 {
 	var c_npc zhMaster;
+	// Wojna gildii Beliar vs Lowcy Demonow - re-aplikowana (GIL_ATTITUDES resetuje
+	// sie przy wczytaniu). Setter zwraca od razu dla nie-Rycerza; globalne, wiec
+	// przed bramka newworld. Idempotentne.
+	StExt_DH_SetGuildWar();
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)
