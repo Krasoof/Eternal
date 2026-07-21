@@ -154,14 +154,35 @@ func void StExt_InitializeWorld()
 // bo wolamy z CheckGatedSpawns (plik 54) - forward call = parse-fail. Inline check
 // gildii gracza (literal 16 = StExt_DK_GuildId, || GIL_DMT; symboli z pliku 76 nie
 // mozna referowac wstecz). GIL_ATTITUDES resetuje sie przy load - re-aplikacja co tick.
+// Wrogosc pojedynczego lowcy (pewniak - dziala nawet gdy tabela gildii nie chwyta).
+func void StExt_DH_MakeNpcHostile(var c_npc n)
+{
+	if (!hlp_isvalidnpc(n)) { return; };
+	if (npc_isdead(n)) { return; };
+	npc_setattitude(n, ATT_HOSTILE);
+	npc_settempattitude(n, ATT_HOSTILE);
+};
+
+// Gildia lowcow NIE jest zgadywana - odczytujemy ja z mistrza lowcow (DH_MAINNPC)
+// w runtime i zapamietujemy. Potwierdzone instancje NPC lowcow (maja AI_ONDEAD):
+// DH_MAINNPC, DH_NPCSEVERIN, DH_VILANDNPC, DH_SLD_MERCENARY_01/02.
 func void StExt_DH_SetGuildWar()
 {
+	var c_npc dhm;
 	if ((hero.guild != 16) && (hero.guild != GIL_DMT)) { return; };
-	wld_setguildattitude(hero.guild, GIL_TPL, ATT_HOSTILE);
-	wld_setguildattitude(GIL_TPL, hero.guild, ATT_HOSTILE);
-	wld_setguildattitude(hero.guild, GIL_PAL, ATT_HOSTILE);
-	wld_setguildattitude(GIL_PAL, hero.guild, ATT_HOSTILE);
-	StExt_DH_WarSet = true;
+	dhm = hlp_getnpc(DH_MAINNPC);
+	if ((StExt_DH_HunterGuild <= 0) && hlp_isvalidnpc(dhm)) { StExt_DH_HunterGuild = dhm.guild; };
+	if (StExt_DH_HunterGuild > 0)
+	{
+		wld_setguildattitude(hero.guild, StExt_DH_HunterGuild, ATT_HOSTILE);
+		wld_setguildattitude(StExt_DH_HunterGuild, hero.guild, ATT_HOSTILE);
+		StExt_DH_WarSet = true;
+	};
+	StExt_DH_MakeNpcHostile(dhm);
+	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_NPCSEVERIN));
+	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_VILANDNPC));
+	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_SLD_MERCENARY_01));
+	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_SLD_MERCENARY_02));
 };
 
 func void StExt_CheckGatedSpawns()

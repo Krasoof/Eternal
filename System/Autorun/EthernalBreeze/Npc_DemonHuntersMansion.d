@@ -55,8 +55,15 @@ func void dia_dmtteacher_stext_dhdiag_info()
 	// Nazwy bazowych NPC rozwiazujemy po STRINGU w runtime (StExt_GetInstanceIdByName),
 	// bo grep-hit w VDF NIE gwarantuje uzywalnego symbolu parsera (ANGEL i GIL_DMT3
 	// wywalily start). Wynik <=0 = taka instancja nie istnieje.
-	ai_printbonus(concatstrings("hero.guild = ", inttostring(hero.guild)));
-	ai_printbonus(concatstrings(concatstrings("att hero->TPL=", inttostring(wld_getguildattitude(hero.guild, GIL_TPL))), concatstrings(" hero->PAL=", inttostring(wld_getguildattitude(hero.guild, GIL_PAL)))));
+	ai_printbonus(concatstrings(concatstrings("hero.guild=", inttostring(hero.guild)), concatstrings("  gildia Lowcow=", inttostring(StExt_DH_HunterGuild))));
+	if (StExt_DH_HunterGuild > 0)
+	{
+		ai_printbonus(concatstrings("att Lowcy->ja = ", inttostring(wld_getguildattitude(StExt_DH_HunterGuild, hero.guild))));
+	}
+	else
+	{
+		ai_printbonus("Gildia Lowcow jeszcze nieodczytana - podejdz w poblize lowcow (port).");
+	};
 	// przelacz podglad gildii CELU: idz do lowcow, spojrz na jednego, odczytaj z ekranu
 	if (StExt_DH_ShowFocusGuild)
 	{
@@ -115,11 +122,14 @@ instance dia_dmtteacher_stext_dhhunt_done(c_info)
     permanent = false;
     description = "Gniazdo lowcow wyrznięte.";
 };
-// Detekcja po konkretnym NPC czeka na potwierdzone nazwy instancji z diagnostyka
-// (ANGEL okazal sie nieuzywalnym symbolem). Na razie raport zgloszeniowy.
+// Detekcja na PRAWDZIWYM mistrzu lowcow: DH_MAINNPC to potwierdzona instancja NPC
+// (ma AI_ONDEAD_DH_MAINNPC). Nazwe znaleziono ekstrakcja calych tokenow z VDF.
 func int dia_dmtteacher_stext_dhhunt_done_condition()
 {
-	return StExt_DK_IsMember() && (StExt_DH_Stage == 1);
+	var c_npc dhm;
+	if (!StExt_DK_IsMember() || (StExt_DH_Stage != 1)) { return false; };
+	dhm = hlp_getnpc(DH_MAINNPC);
+	return hlp_isvalidnpc(dhm) && npc_isdead(dhm);
 };
 func void dia_dmtteacher_stext_dhhunt_done_info()
 {
