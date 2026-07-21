@@ -132,13 +132,14 @@ var int StExt_DarkKnight_RelicTaken;	// Q2: relikwia zabrana
 // *** Wojna z Lowcami Demonow (Npc_DemonHuntersMansion.d) ***
 var int StExt_DH_WarSet;		// latch: wrogosc gildii ustawiona (info)
 var int StExt_DH_TopicMade;		// latch tematu dziennika
-var int StExt_DH_Stage;			// 0 nieprzyjete, 1 aktywne, 2 gniazdo wyrznieté
+var int StExt_DH_Stage;			// 0 nieprzyjete, 1 aktywne, 2 gniazdo wyrzniete
 var int StExt_DH_ShowFocusGuild;	// diagnostyk: pokazuj gildie celu na ekranie
 var int StExt_DH_HunterGuild;		// gildia Lowcow odczytana z DH_MAINNPC (0 = jeszcze nieznana)
 var int StExt_DH_Relocated;		// latch: dospawnowanie brakujacych lowcow
 var int StExt_DH_MansionDone;		// latch: odpalony bazowy event dworku (odrestaurowanie + przeprowadzka)
 var int StExt_DH_ExtrasSpawned;	// latch: dorzuceni dodatkowi lowcy
 var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
+var int StExt_DH_ExtrasTick;		// licznik okresowego samo-naprawczego spawnu obstawy (bez latcha)
 
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)

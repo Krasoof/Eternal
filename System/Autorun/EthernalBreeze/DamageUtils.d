@@ -1038,6 +1038,13 @@ func void StExt_CheckTargetImmortality(var c_npc atk, var c_npc target)
 		target.protection[prot_magic] = 500;
 	};
 
+	// WOJNA Z LOWCAMI DEMONOW: gdy zlecenie aktywne, KAZDY lowca (po gildii,
+	// wiec takze bazowe instancje jak Angel, ktorych nazw nie znamy) traci
+	// ochrone przed graczem. To jest KANONICZNE miejsce zdejmowania flagi -
+	// wczesniejsze proby (per-nazwa w ticku, wlasny strip w BeforeOffence)
+	// szly obok tej sciezki i dlatego Angel wstawal po kazdym dobiciu.
+	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && (target.guild == StExt_DH_HunterGuild)) { removeImmortality = true; };
+
 	if (removeImmortality)
 	{
 		target.flags = target.flags & (~npc_flag_immortal);

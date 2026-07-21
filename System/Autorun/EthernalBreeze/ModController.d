@@ -243,13 +243,18 @@ func void StExt_DH_RestoreMansion()
 // sie jako 54, wiec wolamy PO NAZWIE (deferred) - inaczej forward ref = parse-fail.
 // Z ticku, nie z dialogu przyjecia: dialog jest jednorazowy, wiec gracz z JUZ
 // przyjetym zleceniem nigdy by obstawy nie zobaczyl (zgloszenie: "Belmonda nie ma").
+// BEZ LATCHA - licznik okresowy. Latch zapisywal sie w sejwie i "zatruwal"
+// (ustawiony przy starej wersji = obstawa nigdy nie wchodzila, zgloszenie
+// "nie ma Belmonda" x3). SpawnExtras jest idempotentny (per-NPC: istnieje ->
+// pomin), wiec okresowe wywolanie samo-naprawia kazdy stan sejwu bez klikania.
 func void StExt_DH_TriggerExtras()
 {
-	if (StExt_DH_ExtrasSpawned) { return; };
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
-	StExt_DH_ExtrasSpawned = true;	// latch TU, zeby nie spamowac callbackami
-	StExt_InitializeCallback(hero, hero, "StExt_DH_SpawnExtras", 5);
+	StExt_DH_ExtrasTick += 1;
+	if (StExt_DH_ExtrasTick < 240) { return; };
+	StExt_DH_ExtrasTick = 0;
+	StExt_InitializeCallback(hero, hero, "StExt_DH_SpawnExtras", 1);
 };
 
 // Dospawnowuje TYLKO tych lowcow, ktorych w danym zapisie w ogole nie ma (watek
@@ -259,10 +264,11 @@ func void StExt_DH_TriggerExtras()
 func void StExt_DH_EnsureHunters()
 {
 	var c_npc n;
-	if (StExt_DH_Relocated) { return; };
+	// BEZ LATCHA (byl "zatruty" w sejwach ze starej wersji - DH_MAINNPC nigdy sie
+	// nie spawnowal, wiec gildia lowcow zostawala 0 i cala logika po gildii lezala).
+	// Funkcja jest idempotentna, koszt to 5x hlp_getnpc na tick - pomijalny.
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
-	StExt_DH_Relocated = true;
 	rx_saveparservars();
 	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_BIGFARM_FOREST_01"); };
 	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_BIGFARM_FOREST_01"); };
