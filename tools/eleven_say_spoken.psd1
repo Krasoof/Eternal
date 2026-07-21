@@ -70,4 +70,10 @@
     '3289A071' = 'Wszystko, co żyje, służy Beliarowi jako pożywienie. Twoje ostrze będzie głodniejsze.'
     '5A599E38' = 'Otwórz bramę, a stanie przy tobie demon. To najwyższy dar - i najcięższy ciężar.'
     '600718A8' = 'Twoje aury piją więcej mroku. Każda z nich uderza teraz mocniej.'
+    # --- Odprawy z nazwaniem lokacji (cele rozrzucone po landmarkach) ---
+    '6E4077A7' = 'Na wybrzeżu, przy latarni morskiej, wciąż oddycha paladyn Aldrik. Odbierz mu ten oddech. Po cichu, jak przystało na sługę Beliara.'
+    'C3000A63' = 'Zabij jej stróża, Paladyna Rolanda - stoi przy rozstaju dróg pod klasztorem. Splugaw to świadectwo, niech poczują, jak ich bóg milczy.'
+    'DF5D3FC6' = 'Dwaj bracia w bieli, Gerhard i Wolker, zaszyli się na farmie Lobarta u bram miasta. Poznali twoje imię - to błąd, który naprawisz nożem.'
+    '0A49BCD8' = 'Kapitan Ortwin zbiera ludzi przeciw nam przy wielkim młynie. Rozetnij ten węzeł u samego źródła.'
+    'D95BF1BD' = 'Został jeden - Paladyn Lord Isgaroth, ich najjaśniejszy płomień. Zaszył się na odludnej farmie Sekoba, na południu. Zgaś go, a przestaniesz być nikim.'
 }

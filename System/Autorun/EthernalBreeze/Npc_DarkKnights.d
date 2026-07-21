@@ -30,11 +30,15 @@ const int StExt_DK_GuildId = 16;
 
 // WP celow - rozrzucone po sprawdzonych punktach NEWWORLD (te same rodziny
 // co quest Wiezy; zweryfikowane w waynecie runtime).
-const string StExt_DK_WP_Q1 = "SHORE_MONSTER_03_01";
-const string StExt_DK_WP_Q2 = "SHORE_MONSTER_02_01";
-const string StExt_DK_WP_Q3 = "SHORE_MONSTER_04_01";
-const string StExt_DK_WP_Q4 = "NW_FOREST_PATH_80_I_MOVEMENT8_012";
-const string StExt_DK_WP_Q5 = "SHORE_MONSTER_03_01";
+// Cele ROZRZUCONE po rozpoznawalnych landmarkach NEWWORLD (standardowe waypointy
+// G2, zweryfikowane w waynecie AB_Worlds.vdf). Mistrz nazywa miejsce w odprawie,
+// zeby dalo sie trafic - to bylo sedno "gdzie jest ten paladyn": wewnetrzny WP
+// bez orientacji. Kazdy pasuje tematycznie do celu.
+const string StExt_DK_WP_Q1 = "NW_CITY_TO_LIGHTHOUSE_01";		// latarnia morska (patrol na wybrzezu)
+const string StExt_DK_WP_Q2 = "NW_FOREST_CROSS_MONASTERY";		// rozstaj pod klasztorem (stroz relikwii)
+const string StExt_DK_WP_Q3 = "NW_FARM1_LOBART";				// farma Lobarta u bram miasta (dwaj bracia)
+const string StExt_DK_WP_Q4 = "NW_BIGMILL_01";					// wielki mlyn (kapitan zbiera ludzi)
+const string StExt_DK_WP_Q5 = "NW_FARM4_SEKOB";					// odludna farma Sekoba (ostatni lord)
 
 //--------------------------------------------------------------
 // *** Rutyny (bez rutyny NPC to posag - brak percepcji) ***
@@ -115,6 +119,15 @@ func void StExt_DarkKnights_GrantBeliarKarma(var int amount)
 {
 	beliarpraycount = beliarpraycount + amount;
 	ai_printbonus(concatstrings("Beliar patrzy laskawiej (+", concatstrings(inttostring(amount), " Karmy Beliara)")));
+};
+
+// Namacalna nagroda za zadanie: zloto + PN (hero.lp przez rx_givelp). Domyka
+// petle: questy finansuja nauke aur Beliara u Nauczyciela (koszt PN+zloto).
+func void StExt_DarkKnights_GrantReward(var int gold, var int lp)
+{
+	if (gold > 0) { createinvitems(hero, itmi_gold, gold); };
+	if (lp > 0) { rx_givelp(lp); };
+	ai_printbonus(concatstrings(concatstrings("Zaplata Beliara: ", inttostring(gold)), concatstrings(" zlota, ", concatstrings(inttostring(lp), " PN"))));
 };
 
 //--------------------------------------------------------------
@@ -318,7 +331,7 @@ func int dia_dmtteacher_stext_q1_condition() { return StExt_DK_IsMember() && (St
 func void dia_dmtteacher_stext_q1_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Sluzyc? Jeszcze niczym nie jestes. Ale masz w sobie ten sam glod, co my - glod, ktory karmi tylko krew wroga.");
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Na wybrzezu wciaz oddycha paladyn Aldric. Odbierz mu ten oddech. Po cichu, jak przystalo na sluge Beliara.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Na wybrzezu, przy latarni morskiej, wciaz oddycha paladyn Aldric. Odbierz mu ten oddech. Po cichu, jak przystalo na sluge Beliara.");
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Wroc, gdy jego serce ucichnie.");
 	StExt_DarkKnight_Stage = 1;
 	StExt_DarkKnight_Kills = 0;
@@ -345,6 +358,7 @@ func void dia_dmtteacher_stext_q1done_info()
 	createinvitems(hero, itmi_stext_beliar_sigil, 1);
 	StExt_DarkKnight_Stage = 2;
 	StExt_DarkKnights_GrantBeliarKarma(40);
+	StExt_DarkKnights_GrantReward(2500, 5);
 	StExt_DarkKnights_Log("Aldric martwy. Mistrz przyjal dowod. Beliar patrzy.");
 	ai_stopprocessinfos(self);
 };
@@ -363,7 +377,7 @@ func int dia_dmtteacher_stext_q2_condition() { return StExt_DK_IsMember() && (St
 func void dia_dmtteacher_stext_q2_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Paladyni strzega relikwii, ktora paruje ich swiatlem. Ich sila plynie ze swietosci - odbierzmy im ja.");
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Zabij jej stroza, Paladyna Rolanda, i splugaw to swiadectwo. Niech poczuja, jak ich bog milczy.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Zabij jej stroza, Paladyna Rolanda - stoi przy rozstaju drog pod klasztorem. Splugaw to swiadectwo, niech poczuja, jak ich bog milczy.");
 	StExt_DarkKnight_Stage = 3;
 	StExt_DarkKnight_Kills = 0;
 	rx_saveparservars();
@@ -391,6 +405,7 @@ func void dia_dmtteacher_stext_q2done_info()
 	if (npc_hasitems(hero, itmi_stext_desecrated_relic) > 0) { npc_removeinvitems(hero, itmi_stext_desecrated_relic, 1); };
 	StExt_DarkKnight_Stage = 4;
 	StExt_DarkKnights_GrantBeliarKarma(50);
+	StExt_DarkKnights_GrantReward(3500, 7);
 	StExt_DarkKnights_Log("Splugawiona relikwia spoczela u stop Beliara. Paladyni sa slabsi, niz byli.");
 	ai_stopprocessinfos(self);
 };
@@ -408,7 +423,7 @@ instance dia_dmtteacher_stext_q3(c_info)
 func int dia_dmtteacher_stext_q3_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 4); };
 func void dia_dmtteacher_stext_q3_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Dwaj bracia w bieli, Gerhard i Volker, poznali twoje imie. To blad, ktory naprawisz nozem.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Dwaj bracia w bieli, Gerhard i Volker, zaszyli sie na farmie Lobarta u bram miasta. Poznali twoje imie - to blad, ktory naprawisz nozem.");
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Obaj maja zamilknac tej nocy. Na zawsze. Nikt, kto zna nasze twarze, nie doczeka switu.");
 	StExt_DarkKnight_Stage = 5;
 	StExt_DarkKnight_Kills = 0;
@@ -435,6 +450,7 @@ func void dia_dmtteacher_stext_q3done_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Cisza. Nareszcie. Dwa imiona wykreslone z ksiegi zywych - i nikt ich juz nie wpisze z powrotem.");
 	StExt_DarkKnight_Stage = 6;
 	StExt_DarkKnights_GrantBeliarKarma(60);
+	StExt_DarkKnights_GrantReward(5000, 10);
 	StExt_DarkKnights_Log("Gerhard i Volker martwi na zawsze. Zaden paladyn juz ich nie wskrzesi.");
 	ai_stopprocessinfos(self);
 };
@@ -452,7 +468,7 @@ instance dia_dmtteacher_stext_q4(c_info)
 func int dia_dmtteacher_stext_q4_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 6); };
 func void dia_dmtteacher_stext_q4_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Kapitan Ortwin zbiera ludzi przeciw nam. Rozetnij ten wezel u samego zrodla.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Kapitan Ortwin zbiera ludzi przeciw nam przy wielkim mlynie. Rozetnij ten wezel u samego zrodla.");
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Reszta to tylko miecze bez reki. Zabij jego, a rozsypia sie sami.");
 	StExt_DarkKnight_Stage = 7;
 	StExt_DarkKnight_Kills = 0;
@@ -480,6 +496,7 @@ func void dia_dmtteacher_stext_q4done_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Bez glowy ciezko dowodzic. Ich zapal gasnie razem z nim. Zostal juz tylko jeden - najjasniejszy.");
 	StExt_DarkKnight_Stage = 8;
 	StExt_DarkKnights_GrantBeliarKarma(70);
+	StExt_DarkKnights_GrantReward(6500, 13);
 	StExt_DarkKnights_Log("Ortwin martwy, jego ludzie w rozsypce. Zostal ostatni: paladyn lord.");
 	ai_stopprocessinfos(self);
 };
@@ -497,7 +514,7 @@ instance dia_dmtteacher_stext_q5(c_info)
 func int dia_dmtteacher_stext_q5_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 8); };
 func void dia_dmtteacher_stext_q5_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Zostal jeden - Paladyn Lord Isgaroth, ich najjasniejszy plomien. Zgas go, a przestaniesz byc nikim.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Zostal jeden - Paladyn Lord Isgaroth, ich najjasniejszy plomien. Zaszyl sie na odludnej farmie Sekoba, na poludniu. Zgas go, a przestaniesz byc nikim.");
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Pojdzie z gwardia. Przebij sie i wbij mu ostrze pod serce. Dzis konczysz droge - a z tej drogi nie ma powrotu.");
 	StExt_DarkKnight_Stage = 9;
 	StExt_DarkKnight_Kills = 0;
@@ -528,6 +545,7 @@ func void dia_dmtteacher_stext_q5done_info()
 	createinvitems(hero, itmw_stext_beliar_reaper, 1);
 	StExt_DarkKnight_Stage = 10;
 	StExt_DarkKnights_GrantBeliarKarma(100);
+	StExt_DarkKnights_GrantReward(10000, 20);
 	StExt_DarkKnights_Log("Isgaroth martwy. Bialy zakon zlamany po cichu, jeden po drugim. Mistrz nazwal mnie Mroczna Reka Beliara.");
 	Log_SetTopicStatus(StExt_Topic_DarkKnights, LOG_SUCCESS);
 	ai_stopprocessinfos(self);
@@ -551,27 +569,27 @@ func void dia_dmtteacher_stext_hint_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Wskazalem raz. Nie kaz mi powtarzac - Beliar nie ceni tepych ostrzy.");
 	rx_saveparservars();
-	if (StExt_DarkKnight_Stage == 1) { wld_insertnpc(bdt_99770_PaladynAldric, StExt_DK_WP_Q1); ai_printbonus("Paladyn Aldric - wybrzeze. Zabij go."); }
+	if (StExt_DarkKnight_Stage == 1) { wld_insertnpc(bdt_99770_PaladynAldric, StExt_DK_WP_Q1); ai_printbonus("Paladyn Aldric - przy latarni morskiej, na wybrzezu."); }
 	else if (StExt_DarkKnight_Stage == 3)
 	{
 		wld_insertnpc(bdt_99771_PaladynRoland, StExt_DK_WP_Q2);
-		ai_printbonus("Stroz Roland przy relikwii - zabij go i zabierz swietosc.");
+		ai_printbonus("Stroz Roland - rozstaj drog pod klasztorem.");
 	}
 	else if (StExt_DarkKnight_Stage == 5)
 	{
 		wld_insertnpc(bdt_99774_PaladynGerhard, StExt_DK_WP_Q3);
 		wld_insertnpc(bdt_99775_PaladynVolker, StExt_DK_WP_Q3);
-		ai_printbonus("Gerhard i Volker - obaj musza zginac.");
+		ai_printbonus("Gerhard i Volker - na farmie Lobarta, u bram miasta.");
 	}
 	else if (StExt_DarkKnight_Stage == 7)
 	{
 		wld_insertnpc(bdt_99776_KapitanOrtwin, StExt_DK_WP_Q4);
-		ai_printbonus("Kapitan Ortwin - zabij dowodce.");
+		ai_printbonus("Kapitan Ortwin - przy wielkim mlynie.");
 	}
 	else
 	{
 		wld_insertnpc(bdt_99780_PaladynLordIsgaroth, StExt_DK_WP_Q5);
-		ai_printbonus("Paladyn Lord Isgaroth - ostatni. Zgas go.");
+		ai_printbonus("Paladyn Lord Isgaroth - na odludnej farmie Sekoba, na poludniu.");
 	};
 	rx_restoreparservars();
 	ai_stopprocessinfos(self);
