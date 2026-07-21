@@ -242,6 +242,47 @@ func void dia_none_99760_HubSmith_Fragments_info()
 	ai_stopprocessinfos(self);
 };
 
+// --- Sprzedaz zaleglych zbroi rozdzialowych (tylko te z gotowym modelem;
+//     warianty bez modelu crashuja przy zalozeniu = pomijamy). Ceny wysokie
+//     (50k wczesne / 100k pozne rozdzialy), anti-abuse. Bez dusz. ---
+func void StExt_HubSmith_BuyArmor(var int armorId, var int price)
+{
+	if (npc_hasitems(hero, itmi_gold) < price) { ai_printred(concatstrings(StExt_Str_NeedGold, inttostring(price))); return; };
+	npc_removeinvitems(hero, itmi_gold, price);
+	createinvitems(hero, armorId, 1);
+	StExt_Say("Bezimienny Kowal", "Bierz. Kuta nie moja reka, ale posluzy. Range podbijesz gdzie indziej.");
+};
+func void StExt_HubSmith_Buy_NovDark()  { StExt_HubSmith_BuyArmor(itar_stext_zakon_novdark, 50000); };
+func void StExt_HubSmith_Buy_Royal()    { StExt_HubSmith_BuyArmor(itar_stext_zakon_royal, 50000); };
+func void StExt_HubSmith_Buy_Templar()  { StExt_HubSmith_BuyArmor(itar_stext_zakon_templar, 100000); };
+func void StExt_HubSmith_Buy_Guardian() { StExt_HubSmith_BuyArmor(itar_stext_zakon_guardian, 100000); };
+func void StExt_HubSmith_Buy_Rustlord() { StExt_HubSmith_BuyArmor(itar_stext_zakon_rustlord, 100000); };
+func void StExt_HubSmith_Buy_Crusader() { StExt_HubSmith_BuyArmor(itar_stext_zakon_crusader, 100000); };
+func void StExt_HubSmith_BuyExit() { info_clearchoices(dia_none_99760_HubSmith_Buy); ai_stopprocessinfos(self); };
+
+instance dia_none_99760_HubSmith_Buy(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 5;
+    condition = dia_none_99760_HubSmith_Buy_condition;
+    information = dia_none_99760_HubSmith_Buy_info;
+    permanent = true;
+    description = "Masz na zbyciu jakas zbroje?";
+};
+func int dia_none_99760_HubSmith_Buy_condition() { return (StExt_Hub_Smith >= 2); };
+func void dia_none_99760_HubSmith_Buy_info()
+{
+	StExt_Say("Bezimienny Kowal", "Naklulem tego przez lata. Zaplac uczciwie, a wybierzesz, co chcesz.");
+	info_clearchoices(dia_none_99760_HubSmith_Buy);
+	info_addchoice(dia_none_99760_HubSmith_Buy, dialog_back, StExt_HubSmith_BuyExit);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Zbroja Krzyzowca - 100000 zlota", StExt_HubSmith_Buy_Crusader);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Zbroja Zardzewialego Lorda - 100000 zlota", StExt_HubSmith_Buy_Rustlord);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Zbroja Straznika Chaosu - 100000 zlota", StExt_HubSmith_Buy_Guardian);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Zbroja Templariusza - 100000 zlota", StExt_HubSmith_Buy_Templar);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Zbroja Oficera - 50000 zlota", StExt_HubSmith_Buy_Royal);
+	info_addchoice(dia_none_99760_HubSmith_Buy, "Mroczny Kaftan - 50000 zlota", StExt_HubSmith_Buy_NovDark);
+};
+
 func void dia_none_99760_HubSmith_exit_info() { ai_stopprocessinfos(self); };
 instance dia_none_99760_HubSmith_exit(c_info)
 {

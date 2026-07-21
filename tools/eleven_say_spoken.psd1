@@ -76,4 +76,7 @@
     'DF5D3FC6' = 'Dwaj bracia w bieli, Gerhard i Wolker, zaszyli się na farmie Lobarta u bram miasta. Poznali twoje imię - to błąd, który naprawisz nożem.'
     '0A49BCD8' = 'Kapitan Ortwin zbiera ludzi przeciw nam przy wielkim młynie. Rozetnij ten węzeł u samego źródła.'
     'D95BF1BD' = 'Został jeden - Paladyn Lord Isgaroth, ich najjaśniejszy płomień. Zaszył się na odludnej farmie Sekoba, na południu. Zgaś go, a przestaniesz być nikim.'
+    # --- Kowal: sklep ze zbrojami ---
+    '3033867C' = 'Nakułem tego przez lata. Zapłać uczciwie, a wybierzesz, co chcesz.'
+    '8B1EC9DB' = 'Bierz. Kuta nie moją ręką, ale posłuży. Rangę podbijesz gdzie indziej.'
 }
