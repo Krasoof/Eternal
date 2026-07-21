@@ -117,7 +117,10 @@ func void StExt_DarkKnights_Log(var string entry)
 // Beliara ma ja nagradzac - to caly sens sluzby.
 func void StExt_DarkKnights_GrantBeliarKarma(var int amount)
 {
-	beliarpraycount = beliarpraycount + amount;
+	// Do WLASNEGO licznika: baza nadpisuje beliarpraycount co tick, wiec zapis tam
+	// byl wycierany i panel pod B nie drgal. Panel i wymagania przedmiotow licza
+	// teraz SUME (bazowa + nasza), wiec karma z questow realnie sie dodaje.
+	StExt_BeliarKarmaQuest = StExt_BeliarKarmaQuest + amount;
 	ai_printbonus(concatstrings("Beliar patrzy laskawiej (+", concatstrings(inttostring(amount), " Karmy Beliara)")));
 };
 

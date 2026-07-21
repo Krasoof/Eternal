@@ -591,7 +591,9 @@ func void StExt_KarmaController()
 	var int diff;
 	
 	StExt_InnosKarma = innospraycount - innoscrimecount;
-	StExt_BeliarKarma = beliarpraycount;
+	// SUMA: karma bazowa (modlitwy NB) + karma z naszych questow. Baza nadpisuje
+	// beliarpraycount, wiec zapis tam byl wycierany i licznik pod B nie drgal.
+	StExt_BeliarKarma = beliarpraycount + StExt_BeliarKarmaQuest;
 
 	absInnos = StExt_Abs(StExt_InnosKarma);
 	absBeliar = StExt_Abs(StExt_BeliarKarma);

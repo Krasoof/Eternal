@@ -64,6 +64,7 @@ var int StExt_IgnoreHumanDamageNow;							// Required to fix double damage react
 var int StExt_InnosKarma;
 var int StExt_AdanosKarma;
 var int StExt_BeliarKarma;
+var int StExt_BeliarKarmaQuest;	// karma z NASZYCH questow - baza nadpisuje beliarpraycount, wiec trzymamy osobno i SUMUJEMY
 var int StExt_AdanosKarmaPenalty;
 var int StExt_AdanosKarmaBonus;
 

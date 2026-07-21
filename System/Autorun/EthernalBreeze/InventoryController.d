@@ -117,7 +117,7 @@ func int StExt_CheckConditionStat(var int condAtrId, var int condAtrVal)
 	}
 	else if(condAtrId == StExt_Item_Cond_BeliarKarma)
 	{
-		curVal = beliarpraycount;
+		curVal = beliarpraycount + StExt_BeliarKarmaQuest;	// wymagania przedmiotow licza SUME (baza + questy)
 		atrName = StExt_Str_Item_Cond_BeliarKarma;
 	}
 	else if(condAtrId == StExt_Item_Cond_InnosKarma)
