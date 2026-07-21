@@ -185,6 +185,31 @@ func void StExt_DH_SetGuildWar()
 	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_SLD_MERCENARY_02));
 };
 
+// Zwolanie PRAWDZIWYCH lowcow do dworku za farma Onara (zero kopii - przenosimy
+// te same instancje). AI_Teleport z TICKU, nie z dialogu (wolanie eventu/teleportu
+// w trakcie rozmowy zawieszalo dialog). Latch = raz. WP jako literal, bo stala
+// StExt_DH_WP siedzi w pliku 76, a ten kod parsuje sie jako 54.
+func void StExt_DH_TeleportOne(var c_npc n)
+{
+	if (!hlp_isvalidnpc(n)) { return; };
+	if (npc_isdead(n)) { return; };
+	AI_Teleport(n, "NW_BIGFARM_FOREST_01");
+};
+
+func void StExt_DH_RelocateToMansion()
+{
+	if (StExt_DH_Relocated) { return; };
+	if (StExt_DH_Stage != 1) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	StExt_DH_Relocated = true;
+	StExt_DH_TeleportOne(hlp_getnpc(DH_MAINNPC));
+	StExt_DH_TeleportOne(hlp_getnpc(DH_NPCSEVERIN));
+	StExt_DH_TeleportOne(hlp_getnpc(DH_VILANDNPC));
+	StExt_DH_TeleportOne(hlp_getnpc(DH_SLD_MERCENARY_01));
+	StExt_DH_TeleportOne(hlp_getnpc(DH_SLD_MERCENARY_02));
+	ai_printbonus("Lowcy demonow zebrali sie w dworku za farma Onara.");
+};
+
 func void StExt_CheckGatedSpawns()
 {
 	var c_npc zhMaster;
@@ -192,6 +217,7 @@ func void StExt_CheckGatedSpawns()
 	// sie przy wczytaniu). Setter zwraca od razu dla nie-Rycerza; globalne, wiec
 	// przed bramka newworld. Idempotentne.
 	StExt_DH_SetGuildWar();
+	StExt_DH_RelocateToMansion();	// po przyjeciu zlecenia sciaga lowcow do dworku (z ticku!)
 	// Diagnostyk identyfikacji Lowcow: podglad gildii CELU (patrz na NPC).
 	// W dialogu focusem jest rozmowca, dlatego rysujemy z ticku, nie z dialogu.
 	if (StExt_DH_ShowFocusGuild && hlp_isvalidnpc(StExt_FocusNpc))

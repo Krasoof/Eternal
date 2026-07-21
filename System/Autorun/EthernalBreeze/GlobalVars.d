@@ -134,6 +134,7 @@ var int StExt_DH_TopicMade;		// latch tematu dziennika
 var int StExt_DH_Stage;			// 0 nieprzyjete, 1 aktywne, 2 gniazdo wyrznieté
 var int StExt_DH_ShowFocusGuild;	// diagnostyk: pokazuj gildie celu na ekranie
 var int StExt_DH_HunterGuild;		// gildia Lowcow odczytana z DH_MAINNPC (0 = jeszcze nieznana)
+var int StExt_DH_Relocated;		// latch: prawdziwi lowcy przeniesieni do dworku
 
 // *** Glosy Wiezy - hub recruits (Npc_HubSmith.d) ***
 var int StExt_Hub_Smith;		// 0 nieznany, 1 poznany, 2 zwerbowany (usluga)
