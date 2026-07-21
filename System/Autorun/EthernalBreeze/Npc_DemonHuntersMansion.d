@@ -105,8 +105,8 @@ instance dia_dmtteacher_stext_dhhunt(c_info)
 func int dia_dmtteacher_stext_dhhunt_condition() { return StExt_DK_IsMember() && (StExt_DH_Stage == 0); };
 func void dia_dmtteacher_stext_dhhunt_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Lowcy demonow polują na wszystko, co nosi cień Beliara - a ty niesiesz go jak sztandar.");
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Zagnieździli się w dworku za farmą Onara, w lesie nad jeziorem. Wytnij ich gniazdo. Ich mistrz Angel ma paść pierwszy.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Lowcy demonow poluja na wszystko, co nosi cien Beliara - a ty niesiesz go jak sztandar.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Zagniezdzili sie w dworku za farma Onara, w lesie nad jeziorem. Wytnij ich gniazdo. Ich mistrz Angel ma pasc pierwszy.");
 	StExt_DH_SetGuildWar();
 	StExt_DH_Stage = 1;
 	StExt_DH_Log("Lowcy demonow zajeli dworek za farma Onara. Mistrz Angel i jego lowcy maja zginac - Beliar zabierze im dom.");
@@ -120,7 +120,7 @@ instance dia_dmtteacher_stext_dhhunt_done(c_info)
     condition = dia_dmtteacher_stext_dhhunt_done_condition;
     information = dia_dmtteacher_stext_dhhunt_done_info;
     permanent = false;
-    description = "Gniazdo lowcow wyrznięte.";
+    description = "Gniazdo lowcow wyrzniete.";
 };
 // Detekcja na PRAWDZIWYM mistrzu lowcow: DH_MAINNPC to potwierdzona instancja NPC
 // (ma AI_ONDEAD_DH_MAINNPC). Nazwe znaleziono ekstrakcja calych tokenow z VDF.
@@ -133,11 +133,39 @@ func int dia_dmtteacher_stext_dhhunt_done_condition()
 };
 func void dia_dmtteacher_stext_dhhunt_done_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Angel martwy, gniazdo wyrżnięte. Ich krzyż nie ochronił ich przed Beliarem. Dobrze.");
+	var int itm;
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Ich mistrz martwy, gniazdo wyrzniete. Krzyz nie ochronil ich przed Beliarem.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Wez ich wlasna kusze. Przekulem ja w ogniu - teraz pije swiatlo, ktoremu sluzyla.");
 	StExt_DH_Stage = 2;
+	// Legendarna nagroda: kusza lowcow przekuta dla Beliara (wzorzec GiveUnique).
+	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_CBowWeapon"), (hero.level * 7) + (kapitel * 40) + 320, StExt_ItemRankLegendary, "SPL_DARKBALL");
+	if (itm > 0)
+	{
+		StExt_SetGeneratedItemName(itm, "Zdrada Swiatla");
+		b_playerfinditem_stext(itm, 1);
+	};
 	StExt_DarkKnights_GrantBeliarKarma(150);
 	StExt_DarkKnights_GrantReward(8000, 15);
-	StExt_DH_Log("Angel martwy, gniazdo lowcow zniszczone. Dworek za farma Onara nalezy teraz do cienia.");
+	StExt_DH_Log("Mistrz lowcow martwy, gniazdo zniszczone. Dworek za farma Onara nalezy teraz do cienia. Ich kusza pije teraz swiatlo.");
 	Log_SetTopicStatus(StExt_DH_Topic, LOG_SUCCESS);
+	ai_stopprocessinfos(self);
+};
+
+// Powtarzalna wskazowka - samonaprawa, gdyby lowcy sie rozeszli/nie doszli do dworku.
+// Zdejmuje latch, wiec tick zwola ich ponownie (AI_Teleport, poza dialogiem).
+instance dia_dmtteacher_stext_dhhint(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 734;
+    condition = dia_dmtteacher_stext_dhhint_condition;
+    information = dia_dmtteacher_stext_dhhint_info;
+    permanent = true;
+    description = "Gdzie sa ci lowcy?";
+};
+func int dia_dmtteacher_stext_dhhint_condition() { return StExt_DK_IsMember() && (StExt_DH_Stage == 1); };
+func void dia_dmtteacher_stext_dhhint_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "W dworku za farma Onara, w lesie nad jeziorem. Zbiore ich tam dla ciebie - idz i skoncz to.");
+	StExt_DH_Relocated = false;	// tick zwola ich na nowo
 	ai_stopprocessinfos(self);
 };

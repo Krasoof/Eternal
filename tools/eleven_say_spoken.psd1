@@ -86,4 +86,10 @@
     '7E541FE6' = 'Bez dusz stal pozostanie zwykłym żelazem. Przynieś ich więcej.'
     'E112EAF7' = 'Ta stal nie przyjmie legendy.'
     '9F1C5F97' = 'Stal pamięta każdą duszę. Ranga rośnie - załóż ją z plecaka, by poczuć różnicę.'
+    # --- Mistrz Mrocznych Rycerzy: wojna z Łowcami Demonów ---
+    'A3F9D392' = 'Łowcy demonów polują na wszystko, co nosi cień Beliara - a ty niesiesz go jak sztandar.'
+    'A1698D90' = 'Zagnieździli się w dworku za farmą Onara, w lesie nad jeziorem. Wytnij ich gniazdo. Ich mistrz Angel ma paść pierwszy.'
+    'D25FFCC9' = 'Ich mistrz martwy, gniazdo wyrżnięte. Krzyż nie ochronił ich przed Beliarem.'
+    '9A18A950' = 'Weź ich własną kuszę. Przekułem ją w ogniu - teraz pije światło, któremu służyła.'
+    '91E53021' = 'W dworku za farmą Onara, w lesie nad jeziorem. Zbiorę ich tam dla ciebie - idź i skończ to.'
 }
