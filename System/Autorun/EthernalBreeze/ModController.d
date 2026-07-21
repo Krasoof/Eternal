@@ -200,6 +200,10 @@ func void StExt_DH_TeleportOne(var c_npc n)
 	AI_Teleport(n, "NW_BIGFARM_FOREST_01");
 };
 
+// Diagnostyk potwierdzil: w tym zapisie lowcy NIE ISTNIEJA w swiecie (ich watek
+// nieaktywny). Dlatego: jesli lowca istnieje - teleportujemy, jesli NIE - wstawiamy
+// go do swiata. To NIE sa kopie: skoro oryginalu nigdzie nie ma, wld_insertnpc
+// powoluje te jedyna, prawdziwa instancje (zero duplikacji, zero psucia ich watku).
 func void StExt_DH_RelocateToMansion()
 {
 	var c_npc n;
@@ -207,12 +211,18 @@ func void StExt_DH_RelocateToMansion()
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
 	StExt_DH_Relocated = true;
-	// zmienna posrednia - patrz uwaga o instancjach jako argumentach wyzej
-	n = hlp_getnpc(DH_MAINNPC);          StExt_DH_TeleportOne(n);
-	n = hlp_getnpc(DH_NPCSEVERIN);       StExt_DH_TeleportOne(n);
-	n = hlp_getnpc(DH_VILANDNPC);        StExt_DH_TeleportOne(n);
-	n = hlp_getnpc(DH_SLD_MERCENARY_01); StExt_DH_TeleportOne(n);
-	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_TeleportOne(n);
+	rx_saveparservars();
+	n = hlp_getnpc(DH_MAINNPC);
+	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_MAINNPC, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_NPCSEVERIN);
+	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_NPCSEVERIN, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_VILANDNPC);
+	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_VILANDNPC, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_01);
+	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_02);
+	if (hlp_isvalidnpc(n)) { StExt_DH_TeleportOne(n); } else { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_BIGFARM_FOREST_01"); };
+	rx_restoreparservars();
 	ai_printbonus("Lowcy demonow zebrali sie w dworku za farma Onara.");
 };
 
