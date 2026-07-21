@@ -95,4 +95,8 @@
     # --- Lowcy: gniazdo w porcie (po korekcie lokalizacji) ---
     'D0AA1A29' = 'Zagnieździli się w porcie, przy nabrzeżu. Wytnij ich gniazdo. Ich mistrz ma paść pierwszy.'
     '8D304BD1' = 'W porcie, przy nabrzeżu - tam trzymają swoje gniazdo. Idź i skończ to.'
+    # --- Lowcy: dworek odrestaurowany + Belmond ---
+    '082365CE' = 'Odbudowali stary dworek za farmą Onara, w lesie nad jeziorem, i właśnie się tam ściągają. Wytnij to gniazdo - ich mistrz ma paść pierwszy.'
+    '637CA7A2' = 'I strzeż się jednego. Ich dowódca to tylko głos, ale Belmond to ostrze - jego zbroja pamięta więcej demonów niż ty ludzi. Przy nim nosi coś, co warto zabrać.'
+    'CC85BD94' = 'W dworku za farmą Onara, w lesie nad jeziorem. Tam się ściągnęli - idź i skończ to.'
 }

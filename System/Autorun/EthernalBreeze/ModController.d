@@ -189,11 +189,28 @@ func void StExt_DH_SetGuildWar()
 	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_MakeNpcHostile(n);
 };
 
-// LOWCY ZYJA W PORCIE - tam jest ich gniazdo i tam kieruje quest.
-// Porzucone: przenoszenie ich do dworku przez AI_Teleport. To komenda KOLEJKI AI,
-// a NPC oddalony od gracza w ogole nie tyka swojego AI - wiec teleport nigdy sie
-// nie wykonywal i lowcy zostawali w porcie (potwierdzone w grze). Zamiast walczyc
-// z silnikiem, quest prowadzi tam, gdzie oni faktycznie sa.
+// ODPALENIE BAZOWEGO EVENTU DWORKU: dworek zostaje odrestaurowany, a lowcy sami
+// sie tam wprowadzaja - dokladnie tak, jak w ich wlasnym watku. To wlasciwa droga:
+// AI_Teleport nie mial szans (komenda KOLEJKI AI, a NPC daleko od gracza nie tyka
+// swojego AI - stad "lowcy dalej w porcie").
+// DWA WARUNKI BEZPIECZENSTWA, oba wyniesione z wczesniejszych bledow:
+//  1) wolamy z TICKU, nigdy z dialogu - wolanie eventu w trakcie rozmowy ja zawieszalo,
+//  2) wolamy PO NAZWIE (StExt_InitializeCallback) - nie znamy arnosci tych funkcji,
+//     a wywolanie wprost przy zlej arnosci = parse-fail calego moda.
+// Kolejno (z odstepem klatek, by wykonaly sie po kolei): podmiana vobtree na
+// odrestaurowany dworek -> oznaczenie go jako czysty -> przeprowadzka lowcow.
+func void StExt_DH_RestoreMansion()
+{
+	if (StExt_DH_MansionDone) { return; };
+	if (StExt_DH_Stage != 1) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	StExt_DH_MansionDone = true;
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSION_CHANGEVOBTREE", 1);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONCLEAN", 20);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_MANSIONUPDATECLEAN", 40);
+	StExt_InitializeCallback(hero, hero, "RX_CALLBACK_DH_GOTOMANSION", 60);
+	ai_printbonus("Lowcy demonow odbudowali dworek za farma Onara i przenosza sie tam.");
+};
 
 // Dospawnowuje TYLKO tych lowcow, ktorych w danym zapisie w ogole nie ma (watek
 // nieaktywny). Istniejacych NIE ruszamy - siedza w porcie i tam po nich idziemy.
@@ -207,11 +224,11 @@ func void StExt_DH_EnsureHunters()
 	if (currentlevel != newworld_zen) { return; };
 	StExt_DH_Relocated = true;
 	rx_saveparservars();
-	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_CITY_HABOUR_03"); };
-	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_CITY_HABOUR_03"); };
-	n = hlp_getnpc(DH_VILANDNPC);        if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_VILANDNPC, "NW_CITY_HABOUR_03"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_01); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_CITY_HABOUR_03"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_02); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_CITY_HABOUR_03"); };
+	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_VILANDNPC);        if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_VILANDNPC, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_BIGFARM_FOREST_01"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_BIGFARM_FOREST_01"); };
 	rx_restoreparservars();
 };
 
@@ -223,6 +240,7 @@ func void StExt_CheckGatedSpawns()
 	// przed bramka newworld. Idempotentne.
 	StExt_DH_SetGuildWar();
 	StExt_DH_EnsureHunters();	// dospawnuj brakujacych lowcow (istniejacych nie ruszamy)
+	StExt_DH_RestoreMansion();	// odpal bazowy event: dworek odrestaurowany + przeprowadzka lowcow
 	// Diagnostyk identyfikacji Lowcow: podglad gildii CELU (patrz na NPC).
 	// W dialogu focusem jest rozmowca, dlatego rysujemy z ticku, nie z dialogu.
 	if (StExt_DH_ShowFocusGuild && hlp_isvalidnpc(StExt_FocusNpc))
