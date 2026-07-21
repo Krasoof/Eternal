@@ -169,6 +169,7 @@ func void StExt_DH_MakeNpcHostile(var c_npc n)
 func void StExt_DH_SetGuildWar()
 {
 	var c_npc dhm;
+	var c_npc n;
 	if ((hero.guild != 16) && (hero.guild != GIL_DMT)) { return; };
 	dhm = hlp_getnpc(DH_MAINNPC);
 	if ((StExt_DH_HunterGuild <= 0) && hlp_isvalidnpc(dhm)) { StExt_DH_HunterGuild = dhm.guild; };
@@ -178,11 +179,14 @@ func void StExt_DH_SetGuildWar()
 		wld_setguildattitude(StExt_DH_HunterGuild, hero.guild, ATT_HOSTILE);
 		StExt_DH_WarSet = true;
 	};
+	// UWAGA: w Daedalusie NIE wolno przekazac wyniku funkcji zwracajacej INSTANCJE
+	// jako argumentu innej funkcji - parser wywala blad "Expected nawias zamykajacy".
+	// Zagniezdzenia zwracajace int sa OK. Stad zmienna posrednia.
 	StExt_DH_MakeNpcHostile(dhm);
-	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_NPCSEVERIN));
-	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_VILANDNPC));
-	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_SLD_MERCENARY_01));
-	StExt_DH_MakeNpcHostile(hlp_getnpc(DH_SLD_MERCENARY_02));
+	n = hlp_getnpc(DH_NPCSEVERIN);       StExt_DH_MakeNpcHostile(n);
+	n = hlp_getnpc(DH_VILANDNPC);        StExt_DH_MakeNpcHostile(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); StExt_DH_MakeNpcHostile(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_MakeNpcHostile(n);
 };
 
 // Zwolanie PRAWDZIWYCH lowcow do dworku za farma Onara (zero kopii - przenosimy
@@ -198,15 +202,17 @@ func void StExt_DH_TeleportOne(var c_npc n)
 
 func void StExt_DH_RelocateToMansion()
 {
+	var c_npc n;
 	if (StExt_DH_Relocated) { return; };
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
 	StExt_DH_Relocated = true;
-	StExt_DH_TeleportOne(hlp_getnpc(DH_MAINNPC));
-	StExt_DH_TeleportOne(hlp_getnpc(DH_NPCSEVERIN));
-	StExt_DH_TeleportOne(hlp_getnpc(DH_VILANDNPC));
-	StExt_DH_TeleportOne(hlp_getnpc(DH_SLD_MERCENARY_01));
-	StExt_DH_TeleportOne(hlp_getnpc(DH_SLD_MERCENARY_02));
+	// zmienna posrednia - patrz uwaga o instancjach jako argumentach wyzej
+	n = hlp_getnpc(DH_MAINNPC);          StExt_DH_TeleportOne(n);
+	n = hlp_getnpc(DH_NPCSEVERIN);       StExt_DH_TeleportOne(n);
+	n = hlp_getnpc(DH_VILANDNPC);        StExt_DH_TeleportOne(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); StExt_DH_TeleportOne(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_TeleportOne(n);
 	ai_printbonus("Lowcy demonow zebrali sie w dworku za farma Onara.");
 };
 
