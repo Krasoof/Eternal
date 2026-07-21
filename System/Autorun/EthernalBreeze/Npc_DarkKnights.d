@@ -576,3 +576,192 @@ func void dia_dmtteacher_stext_hint_info()
 	rx_restoreparservars();
 	ai_stopprocessinfos(self);
 };
+
+//===================================================================//
+//   Moce Beliara - Nauczyciel uczy AUR zamiast martwych run.        //
+//===================================================================//
+// Runy Mrocznego Rycerza sa pod stary system magii (nie dzialaja w NB).
+// Zamiast nich Nauczyciel przekazuje ISTNIEJACE, dzialajace aury moda,
+// podane jako moce Beliara. Koszt = PN (hero.lp) + zloto (itmi_gold),
+// wzorzec z LevelingController. Bez dusz - to nie ta gildia. Aury sa
+// przedmiotami (kamieniami) - gracz je zaklada uzyciem, jak reszte aur.
+
+func int StExt_DK_CanAfford(var int lpCost, var int goldCost)
+{
+	if ((StExt_SncMode != 3) && (hero.lp < lpCost)) { ai_printred(concatstrings(StExt_Str_NeedLp, inttostring(lpCost))); return false; };
+	if (npc_hasitems(hero, itmi_gold) < goldCost) { ai_printred(concatstrings(StExt_Str_NeedGold, inttostring(goldCost))); return false; };
+	return true;
+};
+func void StExt_DK_Charge(var int lpCost, var int goldCost)
+{
+	npc_removeinvitems(hero, itmi_gold, goldCost);
+	if (StExt_SncMode != 3) { hero.lp -= lpCost; };
+};
+
+// --- Gniew Beliara (WarriorTrance: + obrazenia broni bialej) ---
+instance dia_dmtteacher_stext_aura_rage(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 720;
+    condition = dia_dmtteacher_stext_aura_rage_condition;
+    information = dia_dmtteacher_stext_aura_rage_info;
+    permanent = true;
+    description = "Moc: Gniew Beliara (15 PN, 3000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_rage_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_WarriorTrance) == 0); };
+func void dia_dmtteacher_stext_aura_rage_info()
+{
+	if (!StExt_DK_CanAfford(15, 3000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(15, 3000);
+	createinvitems(hero, itau_stext_WarriorTrance, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Gniew Beliara wstepuje w twoje ramie. Zaloz ten kamien, a kazdy cios stanie sie ciezszy.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Gniew Beliara - moc zamknieta w kamieniu aury.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Cierun Grzechu (Thorns: odbicie obrazen wrecz) ---
+instance dia_dmtteacher_stext_aura_thorns(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 721;
+    condition = dia_dmtteacher_stext_aura_thorns_condition;
+    information = dia_dmtteacher_stext_aura_thorns_info;
+    permanent = true;
+    description = "Moc: Ciern Grzechu (15 PN, 3000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_thorns_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Thorns) == 0); };
+func void dia_dmtteacher_stext_aura_thorns_info()
+{
+	if (!StExt_DK_CanAfford(15, 3000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(15, 3000);
+	createinvitems(hero, itau_stext_Thorns, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Kto cie tknie, sam sie zrani. Beliar nie wybacza dotyku.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Ciern Grzechu - obrazenia wracaja do tego, kto mnie uderzy.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Skora Grzesznika (IronSkin: + pancerz na bron) ---
+instance dia_dmtteacher_stext_aura_iron(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 722;
+    condition = dia_dmtteacher_stext_aura_iron_condition;
+    information = dia_dmtteacher_stext_aura_iron_info;
+    permanent = true;
+    description = "Moc: Skora Grzesznika (20 PN, 4000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_iron_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_IronSkin) == 0); };
+func void dia_dmtteacher_stext_aura_iron_info()
+{
+	if (!StExt_DK_CanAfford(20, 4000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(20, 4000);
+	createinvitems(hero, itau_stext_IronSkin, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Twoja skora stwardnieje jak sumienie grzesznika. Ostrza beda sie na niej lamac.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Skore Grzesznika - twardsza obrona przed broni bialej.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Zwierciadlo Mroku (MirrorShield: odbicie czarow) ---
+instance dia_dmtteacher_stext_aura_mirror(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 723;
+    condition = dia_dmtteacher_stext_aura_mirror_condition;
+    information = dia_dmtteacher_stext_aura_mirror_info;
+    permanent = true;
+    description = "Moc: Zwierciadlo Mroku (20 PN, 5000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_mirror_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_MirrorShield) == 0); };
+func void dia_dmtteacher_stext_aura_mirror_info()
+{
+	if (!StExt_DK_CanAfford(20, 5000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(20, 5000);
+	createinvitems(hero, itau_stext_MirrorShield, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Niech ich czary wroca do nich. Mrok jest lustrem, ktore nie klamie.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Zwierciadlo Mroku - szansa na odbicie wrogich czarow.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Klatwa Beliara (Curser: magiczny DOT przy trafieniu) ---
+instance dia_dmtteacher_stext_aura_curse(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 724;
+    condition = dia_dmtteacher_stext_aura_curse_condition;
+    information = dia_dmtteacher_stext_aura_curse_info;
+    permanent = true;
+    description = "Moc: Klatwa Beliara (25 PN, 6000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_curse_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Curser) == 0); };
+func void dia_dmtteacher_stext_aura_curse_info()
+{
+	if (!StExt_DK_CanAfford(25, 6000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(25, 6000);
+	createinvitems(hero, itau_stext_Curser, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Twoje ciosy zostawia klatwe, ktora zerze od srodka. Beliar lubi powolne konanie.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Klatwe Beliara - trafienia nakladaja niszczaca klatwe.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Tchnienie Smierci (Death: + obrazenia wobec ludzi/zwierzat/orkow) ---
+instance dia_dmtteacher_stext_aura_death(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 725;
+    condition = dia_dmtteacher_stext_aura_death_condition;
+    information = dia_dmtteacher_stext_aura_death_info;
+    permanent = true;
+    description = "Moc: Tchnienie Smierci (25 PN, 6000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_death_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Death) == 0); };
+func void dia_dmtteacher_stext_aura_death_info()
+{
+	if (!StExt_DK_CanAfford(25, 6000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(25, 6000);
+	createinvitems(hero, itau_stext_Death, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Wszystko, co zyje, sluzy Beliarowi jako pozywienie. Twoje ostrze bedzie glodniejsze.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Tchnienie Smierci - wieksze obrazenia wobec zywych.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Zastep Beliara (Hell: przyzwanie demona-straznika) ---
+instance dia_dmtteacher_stext_aura_hell(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 726;
+    condition = dia_dmtteacher_stext_aura_hell_condition;
+    information = dia_dmtteacher_stext_aura_hell_info;
+    permanent = true;
+    description = "Moc: Zastep Beliara (35 PN, 10000 zlota)";
+};
+func int dia_dmtteacher_stext_aura_hell_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Hell) == 0); };
+func void dia_dmtteacher_stext_aura_hell_info()
+{
+	if (!StExt_DK_CanAfford(35, 10000)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(35, 10000);
+	createinvitems(hero, itau_stext_Hell, 1);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Otworz brame, a stanie przy tobie demon. To najwyzszy dar - i najciezszy ciezar.");
+	StExt_DarkKnights_Log("Nauczyciel dal mi Zastep Beliara - u boku walczy przyzwany demon.");
+	ai_stopprocessinfos(self);
+};
+
+// --- Wzmocnienie (repeatable: + Moc Aury na stale) ---
+instance dia_dmtteacher_stext_aura_upgrade(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 727;
+    condition = dia_dmtteacher_stext_aura_upgrade_condition;
+    information = dia_dmtteacher_stext_aura_upgrade_info;
+    permanent = true;
+    description = "Wzmocnij moce Beliara (10 PN, 2500 zlota)";
+};
+func int dia_dmtteacher_stext_aura_upgrade_condition() { return StExt_DK_IsMember(); };
+func void dia_dmtteacher_stext_aura_upgrade_info()
+{
+	if (!StExt_DK_CanAfford(10, 2500)) { ai_stopprocessinfos(self); return; };
+	StExt_DK_Charge(10, 2500);
+	StExt_PlayerStat_OnApply(StExt_PcStats_Index_AuraPower, 25, StExt_PcStat_Source_Perm);
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Twoje aury pija wiecej mroku. Kazda z nich uderza teraz mocniej.");
+	ai_printbonus("Moc Aury +25");
+	ai_stopprocessinfos(self);
+};

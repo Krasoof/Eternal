@@ -61,4 +61,13 @@
     'A34E3AE1' = 'Dusza wrosła w stal. Załóż pancerz - broni cię teraz tak, jak bronił swojego pana.'
     '4D69FE4E' = 'Sztuki Rycerza Dusz. Płaci się duszami poległych - złota tu nie przyjmuję, złoto jest dla kupców.'
     'FDFD647D' = 'I weź tę runę. Zaprowadzi cię prosto do naszej nowej siedziby, gdy tylko zechcesz.'
+    # --- Mroczny Nauczyciel: moce Beliara (aury) ---
+    '58E9529B' = 'Gniew Beliara wstępuje w twoje ramię. Załóż ten kamień, a każdy cios stanie się cięższy.'
+    '69E86FD1' = 'Kto cię tknie, sam się zrani. Beliar nie wybacza dotyku.'
+    '11CF084F' = 'Twoja skóra stwardnieje jak sumienie grzesznika. Ostrza będą się na niej łamać.'
+    '0C24325C' = 'Niech ich czary wrócą do nich. Mrok jest lustrem, które nie kłamie.'
+    '417AA94C' = 'Twoje ciosy zostawią klątwę, która żre od środka. Beliar lubi powolne konanie.'
+    '3289A071' = 'Wszystko, co żyje, służy Beliarowi jako pożywienie. Twoje ostrze będzie głodniejsze.'
+    '5A599E38' = 'Otwórz bramę, a stanie przy tobie demon. To najwyższy dar - i najcięższy ciężar.'
+    '600718A8' = 'Twoje aury piją więcej mroku. Każda z nich uderza teraz mocniej.'
 }
