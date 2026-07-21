@@ -501,7 +501,7 @@ func void dia_dmtteacher_stext_q4done_info()
 	ai_stopprocessinfos(self);
 };
 
-// --- Q5: Zmierzch Paladyna (finał) ---
+// --- Q5: Zmierzch Paladyna (final) ---
 instance dia_dmtteacher_stext_q5(c_info)
 {
     npc = DMT_DARKTEACHER;
@@ -624,7 +624,7 @@ instance dia_dmtteacher_stext_aura_rage(c_info)
     condition = dia_dmtteacher_stext_aura_rage_condition;
     information = dia_dmtteacher_stext_aura_rage_info;
     permanent = true;
-    description = "Moc: Gniew Beliara (15 PN, 3000 zlota)";
+    description = "Moc: Gniew Beliara - mocniejsze ciosy bronia (15 PN, 3000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_rage_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_WarriorTrance) == 0); };
 func void dia_dmtteacher_stext_aura_rage_info()
@@ -645,7 +645,7 @@ instance dia_dmtteacher_stext_aura_thorns(c_info)
     condition = dia_dmtteacher_stext_aura_thorns_condition;
     information = dia_dmtteacher_stext_aura_thorns_info;
     permanent = true;
-    description = "Moc: Ciern Grzechu (15 PN, 3000 zlota)";
+    description = "Moc: Ciern Grzechu - odbija obrazenia wrecz (15 PN, 3000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_thorns_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Thorns) == 0); };
 func void dia_dmtteacher_stext_aura_thorns_info()
@@ -666,7 +666,7 @@ instance dia_dmtteacher_stext_aura_iron(c_info)
     condition = dia_dmtteacher_stext_aura_iron_condition;
     information = dia_dmtteacher_stext_aura_iron_info;
     permanent = true;
-    description = "Moc: Skora Grzesznika (20 PN, 4000 zlota)";
+    description = "Moc: Skora Grzesznika - wiekszy pancerz na bron (20 PN, 4000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_iron_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_IronSkin) == 0); };
 func void dia_dmtteacher_stext_aura_iron_info()
@@ -687,7 +687,7 @@ instance dia_dmtteacher_stext_aura_mirror(c_info)
     condition = dia_dmtteacher_stext_aura_mirror_condition;
     information = dia_dmtteacher_stext_aura_mirror_info;
     permanent = true;
-    description = "Moc: Zwierciadlo Mroku (20 PN, 5000 zlota)";
+    description = "Moc: Zwierciadlo Mroku - odbija czary (20 PN, 5000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_mirror_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_MirrorShield) == 0); };
 func void dia_dmtteacher_stext_aura_mirror_info()
@@ -708,7 +708,7 @@ instance dia_dmtteacher_stext_aura_curse(c_info)
     condition = dia_dmtteacher_stext_aura_curse_condition;
     information = dia_dmtteacher_stext_aura_curse_info;
     permanent = true;
-    description = "Moc: Klatwa Beliara (25 PN, 6000 zlota)";
+    description = "Moc: Klatwa Beliara - twoje ciosy zra rane w czasie (25 PN, 6000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_curse_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Curser) == 0); };
 func void dia_dmtteacher_stext_aura_curse_info()
@@ -729,7 +729,7 @@ instance dia_dmtteacher_stext_aura_death(c_info)
     condition = dia_dmtteacher_stext_aura_death_condition;
     information = dia_dmtteacher_stext_aura_death_info;
     permanent = true;
-    description = "Moc: Tchnienie Smierci (25 PN, 6000 zlota)";
+    description = "Moc: Tchnienie Smierci - wiecej obrazen ludziom, zwierzetom i orkom (25 PN, 6000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_death_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Death) == 0); };
 func void dia_dmtteacher_stext_aura_death_info()
@@ -750,7 +750,7 @@ instance dia_dmtteacher_stext_aura_hell(c_info)
     condition = dia_dmtteacher_stext_aura_hell_condition;
     information = dia_dmtteacher_stext_aura_hell_info;
     permanent = true;
-    description = "Moc: Zastep Beliara (35 PN, 10000 zlota)";
+    description = "Moc: Zastep Beliara - przyzywa demona-straznika (35 PN, 10000 zlota)";
 };
 func int dia_dmtteacher_stext_aura_hell_condition() { return StExt_DK_IsMember() && (npc_hasitems(hero, itau_stext_Hell) == 0); };
 func void dia_dmtteacher_stext_aura_hell_info()
@@ -771,7 +771,7 @@ instance dia_dmtteacher_stext_aura_upgrade(c_info)
     condition = dia_dmtteacher_stext_aura_upgrade_condition;
     information = dia_dmtteacher_stext_aura_upgrade_info;
     permanent = true;
-    description = "Wzmocnij moce Beliara (10 PN, 2500 zlota)";
+    description = "Wzmocnij moce Beliara - wszystkie aury dzialaja mocniej (10 PN, 2500 zlota)";
 };
 func int dia_dmtteacher_stext_aura_upgrade_condition() { return StExt_DK_IsMember(); };
 func void dia_dmtteacher_stext_aura_upgrade_info()

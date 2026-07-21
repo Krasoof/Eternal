@@ -176,8 +176,28 @@ func void StExt_DH_SetGuildWar()
 	var c_npc dhm;
 	var c_npc n;
 	if ((hero.guild != 16) && (hero.guild != GIL_DMT)) { return; };
+	// Gildie odczytujemy z KTOREGOKOLWIEK zaladowanego lowcy, nie tylko z DH_MAINNPC.
+	// Wczesniej szlo wylacznie przez DH_MAINNPC - a ten w zapisie usera nie istnieje,
+	// wiec gildia zostawala 0 i cala logika oparta na gildii (w tym wymuszanie
+	// smierci) nie obejmowala reszty lowcow, m.in. Angela.
 	dhm = hlp_getnpc(DH_MAINNPC);
 	if ((StExt_DH_HunterGuild <= 0) && hlp_isvalidnpc(dhm)) { StExt_DH_HunterGuild = dhm.guild; };
+	if (StExt_DH_HunterGuild <= 0)
+	{
+		n = hlp_getnpc(DH_NPCSEVERIN);       if (hlp_isvalidnpc(n)) { StExt_DH_HunterGuild = n.guild; };
+	};
+	if (StExt_DH_HunterGuild <= 0)
+	{
+		n = hlp_getnpc(DH_VILANDNPC);        if (hlp_isvalidnpc(n)) { StExt_DH_HunterGuild = n.guild; };
+	};
+	if (StExt_DH_HunterGuild <= 0)
+	{
+		n = hlp_getnpc(DH_SLD_MERCENARY_01); if (hlp_isvalidnpc(n)) { StExt_DH_HunterGuild = n.guild; };
+	};
+	if (StExt_DH_HunterGuild <= 0)
+	{
+		n = hlp_getnpc(DH_SLD_MERCENARY_02); if (hlp_isvalidnpc(n)) { StExt_DH_HunterGuild = n.guild; };
+	};
 	if (StExt_DH_HunterGuild > 0)
 	{
 		wld_setguildattitude(hero.guild, StExt_DH_HunterGuild, ATT_HOSTILE);
