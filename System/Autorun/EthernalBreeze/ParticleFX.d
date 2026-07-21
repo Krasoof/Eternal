@@ -506,14 +506,14 @@ instance mfx_stext_legendarmor(c_particlefx) {
     ppsislooping = 1;
     ppsissmooth = 1;
     ppsfps = 2.0;
-    shptype_s = "MESH";
+    shptype_s = "SPHERE";
     shpmesh_s = "";
     shpmeshrender_b = 0;
     shpfor_s = "object";
-    shpoffsetvec_s = "0 0 0";
+    shpoffsetvec_s = "0 80 0";
     shpdistribtype_s = "RAND";
     shpisvolume = 1;
-    shpdim_s = "10";
+    shpdim_s = "55";
     shpscalekeys_s = "1";
     shpscaleislooping = 1;
     shpscaleissmooth = 1;

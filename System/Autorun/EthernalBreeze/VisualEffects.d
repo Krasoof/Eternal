@@ -537,7 +537,8 @@ instance spellfx_stext_legendarmor(cfx_base_proto)
     visname_s = "MFX_STEXT_LEGENDARMOR";
     visalpha = 1.0;
     emtrjmode_s = "FIXED";
-    // Same MESH-emitter rule as the weapon glow: without this the aura collapses
-    // into the wearer's origin instead of tracing the armour.
-    emadjustshptoorigin = 1;
+    // Aura NIE uzywa juz emitera MESH (tak jest przy broni): na postaci siatka
+    // wypadala obok modelu. Teraz PFX to SPHERE wysrodkowana na tulowiu, wiec
+    // emadjustshptoorigin musi byc WYLACZONE - inaczej znow przesunie ksztalt.
+    emadjustshptoorigin = 0;
 };

@@ -52,6 +52,7 @@ instance dia_dmtteacher_stext_dhdiag(c_info)
 func int dia_dmtteacher_stext_dhdiag_condition() { return TRUE; };
 func void dia_dmtteacher_stext_dhdiag_info()
 {
+	var c_npc dhm;
 	// Nazwy bazowych NPC rozwiazujemy po STRINGU w runtime (StExt_GetInstanceIdByName),
 	// bo grep-hit w VDF NIE gwarantuje uzywalnego symbolu parsera (ANGEL i GIL_DMT3
 	// wywalily start). Wynik <=0 = taka instancja nie istnieje.
@@ -62,7 +63,19 @@ func void dia_dmtteacher_stext_dhdiag_info()
 	}
 	else
 	{
-		ai_printbonus("Gildia Lowcow jeszcze nieodczytana - podejdz w poblize lowcow (port).");
+		ai_printbonus("Gildia Lowcow jeszcze nieodczytana.");
+	};
+	// Czy mistrz lowcow w ogole ISTNIEJE w swiecie? Jesli nie - nie ma kogo
+	// przenosic ani zabijac (ich zawartosc moze byc nieaktywna w tym zapisie).
+	dhm = hlp_getnpc(DH_MAINNPC);
+	if (hlp_isvalidnpc(dhm))
+	{
+		if (npc_isdead(dhm)) { ai_printbonus("Mistrz lowcow: ISTNIEJE, ale MARTWY"); }
+		else { ai_printbonus(concatstrings("Mistrz lowcow: ZYJE, gildia=", inttostring(dhm.guild))); };
+	}
+	else
+	{
+		ai_printbonus("Mistrz lowcow: NIE ISTNIEJE w swiecie (ich watek nieaktywny)");
 	};
 	// przelacz podglad gildii CELU: idz do lowcow, spojrz na jednego, odczytaj z ekranu
 	if (StExt_DH_ShowFocusGuild)
