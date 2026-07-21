@@ -52,13 +52,13 @@ instance dia_dmtteacher_stext_dhdiag(c_info)
 func int dia_dmtteacher_stext_dhdiag_condition() { return TRUE; };
 func void dia_dmtteacher_stext_dhdiag_info()
 {
-	var c_npc a;
+	// Nazwy bazowych NPC rozwiazujemy po STRINGU w runtime (StExt_GetInstanceIdByName),
+	// bo grep-hit w VDF NIE gwarantuje uzywalnego symbolu parsera (ANGEL i GIL_DMT3
+	// wywalily start). Wynik <=0 = taka instancja nie istnieje.
 	ai_printbonus(concatstrings("hero.guild = ", inttostring(hero.guild)));
-	ai_printbonus(concatstrings(concatstrings("GIL_TPL=", inttostring(GIL_TPL)), concatstrings(" GIL_PAL=", inttostring(GIL_PAL))));
-	a = hlp_getnpc(ANGEL);
-	if (hlp_isvalidnpc(a)) { ai_printbonus(concatstrings("Angel.guild = ", inttostring(a.guild))); }
-	else { ai_printbonus("Angel nie zaladowany (odczytaj w poblizu portu)"); };
 	ai_printbonus(concatstrings(concatstrings("att hero->TPL=", inttostring(wld_getguildattitude(hero.guild, GIL_TPL))), concatstrings(" hero->PAL=", inttostring(wld_getguildattitude(hero.guild, GIL_PAL)))));
+	ai_printbonus(concatstrings(concatstrings("id ANGEL=", inttostring(StExt_GetInstanceIdByName("ANGEL"))), concatstrings(" DH_ANHEL=", inttostring(StExt_GetInstanceIdByName("DH_ANHEL")))));
+	ai_printbonus(concatstrings(concatstrings("id SEVERIN=", inttostring(StExt_GetInstanceIdByName("SEVERIN"))), concatstrings(" DH_AZAGTOT=", inttostring(StExt_GetInstanceIdByName("DH_AZAGTOT")))));
 	ai_stopprocessinfos(self);
 };
 
@@ -120,14 +120,11 @@ instance dia_dmtteacher_stext_dhhunt_done(c_info)
     permanent = false;
     description = "Gniazdo lowcow wyrznięte.";
 };
+// Detekcja po konkretnym NPC czeka na potwierdzone nazwy instancji z diagnostyka
+// (ANGEL okazal sie nieuzywalnym symbolem). Na razie raport zgloszeniowy.
 func int dia_dmtteacher_stext_dhhunt_done_condition()
 {
-	var c_npc a;
-	if (!StExt_DK_IsMember() || (StExt_DH_Stage != 1)) { return false; };
-	a = hlp_getnpc(ANGEL);
-	// warunek: Angel (mistrz) martwy = gniazdo zlamane
-	if (hlp_isvalidnpc(a) && npc_isdead(a)) { return true; };
-	return false;
+	return StExt_DK_IsMember() && (StExt_DH_Stage == 1);
 };
 func void dia_dmtteacher_stext_dhhunt_done_info()
 {
