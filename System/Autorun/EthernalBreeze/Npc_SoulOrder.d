@@ -355,7 +355,9 @@ func void dia_none_99702_SoulMaster_RankUp_info()
 		return;
 	};
 
-	work = armor;
+	// UWAGA: w Daedalusie NIE wolno przypisac instancji do instancji (work = armor
+	// => parser czyta 'armor' jako wywolanie funkcji). RHS musi byc wywolaniem.
+	work = npc_getequippedarmor(hero);
 	if (!StExt_ItemHasExtension(armor))
 	{
 		power = StExt_OpenChest_GetMaxPower();
