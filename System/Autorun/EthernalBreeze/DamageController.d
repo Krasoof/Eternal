@@ -723,23 +723,17 @@ func void StExt_Hero_BeforeDefenceHandler(var c_npc atk, var c_npc target, var c
 	{
 		if (StExt_GetItemRank(lga) >= StExt_ItemRankLegendary)
 		{
-			var int lgab; lgab = StExt_GetItemProperty(lga, StExt_ItemProp_LegendBonus);
-			if ((lgab < 21) || (lgab > 23))
+			// Roll + zapis robi teraz DLL (StExt_EnsureLegendArmorBonus): modyfikuje
+			// rozszerzenie bezposrednio, wiec bonus jest utrwalony na pewno. Wczesniej
+			// robil to skrypt i zapis nie chwytal - moc losowala sie przy KAZDYM
+			// trafieniu, a komunikat wyskakiwal w kolko.
+			var int lgab; lgab = StExt_EnsureLegendArmorBonus(target);
+			if ((lgab >= 21) && (lgab <= 23) && !StExt_ArmorLegendShown)
 			{
-				// BONUS DETERMINISTYCZNY, nie losowy (zgloszenie: "zbroja skacze z
-				// bonusami", komunikat wyskakiwal co cios). Wyprowadzamy go z id
-				// przedmiotu, wiec TA SAMA zbroja zawsze daje TE SAMA moc - nawet
-				// gdyby zapis wlasciwosci nie chwycil. Zapis i tak probujemy zrobic.
-				lgab = 21 + (hlp_getinstanceid(lga) % 3);
-				StExt_SetItemProperty(lga, StExt_ItemProp_LegendBonus, lgab);
-				// Komunikat RAZ na sesje, nie przy kazdym trafieniu.
-				if (!StExt_ArmorLegendShown)
-				{
-					StExt_ArmorLegendShown = true;
-					if (lgab == 21) { ai_printbonus("Zbroja legendarna objawia moc: ZELAZNA WOLA (-10% obrazen wrecz)"); }
-					else if (lgab == 22) { ai_printbonus("Zbroja legendarna objawia moc: TARCZA DUCHA (-15% obrazen od magii)"); }
-					else { ai_printbonus("Zbroja legendarna objawia moc: PLASZCZ CIERNI (odbija 10% obrazen)"); };
-				};
+				StExt_ArmorLegendShown = true;
+				if (lgab == 21) { ai_printbonus("Zbroja legendarna objawia moc: ZELAZNA WOLA (-10% obrazen wrecz)"); }
+				else if (lgab == 22) { ai_printbonus("Zbroja legendarna objawia moc: TARCZA DUCHA (-15% obrazen od magii)"); }
+				else { ai_printbonus("Zbroja legendarna objawia moc: PLASZCZ CIERNI (odbija 10% obrazen)"); };
 			};
 			if ((lgab == 21) && StExt_ValueHasFlag(DamageType, StExt_DamageType_Melee)) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 10); };
 			if ((lgab == 22) && (StExt_ValueHasFlag(DamageType, StExt_DamageType_Spell) || StExt_ValueHasFlag(DamageType, StExt_DamageType_Ability))) { StExt_DamageInfo.RealDamage -= StExt_GetPercentFromValue(StExt_DamageInfo.RealDamage, 15); };
@@ -1347,6 +1341,13 @@ func void StExt_Hero_AfterOffenceHandler(var c_npc atk, var c_npc target, var c_
 		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, 64))
 		{
 			if ((atk.attribute[atr_hitpoints] * 100) < (atk.attribute[atr_hitpoints_max] * 30)) { StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 200); };
+		};
+		// UNIKAT: Kolia Zrodzonego z Mroku (id 49) - +10% obrazen DEMONOM.
+		// Nie ma jej w puli losowanej, wiec ten bit zapala sie tylko dla naszyjnika
+		// zdjetego z Belmonda.
+		if (StExt_ValueHasFlag(StExt_LegendJewelryMask, StExt_LegendMask_DemonBane) && StExt_ValueHasFlag(DamageFlags, StExt_DamageFlag_Demon))
+		{
+			StExt_ExtraDamageInfo.Damage += StExt_GetPermilleFromValue(RealDamage, 100);
 		};
 	};
 

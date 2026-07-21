@@ -1132,6 +1132,8 @@ const int StExt_AiVar_BossPhase = 173;			// latch faz bossa: 0 pelne HP, 1 <=75%
 // DLL enum gap 26..31). Id spaces are disjoint per slot type:
 // weapons 1..6, armor 21..23, jewelry 41..48 (DLL rolls jewelry).
 const int StExt_ItemProp_LegendBonus = 28;
+const int StExt_LegendBonus_DemonBane = 49;		// unikat: +10% obrazen demonom (naszyjnik Belmonda; NIE w puli losowanej 41-48)
+const int StExt_LegendMask_DemonBane = 256;		// bit maski dla id 49 (1 << (49-41))
 
 //===================================================================//
 // Npc item conditions stats

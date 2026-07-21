@@ -116,11 +116,16 @@ instance bdt_99794_Belmond(npc_default)
 func void ai_ondead_bdt_99794_Belmond()
 {
 	var int itm;
+	var c_item amu;
 	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Amulet"), (hero.level * 7) + (kapitel * 40) + 380, StExt_ItemRankLegendary, "SPL_DARKBALL");
 	if (itm > 0)
 	{
 		StExt_SetGeneratedItemName(itm, "Kolia Zrodzonego z Mroku");
 		StExt_CreateRandomItem(self, itm, 1, false);
+		// Bonus UNIKATOWY (id 49 = +10% obrazen demonom). Pula losowana to 41..48,
+		// a DLL przepuszcza 49 nietkniete, wiec skan bizuterii go nie rerolluje.
+		amu = npc_getitembyid(self, itm);
+		if (hlp_isvaliditem(amu)) { StExt_SetItemProperty(amu, StExt_ItemProp_LegendBonus, StExt_LegendBonus_DemonBane); };
 		printscreencolor("Swiatlo Belmonda zgaslo - cos po nim zostalo.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
 	};
 };

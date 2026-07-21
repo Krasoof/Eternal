@@ -154,6 +154,7 @@ func int StExt_IsDialogActive();
 	func int StExt_GetItemRank(var c_item itm);
 	func int StExt_ChangeItemRank(var c_item itm, var int delta);	// zmiana rangi in-place (item musi miec rozszerzenie); zwraca nowa range lub -1
 	func int StExt_ScanLegendJewelry(var instance npc);
+	func int StExt_EnsureLegendArmorBonus(var instance npc);	// zwraca 21..23 dla zalozonej legendarnej zbroi (roll+zapis po stronie DLL), 0 gdy brak
 	func int StExt_SetItemSeal(var c_item itm, var int spellId, var int power);
 	
 	func string StExt_StatValueToString(var int statId, var int statVal);
