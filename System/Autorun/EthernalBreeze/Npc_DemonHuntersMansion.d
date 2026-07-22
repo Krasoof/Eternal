@@ -141,16 +141,21 @@ func void ai_ondead_bdt_99794_Belmond()
 // mozna go wolac wielokrotnie (np. po zdjeciu latcha wskazowka) bez duplikatow -
 // i naprawia sejwy, w ktorych latch ustawil sie przy starej wersji, a obstawa
 // nigdy nie weszla (zgloszenie: "nie ma Belmonda").
+// Spawn WPROST (wzorzec Npc_DarkKnights, ktory user gral i dzialal). USUNIETO
+// guard hlp_getnpc: on zwraca template instancji NAWET gdy NPC nie ma w swiecie,
+// wiec "if (!hlp_isvalidnpc)" bylo ZAWSZE falszywe i spawn nigdy nie ruszal
+// (log: hint zagral, a Belmonda brak). Latch StExt_DH_ExtrasSpawned steruje
+// jednokrotnoscia POZA ta funkcja (dialogi), a hint go zeruje na zadanie.
 func void StExt_DH_SpawnExtras()
 {
-	var c_npc n;
 	rx_saveparservars();
-	n = hlp_getnpc(bdt_99790_LowcaDemonow1); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP); };
-	n = hlp_getnpc(bdt_99791_LowcaDemonow2); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP); };
-	n = hlp_getnpc(bdt_99792_LowcaDemonow3); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP); };
-	n = hlp_getnpc(bdt_99793_LowcaDemonow4); if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP); };
-	n = hlp_getnpc(bdt_99794_Belmond);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP); };
+	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
+	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
+	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
+	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
+	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
 	rx_restoreparservars();
+	StExt_DH_ExtrasSpawned = true;
 	ai_printbonus("Lowcy demonow obstawili dworek. Belmond jest wsrod nich.");
 };
 
@@ -194,8 +199,10 @@ func void dia_dmtteacher_stext_dhhunt_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "I strzez sie jednego. Ich dowodca to tylko glos, ale Belmond to ostrze - jego zbroja pamieta wiecej demonow niz ty ludzi. Przy nim nosi cos, co warto zabrac.");
 	StExt_DH_SetGuildWar();
 	StExt_DH_Stage = 1;
-	// Obstawa NIE jest spawnowana tutaj - robi to tick (StExt_DH_TriggerExtras),
-	// zeby zadzialala takze u graczy, ktorzy zlecenie przyjeli wczesniej.
+	// Obstawa + Belmond spawnuja sie od razu przy przyjeciu (spawn WPROST, wzorzec
+	// dzialajacych questow Drogi Beliara). Dla sejwow z juz przyjetym zleceniem
+	// jest dialog "Gdzie sa ci lowcy?" - tez wola SpawnExtras.
+	if (!StExt_DH_ExtrasSpawned) { StExt_DH_SpawnExtras(); };
 	StExt_DH_Log("Lowcy demonow odbudowali dworek za farma Onara i sciagaja tam sily. Ich mistrz i jego ludzie maja zginac. Najgrozniejszy jest Belmond - nosi przy sobie cos cennego.");
 	ai_stopprocessinfos(self);
 };

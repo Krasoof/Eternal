@@ -1020,12 +1020,18 @@ func void StExt_CheckTargetImmortality(var c_npc atk, var c_npc target)
 	
 	if (!Hlp_IsValidNpc(target)) { return; };
 	if (!Hlp_IsValidNpc(atk)) { return; };
-	// SONDA (trace, tymczasowa): co lowcy maja w flags, ZANIM early-exit utnie.
-	// Jesli flags nie zawiera bitow niesmiertelnosci, to ich ochrona to INNY
-	// mechanizm i cala ta funkcja ich nie dotyczy - to rozstrzyga 4 runde walki.
-	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && (target.guild == StExt_DH_HunterGuild))
+
+	// WOJNA Z LOWCAMI: identyfikacja przez rx_isnpc (wzorzec bazowej bialej listy,
+	// jak nagdumgar/caracust) - PEWNA, bo nie zalezy od odczytu gildii ani hlp_getnpc
+	// (jedno i drugie zawodzilo: gildia zostawala 0). Robimy to PRZED early-exitem
+	// i zdejmujemy flagi OD RAZU, zeby dzialalo nawet gdy nizsza logika by wyszla.
+	// Sonda pokazuje flags/protekcje - jesli po tym Angel dalej zyje, jego ochrona
+	// to nie flaga niesmiertelnosci tylko protekcje/HP i naprawimy to celniej.
+	if ((StExt_DH_Stage >= 1) && (rx_isnpc(target, DH_MAINNPC) || rx_isnpc(target, DH_NPCSEVERIN) || rx_isnpc(target, DH_VILANDNPC) || rx_isnpc(target, DH_SLD_MERCENARY_01) || rx_isnpc(target, DH_SLD_MERCENARY_02)))
 	{
-		StExt_Trace(concatstrings(concatstrings("DH-IMMO: flags=", inttostring(target.flags)), concatstrings(" hp=", inttostring(target.attribute[atr_hitpoints]))));
+		StExt_Trace(concatstrings(concatstrings("DH-IMMO flags=", inttostring(target.flags)), concatstrings(concatstrings(" prot_edge=", inttostring(target.protection[prot_edge])), concatstrings(" hp=", inttostring(target.attribute[atr_hitpoints])))));
+		target.flags = target.flags & (~npc_flag_immortal);
+		target.flags = target.flags & (~npc_flag_xaradrim);
 	};
 
 	if (!StExt_ValueHasFlag(target.flags, npc_flag_immortal) && !StExt_ValueHasFlag(target.flags, npc_flag_xaradrim)) { return; };
@@ -1045,13 +1051,6 @@ func void StExt_CheckTargetImmortality(var c_npc atk, var c_npc target)
 		target.protection[prot_fly] = 500;
 		target.protection[prot_magic] = 500;
 	};
-
-	// WOJNA Z LOWCAMI DEMONOW: gdy zlecenie aktywne, KAZDY lowca (po gildii,
-	// wiec takze bazowe instancje jak Angel, ktorych nazw nie znamy) traci
-	// ochrone przed graczem. To jest KANONICZNE miejsce zdejmowania flagi -
-	// wczesniejsze proby (per-nazwa w ticku, wlasny strip w BeforeOffence)
-	// szly obok tej sciezki i dlatego Angel wstawal po kazdym dobiciu.
-	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && (target.guild == StExt_DH_HunterGuild)) { removeImmortality = true; };
 
 	if (removeImmortality)
 	{

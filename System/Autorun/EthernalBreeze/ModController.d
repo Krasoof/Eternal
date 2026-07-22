@@ -243,19 +243,8 @@ func void StExt_DH_RestoreMansion()
 // sie jako 54, wiec wolamy PO NAZWIE (deferred) - inaczej forward ref = parse-fail.
 // Z ticku, nie z dialogu przyjecia: dialog jest jednorazowy, wiec gracz z JUZ
 // przyjetym zleceniem nigdy by obstawy nie zobaczyl (zgloszenie: "Belmonda nie ma").
-// BEZ LATCHA - licznik okresowy. Latch zapisywal sie w sejwie i "zatruwal"
-// (ustawiony przy starej wersji = obstawa nigdy nie wchodzila, zgloszenie
-// "nie ma Belmonda" x3). SpawnExtras jest idempotentny (per-NPC: istnieje ->
-// pomin), wiec okresowe wywolanie samo-naprawia kazdy stan sejwu bez klikania.
-func void StExt_DH_TriggerExtras()
-{
-	if (StExt_DH_Stage != 1) { return; };
-	if (currentlevel != newworld_zen) { return; };
-	StExt_DH_ExtrasTick += 1;
-	if (StExt_DH_ExtrasTick < 240) { return; };
-	StExt_DH_ExtrasTick = 0;
-	StExt_InitializeCallback(hero, hero, "StExt_DH_SpawnExtras", 1);
-};
+// (Auto-tick spawnu obstawy usuniety: guard hlp_getnpc zwracal template i blokowal
+// spawn na amen. Obstawa spawnuje sie teraz WPROST z dialogow - przyjecie + hint.)
 
 // Dospawnowuje TYLKO tych lowcow, ktorych w danym zapisie w ogole nie ma (watek
 // nieaktywny). Istniejacych NIE ruszamy - siedza w porcie i tam po nich idziemy.
@@ -287,7 +276,6 @@ func void StExt_CheckGatedSpawns()
 	StExt_DH_SetGuildWar();
 	StExt_DH_EnsureHunters();	// dospawnuj brakujacych lowcow (istniejacych nie ruszamy)
 	StExt_DH_RestoreMansion();	// odpal bazowy event: dworek odrestaurowany + przeprowadzka lowcow
-	StExt_DH_TriggerExtras();	// dorzuc nasza obstawe + Belmonda (dziala tez przy juz przyjetym zleceniu)
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
 	// czlonka Zakonu od rozdz. 1 (spotkasz go idac na quest Wiezy Umarlych)

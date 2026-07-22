@@ -507,9 +507,9 @@ func void zs_dead()
 	// albo NPC z gildii lowcow odczytanej w runtime.
 	if ((StExt_DH_Stage == 1) && (self.attribute[atr_hitpoints] > 0))
 	{
-		if (((self.id >= 99790) && (self.id <= 99794)) || ((StExt_DH_HunterGuild > 0) && (self.guild == StExt_DH_HunterGuild)))
+		if (((self.id >= 99790) && (self.id <= 99794)) || rx_isnpc(self, DH_MAINNPC) || rx_isnpc(self, DH_NPCSEVERIN) || rx_isnpc(self, DH_VILANDNPC) || rx_isnpc(self, DH_SLD_MERCENARY_01) || rx_isnpc(self, DH_SLD_MERCENARY_02))
 		{
-			StExt_Trace("DH-DEAD: falszywa smierc lowcy - zeruje HP (idzie zwykla sciezka smierci)");
+			StExt_Trace("DH-DEAD: falszywa smierc lowcy - zeruje HP (prawdziwa smierc)");
 			self.attribute[atr_hitpoints] = 0;
 		};
 	};
