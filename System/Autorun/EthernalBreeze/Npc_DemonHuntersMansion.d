@@ -171,9 +171,12 @@ func void StExt_DH_SpawnExtras()
 
 	// Kotwica - ktorykolwiek z bazowych lowcow w zasiegu percepcji gracza.
 	// Angela moze juz nie byc (gracz go zabija), wiec sprawdzamy kilku.
-	found = wld_detectnpc(hero, DH_MAINNPC, -1, -1);
-	if (!found) { found = wld_detectnpc(hero, DH_NPCSEVERIN, -1, -1); };
-	if (!found) { found = wld_detectnpc(hero, DH_VILANDNPC, -1, -1); };
+	// UWAGA: drugi parametr wld_detectnpc to INT (indeks symbolu), nie instancja -
+	// tak jest w silniku (oGameExternal.cpp: p->GetParameter(instance)). Podanie
+	// samej instancji wywala parser bledem "Expected ','". Stad hlp_getinstanceid.
+	found = wld_detectnpc(hero, hlp_getinstanceid(DH_MAINNPC), -1, -1);
+	if (!found) { found = wld_detectnpc(hero, hlp_getinstanceid(DH_NPCSEVERIN), -1, -1); };
+	if (!found) { found = wld_detectnpc(hero, hlp_getinstanceid(DH_VILANDNPC), -1, -1); };
 
 	if (found)
 	{
