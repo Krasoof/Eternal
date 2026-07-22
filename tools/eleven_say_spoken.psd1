@@ -112,4 +112,21 @@
     'E22A1C48' = 'Gnieździ się tam teraz banda. Herszt kuje moim młotem podkowy. PODKOWY. Przynieś mi go, zanim całkiem go pohańbi.'
     '1BBB86CA' = 'Ręce go pamiętają. Trzon wytarł się tam, gdzie zawsze. Więc to było moje.'
     '3C6780D5' = 'Pierwszy okruch wrócił. Kuźnia to poczuje - i ty poczujesz. Zostały dwa.'
+    # --- DK R3 Q7 "Ucho Innosa" (Nauczyciel) ---
+    'DC841BA0' = 'Inkwizytor nie spadł z nieba. Ktoś mu ciebie wskazał - ucho Innosa w porcie. Brat Kasjan, przebrany za żebraka, liczy twoje kroki i sprzedaje je za odpust.'
+    '20805FB3' = 'Najął dwa ostrza, bo wie, że po niego przyjdziesz. Ucisz wszystkich trzech - martwe ucho nie słyszy.'
+    'D9116149' = 'Port znowu twój. Ale jeden im uciekł - kaznodzieja Ezechiel wsiadł na łódź nim domknąłeś sieć.'
+    'CEDF70E4' = 'Popłynął do Górniczej Doliny, do wygnańców ze starych kopalni. Buduje tam tłum. Nie skończyłeś - skończysz tam.'
+    # --- DK R3 Q8 "Kaznodzieja w Dolinie" (Nauczyciel) ---
+    '25D43969' = 'Górnicza Dolina to nie Khorinis. Tam nie ma murów ani strażników - jest kamień, ork i ludzie, których świat już raz wyrzucił. Ezechiel obiecuje im niebo za twoją głowę.'
+    'EC4BEB02' = 'Przejdź przełęcz i znajdź go. Będzie z fanatykami, głęboko, gdzie echo niesie kazania. Zgaś go - i niech Dolina zapamięta, czyj to teraz cień.'
+    'D670D506' = 'Kazanie ucichło w pół słowa. Słyszałem to aż tutaj - a raczej Beliar słyszał, i podzielił się ze mną.'
+    '9FAC7236' = 'Kościół wysłał na ciebie ogień, ucho i głos. Zgasiłeś wszystkie trzy. Odtąd to nie ty się kryjesz - to oni. Weź to ostrze; nasiąkło ich strachem.'
+    # --- Kowal: wyniesienie broni ku legendzie ---
+    '1D4CC461' = 'Pokaż mi ostrze, nie pustą dłoń. Dobądź broni, którą mam wynieść.'
+    '18B34DEE' = 'Ta stal już jest legendą. Wyżej nie pójdzie - nawet w moich rękach.'
+    '061B1750' = 'Legenda kosztuje. Wróć ze złotem.'
+    '59200689' = 'Ogień, co nie gaśnie, karmi się duszami. Przynieś ich więcej.'
+    '46176070' = 'Ta stal nie przyjmie legendy. Przynieś inne ostrze.'
+    '12AC4FC9' = 'Czujesz? Stal cięższa o jedną legendę. Dobądź jej z plecaka, by poznać różnicę.'
 }

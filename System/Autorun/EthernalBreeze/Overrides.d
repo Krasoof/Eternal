@@ -61,6 +61,9 @@ func void rx_mainloop()
 	// Zostaje OSTATNIE w petli: ewentualny runtime-abort w srodku nie zabija
 	// wtedy reszty rx_mainloop.
 	StExt_DH_TrySpawnExtras();
+	// Cele Q8 Drogi Beliara w Gorniczej Dolinie - kotwica na graczu przy wejsciu
+	// do GD (ten plik .src 82; ModController .src 54 nie dosiega Npc_DarkKnights).
+	StExt_DK_GDTrySpawn();
 };
 
 func void b_checkmenuoption() 

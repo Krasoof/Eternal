@@ -2114,6 +2114,10 @@ const int StExt_ItemRankLegendary = 5;
 const int StExt_ArmorRankUp_GoldPerStep = 50000;
 const int StExt_ArmorRankUp_SoulBase = 10;
 const int StExt_ArmorRankUp_SoulStep = 5;
+// Wyniesienie BRONI ku legendzie u Kowala (bliznniak upgrade'u zbroi u Mistrza).
+const int StExt_WeaponRankUp_GoldPerStep = 50000;
+const int StExt_WeaponRankUp_SoulBase = 10;
+const int StExt_WeaponRankUp_SoulStep = 5;
 
 
 // Items classes Id definitions.

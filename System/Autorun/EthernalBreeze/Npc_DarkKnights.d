@@ -40,6 +40,10 @@ const string StExt_DK_WP_Q3 = "NW_FARM1_LOBART";				// farma Lobarta u bram mias
 const string StExt_DK_WP_Q4 = "NW_BIGMILL_01";					// wielki mlyn (kapitan zbiera ludzi)
 const string StExt_DK_WP_Q5 = "NW_FARM4_SEKOB";					// odludna farma Sekoba (ostatni lord)
 const string StExt_DK_WP_Q6 = "NW_TAVERNE_01";					// tawerna przy trakcie (inkwizytor czeka na CIEBIE)
+const string StExt_DK_WP_Q7 = "NW_CITY_HABOUR_05";				// port (ucho Innosa - informator w tlumie)
+// Q8 (Gornicza Dolina) NIE ma stalego WP: cele kotwicza sie na pozycji gracza
+// przy wejsciu do GD (npc_getnearestwp - gracz stoi na waynecie, WP zawsze wazny).
+// To ta sama technika, ktora domknela spawn lowcow demonow (zero dropow na 0,0,0).
 
 //--------------------------------------------------------------
 // *** Rutyny (bez rutyny NPC to posag - brak percepcji) ***
@@ -60,6 +64,14 @@ func void rtn_start_99783() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q5); ta
 func void rtn_start_99784() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
 func void rtn_start_99785() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
 func void rtn_start_99786() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
+func void rtn_start_99787() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q7); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q7); };
+func void rtn_start_99788() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q7); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q7); };
+func void rtn_start_99789() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q7); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q7); };
+// Q8 (GD): rutyny warty na WP kotwicy gracza (ustawiany w StExt_DK_GDTrySpawn
+// przez npc_exchangeroutine po insercie - jak przy lowcach demonow).
+func void rtn_start_99743() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
+func void rtn_start_99744() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
+func void rtn_start_99745() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
 
 //--------------------------------------------------------------
 // *** Setup celu: staty jak boss, ALE bez konwersji na nieumarlego
@@ -310,6 +322,72 @@ instance bdt_99786_Egzorcysta2(npc_default)
     StExt_DarkKnights_TargetSetup(bdt_99786_Egzorcysta2, 1);
 };
 
+// --- R3 Q7 "Ucho Innosa": informator Kosciola w porcie + dwa najete ostrza ---
+instance bdt_99787_BratKasjan(npc_default)
+{
+    name = "Brat Kasjan"; guild = gil_bdt; id = 99787; voice = 10; flags = 0; npctype = npctype_main; level = 36;
+    b_setnpcvisual(bdt_99787_BratKasjan, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_kdf_m_npc);
+    mdl_applyoverlaymds(bdt_99787_BratKasjan, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99787_BratKasjan); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99787;
+    StExt_DarkKnights_TargetSetup(bdt_99787_BratKasjan, 3);
+};
+instance bdt_99788_NajemneOstrze1(npc_default)
+{
+    name = "Najemne Ostrze"; guild = gil_bdt; id = 99788; voice = 11; flags = 0; npctype = npctype_main; level = 26;
+    b_setnpcvisual(bdt_99788_NajemneOstrze1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_bdt_m);
+    mdl_applyoverlaymds(bdt_99788_NajemneOstrze1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99788_NajemneOstrze1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99788;
+    StExt_DarkKnights_TargetSetup(bdt_99788_NajemneOstrze1, 1);
+};
+instance bdt_99789_NajemneOstrze2(npc_default)
+{
+    name = "Najemne Ostrze"; guild = gil_bdt; id = 99789; voice = 13; flags = 0; npctype = npctype_main; level = 26;
+    b_setnpcvisual(bdt_99789_NajemneOstrze2, male, "Hum_Head_Fighter", face_n_mud, bodytex_n, itar_bdt_m);
+    mdl_applyoverlaymds(bdt_99789_NajemneOstrze2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99789_NajemneOstrze2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99789;
+    StExt_DarkKnights_TargetSetup(bdt_99789_NajemneOstrze2, 1);
+};
+
+// --- R3 Q8 "Kaznodzieja w Dolinie": ocalali fanatycy uciekli do Gorniczej
+//     Doliny. Spawn KOTWICZONY na graczu przy wejsciu do GD (patrz
+//     StExt_DK_GDTrySpawn) - brak stalego WP = brak dropu na 0,0,0. ---
+instance bdt_99743_KaznodziejaEzechiel(npc_default)
+{
+    name = "Kaznodzieja Ezechiel"; guild = gil_bdt; id = 99743; voice = 10; flags = 0; npctype = npctype_main; level = 44;
+    b_setnpcvisual(bdt_99743_KaznodziejaEzechiel, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_kdf_h_npc);
+    mdl_applyoverlaymds(bdt_99743_KaznodziejaEzechiel, "Humans_Mage.mds");
+    b_givenpctalents(bdt_99743_KaznodziejaEzechiel); fight_tactic = fai_human_master;
+    aivar[6] = true; aivar[51] = magic_always;
+    daily_routine = rtn_start_99743;
+    StExt_DarkKnights_TargetSetup(bdt_99743_KaznodziejaEzechiel, 4);
+};
+instance bdt_99744_Fanatyk1(npc_default)
+{
+    name = "Fanatyk"; guild = gil_bdt; id = 99744; voice = 11; flags = 0; npctype = npctype_main; level = 30;
+    b_setnpcvisual(bdt_99744_Fanatyk1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_kdf_m_npc);
+    mdl_applyoverlaymds(bdt_99744_Fanatyk1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99744_Fanatyk1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99744;
+    StExt_DarkKnights_TargetSetup(bdt_99744_Fanatyk1, 2);
+};
+instance bdt_99745_Fanatyk2(npc_default)
+{
+    name = "Fanatyk"; guild = gil_bdt; id = 99745; voice = 13; flags = 0; npctype = npctype_main; level = 30;
+    b_setnpcvisual(bdt_99745_Fanatyk2, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_kdf_m_npc);
+    mdl_applyoverlaymds(bdt_99745_Fanatyk2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99745_Fanatyk2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99745;
+    StExt_DarkKnights_TargetSetup(bdt_99745_Fanatyk2, 2);
+};
+
 //--------------------------------------------------------------
 // *** Progresja (parsowana po instancjach, przed ai_ondead) ***
 //--------------------------------------------------------------
@@ -348,10 +426,44 @@ func void ai_ondead_bdt_99780_PaladynLordIsgaroth() { if (StExt_DarkKnight_Stage
 func void ai_ondead_bdt_99781_PaladynHonor1() { };
 func void ai_ondead_bdt_99782_PaladynHonor2() { };
 func void ai_ondead_bdt_99783_PaladynHonor3() { };
-// R3: cala zasadzka musi pasc (3/3) - inkwizytor i obaj egzorcysci.
+// R3 Q6: cala zasadzka musi pasc (3/3) - inkwizytor i obaj egzorcysci.
 func void ai_ondead_bdt_99784_InkwizytorMalachiasz() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
 func void ai_ondead_bdt_99785_Egzorcysta1() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
 func void ai_ondead_bdt_99786_Egzorcysta2() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
+// R3 Q7: informator + dwa ostrza (3/3).
+func void ai_ondead_bdt_99787_BratKasjan() { if (StExt_DarkKnight_Stage == 13) { StExt_DarkKnights_Advance(7, 3); }; };
+func void ai_ondead_bdt_99788_NajemneOstrze1() { if (StExt_DarkKnight_Stage == 13) { StExt_DarkKnights_Advance(7, 3); }; };
+func void ai_ondead_bdt_99789_NajemneOstrze2() { if (StExt_DarkKnight_Stage == 13) { StExt_DarkKnights_Advance(7, 3); }; };
+// R3 Q8: kaznodzieja + dwaj fanatycy w GD (3/3).
+func void ai_ondead_bdt_99743_KaznodziejaEzechiel() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
+func void ai_ondead_bdt_99744_Fanatyk1() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
+func void ai_ondead_bdt_99745_Fanatyk2() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
+
+// Spawn celow Q8 w Gorniczej Dolinie - kotwiczony na pozycji gracza (wejscie
+// do GD). Wolane z rx_mainloop (Overrides .src 82; ModController .src 54 nie
+// dosiega tego pliku .src 75). Gracz stoi na waynecie, wiec WP zawsze wazny;
+// npc_exchangeroutine przepina rutyny warty na ten WP (jak przy lowcach demonow).
+func void StExt_DK_GDTrySpawn()
+{
+	var c_npc n;
+	var string wp;
+	if (StExt_DK_GDSpawned) { return; };
+	if (StExt_DarkKnight_Stage != 15) { return; };
+	if (currentlevel != oldworld_zen) { return; };
+	wp = npc_getnearestwp(hero);
+	if (!StExt_IsValidWp(wp)) { return; };
+	StExt_DK_GDWp = wp;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99743_KaznodziejaEzechiel, wp);
+	wld_insertnpc(bdt_99744_Fanatyk1, wp);
+	wld_insertnpc(bdt_99745_Fanatyk2, wp);
+	n = hlp_getnpc(bdt_99743_KaznodziejaEzechiel);	if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99744_Fanatyk1);				if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99745_Fanatyk2);				if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	rx_restoreparservars();
+	StExt_DK_GDSpawned = true;
+	ai_printbonus("Kaznodzieja Ezechiel glosi swoje kazania gdzies w poblizu. Ucisz go.");
+};
 
 //--------------------------------------------------------------
 // *** Dialogi na BAZOWYM DMT_DARKTEACHER (nr 700+, bez kolizji) ***
@@ -611,7 +723,7 @@ instance dia_dmtteacher_stext_hint(c_info)
 };
 func int dia_dmtteacher_stext_hint_condition()
 {
-	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9) || (StExt_DarkKnight_Stage == 11));
+	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9) || (StExt_DarkKnight_Stage == 11) || (StExt_DarkKnight_Stage == 13) || (StExt_DarkKnight_Stage == 15));
 };
 func void dia_dmtteacher_stext_hint_info()
 {
@@ -639,10 +751,22 @@ func void dia_dmtteacher_stext_hint_info()
 		wld_insertnpc(bdt_99780_PaladynLordIsgaroth, StExt_DK_WP_Q5);
 		ai_printbonus("Paladyn Lord Isgaroth - na odludnej farmie Sekoba, na poludniu.");
 	}
-	else
+	else if (StExt_DarkKnight_Stage == 11)
 	{
 		wld_insertnpc(bdt_99784_InkwizytorMalachiasz, StExt_DK_WP_Q6);
 		ai_printbonus("Inkwizytor Malachiasz - w tawernie przy trakcie. Czeka na ciebie.");
+	}
+	else if (StExt_DarkKnight_Stage == 13)
+	{
+		wld_insertnpc(bdt_99787_BratKasjan, StExt_DK_WP_Q7);
+		ai_printbonus("Brat Kasjan - w porcie, wsrod zebrakow przy nabrzezu.");
+	}
+	else
+	{
+		// Stage 15 (GD): celow NIE respawnujemy z Khorinis (sa w innym swiecie).
+		// Zdejmujemy latch - StExt_DK_GDTrySpawn wstawi ich, gdy wejdziesz do GD.
+		StExt_DK_GDSpawned = false;
+		ai_printbonus("Kaznodzieja Ezechiel - w Gorniczej Dolinie. Przejdz przelecz i szukaj go w glebi.");
 	};
 	rx_restoreparservars();
 	ai_stopprocessinfos(self);
@@ -700,6 +824,111 @@ func void dia_dmtteacher_stext_q6done_info()
 	StExt_PlayerStat_OnApply(StExt_PcStats_Index_AuraPower, 50, StExt_PcStat_Source_Perm);
 	ai_printbonus("Moc aur wzrosla (+50)");
 	StExt_DarkKnights_Log("Malachiasz i jego egzorcysci nie wroca na kontynent. Mistrz mowi, ze moja aura ciemnieje - czuje to i ja.");
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** R3 Q7 "Ucho Innosa" (stage 12 -> 14) ***
+//--------------------------------------------------------------
+// Inkwizytor nie przybyl po omacku - ktos w miescie karmil Kosciol. Brat
+// Kasjan slucha w porcie i sprzedaje twoje kroki. Uciszasz zrodlo.
+instance dia_dmtteacher_stext_q7(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 738;
+    condition = dia_dmtteacher_stext_q7_condition;
+    information = dia_dmtteacher_stext_q7_info;
+    permanent = false;
+    description = "Skad wiedzieli, gdzie mnie szukac?";
+};
+func int dia_dmtteacher_stext_q7_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 12); };
+func void dia_dmtteacher_stext_q7_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Inkwizytor nie spadl z nieba. Ktos mu ciebie wskazal - ucho Innosa w porcie. Brat Kasjan, przebrany za zebraka, liczy twoje kroki i sprzedaje je za odpust.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Najal dwa ostrza, bo wie, ze po niego przyjdziesz. Ucisz wszystkich trzech - martwe ucho nie slyszy.");
+	StExt_DarkKnight_Stage = 13;
+	StExt_DarkKnight_Kills = 0;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99787_BratKasjan, StExt_DK_WP_Q7);
+	wld_insertnpc(bdt_99788_NajemneOstrze1, StExt_DK_WP_Q7);
+	wld_insertnpc(bdt_99789_NajemneOstrze2, StExt_DK_WP_Q7);
+	rx_restoreparservars();
+	StExt_DarkKnights_Log("Brat Kasjan - ucho Innosa w porcie - sprzedawal moje kroki inkwizycji. Najal dwa ostrza. Wszyscy trzej maja zamilknac.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_dmtteacher_stext_q7done(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 739;
+    condition = dia_dmtteacher_stext_q7done_condition;
+    information = dia_dmtteacher_stext_q7done_info;
+    permanent = false;
+    description = "Ucho ogluchlo.";
+};
+func int dia_dmtteacher_stext_q7done_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 13) && (StExt_DarkKnight_Kills >= 3); };
+func void dia_dmtteacher_stext_q7done_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Port znowu twoj. Ale jeden im uciekl - kaznodzieja Ezechiel wsiadl na lodz nim domkneles siec.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Poplynal do Gorniczej Doliny, do wygnancow ze starych kopalni. Buduje tam tlum. Nie skonczyles - skonczysz tam.");
+	StExt_DarkKnight_Stage = 14;
+	StExt_DarkKnights_GrantBeliarKarma(130);
+	StExt_DarkKnights_GrantReward(13000, 25);
+	StExt_DarkKnights_Log("Ucho Innosa ogluchlo. Ale kaznodzieja Ezechiel uciekl lodzia do Gorniczej Doliny - tam zbiera wygnancow. Musze za nim.");
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** R3 Q8 "Kaznodzieja w Dolinie" (stage 14 -> 16, GORNICZA DOLINA) ***
+//--------------------------------------------------------------
+// Pierwszy quest Drogi Beliara poza Khorinis. Zlecenie u Mistrza, cele
+// kotwicza sie na graczu przy wejsciu do GD (StExt_DK_GDTrySpawn z ticku).
+instance dia_dmtteacher_stext_q8(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 740;
+    condition = dia_dmtteacher_stext_q8_condition;
+    information = dia_dmtteacher_stext_q8_info;
+    permanent = false;
+    description = "Ezechiel. Doliny.";
+};
+func int dia_dmtteacher_stext_q8_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 14); };
+func void dia_dmtteacher_stext_q8_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Gornicza Dolina to nie Khorinis. Tam nie ma murow ani straznikow - jest kamien, ork i ludzie, ktorych swiat juz raz wyrzucil. Ezechiel obiecuje im niebo za twoja glowe.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Przejdz przelecz i znajdz go. Bedzie z fanatykami, gleboko, gdzie echo niesie kazania. Zgas go - i niech Dolina zapamieta, czyj to teraz cien.");
+	StExt_DarkKnight_Stage = 15;
+	StExt_DarkKnight_Kills = 0;
+	StExt_DK_GDSpawned = false;
+	StExt_DarkKnights_Log("Kaznodzieja Ezechiel zbiera fanatykow w Gorniczej Dolinie. Mam przejsc przelecz, znalezc go w glebi i uciszyc razem z jego owieczkami.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_dmtteacher_stext_q8done(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 741;
+    condition = dia_dmtteacher_stext_q8done_condition;
+    information = dia_dmtteacher_stext_q8done_info;
+    permanent = false;
+    description = "Dolina umilkla.";
+};
+func int dia_dmtteacher_stext_q8done_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 15) && (StExt_DarkKnight_Kills >= 3); };
+func void dia_dmtteacher_stext_q8done_info()
+{
+	var int itm;
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Kazanie ucichlo w pol slowa. Slyszalem to az tutaj - a raczej Beliar slyszal, i podzielil sie ze mna.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Kosciol wyslal na ciebie ogien, ucho i glos. Zgasiles wszystkie trzy. Odtad to nie ty sie kryjesz - to oni. Wez to ostrze; nasiaklo ich strachem.");
+	StExt_DarkKnight_Stage = 16;
+	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"), (hero.level * 7) + (kapitel * 40) + 340, StExt_ItemRankLegendary, "SPL_INSTANTFIREBALL");
+	if (itm > 0)
+	{
+		StExt_SetGeneratedItemName(itm, "Kazanie Popiolu");
+		b_playerfinditem_stext(itm, 1);
+	};
+	StExt_DarkKnights_GrantBeliarKarma(160);
+	StExt_DarkKnights_GrantReward(16000, 30);
+	StExt_DarkKnights_Log("Ezechiel martwy, Dolina ucichla. Kosciol Innosa wyslal na mnie ogien, ucho i glos - zgasilem wszystkie trzy. Mistrz dal mi ostrze, ktore nasiaklo ich strachem.");
 	ai_stopprocessinfos(self);
 };
 

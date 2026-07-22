@@ -430,6 +430,94 @@ func void dia_none_99760_HubSmith_Q1Done_info()
 	ai_stopprocessinfos(self);
 };
 
+//--------------------------------------------------------------
+// *** Wyniesienie BRONI ku legendzie (zloto + dusze) ***
+//--------------------------------------------------------------
+// Bliznniak upgrade'u zbroi u Mistrza (Npc_SoulOrder.d nr 9), ale dla zalozonej
+// BRONI biezacej - Kowal to kowal, bron nalezy do niego. Statyczna bron (rank 0,
+// bez rozszerzenia): EnchantItemInPlace nadaje rozszerzenie (zachowuje wizual/
+// obrazenia + dodaje magie), potem normalizacja rangi do +1. Juz rozszerzona:
+// ChangeItemRank(+1) w miejscu (zachowuje seale). Cap na legendarnej (5).
+instance dia_none_99760_HubSmith_WeaponRankUp(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 8;
+    condition = dia_none_99760_HubSmith_WeaponRankUp_condition;
+    information = dia_none_99760_HubSmith_WeaponRankUp_info;
+    permanent = true;
+    description = "Wynies moja bron ku legendzie.";
+};
+func int dia_none_99760_HubSmith_WeaponRankUp_condition() { return (StExt_Hub_Smith >= 2); };
+func void dia_none_99760_HubSmith_WeaponRankUp_info()
+{
+	var c_item weap;
+	var c_item work;
+	var int rank;
+	var int goldCost;
+	var int soulCost;
+	var int newId;
+	var int power;
+	var int delta;
+
+	weap = npc_getequippedmeleeweapon(hero);
+	if (!hlp_isvaliditem(weap))
+	{
+		StExt_Say("Bezimienny Kowal", "Pokaz mi ostrze, nie pusta dlon. Dobadz broni, ktora mam wyniesc.");
+		ai_stopprocessinfos(self);
+		return;
+	};
+	rank = StExt_GetItemRank(weap);
+	if (rank >= StExt_ItemRankLegendary)
+	{
+		StExt_Say("Bezimienny Kowal", "Ta stal juz jest legenda. Wyzej nie pojdzie - nawet w moich rekach.");
+		ai_stopprocessinfos(self);
+		return;
+	};
+	goldCost = StExt_WeaponRankUp_GoldPerStep * (rank + 1);
+	soulCost = StExt_WeaponRankUp_SoulBase + (rank * StExt_WeaponRankUp_SoulStep);
+	if (npc_hasitems(hero, itmi_gold) < goldCost)
+	{
+		StExt_Say("Bezimienny Kowal", "Legenda kosztuje. Wroc ze zlotem.");
+		ai_printred(concatstrings(StExt_Str_NeedGold, inttostring(goldCost)));
+		ai_stopprocessinfos(self);
+		return;
+	};
+	if (npc_hasitems(hero, itmi_stext_bosssoul) < soulCost)
+	{
+		StExt_Say("Bezimienny Kowal", "Ogien, co nie gasnie, karmi sie duszami. Przynies ich wiecej.");
+		ai_printbonus(concatstrings("Potrzeba dusz poleglych: ", inttostring(soulCost)));
+		ai_stopprocessinfos(self);
+		return;
+	};
+
+	// Instancji NIE wolno przypisac do instancji (work = weap) - RHS musi byc
+	// wywolaniem. Stad ponowny getter.
+	work = npc_getequippedmeleeweapon(hero);
+	if (!StExt_ItemHasExtension(weap))
+	{
+		power = StExt_OpenChest_GetMaxPower();
+		newId = StExt_EnchantItemInPlace(weap, power);
+		if (newId <= 0)
+		{
+			StExt_Say("Bezimienny Kowal", "Ta stal nie przyjmie legendy. Przynies inne ostrze.");
+			ai_stopprocessinfos(self);
+			return;
+		};
+		npc_removeinvitems(hero, hlp_getinstanceid(weap), 1);
+		b_playerfinditem_stext(newId, 1);
+		work = npc_getitembyid(hero, newId);
+	};
+
+	npc_removeinvitems(hero, itmi_gold, goldCost);
+	npc_removeinvitems(hero, itmi_stext_bosssoul, soulCost);
+	delta = (rank + 1) - StExt_GetItemRank(work);
+	if (delta != 0) { StExt_ChangeItemRank(work, delta); };
+	rx_playeffect("spellfx_incovation_violet", hero);
+	StExt_Say("Bezimienny Kowal", "Czujesz? Stal ciezsza o jedna legende. Dobadz jej z plecaka, by poznac roznice.");
+	ai_printbonus(concatstrings("Ranga broni: ", inttostring(StExt_GetItemRank(work))));
+	ai_stopprocessinfos(self);
+};
+
 func void dia_none_99760_HubSmith_exit_info() { ai_stopprocessinfos(self); };
 instance dia_none_99760_HubSmith_exit(c_info)
 {
