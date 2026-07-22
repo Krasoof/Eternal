@@ -99,4 +99,7 @@
     '082365CE' = 'Odbudowali stary dworek za farmą Onara, w lesie nad jeziorem, i właśnie się tam ściągają. Wytnij to gniazdo - ich mistrz ma paść pierwszy.'
     '637CA7A2' = 'I strzeż się jednego. Ich dowódca to tylko głos, ale Belmond to ostrze - jego zbroja pamięta więcej demonów niż ty ludzi. Przy nim nosi coś, co warto zabrać.'
     'CC85BD94' = 'W dworku za farmą Onara, w lesie nad jeziorem. Tam się ściągnęli - idź i skończ to.'
+    # --- Lowcy: garnizon Zakonu w dworku ---
+    'DAB08F34' = 'Masz rację. Puste gniazdo szybko znajduje nowe ptaki.'
+    '0CA296D9' = 'Poślę tam braci. Od dziś w dworku płonie ogień Beliara - i biada temu, kto spróbuje go zgasić.'
 }

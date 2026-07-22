@@ -18,7 +18,12 @@
 // (gracz-Rycerz ma guild=16, nie GIL_DMT=11 - patrz Dark Knights).
 
 const string StExt_DH_Topic = "Krucjata Beliara";
-const string StExt_DH_WP = "NW_BIGFARM_FOREST_01";	// dworek za farma Onara (las nad jeziorem)
+// WP dworku zmierzony w RUNTIME (najblizszy WP Severina po przeprowadzce lowcow;
+// rodzina NW_DARKFOREST_IN_01_* potwierdzona w AB_Worlds.vdf - to waynet NB, nie
+// bazowy Worlds.vdf). Poprzedni NW_BIGFARM_FOREST_01 ISTNIEJE, ale lezy w innym
+// lesie - i to on byl przyczyna "znikajacej" obstawy: silnik po insercie przenosi
+// NPC do WP RUTYNY, wiec obstawa wchodzila poprawnie i maszerowala w zly las.
+const string StExt_DH_WP = "NW_DARKFOREST_IN_01_057";
 
 //--------------------------------------------------------------
 // *** Dodatkowi lowcy - zeby wyciecie gniazda nie bylo trywialne ***
@@ -141,71 +146,56 @@ func void ai_ondead_bdt_99794_Belmond()
 // mozna go wolac wielokrotnie (np. po zdjeciu latcha wskazowka) bez duplikatow -
 // i naprawia sejwy, w ktorych latch ustawil sie przy starej wersji, a obstawa
 // nigdy nie weszla (zgloszenie: "nie ma Belmonda").
-// Spawn WPROST (wzorzec Npc_DarkKnights, ktory user gral i dzialal). USUNIETO
-// guard hlp_getnpc: on zwraca template instancji NAWET gdy NPC nie ma w swiecie,
-// wiec "if (!hlp_isvalidnpc)" bylo ZAWSZE falszywe i spawn nigdy nie ruszal
-// (log: hint zagral, a Belmonda brak). Latch StExt_DH_ExtrasSpawned steruje
-// jednokrotnoscia POZA ta funkcja (dialogi), a hint go zeruje na zadanie.
-// Spawn KOTWICZONY na pozycji bazowego lowcy, nie na zgadywanym WP.
-//
-// Historia bledu: inserty na stalym NW_BIGFARM_FOREST_01 przechodzily (log mial
-// komplet "DH-SPAWN po ..."), a mimo to user nie widzial nikogo - WP istnieje,
-// ale nie lezy przy dworku, obstawa ladowala gdzies w lesie. Proba przez
-// wld_detectnpc ODPADLA: parser zParserExtendera odrzuca to wywolanie
-// ("Expected ','" na linii wywolania, niezaleznie od formy argumentow).
-//
-// Zamiast tego: najblizszy waypoint SEVERINA. On w tym momencie fabuly NA PEWNO
-// stoi w dworku (bazowy event przeprowadzki juz zaszedl - user go tam widzial),
-// a npc_getnearestwp(npc) to sprawdzony wzorzec (NpcController.d:832).
-// Fallback: Viland, potem Angel. Nawet martwy lowca jest dobra kotwica -
-// zwloki leza przy dworku. Latch StExt_DH_ExtrasSpawned pilnuje jednokrotnosci.
+// Spawn jest PROSTY, bo WP dworku jest wreszcie wlasciwy (zmierzony w runtime).
+// KLUCZOWA LEKCJA tej epopei: o tym, gdzie NPC STOI, decyduje WP RUTYNY
+// (ta_stand_guarding), nie WP insertu - silnik po wstawieniu przenosi NPC do
+// rutyny. Wszystkie wczesniejsze proby (kotwiczenie insertu na Severinie itd.)
+// naprawialy niewlasciwa rzecz: obstawa wchodzila do swiata POPRAWNIE, po czym
+// maszerowala do zlego lasu, bo rutyna wskazywala NW_BIGFARM_FOREST_01.
 func void StExt_DH_SpawnExtras()
 {
-	var c_npc anchor;
-	var string wp;
 	if (StExt_DH_ExtrasSpawned) { return; };
 	if (currentlevel != newworld_zen) { return; };
-
 	rx_saveparservars();
-	StExt_Trace("DH-SPAWN start (kotwica: pozycja bazowego lowcy)");
-
-	anchor = hlp_getnpc(DH_NPCSEVERIN);
-	wp = npc_getnearestwp(anchor);
-	StExt_Trace(concatstrings("DH-SPAWN kotwica Severin, WP=", wp));
-	if (!StExt_IsValidWp(wp))
-	{
-		anchor = hlp_getnpc(DH_VILANDNPC);
-		wp = npc_getnearestwp(anchor);
-		StExt_Trace(concatstrings("DH-SPAWN kotwica Viland, WP=", wp));
-	};
-	if (!StExt_IsValidWp(wp))
-	{
-		anchor = hlp_getnpc(DH_MAINNPC);
-		wp = npc_getnearestwp(anchor);
-		StExt_Trace(concatstrings("DH-SPAWN kotwica Angel, WP=", wp));
-	};
-
-	if (StExt_IsValidWp(wp))
-	{
-		wld_insertnpc(bdt_99790_LowcaDemonow1, wp);
-		wld_insertnpc(bdt_99791_LowcaDemonow2, wp);
-		wld_insertnpc(bdt_99792_LowcaDemonow3, wp);
-		wld_insertnpc(bdt_99793_LowcaDemonow4, wp);
-		wld_insertnpc(bdt_99794_Belmond, wp);
-		StExt_DH_ExtrasSpawned = true;
-		StExt_Trace("DH-SPAWN obstawa wstawiona przy dworku");
-	};
-
+	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
+	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
+	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
+	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
+	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
 	rx_restoreparservars();
+	StExt_DH_ExtrasSpawned = true;
+	StExt_Trace("DH-SPAWN obstawa wstawiona na WP dworku");
 };
 
-// Wolane z rx_mainloop. Bramka na aktywne zlecenie; reszta warunkow (latch,
-// swiat, kotwica) siedzi w StExt_DH_SpawnExtras, wiec tu tylko tanie odciecie.
+// NAPRAWA STARYCH SEJWOW: obstawa wstawiona przed poprawka WP stoi w zlym lesie
+// z ZAPISANA w sejwie stara rutyna (rutyny NPC persystuja; zmiana consta w
+// skrypcie ich nie tyka). npc_exchangeroutine przebudowuje rutyne ze SWIEZEGO
+// skryptu (rtn_start_* wskazuje juz dworek), a odleglych NPC silnik sam
+// przenosi do WP rutyny. Jednorazowo (latch), tylko dla zywych i obecnych.
+func void StExt_DH_FixCrewRoutines()
+{
+	var c_npc n;
+	if (StExt_DH_CrewRtnFix) { return; };
+	if (!StExt_DH_ExtrasSpawned) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	rx_saveparservars();
+	n = hlp_getnpc(bdt_99790_LowcaDemonow1);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99791_LowcaDemonow2);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99792_LowcaDemonow3);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99793_LowcaDemonow4);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99794_Belmond);			if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_exchangeroutine(n, "START"); };
+	rx_restoreparservars();
+	StExt_DH_CrewRtnFix = true;
+	StExt_Trace("DH-RTNFIX rutyny obstawy przepiete na dworek");
+};
+
+// Wolane z rx_mainloop (Overrides, .src 82). Spawn tylko przy aktywnym zleceniu;
+// naprawa rutyn takze po jego zakonczeniu (obstawa mogla przezyc gracza w lesie).
 func void StExt_DH_TrySpawnExtras()
 {
-	if (StExt_DH_ExtrasSpawned) { return; };
-	if (StExt_DH_Stage != 1) { return; };
-	StExt_DH_SpawnExtras();
+	if (StExt_DH_Stage < 1) { return; };
+	if ((StExt_DH_Stage == 1) && !StExt_DH_ExtrasSpawned) { StExt_DH_SpawnExtras(); };
+	StExt_DH_FixCrewRoutines();
 };
 
 //--------------------------------------------------------------
@@ -314,5 +304,76 @@ func void dia_dmtteacher_stext_dhhint_info()
 	// Callback z ticku zawodzil (Belmond nie wchodzil mimo dwoch podejsc);
 	// SpawnExtras jest idempotentny, wiec wielokrotne klikniecie = zero duplikatow.
 	StExt_DH_SpawnExtras();
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** Garnizon Zakonu - dworek po odbiciu nalezy do Beliara ***
+//--------------------------------------------------------------
+// Zyczenie usera: po wyrznieciu gniazda opcja obsadzenia dworku naszymi.
+// Wzorzec przyjaznego NPC moda = Bezimienny Kowal (guild = gil_none, npc_default).
+// Zbroja itar_stext_zakon_guardian - ta sama, ktora nosi Mistrz (Items/Armors.d,
+// .src 58 < 76). Rutyny warty na WP dworku.
+func void rtn_start_99795() { ta_stand_guarding(8, 0, 20, 0, StExt_DH_WP); ta_stand_guarding(20, 0, 8, 0, StExt_DH_WP); };
+func void rtn_start_99796() { ta_stand_guarding(8, 0, 20, 0, StExt_DH_WP); ta_stand_guarding(20, 0, 8, 0, StExt_DH_WP); };
+func void rtn_start_99797() { ta_stand_guarding(8, 0, 20, 0, StExt_DH_WP); ta_stand_guarding(20, 0, 8, 0, StExt_DH_WP); };
+
+instance none_99795_ZakonStraznik1(npc_default)
+{
+    name = "Straznik Zakonu"; guild = gil_none; id = 99795; voice = 11; flags = 0; npctype = npctype_main; level = 30;
+    b_setnpcvisual(none_99795_ZakonStraznik1, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_stext_zakon_guardian);
+    mdl_applyoverlaymds(none_99795_ZakonStraznik1, "Humans_Militia.mds");
+    b_givenpctalents(none_99795_ZakonStraznik1); fight_tactic = fai_human_master;
+    daily_routine = rtn_start_99795;
+    StExt_DH_ExtraSetup(none_99795_ZakonStraznik1, 3);
+};
+instance none_99796_ZakonStraznik2(npc_default)
+{
+    name = "Straznik Zakonu"; guild = gil_none; id = 99796; voice = 12; flags = 0; npctype = npctype_main; level = 30;
+    b_setnpcvisual(none_99796_ZakonStraznik2, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_stext_zakon_guardian);
+    mdl_applyoverlaymds(none_99796_ZakonStraznik2, "Humans_Militia.mds");
+    b_givenpctalents(none_99796_ZakonStraznik2); fight_tactic = fai_human_master;
+    daily_routine = rtn_start_99796;
+    StExt_DH_ExtraSetup(none_99796_ZakonStraznik2, 3);
+};
+instance none_99797_ZakonRycerz(npc_default)
+{
+    name = "Rycerz Zakonu"; guild = gil_none; id = 99797; voice = 10; flags = 0; npctype = npctype_main; level = 35;
+    b_setnpcvisual(none_99797_ZakonRycerz, male, "Hum_Head_Fighter", face_n_balor, bodytex_n, itar_stext_zakon_guardian);
+    mdl_applyoverlaymds(none_99797_ZakonRycerz, "Humans_Militia.mds");
+    b_givenpctalents(none_99797_ZakonRycerz); fight_tactic = fai_human_master;
+    daily_routine = rtn_start_99797;
+    StExt_DH_ExtraSetup(none_99797_ZakonRycerz, 4);
+};
+
+func void StExt_DH_SendGarrison()
+{
+	if (StExt_DH_GarrisonSent) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	rx_saveparservars();
+	wld_insertnpc(none_99795_ZakonStraznik1, StExt_DH_WP);
+	wld_insertnpc(none_99796_ZakonStraznik2, StExt_DH_WP);
+	wld_insertnpc(none_99797_ZakonRycerz, StExt_DH_WP);
+	rx_restoreparservars();
+	StExt_DH_GarrisonSent = true;
+};
+
+instance dia_dmtteacher_stext_dhgarrison(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 735;
+    condition = dia_dmtteacher_stext_dhgarrison_condition;
+    information = dia_dmtteacher_stext_dhgarrison_info;
+    permanent = false;
+    description = "Dworek nie moze stac pusty.";
+};
+func int dia_dmtteacher_stext_dhgarrison_condition() { return StExt_DK_IsMember() && (StExt_DH_Stage == 2) && !StExt_DH_GarrisonSent; };
+func void dia_dmtteacher_stext_dhgarrison_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Masz racje. Puste gniazdo szybko znajduje nowe ptaki.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Posle tam braci. Od dzis w dworku plonie ogien Beliara - i biada temu, kto sprobuje go zgasic.");
+	StExt_DH_SendGarrison();
+	StExt_DH_Log("Zakon obsadzil dworek po lowcach. Ogien Beliara plonie teraz w ich dawnym gniezdzie.");
+	ai_printbonus("Bracia Zakonu obsadzili dworek w ciemnym lesie.");
 	ai_stopprocessinfos(self);
 };

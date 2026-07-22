@@ -259,11 +259,13 @@ func void StExt_DH_EnsureHunters()
 	if (StExt_DH_Stage != 1) { return; };
 	if (currentlevel != newworld_zen) { return; };
 	rx_saveparservars();
-	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_VILANDNPC);        if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_VILANDNPC, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_01); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_BIGFARM_FOREST_01"); };
-	n = hlp_getnpc(DH_SLD_MERCENARY_02); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_BIGFARM_FOREST_01"); };
+	// WP dworku (runtime-truth: najblizszy WP Severina; NW_BIGFARM_FOREST_01 to
+	// INNY las). Literal, bo const StExt_DH_WP siedzi w pliku 76 (my = 54).
+	n = hlp_getnpc(DH_MAINNPC);          if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_MAINNPC, "NW_DARKFOREST_IN_01_057"); };
+	n = hlp_getnpc(DH_NPCSEVERIN);       if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_NPCSEVERIN, "NW_DARKFOREST_IN_01_057"); };
+	n = hlp_getnpc(DH_VILANDNPC);        if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_VILANDNPC, "NW_DARKFOREST_IN_01_057"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_01, "NW_DARKFOREST_IN_01_057"); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); if (!hlp_isvalidnpc(n)) { wld_insertnpc(DH_SLD_MERCENARY_02, "NW_DARKFOREST_IN_01_057"); };
 	rx_restoreparservars();
 };
 

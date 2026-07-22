@@ -124,6 +124,23 @@ func int StExt_DontKillByExtraDamage(var c_npc atk, var c_npc target)
 	// Reported live: "boss nie mogl mnie dobic, caly czas bylem na 1 HP".
 	if (hlp_isvalidnpc(target) && npc_isplayer(target)) { return false; };
 
+	// CELE KRUCJATY BELIARA UMIERAJA NAPRAWDE - to TU byla "niesmiertelnosc"
+	// Angela/Severina/Vilanda. Lowcy nie sa gil_bdt ani gil_dmt, wiec wpadali
+	// do ochrony "spokojnych ludzi" ponizej i DLL przycinal kazdy smiertelny
+	// cios do 1 HP (Damage.cpp, ChangeAttribute_StExt: saveLife -> value =
+	// -(hp - 1)). Objaw z gry: "pada, dobijam i nic" - HP nigdy nie osiagalo
+	// zera, wiec zaden fix po stronie smierci/omdlenia nie mial szans zadzialac.
+	// Po przyjeciu krucjaty (Stage >= 1) cele wojny trwale wypadaja z ochrony.
+	if (hlp_isvalidnpc(target) && (StExt_DH_Stage >= 1))
+	{
+		if ((target.id >= 99790) && (target.id <= 99794)) { return false; };
+		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_MAINNPC)) { return false; };
+		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_NPCSEVERIN)) { return false; };
+		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_VILANDNPC)) { return false; };
+		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_01)) { return false; };
+		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_02)) { return false; };
+	};
+
 	if (!hlp_isvalidnpc(target) || !hlp_isvalidnpc(atk))
 	{
 		if (hlp_isvalidnpc(target)) {

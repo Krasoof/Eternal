@@ -54,8 +54,8 @@ func void rx_mainloop()
 	rx_mainloop_old();
 	StExt_ProcessPcStats_Overcap();
 	StExt_ModController();
-	// Obstawa lowcow demonow - kotwiczy sie na pozycji bazowego lowcy (Severin),
-	// wiec wystarczy pierwszy tick po przyjeciu zlecenia. Musi byc w tym pliku
+	// Obstawa lowcow demonow: spawn przy aktywnym zleceniu + jednorazowa naprawa
+	// rutyn w starych sejwach (obstawa stala w zlym lesie). Musi byc w tym pliku
 	// (.src 82), bo ModController (.src 54) parsuje sie PRZED
 	// Npc_DemonHuntersMansion (.src 76) i nie moze go zawolac wprost.
 	// Zostaje OSTATNIE w petli: ewentualny runtime-abort w srodku nie zabija

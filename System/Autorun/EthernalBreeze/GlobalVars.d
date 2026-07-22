@@ -138,6 +138,8 @@ var int StExt_DH_HunterGuild;		// gildia Lowcow odczytana z DH_MAINNPC (0 = jesz
 var int StExt_DH_Relocated;		// latch: dospawnowanie brakujacych lowcow
 var int StExt_DH_MansionDone;		// latch: odpalony bazowy event dworku (odrestaurowanie + przeprowadzka)
 var int StExt_DH_ExtrasSpawned;	// latch: dorzuceni dodatkowi lowcy
+var int StExt_DH_CrewRtnFix;	// latch: rutyny obstawy przepiete na WP dworku (naprawa starych sejwow)
+var int StExt_DH_GarrisonSent;	// latch: Zakon obsadzil dworek po wybiciu lowcow
 var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
 var int StExt_DH_ExtrasTick;		// licznik okresowego samo-naprawczego spawnu obstawy (bez latcha)
 
