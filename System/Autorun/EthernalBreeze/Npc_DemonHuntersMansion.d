@@ -334,6 +334,14 @@ func void dia_dmtteacher_stext_dhhint_info()
 	ai_stopprocessinfos(self);
 };
 
+// Wolane z DLL (po nazwie) tuz przed zabraniem ciala straconego celu wojny;
+// StExt_Self = cialo. Mroczna inwokacja - zabranie ciala to rytual Beliara.
+func void StExt_DH_OnExecuteDespawn()
+{
+	if (!hlp_isvalidnpc(StExt_Self)) { return; };
+	wld_playeffect("spellFX_Incovation_VIOLET", StExt_Self, StExt_Self, 0, 0, 0, false);
+};
+
 //--------------------------------------------------------------
 // *** Garnizon Zakonu - dworek po odbiciu nalezy do Beliara ***
 //--------------------------------------------------------------
