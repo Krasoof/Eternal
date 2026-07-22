@@ -518,6 +518,133 @@ func void dia_none_99760_HubSmith_WeaponRankUp_info()
 	ai_stopprocessinfos(self);
 };
 
+//===================================================================//
+//   Lancuch "Imie Kowala" - R4: "Ruda z tamtej strony" (fragment 2) //
+//===================================================================//
+// Pierwsza wyprawa Kowala poza Khorinis: kopalnia w Gorniczej Dolinie.
+// Zbojcy-wygnancy trzymaja stara sztolnie z magiczna zyla. Spawn KOTWICZONY
+// na graczu przy wejsciu do GD (StExt_Smith_GDTrySpawn z rx_mainloop) -
+// zero dropow na 0,0,0, jak przy celach Drogi Beliara w GD.
+func void rtn_start_99746() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_GDWp); };
+func void rtn_start_99747() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_GDWp); };
+func void rtn_start_99748() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_GDWp); };
+
+instance bdt_99746_SztygarWygnancow(npc_default)
+{
+    name = "Sztygar Wygnancow"; guild = gil_bdt; id = 99746; voice = 10; flags = 0; npctype = npctype_main; level = 40;
+    b_setnpcvisual(bdt_99746_SztygarWygnancow, male, "Hum_Head_FatBald", face_n_tough_okyl, bodytex_n, itar_bdt_h);
+    mdl_applyoverlaymds(bdt_99746_SztygarWygnancow, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99746_SztygarWygnancow); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99746;
+    StExt_HubSmith_ThugSetup(bdt_99746_SztygarWygnancow, 4);
+};
+instance bdt_99747_Wygnaniec1(npc_default)
+{
+    name = "Wygnaniec"; guild = gil_bdt; id = 99747; voice = 11; flags = 0; npctype = npctype_main; level = 28;
+    b_setnpcvisual(bdt_99747_Wygnaniec1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_leather_l);
+    mdl_applyoverlaymds(bdt_99747_Wygnaniec1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99747_Wygnaniec1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99747;
+    StExt_HubSmith_ThugSetup(bdt_99747_Wygnaniec1, 2);
+};
+instance bdt_99748_Wygnaniec2(npc_default)
+{
+    name = "Wygnaniec"; guild = gil_bdt; id = 99748; voice = 13; flags = 0; npctype = npctype_main; level = 28;
+    b_setnpcvisual(bdt_99748_Wygnaniec2, male, "Hum_Head_Fighter", face_n_mud, bodytex_n, itar_leather_l);
+    mdl_applyoverlaymds(bdt_99748_Wygnaniec2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99748_Wygnaniec2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99748;
+    StExt_HubSmith_ThugSetup(bdt_99748_Wygnaniec2, 2);
+};
+
+// Sztygar strzeze zyly - ruda spada z jego ciala.
+func void ai_ondead_bdt_99746_SztygarWygnancow()
+{
+	if (StExt_SmithQ_Stage == 3)
+	{
+		createinvitems(self, itmi_stext_smith_ore, 1);
+		StExt_Smith_Log("Sztygar padl. Ruda z magicznej zyly - ciepla mimo zimnego kamienia - lezy przy jego ciele.");
+		printscreencolor("Ruda z magicznej zyly - zabierz ja z ciala sztygara.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
+	};
+};
+
+// Spawn zbojcow kopalni w GD - kotwica na graczu (rx_mainloop, gate oldworld).
+func void StExt_Smith_GDTrySpawn()
+{
+	var c_npc n;
+	var string wp;
+	if (StExt_Smith_GDSpawned) { return; };
+	if (StExt_SmithQ_Stage != 3) { return; };
+	if (currentlevel != oldworld_zen) { return; };
+	wp = npc_getnearestwp(hero);
+	if (!StExt_IsValidWp(wp)) { return; };
+	StExt_Smith_GDWp = wp;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99746_SztygarWygnancow, wp);
+	wld_insertnpc(bdt_99747_Wygnaniec1, wp);
+	wld_insertnpc(bdt_99748_Wygnaniec2, wp);
+	n = hlp_getnpc(bdt_99746_SztygarWygnancow);	if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99747_Wygnaniec1);		if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	n = hlp_getnpc(bdt_99748_Wygnaniec2);		if (hlp_isvalidnpc(n)) { npc_exchangeroutine(n, "START"); };
+	rx_restoreparservars();
+	StExt_Smith_GDSpawned = true;
+	ai_printbonus("Stara sztolnia z magiczna zyla - broni jej sztygar wygnancow. Zabij go i wez rude.");
+};
+
+instance dia_none_99760_HubSmith_Q2(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 9;
+    condition = dia_none_99760_HubSmith_Q2_condition;
+    information = dia_none_99760_HubSmith_Q2_info;
+    permanent = false;
+    description = "Co drugie?";
+};
+func int dia_none_99760_HubSmith_Q2_condition()
+{
+	return (StExt_Hub_Smith >= 2) && (StExt_SmithQ_Stage == 2) && (kapitel >= 4);
+};
+func void dia_none_99760_HubSmith_Q2_info()
+{
+	StExt_Say("HERO", "Co drugie?");
+	StExt_Say("Bezimienny Kowal", "Ruda. Nie ta z tutejszych zyl - ta martwa. Zywa lezy za morzem, w Gorniczej Dolinie, w sztolni, ktora dawno porzucono.");
+	StExt_Say("Bezimienny Kowal", "Trzymaja ja wygnancy - ludzie, ktorych i Khorinis, i Dolina wyplula. Sztygar sciska zyle jak wlasne dziecko. Przynies mi jej garsc, a przypomne sobie, jak sie kuje z zywego metalu.");
+	StExt_SmithQ_Stage = 3;
+	StExt_Smith_GDSpawned = false;
+	StExt_Smith_Log("Kowal potrzebuje rudy z zywej, magicznej zyly - drugiego okrucha imienia. Lezy w porzuconej sztolni w Gorniczej Dolinie, w rekach wygnancow. Musze przejsc przelecz i ja zdobyc.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_none_99760_HubSmith_Q2Done(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 10;
+    condition = dia_none_99760_HubSmith_Q2Done_condition;
+    information = dia_none_99760_HubSmith_Q2Done_info;
+    permanent = false;
+    description = "Twoja ruda.";
+};
+func int dia_none_99760_HubSmith_Q2Done_condition()
+{
+	return (StExt_SmithQ_Stage == 3) && (npc_hasitems(hero, itmi_stext_smith_ore) >= 1);
+};
+func void dia_none_99760_HubSmith_Q2Done_info()
+{
+	StExt_Say("HERO", "Twoja ruda.");
+	StExt_Say("Bezimienny Kowal", "(Wazy ja w dloni, dlugo.) Zywa. Czuje, jak chce plynac. Dwadziescia lat nie trzymalem takiej.");
+	StExt_Say("Bezimienny Kowal", "Drugi okruch. Zostal jeden - i to on boli najbardziej. Ale najpierw... pozwol, ze cos ci wykuje. Naleza ci sie.");
+	npc_removeinvitems(hero, itmi_stext_smith_ore, 1);
+	StExt_SmithFragments = StExt_SmithFragments + 1;
+	StExt_SmithQ_Stage = 4;
+	StExt_DarkKnights_GrantReward(0, 20);	// PN za wyprawe; zloto nie - Kowal placi kunsztem
+	ai_printbonus("Okruchy imienia Kowala: 2/3 - kuznia jeszcze mocniej i taniej");
+	StExt_Smith_Log("Ruda wrocila do rak Kowala. Wazyl ja tak, jakby trzymal wlasne serce. Drugi okruch odzyskany - zostal jeden, ten najciezszy.");
+	ai_stopprocessinfos(self);
+};
+
 func void dia_none_99760_HubSmith_exit_info() { ai_stopprocessinfos(self); };
 instance dia_none_99760_HubSmith_exit(c_info)
 {

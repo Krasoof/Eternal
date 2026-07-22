@@ -64,6 +64,8 @@ func void rx_mainloop()
 	// Cele Q8 Drogi Beliara w Gorniczej Dolinie - kotwica na graczu przy wejsciu
 	// do GD (ten plik .src 82; ModController .src 54 nie dosiega Npc_DarkKnights).
 	StExt_DK_GDTrySpawn();
+	// Zbojcy kopalni (quest rudy Kowala) - tez kotwica na graczu w GD.
+	StExt_Smith_GDTrySpawn();
 };
 
 func void b_checkmenuoption() 

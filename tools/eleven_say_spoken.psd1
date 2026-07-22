@@ -129,4 +129,14 @@
     '59200689' = 'Ogień, co nie gaśnie, karmi się duszami. Przynieś ich więcej.'
     '46176070' = 'Ta stal nie przyjmie legendy. Przynieś inne ostrze.'
     '12AC4FC9' = 'Czujesz? Stal cięższa o jedną legendę. Dobądź jej z plecaka, by poznać różnicę.'
+    # --- DK R4 Q9 "Konwoj Swiatla" (Nauczyciel) ---
+    '2DD722A5' = 'Dość broni. Teraz ty uderzasz w ich wiarę. Kościół wiezie traktem relikwie - kość jakiegoś świętego w zimnej szkatule. Eskorta paladynów, kapitan na czele.'
+    'A9699B53' = 'Rozbij konwój i przynieś mi tę kość. Beliar chce ją... przywitać. Pokażemy Innosowi, że jego święci też gniją.'
+    '540C3B68' = 'Daj. (Bierze szkatułę bez lęku - parzy go, ale się nie cofa.) Słyszysz ten skwir? To święty krzyczy, choć umarł dwieście lat temu.'
+    '19C05C2D' = 'Splugawiona. Od dziś to relikwia Beliara. A ty - weź to ostrze, wykute z klamki ich kaplicy. Niech otwiera tylko groby.'
+    # --- Kowal R4 "Ruda z tamtej strony" ---
+    '6724CF91' = 'Ruda. Nie ta z tutejszych żył - ta martwa. Żywa leży za morzem, w Górniczej Dolinie, w sztolni, którą dawno porzucono.'
+    '41866E33' = 'Trzymają ją wygnańcy - ludzie, których i Khorinis, i Dolina wypluła. Sztygar ściska żyłę jak własne dziecko. Przynieś mi jej garść, a przypomnę sobie, jak się kuje z żywego metalu.'
+    '8AEC16D7' = '(Waży ją w dłoni, długo.) Żywa. Czuję, jak chce płynąć. Dwadzieścia lat nie trzymałem takiej.'
+    '5F430AF6' = 'Drugi okruch. Został jeden - i to on boli najbardziej. Ale najpierw... pozwól, że coś ci wykuję. Należą ci się.'
 }

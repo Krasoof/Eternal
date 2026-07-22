@@ -150,6 +150,8 @@ var int StExt_SmithQ_Stage;		// lancuch "Imie Kowala": 0 brak, 1 mlot zlecony, 2
 var int StExt_SmithTopicMade;	// latch dziennika lancucha Kowala
 var string StExt_DK_GDWp;		// WP kotwicy celow DK w Gorniczej Dolinie (pozycja gracza przy wejsciu)
 var int StExt_DK_GDSpawned;		// latch: cele Q8 (Kaznodzieja) wstawione w GD
+var string StExt_Smith_GDWp;	// WP kotwicy zbojcow w kopalni GD (quest rudy Kowala)
+var int StExt_Smith_GDSpawned;	// latch: zbojcy kopalni wstawieni w GD
 var int StExt_DH_GarrisonSent;	// latch: Zakon obsadzil dworek po wybiciu lowcow
 var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
 var int StExt_DH_ExtrasTick;		// licznik okresowego samo-naprawczego spawnu obstawy (bez latcha)

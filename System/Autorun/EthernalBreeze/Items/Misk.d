@@ -756,6 +756,36 @@ instance itmi_stext_smith_hammer(c_item)
 	text[2] = "Pierwszy okruch imienia Bezimiennego Kowala.";
 	inv_animate = 1;
 };
+
+// Droga Beliara R4 "Konwoj Swiatla": relikwia Innosa zdobyta na eskorcie.
+instance itmi_stext_innos_relic(c_item)
+{
+	name = "Relikwia Innosa";
+	mainflag = item_kat_none;
+	flags = item_mission;
+	value = 0;
+	visual = "ItMi_Rockcrystal.3ds";
+	material = mat_stone;
+	description = name;
+	text[1] = "Zimna szkatula, ktora parzy dlon nioslacego cien.";
+	text[2] = "Mistrz chce ja splugawic.";
+	inv_animate = 1;
+};
+
+// Lancuch "Imie Kowala" (r4): ruda z magicznej zyly w kopalni Gorniczej Doliny.
+instance itmi_stext_smith_ore(c_item)
+{
+	name = "Ruda z magicznej zyly";
+	mainflag = item_kat_none;
+	flags = item_mission;
+	value = 0;
+	visual = "ItMi_Nugget.3ds";
+	material = mat_metal;
+	description = name;
+	text[1] = "Cieply w dotyku, choc lezal w zimnym kamieniu.";
+	text[2] = "Drugi okruch imienia Bezimiennego Kowala.";
+	inv_animate = 1;
+};
 instance itmi_stext_desecrated_relic(c_item)
 {
 	name = "Zbezczeszczona Relikwia";

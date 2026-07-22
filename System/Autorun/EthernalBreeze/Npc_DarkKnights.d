@@ -44,6 +44,7 @@ const string StExt_DK_WP_Q7 = "NW_CITY_HABOUR_05";				// port (ucho Innosa - inf
 // Q8 (Gornicza Dolina) NIE ma stalego WP: cele kotwicza sie na pozycji gracza
 // przy wejsciu do GD (npc_getnearestwp - gracz stoi na waynecie, WP zawsze wazny).
 // To ta sama technika, ktora domknela spawn lowcow demonow (zero dropow na 0,0,0).
+const string StExt_DK_WP_Q9 = "NW_FOREST_PATH_23";				// lesny trakt (konwoj relikwii)
 
 //--------------------------------------------------------------
 // *** Rutyny (bez rutyny NPC to posag - brak percepcji) ***
@@ -72,6 +73,10 @@ func void rtn_start_99789() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q7); ta
 func void rtn_start_99743() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
 func void rtn_start_99744() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
 func void rtn_start_99745() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
+// Q9 (R4, NW): konwoj relikwii na lesnym trakcie.
+func void rtn_start_99749() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
+func void rtn_start_99750() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
+func void rtn_start_99751() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
 
 //--------------------------------------------------------------
 // *** Setup celu: staty jak boss, ALE bez konwersji na nieumarlego
@@ -388,6 +393,38 @@ instance bdt_99745_Fanatyk2(npc_default)
     StExt_DarkKnights_TargetSetup(bdt_99745_Fanatyk2, 2);
 };
 
+// --- R4 Q9 "Konwoj Swiatla": eskorta paladynow wiezie relikwie Innosa ---
+instance bdt_99749_KapitanEskorty(npc_default)
+{
+    name = "Kapitan Eskorty"; guild = gil_bdt; id = 99749; voice = 10; flags = 0; npctype = npctype_main; level = 44;
+    b_setnpcvisual(bdt_99749_KapitanEskorty, male, "Hum_Head_Fighter", face_n_balor, bodytex_n, itar_pal_h);
+    mdl_applyoverlaymds(bdt_99749_KapitanEskorty, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99749_KapitanEskorty); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99749;
+    StExt_DarkKnights_TargetSetup(bdt_99749_KapitanEskorty, 4);
+};
+instance bdt_99750_PaladynEskorty1(npc_default)
+{
+    name = "Paladyn Eskorty"; guild = gil_bdt; id = 99750; voice = 11; flags = 0; npctype = npctype_main; level = 32;
+    b_setnpcvisual(bdt_99750_PaladynEskorty1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_pal_m);
+    mdl_applyoverlaymds(bdt_99750_PaladynEskorty1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99750_PaladynEskorty1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99750;
+    StExt_DarkKnights_TargetSetup(bdt_99750_PaladynEskorty1, 2);
+};
+instance bdt_99751_PaladynEskorty2(npc_default)
+{
+    name = "Paladyn Eskorty"; guild = gil_bdt; id = 99751; voice = 13; flags = 0; npctype = npctype_main; level = 32;
+    b_setnpcvisual(bdt_99751_PaladynEskorty2, male, "Hum_Head_Fighter", face_n_deadpal, bodytex_n, itar_pal_m);
+    mdl_applyoverlaymds(bdt_99751_PaladynEskorty2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99751_PaladynEskorty2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99751;
+    StExt_DarkKnights_TargetSetup(bdt_99751_PaladynEskorty2, 2);
+};
+
 //--------------------------------------------------------------
 // *** Progresja (parsowana po instancjach, przed ai_ondead) ***
 //--------------------------------------------------------------
@@ -438,6 +475,18 @@ func void ai_ondead_bdt_99789_NajemneOstrze2() { if (StExt_DarkKnight_Stage == 1
 func void ai_ondead_bdt_99743_KaznodziejaEzechiel() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
 func void ai_ondead_bdt_99744_Fanatyk1() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
 func void ai_ondead_bdt_99745_Fanatyk2() { if (StExt_DarkKnight_Stage == 15) { StExt_DarkKnights_Advance(8, 3); }; };
+// R4 Q9: konwoj - kapitan niesie relikwie (drop), cala eskorta 3/3.
+func void ai_ondead_bdt_99749_KapitanEskorty()
+{
+	if (StExt_DarkKnight_Stage == 17)
+	{
+		createinvitems(hero, itmi_stext_innos_relic, 1);
+		StExt_DarkKnights_Log("Kapitan eskorty padl. Relikwia Innosa - zimna szkatula, ktora parzy - lezy przy jego ciele.");
+		StExt_DarkKnights_Advance(9, 3);
+	};
+}
+func void ai_ondead_bdt_99750_PaladynEskorty1() { if (StExt_DarkKnight_Stage == 17) { StExt_DarkKnights_Advance(9, 3); }; };
+func void ai_ondead_bdt_99751_PaladynEskorty2() { if (StExt_DarkKnight_Stage == 17) { StExt_DarkKnights_Advance(9, 3); }; };
 
 // Spawn celow Q8 w Gorniczej Dolinie - kotwiczony na pozycji gracza (wejscie
 // do GD). Wolane z rx_mainloop (Overrides .src 82; ModController .src 54 nie
@@ -723,7 +772,7 @@ instance dia_dmtteacher_stext_hint(c_info)
 };
 func int dia_dmtteacher_stext_hint_condition()
 {
-	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9) || (StExt_DarkKnight_Stage == 11) || (StExt_DarkKnight_Stage == 13) || (StExt_DarkKnight_Stage == 15));
+	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9) || (StExt_DarkKnight_Stage == 11) || (StExt_DarkKnight_Stage == 13) || (StExt_DarkKnight_Stage == 15) || (StExt_DarkKnight_Stage == 17));
 };
 func void dia_dmtteacher_stext_hint_info()
 {
@@ -761,12 +810,17 @@ func void dia_dmtteacher_stext_hint_info()
 		wld_insertnpc(bdt_99787_BratKasjan, StExt_DK_WP_Q7);
 		ai_printbonus("Brat Kasjan - w porcie, wsrod zebrakow przy nabrzezu.");
 	}
-	else
+	else if (StExt_DarkKnight_Stage == 15)
 	{
-		// Stage 15 (GD): celow NIE respawnujemy z Khorinis (sa w innym swiecie).
-		// Zdejmujemy latch - StExt_DK_GDTrySpawn wstawi ich, gdy wejdziesz do GD.
+		// GD: celow NIE respawnujemy z Khorinis (inny swiat). Zdejmujemy latch -
+		// StExt_DK_GDTrySpawn wstawi ich, gdy wejdziesz do GD.
 		StExt_DK_GDSpawned = false;
 		ai_printbonus("Kaznodzieja Ezechiel - w Gorniczej Dolinie. Przejdz przelecz i szukaj go w glebi.");
+	}
+	else
+	{
+		wld_insertnpc(bdt_99749_KapitanEskorty, StExt_DK_WP_Q9);
+		ai_printbonus("Konwoj Kosciola - na lesnym trakcie. Rozbij go i zabierz relikwie.");
 	};
 	rx_restoreparservars();
 	ai_stopprocessinfos(self);
@@ -929,6 +983,65 @@ func void dia_dmtteacher_stext_q8done_info()
 	StExt_DarkKnights_GrantBeliarKarma(160);
 	StExt_DarkKnights_GrantReward(16000, 30);
 	StExt_DarkKnights_Log("Ezechiel martwy, Dolina ucichla. Kosciol Innosa wyslal na mnie ogien, ucho i glos - zgasilem wszystkie trzy. Mistrz dal mi ostrze, ktore nasiaklo ich strachem.");
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** R4 Q9 "Konwoj Swiatla" (stage 16 -> 18, od rozdzialu 4) ***
+//--------------------------------------------------------------
+// Ofensywa. Kosciol wiezie relikwie traktem - przechwytujesz konwoj, a Mistrz
+// plugawi lup. Relikwia = przedmiot misyjny (drop z kapitana), oddany w raporcie.
+instance dia_dmtteacher_stext_q9(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 742;
+    condition = dia_dmtteacher_stext_q9_condition;
+    information = dia_dmtteacher_stext_q9_info;
+    permanent = false;
+    description = "Czas przestac sie bronic.";
+};
+func int dia_dmtteacher_stext_q9_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 16) && (kapitel >= 4); };
+func void dia_dmtteacher_stext_q9_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Dosc broni. Teraz ty uderzasz w ich wiare. Kosciol wiezie traktem relikwie - kosc jakiegos swietego w zimnej szkatule. Eskorta paladynow, kapitan na czele.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Rozbij konwoj i przynies mi te kosc. Beliar chce ja... przywitac. Pokazemy Innosowi, ze jego swieci tez gnija.");
+	StExt_DarkKnight_Stage = 17;
+	StExt_DarkKnight_Kills = 0;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99749_KapitanEskorty, StExt_DK_WP_Q9);
+	wld_insertnpc(bdt_99750_PaladynEskorty1, StExt_DK_WP_Q9);
+	wld_insertnpc(bdt_99751_PaladynEskorty2, StExt_DK_WP_Q9);
+	rx_restoreparservars();
+	StExt_DarkKnights_Log("Kosciol wiezie relikwie traktem lesnym. Mam rozbic konwoj, zabic eskorte i przyniesc Mistrzowi relikwie do splugawienia.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_dmtteacher_stext_q9done(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 743;
+    condition = dia_dmtteacher_stext_q9done_condition;
+    information = dia_dmtteacher_stext_q9done_info;
+    permanent = false;
+    description = "Mam ich relikwie.";
+};
+func int dia_dmtteacher_stext_q9done_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 17) && (StExt_DarkKnight_Kills >= 3) && (npc_hasitems(hero, itmi_stext_innos_relic) >= 1); };
+func void dia_dmtteacher_stext_q9done_info()
+{
+	var int itm;
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Daj. (Bierze szkatule bez leku - parzy go, ale sie nie cofa.) Slyszysz ten skwir? To swiety krzyczy, choc umarl dwiescie lat temu.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Splugawiona. Od dzis to relikwia Beliara. A ty - wez to ostrze, wykute z klamki ich kaplicy. Niech otwiera tylko groby.");
+	npc_removeinvitems(hero, itmi_stext_innos_relic, 1);
+	StExt_DarkKnight_Stage = 18;
+	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"), (hero.level * 7) + (kapitel * 40) + 360, StExt_ItemRankLegendary, "SPL_DARKBALL");
+	if (itm > 0)
+	{
+		StExt_SetGeneratedItemName(itm, "Klucz do Grobow");
+		b_playerfinditem_stext(itm, 1);
+	};
+	StExt_DarkKnights_GrantBeliarKarma(150);
+	StExt_DarkKnights_GrantReward(15000, 28);
+	StExt_DarkKnights_Log("Konwoj rozbity, relikwia splugawiona. Mistrz nazwal to darem dla Beliara. Dostalem ostrze wykute z klamki ich kaplicy - Klucz do Grobow.");
 	ai_stopprocessinfos(self);
 };
 
