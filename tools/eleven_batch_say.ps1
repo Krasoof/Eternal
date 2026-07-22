@@ -50,6 +50,7 @@ if (Test-Path $spokenPath) { $Spoken = Import-PowerShellDataFile $spokenPath }
 function Resolve-VoiceId([string]$speakerToken) {
     if ($speakerToken -match 'Kowal') { return 'SOYHLrjzK2X1ezoPC6cr' }        # Harry - Fierce Warrior (design HubSouls)
     if ($speakerToken -match 'DarkTeacher') { return 'N2lVS1w4EtoT3dr4eOWO' }  # Callum - Husky Trickster (Mistrz Mrocznych Rycerzy: chropawy, zlowieszczy, oddany Beliarowi; free-premade)
+    if ($speakerToken -match 'Popielica|Ysold') { return '344EH6sDx60DTxZHb9vj' }  # Ysolda - glos wybranki (romans DS/CP2077); custom voice usera, category=generated
     return $VoiceId                                                            # domyslnie: Adam (Mistrz Zakonu)
 }
 
