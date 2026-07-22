@@ -189,26 +189,26 @@ func void StExt_DH_FixCrewRoutines()
 	StExt_Trace("DH-RTNFIX rutyny obstawy przepiete na dworek");
 };
 
-// Obstawa NIE moze bic sie z lowcami (zgloszenie: "bije sie z naszymi lowcami
-// z lore"). gil_bdt jest wrogie gildii lowcow, wiec po spawnie przepinamy
-// obstawe na gildie lowcow odczytana w runtime (StExt_DH_HunterGuild - ustawia
-// ja StExt_DH_SetGuildWar). Wojna gildii gracz<->lowcy juz trwa, wiec obstawa
-// w gildii lowcow NADAL atakuje gracza - a lowcow ma za swoich. Jednorazowo.
+// Cale gniazdo = JEDNA frakcja: gil_bdt (test gildii - hipoteza usera #4:
+// ochrona frameworka moze kluczowac po gildii lowcow, wiec bazowi lowcy sa
+// przepinani na bdt w StripProt/ModController; obstawa wraca wiec na bdt,
+// inaczej odnowilaby sie bratobojka: bdt vs gildia lowcow sa sobie wrogie).
+// Wczesniejsza wersja (latch StExt_DH_CrewGuildFix) przepinala obstawe NA
+// gildie lowcow - kierunek odwrotny, stad NOWY latch.
 func void StExt_DH_ApplyCrewGuild()
 {
 	var c_npc n;
-	if (StExt_DH_CrewGuildFix) { return; };
-	if (StExt_DH_HunterGuild <= 0) { return; };
+	if (StExt_DH_CrewGuildFix2) { return; };
 	if (!StExt_DH_ExtrasSpawned) { return; };
 	rx_saveparservars();
-	n = hlp_getnpc(bdt_99790_LowcaDemonow1);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
-	n = hlp_getnpc(bdt_99791_LowcaDemonow2);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
-	n = hlp_getnpc(bdt_99792_LowcaDemonow3);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
-	n = hlp_getnpc(bdt_99793_LowcaDemonow4);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
-	n = hlp_getnpc(bdt_99794_Belmond);			if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	n = hlp_getnpc(bdt_99790_LowcaDemonow1);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, gil_bdt); };
+	n = hlp_getnpc(bdt_99791_LowcaDemonow2);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, gil_bdt); };
+	n = hlp_getnpc(bdt_99792_LowcaDemonow3);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, gil_bdt); };
+	n = hlp_getnpc(bdt_99793_LowcaDemonow4);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, gil_bdt); };
+	n = hlp_getnpc(bdt_99794_Belmond);			if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, gil_bdt); };
 	rx_restoreparservars();
-	StExt_DH_CrewGuildFix = true;
-	StExt_Trace("DH-GUILDFIX obstawa przepieta na gildie lowcow");
+	StExt_DH_CrewGuildFix2 = true;
+	StExt_Trace("DH-GUILDFIX2 cale gniazdo na gil_bdt (test gildii)");
 };
 
 // Wolane z rx_mainloop (Overrides, .src 82). Spawn tylko przy aktywnym zleceniu;

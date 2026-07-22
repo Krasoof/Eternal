@@ -241,6 +241,12 @@ func void StExt_DH_StripProt(var c_npc n)
 	if (n.protection[6] < 0) { n.protection[6] = pv; };
 	n.flags = n.flags & (~npc_flag_immortal);
 	n.flags = n.flags & (~npc_flag_xaradrim);
+	// HIPOTEZA USERA (test #4): ochrona frameworka moze kluczowac po GILDII
+	// lowcow. Przepiecie na gil_bdt (najzwyklejsza wroga, zabijalna gildia)
+	// zdejmuje ja wtedy u korzenia. Idempotentne; wrogosc do gracza = cecha
+	// bdt, wiec wojna trwa. Obstawa tez wraca na bdt (Npc_DemonHuntersMansion),
+	// wiec gniazdo zostaje jedna frakcja - zero bratobojki.
+	if (n.guild != gil_bdt) { npc_settrueguild(n, gil_bdt); };
 };
 
 // Idempotentne i tanie - wolane co tick przy aktywnej krucjacie, na wypadek
