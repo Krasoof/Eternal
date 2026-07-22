@@ -211,14 +211,41 @@ func void StExt_DH_ApplyCrewGuild()
 	StExt_Trace("DH-GUILDFIX2 cale gniazdo na gil_bdt (test gildii)");
 };
 
+// ZAWIESZENIE BRONI w gniezdzie: bojka obstawy z lowcami po unifikacji gildii
+// to STARA pamiec wrogosci (NPC pamieta napastnika; zmiana gildii nie czysci
+// biezacego celu walki). Jednorazowe wyczyszczenie kolejek AI zywym czlonkom
+// gniazda - po nim percepcja startuje od zera: ta sama gildia = zero re-aggro,
+// a wrogosc do gracza wraca sama (bdt + wojna gildii). Wolane PO ApplyCrewGuild.
+func void StExt_DH_Ceasefire()
+{
+	var c_npc n;
+	if (StExt_DH_CeasefireDone) { return; };
+	if (!StExt_DH_CrewGuildFix2) { return; };
+	rx_saveparservars();
+	n = hlp_getnpc(bdt_99790_LowcaDemonow1);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(bdt_99791_LowcaDemonow2);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(bdt_99792_LowcaDemonow3);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(bdt_99793_LowcaDemonow4);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(bdt_99794_Belmond);			if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(DH_MAINNPC);					if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(DH_NPCSEVERIN);				if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(DH_VILANDNPC);				if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_01);		if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	n = hlp_getnpc(DH_SLD_MERCENARY_02);		if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_clearaiqueue(n); };
+	rx_restoreparservars();
+	StExt_DH_CeasefireDone = true;
+	StExt_Trace("DH-CEASEFIRE stara wrogosc gniazda wyczyszczona");
+};
+
 // Wolane z rx_mainloop (Overrides, .src 82). Spawn tylko przy aktywnym zleceniu;
-// naprawy (rutyny, gildia) takze po jego zakonczeniu.
+// naprawy (rutyny, gildia, zawieszenie broni) takze po jego zakonczeniu.
 func void StExt_DH_TrySpawnExtras()
 {
 	if (StExt_DH_Stage < 1) { return; };
 	if ((StExt_DH_Stage == 1) && !StExt_DH_ExtrasSpawned) { StExt_DH_SpawnExtras(); };
 	StExt_DH_FixCrewRoutines();
 	StExt_DH_ApplyCrewGuild();
+	StExt_DH_Ceasefire();
 };
 
 //--------------------------------------------------------------
