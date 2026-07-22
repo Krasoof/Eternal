@@ -512,8 +512,6 @@ func void zs_dead()
 	// (Utils.d: hlp_getinstanceid(slf) == hlp_getinstanceid(stonegolem_osta)).
 	if (self.attribute[atr_hitpoints] > 0)
 	{
-		StExt_Trace(concatstrings(concatstrings("DH-FALSEDEAD inst=", inttostring(hlp_getinstanceid(self))), concatstrings(concatstrings(" guild=", inttostring(self.guild)), concatstrings(" id=", inttostring(self.id)))));
-
 		if (((self.id >= 99790) && (self.id <= 99794))
 			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_MAINNPC))
 			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_NPCSEVERIN))
@@ -521,7 +519,8 @@ func void zs_dead()
 			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_01))
 			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_02)))
 		{
-			StExt_Trace("DH-FALSEDEAD -> nasz lowca: zeruje HP (prawdziwa smierc)");
+			// Pas bezpieczenstwa. Wlasciwy fix siedzi w C_DropUnconscious
+			// (Overrides.d) - tam silnik decyduje "smierc czy omdlenie".
 			self.attribute[atr_hitpoints] = 0;
 		};
 	};

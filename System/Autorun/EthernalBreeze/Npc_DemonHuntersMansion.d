@@ -146,35 +146,64 @@ func void ai_ondead_bdt_99794_Belmond()
 // wiec "if (!hlp_isvalidnpc)" bylo ZAWSZE falszywe i spawn nigdy nie ruszal
 // (log: hint zagral, a Belmonda brak). Latch StExt_DH_ExtrasSpawned steruje
 // jednokrotnoscia POZA ta funkcja (dialogi), a hint go zeruje na zadanie.
+// Spawn KOTWICZONY na zywym lowcy, nie na zgadywanym WP.
+//
+// Historia bledu: inserty na stalym StExt_DH_WP przechodzily (log ma "DH-SPAWN po
+// 99790..Belmond" komplet), a mimo to user nie widzial nikogo. Czyli WP istnieje w
+// swiecie, ale NIE jest tam, gdzie stoi dworek - obstawa ladowala gdzies w lesie.
+// Zamiast zgadywac nazwe WP: wykrywamy realnego bazowego lowce (wld_detectnpc
+// ustawia other tylko dla NPC faktycznie obecnego w swiecie) i bierzemy JEGO
+// najblizszy WP. Dzieki temu obstawa staje dokladnie tam, gdzie gniazdo lowcow,
+// niezaleznie od nazewnictwa waypointow.
+//
+// Wolane z ticku (nie z dialogu): kotwica wymaga, zeby gracz byl w poblizu lowcow.
+// Latch StExt_DH_ExtrasSpawned pilnuje jednokrotnosci.
 func void StExt_DH_SpawnExtras()
 {
-	// Sonda: czy ta funkcja w ogole sie wykonuje i czy NPC realnie wchodzi.
-	// User potwierdza "Belmonda nie ma" mimo ze dialog gral - to rozstrzygnie,
-	// czy problem jest w wywolaniu, w WP, czy w samej instancji.
-	var c_npc bel;
-	StExt_Trace(concatstrings("DH-SPAWN start, WP=", StExt_DH_WP));
-	// Trace PO KAZDYM insercie: log urywal sie miedzy "start" a weryfikacja, czyli
-	// ktorys wld_insertnpc wywala sie w runtime i przerywa cala funkcje. Ostatni
-	// zapisany numer wskaze winowajce.
+	var string wp;
+	var int found;
+	if (StExt_DH_ExtrasSpawned) { return; };
+	if (currentlevel != newworld_zen) { return; };
+
+	// wld_detectnpc nadpisuje globalne other, a jestesmy w rx_mainloop - stad
+	// save/restore obejmuje CALA funkcje, nie tylko same inserty.
 	rx_saveparservars();
-	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99790");
-	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99791");
-	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99792");
-	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99793");
-	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);			StExt_Trace("DH-SPAWN po Belmond");
-	rx_restoreparservars();
-	StExt_DH_ExtrasSpawned = true;
-	// Weryfikacja PO insercie: czy Belmond faktycznie stoi w swiecie.
-	bel = hlp_getnpc(bdt_99794_Belmond);
-	if (hlp_isvalidnpc(bel))
+
+	// Kotwica - ktorykolwiek z bazowych lowcow w zasiegu percepcji gracza.
+	// Angela moze juz nie byc (gracz go zabija), wiec sprawdzamy kilku.
+	found = wld_detectnpc(hero, DH_MAINNPC, -1, -1);
+	if (!found) { found = wld_detectnpc(hero, DH_NPCSEVERIN, -1, -1); };
+	if (!found) { found = wld_detectnpc(hero, DH_VILANDNPC, -1, -1); };
+
+	if (found)
 	{
-		StExt_Trace(concatstrings(concatstrings("DH-SPAWN Belmond OK, dist=", inttostring(npc_getdisttonpc(hero, bel))), concatstrings(" hp=", inttostring(bel.attribute[atr_hitpoints]))));
-	}
-	else
-	{
-		StExt_Trace("DH-SPAWN Belmond NIEWAZNY po wld_insertnpc (instancja/WP do sprawdzenia)");
+		if (hlp_isvalidnpc(other))
+		{
+			wp = npc_getnearestwp(other);
+			if (StExt_IsValidWp(wp))
+			{
+				StExt_Trace(concatstrings("DH-SPAWN kotwica, WP lowcow=", wp));
+				wld_insertnpc(bdt_99790_LowcaDemonow1, wp);
+				wld_insertnpc(bdt_99791_LowcaDemonow2, wp);
+				wld_insertnpc(bdt_99792_LowcaDemonow3, wp);
+				wld_insertnpc(bdt_99793_LowcaDemonow4, wp);
+				wld_insertnpc(bdt_99794_Belmond, wp);
+				StExt_DH_ExtrasSpawned = true;
+				StExt_Trace("DH-SPAWN obstawa wstawiona przy lowcach");
+			};
+		};
 	};
-	ai_printbonus("Lowcy demonow obstawili dworek. Belmond jest wsrod nich.");
+
+	rx_restoreparservars();
+};
+
+// Wolane z rx_mainloop. Bramka na aktywne zlecenie; reszta warunkow (latch,
+// swiat, kotwica) siedzi w StExt_DH_SpawnExtras, wiec tu tylko tanie odciecie.
+func void StExt_DH_TrySpawnExtras()
+{
+	if (StExt_DH_ExtrasSpawned) { return; };
+	if (StExt_DH_Stage != 1) { return; };
+	StExt_DH_SpawnExtras();
 };
 
 //--------------------------------------------------------------

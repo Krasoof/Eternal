@@ -27,6 +27,22 @@ func int C_DropUnconscious()
 	if (hlp_isvalidnpc(self))
 	{
 		if ((self.id >= 99730) && (self.id <= 99738)) { return false; };
+
+		// WOJNA Z LOWCAMI DEMONOW: nasza obstawa (99790-99794) i bazowi lowcy
+		// maja GINAC, nie mdlec. Zgloszenie "padaja, ale jak probujesz dobic to
+		// i tak wstaje" - to nie byla zadna flaga niesmiertelnosci ani falszywa
+		// smierc w zs_dead (sonda tam milczala w kazdym logu), tylko wlasnie ta
+		// silnikowa galaz omdlenia. Tu jest jedyne poprawne miejsce: silnik sam
+		// odegra normalna smierc z animacja upadku.
+		if ((self.id >= 99790) && (self.id <= 99794)) { return false; };
+		if ((hlp_getinstanceid(self) == hlp_getinstanceid(DH_MAINNPC))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_NPCSEVERIN))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_VILANDNPC))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_01))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_02)))
+		{
+			return false;
+		};
 	};
 	return C_DropUnconscious_old();
 };
@@ -38,6 +54,11 @@ func void rx_mainloop()
 	rx_mainloop_old();
 	StExt_ProcessPcStats_Overcap();
 	StExt_ModController();
+	// Obstawa lowcow demonow - kotwiczy sie na zywym lowcu, wiec musi probowac
+	// dopiero gdy gracz dojdzie pod gniazdo. Stad tutaj, a nie w dialogu.
+	// Musi byc w tym pliku (.src 82), bo ModController (.src 54) jest parsowany
+	// PRZED Npc_DemonHuntersMansion (.src 76) i nie moze go zawolac wprost.
+	StExt_DH_TrySpawnExtras();
 };
 
 func void b_checkmenuoption() 
@@ -216,30 +237,6 @@ func void b_giveextraloot(var c_npc slf)
 
 func void zs_unconscious()
 {
-	// LOWCY DEMONOW MAJA UMIERAC, NIE MDLEC.
-	// Zgloszenie "padaja, ale nie da sie ich dobic" bralo sie stad, ze silnik
-	// przy HP == 1 wysyla NPC prosto w OMDLENIE - zs_dead nigdy nie jest wolane,
-	// wiec caly fix "falszywej smierci" byl na slepym torze (sonda DH-FALSEDEAD
-	// milczala w kazdym logu, mimo ze user ich powalal). Tutaj jest wlasciwe
-	// miejsce: zamiast omdlenia zerujemy HP i puszczamy prawdziwa smierc.
-	// Identyfikacja jak w bazie (Utils.d): hlp_getinstanceid po obu stronach.
-	StExt_Trace(concatstrings(concatstrings("DH-UNCON inst=", inttostring(hlp_getinstanceid(self))), concatstrings(concatstrings(" guild=", inttostring(self.guild)), concatstrings(" id=", inttostring(self.id)))));
-
-	if (((self.id >= 99790) && (self.id <= 99794))
-		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_MAINNPC))
-		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_NPCSEVERIN))
-		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_VILANDNPC))
-		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_01))
-		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_02)))
-	{
-		StExt_Trace("DH-UNCON -> nasz lowca: zamiast omdlenia PRAWDZIWA smierc");
-		self.attribute[atr_hitpoints] = 0;
-		self.flags = self.flags & (~npc_flag_immortal);
-		self.flags = self.flags & (~npc_flag_xaradrim);
-		ai_startstate(self, zs_dead, 0, "");
-		return;
-	};
-
 	zs_unconscious_old();
 	if((StExt_Config_Luck_EnableRandomLoot_Bodies && !StExt_Npc_IsLooted(self)) && !StExt_IsSummonOrHero(self)) { StExt_BodyLootHandler(self); };
 };
