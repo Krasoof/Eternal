@@ -109,18 +109,21 @@ func void StExt_DarkKnights_Log(var string entry)
 	B_LogEntry(StExt_Topic_DarkKnights, entry);
 };
 
-// Karma Beliara. W tym modzie "Karma Beliara" = bazowy licznik beliarpraycount
-// (tak czyta ja nasz kod: InventoryController item-cond StExt_Item_Cond_BeliarKarma
-// oraz StExt_BeliarKarma = beliarpraycount w ModController:463). Piszemy do ZRODLA
-// (beliarpraycount), bo StExt_BeliarKarma jest nadpisywany co tick. To ta sama
-// Karma, ktora zbiera sie m.in. do Pazura Beliara (400 na mistrzostwo). Droga
-// Beliara ma ja nagradzac - to caly sens sluzby.
+// Karma Beliara = bazowy licznik beliarpraycount. To ta sama Karma, ktora
+// zbiera sie do Pazura Beliara (400 na mistrzostwo) i steruje Droga Beliara.
+//
+// KOREKTA (2026-07-22): wczesniejsza wersja pisala do wlasnego StExt_BeliarKarmaQuest,
+// bo "baza nadpisuje beliarpraycount co tick". To zalozenie bylo BLEDNE - dowod:
+// mechanika daru Beliara (Overrides.d giftofthebeliar) WYDAJE beliarpraycount
+// (odejmuje od niego), co jest mozliwe tylko dla trwalego akumulatora, nie dla
+// zmiennej zerowanej co klatke. Osobny licznik byl wiec workaroundem na nieistniejacy
+// problem, a przy okazji: (a) nie wliczal sie do natywnej Drogi Beliara/gildii,
+// (b) globale Autorun nie maja gwarancji persystencji przez wlasny mechanizm.
+// Piszemy wprost do zrodla - karma sumuje sie natywnie WSZEDZIE (panel B, gildia,
+// dary, wymagania przedmiotow) i przezywa zapis jak kazda karma bazowa.
 func void StExt_DarkKnights_GrantBeliarKarma(var int amount)
 {
-	// Do WLASNEGO licznika: baza nadpisuje beliarpraycount co tick, wiec zapis tam
-	// byl wycierany i panel pod B nie drgal. Panel i wymagania przedmiotow licza
-	// teraz SUME (bazowa + nasza), wiec karma z questow realnie sie dodaje.
-	StExt_BeliarKarmaQuest = StExt_BeliarKarmaQuest + amount;
+	beliarpraycount = beliarpraycount + amount;
 	ai_printbonus(concatstrings("Beliar patrzy laskawiej (+", concatstrings(inttostring(amount), " Karmy Beliara)")));
 };
 

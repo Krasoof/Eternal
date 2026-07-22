@@ -143,6 +143,7 @@ var int StExt_DH_CrewGuildFix;	// latch: obstawa przepieta na gildie lowcow (nie
 var int StExt_DH_ProtProbed;	// latch: jednorazowa sonda DH-PROT (niesmiertelnosc przez ujemna protekcje)
 var int StExt_DH_CrewGuildFix2;	// latch: obstawa wrocila na gil_bdt (test gildii - cale gniazdo jedna frakcja)
 var int StExt_DH_MainNpcDead;	// DLL: egzekucja mistrza lowcow wykonana (cialo zabiera Beliar - raport bez zwlok)
+var int StExt_DH_KilledMask;	// DLL: bitmaska zabitych bazowych lowcow (1 Main,2 Severin,4 Viland,8 Merc1,16 Merc2) - EnsureHunters ich NIE respawnuje
 var int StExt_DH_CeasefireDone;	// latch: wyczyszczona stara pamiec wrogosci gniazda (bojki sprzed unifikacji gildii)
 var int StExt_DH_GarrisonSent;	// latch: Zakon obsadzil dworek po wybiciu lowcow
 var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
