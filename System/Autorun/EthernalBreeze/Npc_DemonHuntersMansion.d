@@ -284,6 +284,10 @@ func int dia_dmtteacher_stext_dhhunt_done_condition()
 {
 	var c_npc dhm;
 	if (!StExt_DK_IsMember() || (StExt_DH_Stage != 1)) { return false; };
+	// Egzekucja z DLL usuwa cialo ze swiata (~4 s po smierci - framework
+	// wskrzeszal nawet zwloki), wiec raport akceptuje flage z DLL rownolegle
+	// z klasycznym npc_isdead.
+	if (StExt_DH_MainNpcDead) { return true; };
 	dhm = hlp_getnpc(DH_MAINNPC);
 	return hlp_isvalidnpc(dhm) && npc_isdead(dhm);
 };

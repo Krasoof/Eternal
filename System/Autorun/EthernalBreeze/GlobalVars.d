@@ -142,6 +142,7 @@ var int StExt_DH_CrewRtnFix;	// latch: rutyny obstawy przepiete na WP dworku (na
 var int StExt_DH_CrewGuildFix;	// latch: obstawa przepieta na gildie lowcow (nie bija sie z lowcami)
 var int StExt_DH_ProtProbed;	// latch: jednorazowa sonda DH-PROT (niesmiertelnosc przez ujemna protekcje)
 var int StExt_DH_CrewGuildFix2;	// latch: obstawa wrocila na gil_bdt (test gildii - cale gniazdo jedna frakcja)
+var int StExt_DH_MainNpcDead;	// DLL: egzekucja mistrza lowcow wykonana (cialo zabiera Beliar - raport bez zwlok)
 var int StExt_DH_GarrisonSent;	// latch: Zakon obsadzil dworek po wybiciu lowcow
 var int StExt_ArmorLegendShown;		// latch: komunikat o mocy zbroi pokazany raz
 var int StExt_DH_ExtrasTick;		// licznik okresowego samo-naprawczego spawnu obstawy (bez latcha)
