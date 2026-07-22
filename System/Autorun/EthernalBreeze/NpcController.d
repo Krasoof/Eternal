@@ -1505,12 +1505,22 @@ func void StExt_Npc_ApplyTierFloor(var c_npc slf)
 	if (rx_isboss(slf)) { return; };
 	if ((slf.id >= 99700) && (slf.id <= 99799)) { return; };	// NPC Zakonu/huba maja wlasne krzywe
 
-	// HP: ~4-6 ciosow gracza w srodku gry
-	floorV = StExt_GetPercentFromValue(2000 + (kapitel * 1200) + (hero.level * 120), StExt_Config_TierFloor_Mult);
+	// HP: podloga rosnie z rozdzialem, poziomem gracza (podbite 120->200,
+	// user: "skaluje sie z lvl ciut mocniej") i DNIEM swiata (nowy czlon).
+	floorV = StExt_GetPercentFromValue(2000 + (kapitel * 1200) + (hero.level * 200) + (wld_getday() * StExt_Config_TierFloor_DayHp), StExt_Config_TierFloor_Mult);
 	if (slf.attribute[1] < floorV)
 	{
 		slf.attribute[1] = floorV;
 		slf.attribute[0] = floorV;
+	};
+	// MNOZNIK HP zwyklych mobow (user 2026-07-23: "mocno, +80-100%"). Celowo
+	// TUTAJ, a nie w rx_monsterhpratio: ta funkcja ma twarde strazniki bossow
+	// (rx_isboss + id 997xx wyzej), wiec bossy zostaja bajt w bajt nietkniete.
+	// Po podlodze, PRZED infuzja (infuzja mnozy na wierzchu - elita elita).
+	if (StExt_Config_MobHpMult != 100)
+	{
+		slf.attribute[1] = StExt_GetPercentFromValue(slf.attribute[1], StExt_Config_MobHpMult);
+		slf.attribute[0] = slf.attribute[1];
 	};
 	// STR/DEX: cios ma bolec (15-25% HP gracza zamiast 4-8%)
 	floorV = StExt_GetPercentFromValue(40 + (kapitel * 22) + hero.level, StExt_Config_TierFloor_Mult);

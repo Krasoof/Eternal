@@ -39,6 +39,7 @@ const string StExt_DK_WP_Q2 = "NW_FOREST_CROSS_MONASTERY";		// rozstaj pod klasz
 const string StExt_DK_WP_Q3 = "NW_FARM1_LOBART";				// farma Lobarta u bram miasta (dwaj bracia)
 const string StExt_DK_WP_Q4 = "NW_BIGMILL_01";					// wielki mlyn (kapitan zbiera ludzi)
 const string StExt_DK_WP_Q5 = "NW_FARM4_SEKOB";					// odludna farma Sekoba (ostatni lord)
+const string StExt_DK_WP_Q6 = "NW_TAVERNE_01";					// tawerna przy trakcie (inkwizytor czeka na CIEBIE)
 
 //--------------------------------------------------------------
 // *** Rutyny (bez rutyny NPC to posag - brak percepcji) ***
@@ -56,6 +57,9 @@ func void rtn_start_99780() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q5); ta
 func void rtn_start_99781() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q5); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q5); };
 func void rtn_start_99782() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q5); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q5); };
 func void rtn_start_99783() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q5); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q5); };
+func void rtn_start_99784() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
+func void rtn_start_99785() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
+func void rtn_start_99786() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q6); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q6); };
 
 //--------------------------------------------------------------
 // *** Setup celu: staty jak boss, ALE bez konwersji na nieumarlego
@@ -272,6 +276,40 @@ instance bdt_99783_PaladynHonor3(npc_default)
     StExt_DarkKnights_TargetSetup(bdt_99783_PaladynHonor3, 1);
 };
 
+// --- R3 "Ogien za ogien": Kosciol Innosa przysyla rachunek za krucjate ---
+// Inkwizytor = caster (aivar[51] + Mage overlay, wzorzec celow polowan Zakonu);
+// zbroje magow ognia (itar_kdf_* - tokeny potwierdzone w uzyciu w modzie).
+instance bdt_99784_InkwizytorMalachiasz(npc_default)
+{
+    name = "Inkwizytor Malachiasz"; guild = gil_bdt; id = 99784; voice = 10; flags = 0; npctype = npctype_main; level = 42;
+    b_setnpcvisual(bdt_99784_InkwizytorMalachiasz, male, "Hum_Head_Psionic", face_n_corristo, bodytex_n, itar_kdf_h_npc);
+    mdl_applyoverlaymds(bdt_99784_InkwizytorMalachiasz, "Humans_Mage.mds");
+    b_givenpctalents(bdt_99784_InkwizytorMalachiasz); fight_tactic = fai_human_master;
+    aivar[6] = true; aivar[51] = magic_always;
+    daily_routine = rtn_start_99784;
+    StExt_DarkKnights_TargetSetup(bdt_99784_InkwizytorMalachiasz, 4);
+};
+instance bdt_99785_Egzorcysta1(npc_default)
+{
+    name = "Egzorcysta"; guild = gil_bdt; id = 99785; voice = 11; flags = 0; npctype = npctype_main; level = 28;
+    b_setnpcvisual(bdt_99785_Egzorcysta1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_kdf_m_npc);
+    mdl_applyoverlaymds(bdt_99785_Egzorcysta1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99785_Egzorcysta1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99785;
+    StExt_DarkKnights_TargetSetup(bdt_99785_Egzorcysta1, 1);
+};
+instance bdt_99786_Egzorcysta2(npc_default)
+{
+    name = "Egzorcysta"; guild = gil_bdt; id = 99786; voice = 13; flags = 0; npctype = npctype_main; level = 28;
+    b_setnpcvisual(bdt_99786_Egzorcysta2, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_kdf_m_npc);
+    mdl_applyoverlaymds(bdt_99786_Egzorcysta2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99786_Egzorcysta2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99786;
+    StExt_DarkKnights_TargetSetup(bdt_99786_Egzorcysta2, 1);
+};
+
 //--------------------------------------------------------------
 // *** Progresja (parsowana po instancjach, przed ai_ondead) ***
 //--------------------------------------------------------------
@@ -310,6 +348,10 @@ func void ai_ondead_bdt_99780_PaladynLordIsgaroth() { if (StExt_DarkKnight_Stage
 func void ai_ondead_bdt_99781_PaladynHonor1() { };
 func void ai_ondead_bdt_99782_PaladynHonor2() { };
 func void ai_ondead_bdt_99783_PaladynHonor3() { };
+// R3: cala zasadzka musi pasc (3/3) - inkwizytor i obaj egzorcysci.
+func void ai_ondead_bdt_99784_InkwizytorMalachiasz() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
+func void ai_ondead_bdt_99785_Egzorcysta1() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
+func void ai_ondead_bdt_99786_Egzorcysta2() { if (StExt_DarkKnight_Stage == 11) { StExt_DarkKnights_Advance(6, 3); }; };
 
 //--------------------------------------------------------------
 // *** Dialogi na BAZOWYM DMT_DARKTEACHER (nr 700+, bez kolizji) ***
@@ -569,7 +611,7 @@ instance dia_dmtteacher_stext_hint(c_info)
 };
 func int dia_dmtteacher_stext_hint_condition()
 {
-	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9));
+	return StExt_DK_IsMember() && ((StExt_DarkKnight_Stage == 1) || (StExt_DarkKnight_Stage == 3) || (StExt_DarkKnight_Stage == 5) || (StExt_DarkKnight_Stage == 7) || (StExt_DarkKnight_Stage == 9) || (StExt_DarkKnight_Stage == 11));
 };
 func void dia_dmtteacher_stext_hint_info()
 {
@@ -592,12 +634,72 @@ func void dia_dmtteacher_stext_hint_info()
 		wld_insertnpc(bdt_99776_KapitanOrtwin, StExt_DK_WP_Q4);
 		ai_printbonus("Kapitan Ortwin - przy wielkim mlynie.");
 	}
-	else
+	else if (StExt_DarkKnight_Stage == 9)
 	{
 		wld_insertnpc(bdt_99780_PaladynLordIsgaroth, StExt_DK_WP_Q5);
 		ai_printbonus("Paladyn Lord Isgaroth - na odludnej farmie Sekoba, na poludniu.");
+	}
+	else
+	{
+		wld_insertnpc(bdt_99784_InkwizytorMalachiasz, StExt_DK_WP_Q6);
+		ai_printbonus("Inkwizytor Malachiasz - w tawernie przy trakcie. Czeka na ciebie.");
 	};
 	rx_restoreparservars();
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** R3 "Ogien za ogien" (stage 10 -> 12, od rozdzialu 3) ***
+//--------------------------------------------------------------
+// Odwrocenie roli po Drodze Beliara: dotad to gracz polowal - teraz Kosciol
+// Innosa przysyla rachunek. Inkwizytor NIE jest celem do znalezienia: on czeka
+// na CIEBIE. Wzorzec Advance/report bez zmian.
+instance dia_dmtteacher_stext_q6(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 736;
+    condition = dia_dmtteacher_stext_q6_condition;
+    information = dia_dmtteacher_stext_q6_info;
+    permanent = false;
+    description = "Ktos o mnie pyta?";
+};
+func int dia_dmtteacher_stext_q6_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 10) && (kapitel >= 3); };
+func void dia_dmtteacher_stext_q6_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Zgasiles ich najjasniejszy plomien - i swiatlo to poczulo. Innos przyslal rachunek: inkwizytor Malachiasz zszedl ze statku i pyta o czlowieka z twoja twarza.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Rozsiadl sie w tawernie przy trakcie, z dwoma egzorcystami. Czeka, az przyjdziesz sie tlumaczyc. Idz. Wytlumacz mu sie ostrzem - wszystkim trzem.");
+	StExt_DarkKnight_Stage = 11;
+	StExt_DarkKnight_Kills = 0;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99784_InkwizytorMalachiasz, StExt_DK_WP_Q6);
+	wld_insertnpc(bdt_99785_Egzorcysta1, StExt_DK_WP_Q6);
+	wld_insertnpc(bdt_99786_Egzorcysta2, StExt_DK_WP_Q6);
+	rx_restoreparservars();
+	StExt_DarkKnights_Log("Inkwizytor Malachiasz przybyl na wyspe po moja glowe. Czeka w tawernie przy trakcie z dwoma egzorcystami. Mistrz kazal wytlumaczyc sie ostrzem - wszystkim trzem.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_dmtteacher_stext_q6done(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 737;
+    condition = dia_dmtteacher_stext_q6done_condition;
+    information = dia_dmtteacher_stext_q6done_info;
+    permanent = false;
+    description = "Inkwizycja umilkla.";
+};
+func int dia_dmtteacher_stext_q6done_condition() { return StExt_DK_IsMember() && (StExt_DarkKnight_Stage == 11) && (StExt_DarkKnight_Kills >= 3); };
+func void dia_dmtteacher_stext_q6done_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Przyslali ogien, a wrocil im popiol. Dobrze. Niech nastepny statek wiezie juz tylko strach.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Beliar patrzy na ciebie coraz dluzej. Czuje, jak twoja aura ciemnieje - nos ja z duma.");
+	StExt_DarkKnight_Stage = 12;
+	StExt_DarkKnights_GrantBeliarKarma(120);
+	StExt_DarkKnights_GrantReward(12000, 25);
+	// Nagroda mocy: trwale +50 do mocy aur (wzorzec z powtarzalnego ulepszenia).
+	StExt_PlayerStat_OnApply(StExt_PcStats_Index_AuraPower, 50, StExt_PcStat_Source_Perm);
+	ai_printbonus("Moc aur wzrosla (+50)");
+	StExt_DarkKnights_Log("Malachiasz i jego egzorcysci nie wroca na kontynent. Mistrz mowi, ze moja aura ciemnieje - czuje to i ja.");
 	ai_stopprocessinfos(self);
 };
 

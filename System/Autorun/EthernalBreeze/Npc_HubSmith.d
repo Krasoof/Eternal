@@ -283,6 +283,153 @@ func void dia_none_99760_HubSmith_Buy_info()
 	info_addchoice(dia_none_99760_HubSmith_Buy, "Mroczny Kaftan - 50000 zlota", StExt_HubSmith_Buy_NovDark);
 };
 
+//===================================================================//
+//   Lancuch "Imie Kowala" - R3: "Mlot, ktory pamieta" (fragment 1)  //
+//===================================================================//
+// Trzy okruchy imienia (StExt_SmithFragments) dostaja wreszcie QUESTY -
+// dialog nr 4 wyzej byl tylko hakiem. Fragmenty mechanicznie wzmacniaja
+// kuznie (koszt/moc przekucia), wiec nagroda jest sama usluga.
+// Stage lancucha: StExt_SmithQ_Stage (GlobalVars). R3: 0 -> 1 -> 2.
+
+const string StExt_Topic_Smith = "Imie Kowala";
+func void StExt_Smith_Log(var string entry)
+{
+	if (!StExt_SmithTopicMade)
+	{
+		Log_CreateTopic(StExt_Topic_Smith, LOG_MISSION);
+		Log_SetTopicStatus(StExt_Topic_Smith, LOG_RUNNING);
+		StExt_SmithTopicMade = true;
+	};
+	B_LogEntry(StExt_Topic_Smith, entry);
+};
+
+// Grasanci z ruin - zwykli ludzie (BEZ konwersji potworow z ZakonBoss_Setup;
+// DK TargetSetup parsuje sie PO tym pliku, stad lokalna kopia formul).
+func void StExt_HubSmith_ThugSetup(var c_npc slf, var int tier)
+{
+	var int bsNb;
+	var int twWeap;
+	b_setattributestochapter(slf, kapitel);
+	slf.attribute[1] = 3000 + (kapitel * 2500) + (hero.level * 250) + (tier * 6000);
+	slf.attribute[0] = slf.attribute[1];
+	bsNb = slf.attribute[4];
+	slf.attribute[4] = 100 + (kapitel * 30) + (tier * 20) + (hero.level * 2);
+	if (slf.attribute[4] < bsNb) { slf.attribute[4] = bsNb; };
+	bsNb = slf.attribute[5];
+	slf.attribute[5] = 100 + (kapitel * 30) + (tier * 20) + (hero.level * 2);
+	if (slf.attribute[5] < bsNb) { slf.attribute[5] = bsNb; };
+	slf.level = 10 + (kapitel * 6) + tier + (hero.level / 2);
+	b_setfightskills(slf, StExt_ValidateValueRange(60 + (kapitel * 8) + (tier * 5), 60, 100));
+	slf.protection[1] = 70 + (kapitel * 25) + (tier * 15);
+	slf.protection[2] = 70 + (kapitel * 25) + (tier * 15);
+	slf.protection[6] = 70 + (kapitel * 25) + (tier * 15);
+	slf.protection[3] = 50 + (kapitel * 18);
+	slf.protection[5] = 50 + (kapitel * 18);
+	twWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H"), (hero.level * 6) + (kapitel * 35) + (tier * 60));
+	if (twWeap > 0) { createinvitems(slf, twWeap, 1); };
+};
+
+const string StExt_Smith_WP_Q1 = "NW_TROLLAREA_RUINS_01";	// ruiny nad droga (waynet zweryfikowany)
+func void rtn_start_99740() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_WP_Q1); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_WP_Q1); };
+func void rtn_start_99741() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_WP_Q1); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_WP_Q1); };
+func void rtn_start_99742() { ta_stand_guarding(8, 0, 20, 0, StExt_Smith_WP_Q1); ta_stand_guarding(20, 0, 8, 0, StExt_Smith_WP_Q1); };
+
+instance bdt_99740_HersztGrasantow(npc_default)
+{
+    name = "Herszt Grasantow"; guild = gil_bdt; id = 99740; voice = 10; flags = 0; npctype = npctype_main; level = 34;
+    b_setnpcvisual(bdt_99740_HersztGrasantow, male, "Hum_Head_FatBald", face_n_tough_okyl, bodytex_n, itar_bdt_h);
+    mdl_applyoverlaymds(bdt_99740_HersztGrasantow, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99740_HersztGrasantow); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99740;
+    StExt_HubSmith_ThugSetup(bdt_99740_HersztGrasantow, 3);
+};
+instance bdt_99741_Grasant1(npc_default)
+{
+    name = "Grasant"; guild = gil_bdt; id = 99741; voice = 12; flags = 0; npctype = npctype_main; level = 24;
+    b_setnpcvisual(bdt_99741_Grasant1, male, "Hum_Head_Bald", face_n_harlok, bodytex_n, itar_bdt_m);
+    mdl_applyoverlaymds(bdt_99741_Grasant1, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99741_Grasant1); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99741;
+    StExt_HubSmith_ThugSetup(bdt_99741_Grasant1, 1);
+};
+instance bdt_99742_Grasant2(npc_default)
+{
+    name = "Grasant"; guild = gil_bdt; id = 99742; voice = 13; flags = 0; npctype = npctype_main; level = 24;
+    b_setnpcvisual(bdt_99742_Grasant2, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_bdt_m);
+    mdl_applyoverlaymds(bdt_99742_Grasant2, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99742_Grasant2); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99742;
+    StExt_HubSmith_ThugSetup(bdt_99742_Grasant2, 1);
+};
+
+// Herszt nosi mlot mistrza - drop z ai_ondead (silnik wola po nazwie).
+func void ai_ondead_bdt_99740_HersztGrasantow()
+{
+	if (StExt_SmithQ_Stage == 1)
+	{
+		createinvitems(self, itmi_stext_smith_hammer, 1);
+		StExt_Smith_Log("Herszt nie zyje. Mlot Kowala lezy przy jego ciele - ciezszy, niz wyglada.");
+		printscreencolor("Mlot Kowala - zabierz go z ciala herszta.", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
+	};
+};
+
+instance dia_none_99760_HubSmith_Q1(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 6;
+    condition = dia_none_99760_HubSmith_Q1_condition;
+    information = dia_none_99760_HubSmith_Q1_info;
+    permanent = false;
+    description = "Zaczne od poczatku. Co bylo pierwsze?";
+};
+func int dia_none_99760_HubSmith_Q1_condition()
+{
+	return (StExt_Hub_Smith >= 2) && (StExt_SmithQ_Stage == 0) && (kapitel >= 3);
+};
+func void dia_none_99760_HubSmith_Q1_info()
+{
+	StExt_Say("HERO", "Zaczne od poczatku. Co bylo pierwsze?");
+	StExt_Say("Bezimienny Kowal", "Mlot. Zawsze jest mlot. Moj lezy tam, gdzie go rzucilem - w ruinach nad droga, przy trollowej dolinie.");
+	StExt_Say("Bezimienny Kowal", "Gniezdzi sie tam teraz banda. Herszt kuje moim mlotem podkowy. PODKOWY. Przynies mi go, zanim calkiem go pohanbi.");
+	StExt_SmithQ_Stage = 1;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99740_HersztGrasantow, StExt_Smith_WP_Q1);
+	wld_insertnpc(bdt_99741_Grasant1, StExt_Smith_WP_Q1);
+	wld_insertnpc(bdt_99742_Grasant2, StExt_Smith_WP_Q1);
+	rx_restoreparservars();
+	StExt_Smith_Log("Kowal pamieta mlot - pierwsza z trzech rzeczy, ktore po nim zostaly. Lezy w ruinach przy trollowej dolinie, w rekach herszta grasantow. Mam go odzyskac.");
+	ai_stopprocessinfos(self);
+};
+
+instance dia_none_99760_HubSmith_Q1Done(c_info)
+{
+    npc = none_99760_HubSmith;
+    nr = 7;
+    condition = dia_none_99760_HubSmith_Q1Done_condition;
+    information = dia_none_99760_HubSmith_Q1Done_info;
+    permanent = false;
+    description = "Twoj mlot.";
+};
+func int dia_none_99760_HubSmith_Q1Done_condition()
+{
+	return (StExt_SmithQ_Stage == 1) && (npc_hasitems(hero, itmi_stext_smith_hammer) >= 1);
+};
+func void dia_none_99760_HubSmith_Q1Done_info()
+{
+	StExt_Say("HERO", "Twoj mlot.");
+	StExt_Say("Bezimienny Kowal", "Rece go pamietaja. Trzon wytarl sie tam, gdzie zawsze. Wiec to bylo moje.");
+	StExt_Say("Bezimienny Kowal", "Pierwszy okruch wrocil. Kuznia to poczuje - i ty poczujesz. Zostaly dwa.");
+	npc_removeinvitems(hero, itmi_stext_smith_hammer, 1);
+	StExt_SmithFragments = StExt_SmithFragments + 1;
+	StExt_SmithQ_Stage = 2;
+	ai_printbonus("Okruchy imienia Kowala: 1/3 - kuznia kuje mocniej i taniej");
+	StExt_Smith_Log("Mlot wrocil do rak Kowala. Trzymal go tak, jakby nigdy go nie wypuszczal. Pierwszy okruch imienia odzyskany - zostaly dwa.");
+	ai_stopprocessinfos(self);
+};
+
 func void dia_none_99760_HubSmith_exit_info() { ai_stopprocessinfos(self); };
 instance dia_none_99760_HubSmith_exit(c_info)
 {

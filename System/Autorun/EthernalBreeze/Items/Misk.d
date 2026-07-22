@@ -740,6 +740,22 @@ instance itmi_stext_beliar_sigil(c_item)
 	text[1] = "Znak Mrocznego Boga, wypalony w martwym ciele wroga.";
 	inv_animate = 1;
 };
+
+// Lancuch "Imie Kowala" (r3): mlot mistrza, odzyskany z rak grasantow.
+// Mesh zweryfikowany grep-em po AB_Scripts.vdf.
+instance itmi_stext_smith_hammer(c_item)
+{
+	name = "Mlot, ktory pamieta";
+	mainflag = item_kat_none;
+	flags = item_mission;
+	value = 0;
+	visual = "G3_Item_Tools_Hammer_Sledge_01.3DS";
+	material = mat_metal;
+	description = name;
+	text[1] = "Trzon wytarty jedna para rak przez pol zycia.";
+	text[2] = "Pierwszy okruch imienia Bezimiennego Kowala.";
+	inv_animate = 1;
+};
 instance itmi_stext_desecrated_relic(c_item)
 {
 	name = "Zbezczeszczona Relikwia";

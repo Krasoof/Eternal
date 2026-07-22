@@ -50,6 +50,14 @@ const int StExt_HubSmith_PhysPowerBonus = 100;	// +100% mocy rolla przy kuciu be
 const int StExt_Config_EnableTierFloors = true;
 const int StExt_Config_TierFloor_MinLevel = 8;	// ponizej = mlody trash, zostaje trashem
 const int StExt_Config_TierFloor_Mult = 100;	// globalny mnoznik podlog (%)
+// Mnoznik HP ZWYKLYCH mobow (%; 2026-07-23, decyzja usera: "mocno, +80-100%").
+// Aplikowany WEWNATRZ StExt_Npc_ApplyTierFloor - funkcja ma twarde strazniki
+// bossow (rx_isboss + id 99700-99799), wiec mnoznik NIE dotyka bossow ani NPC
+// Zakonu/questowych. NIE podbijac przez rx_monsterhpratio/Diff_* - tamta
+// sciezka nie ma straznika i podbija bossow (dowod: saga Angela, ratchet w DLL).
+const int StExt_Config_MobHpMult = 180;
+// Czlon DNIA w podlodze HP mobow (HP/dzien swiata; skalowanie "ciut mocniej z dniem").
+const int StExt_Config_TierFloor_DayHp = 30;
 const int StExt_Config_DebugAlwaysEnabled = false;
 const int StExt_Config_CheatsEnabled = false;
 const int StExt_Config_TestKeysEnabled = false;

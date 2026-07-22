@@ -178,6 +178,57 @@ func void StExt_ZakonBoss_GiveUnique()
 	};
 };
 
+// Imienne legendy z celow POLOWAN r3-r5 (user: "wiecej imiennych broni, bo to
+// super Ci wyszlo"). Wzorzec 1:1 z arenowego GiveUnique wyzej; wlasna maska
+// (bity = rozdzial) pilnuje jednokrotnosci. Nazwy nie koliduja z 10 arenowymi.
+func void StExt_ZakonHunt_GiveUnique(var int chapter)
+{
+	var int classId;
+	var int power;
+	var int itm;
+	var int bit;
+
+	if (!hlp_isvalidnpc(self)) { return; };
+	if (chapter < 3) { return; };
+	bit = StExt_IntPow(2, chapter);
+	if (StExt_ValueHasFlag(StExt_ZakonHuntUnique_DroppedMask, bit)) { return; };
+	StExt_ZakonHuntUnique_DroppedMask = StExt_ZakonHuntUnique_DroppedMask | bit;
+
+	power = (hero.level * 7) + (kapitel * 40) + 320;
+	itm = 0;
+	if (chapter == 3)
+	{
+		// Grabarz: ostrze, ktore odprowadza na tamta strone.
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword1H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_DARKBALL");
+		StExt_SetGeneratedItemName(itm, "Ostatnia Posluga");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_1H_G3A_DAEMONBLADE_01.3DS");
+	}
+	else if (chapter == 4)
+	{
+		// Krwawy Pokutnik: rozgrzeszenie wypalone ogniem.
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_INSTANTFIREBALL");
+		StExt_SetGeneratedItemName(itm, "Rozgrzeszenie");
+		StExt_SetGeneratedItemVisual(itm, "ITMW_2H_HROMUNDCURSE.3DS");
+	}
+	else if (chapter == 5)
+	{
+		// Upadly Mistrz: przysiega, ktora pekla razem z nim.
+		classId = StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H");
+		itm = StExt_GenerateUniqueItem(classId, power, 5, "SPL_DARKBALL");
+		StExt_SetGeneratedItemName(itm, "Zlamana Przysiega");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_2H_GodBane_01.3ds");
+	};
+
+	if (itm > 0)
+	{
+		StExt_CreateRandomItem(self, itm, 1, false);
+		printscreencolor("RELIKT ZAKONU!", 62, 2, StExt_DefaultFont, 3, StExt_Color_Header);
+		StExt_Trace(concatstrings("RELIKT ZAKONU (polowanie) wypadl: rozdzial=", inttostring(chapter)));
+	};
+};
+
 func void StExt_ZakonBoss_OnKill()
 {
 	// chapter rollover resets the per-chapter counter
@@ -326,21 +377,54 @@ func void StExt_ZakonBoss_Setup(var c_npc slf, var int tier)
 	// i dziala bez zarzutu - bo leci z ai_ondead, czyli z normalnego kontekstu.
 	// Jedyna roznica byl MOMENT wywolania.
 
-	// Chapter 1: bosses stay HUMAN brutes exactly as-is (user call).
-	// Chapter 2+: the Zakon sends UNDEAD champions - skeleton rig + monster
-	// guild + monster scheduler. Monsters natively run zs_mm_attack_loop, so
-	// the NpcAbility kit (waves/blinks/self-buff) finally fires FOR REAL -
-	// no synthetic shockwave needed. Passive id-hooks (lifesteal/chip/tempo/
-	// ciernie) key off ids so they keep working regardless of guild.
-	if (kapitel >= 2)
+	// DRABINKA CZEMPIONOW ZAKONU per rozdzial (user 2026-07-23, "nie bedziemy
+	// ich bic trzeci raz"): r1 LUDZIE -> r2 NIEUMARLI -> r3 DEMONY ->
+	// r4 DRACONIANIE -> r5 SMOKI. Wzorzec konwersji ten sam co przy szkieletach
+	// (rig potwora + gildia potwora + zs_mm_allscheduler => kit odpala
+	// naturalnie). Wszystkie meshe/ciala/gildie zweryfikowane grep-em po
+	// AB_Scripts.vdf: DEMON.MDS/Dem_Body/GIL_DEMON, DRACONIAN.MDS/
+	// Draconian_Body/GIL_DRACONIAN, DRAGON.MDS/Dragon_*_Body/GIL_DRAGON.
+	// Pasywki id-hookow dzialaja niezaleznie od gildii (kluczuja po id).
+	if (kapitel >= 5)
 	{
+		// SMOKI - cialo wg zywiolu slotu; szczyt drabinki (slot 10, id 99720)
+		// to zawsze smok nieumarly.
+		slf.guild = gil_dragon;
+		mdl_setvisual(slf, "Dragon.mds");
+		if (slf.id == 99720)  { mdl_setvisualbody(slf, "Dragon_Undead_Body", default, default, "", default, default, -1); }
+		else if (bzElem == 0) { mdl_setvisualbody(slf, "Dragon_FIRE_Body", default, default, "", default, default, -1); }
+		else if (bzElem == 1) { mdl_setvisualbody(slf, "Dragon_Ice_Body", default, default, "", default, default, -1); }
+		else if (bzElem == 2) { mdl_setvisualbody(slf, "Dragon_Rock_Body", default, default, "", default, default, -1); }
+		else if (bzElem == 3) { mdl_setvisualbody(slf, "Dragon_Undead_Body", default, default, "", default, default, -1); }
+		else                  { mdl_setvisualbody(slf, "Dragon_Swamp_Body", default, default, "", default, default, -1); };
+		slf.start_aistate = zs_mm_allscheduler;
+		StExt_ZakonBoss_ApplyKit(slf, tier);
+	}
+	else if (kapitel >= 4)
+	{
+		// DRACONIANIE - zwiastuny smokow.
+		slf.guild = gil_draconian;
+		mdl_setvisual(slf, "Draconian.mds");
+		mdl_setvisualbody(slf, "Draconian_Body", default, default, "", default, default, -1);
+		slf.start_aistate = zs_mm_allscheduler;
+		StExt_ZakonBoss_ApplyKit(slf, tier);
+	}
+	else if (kapitel >= 3)
+	{
+		// DEMONY - pomioty otchlani (spina sie z wojna z lowcami demonow).
+		slf.guild = gil_demon;
+		mdl_setvisual(slf, "Demon.mds");
+		mdl_setvisualbody(slf, "Dem_Body", default, default, "", default, default, -1);
+		slf.start_aistate = zs_mm_allscheduler;
+		StExt_ZakonBoss_ApplyKit(slf, tier);
+	}
+	else if (kapitel >= 2)
+	{
+		// NIEUMARLI (bez zmian od premiery r2).
 		slf.guild = gil_skeleton;
 		mdl_setvisual(slf, "HumanS.mds");
 		mdl_setvisualbody(slf, "Ske_Body", default, default, "", default, default, -1);
 		slf.start_aistate = zs_mm_allscheduler;
-
-		// Pelny kit per slot (fala/blink/summon/pasywka/aura) - patrz
-		// StExt_ZakonBoss_ApplyKit wyzej.
 		StExt_ZakonBoss_ApplyKit(slf, tier);
 	};
 };
@@ -464,7 +548,7 @@ func void rtn_bdt_99722_ZakonHunt3()
     ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PATH_80");
     ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PATH_80");
 };
-func void ai_ondead_bdt_99722_ZakonHunt3() { StExt_ZakonHunt_OnKill(3); };
+func void ai_ondead_bdt_99722_ZakonHunt3() { StExt_ZakonHunt_GiveUnique(3); StExt_ZakonHunt_OnKill(3); };
 
 // Chapter 4: the Blood Penitent - ritual forest.
 instance bdt_99723_ZakonHunt4(npc_default)
@@ -481,7 +565,7 @@ func void rtn_bdt_99723_ZakonHunt4()
     ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_RITUALFOREST_11");
     ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_RITUALFOREST_11");
 };
-func void ai_ondead_bdt_99723_ZakonHunt4() { StExt_ZakonHunt_OnKill(4); };
+func void ai_ondead_bdt_99723_ZakonHunt4() { StExt_ZakonHunt_GiveUnique(4); StExt_ZakonHunt_OnKill(4); };
 
 // Chapter 5 (finale): the Fallen Master - depths of the portal temple.
 instance bdt_99724_ZakonHunt5(npc_default)
@@ -498,7 +582,7 @@ func void rtn_bdt_99724_ZakonHunt5()
     ta_stand_guarding(8, 0, 23, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
     ta_stand_guarding(23, 0, 8, 0, "NW_TROLLAREA_PORTALTEMPEL_40");
 };
-func void ai_ondead_bdt_99724_ZakonHunt5() { StExt_ZakonHunt_OnKill(5); };
+func void ai_ondead_bdt_99724_ZakonHunt5() { StExt_ZakonHunt_GiveUnique(5); StExt_ZakonHunt_OnKill(5); };
 
 // Spawns the CURRENT chapter's hunted target (once per chapter).
 func void StExt_ZakonHunt_SpawnCurrent()

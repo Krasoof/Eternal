@@ -60,7 +60,11 @@ func void StExt_ApplyConfigs_Default()
 	StExt_Config_Diff_Kapitel_DailyPowerMod = 0;
 	StExt_Config_Diff_Kapitel_DailyProtMod = 0;
 	
-	StExt_Config_Diff_EnableLevel = false;
+	// EnableLevel WLACZONE wylacznie pod infuzje (2026-07-23, user: "HP skaluje
+	// sie z lvl mocniej"): wszystkie Diff_Level_* globalnego ratio zostaja 0,
+	// wiec rx_monsterhpratio NIE rosnie (bossow nie wolno ruszac - saga Angela).
+	// Realny efekt ma tylko Level_MagicInfusionPower (moc/HP infuzowanych).
+	StExt_Config_Diff_EnableLevel = true;
 	StExt_Config_Diff_Level_Power = 0;
 	StExt_Config_Diff_Level_Hp = 0;
 	StExt_Config_Diff_Level_Prot = 0;
@@ -68,7 +72,7 @@ func void StExt_ApplyConfigs_Default()
 	StExt_Config_Diff_Level_DuplicationChance = 0;
 	StExt_Config_Diff_Level_CorruptionChance = 0;
 	StExt_Config_Diff_Level_MagicInfusionChance = 0;
-	StExt_Config_Diff_Level_MagicInfusionPower = 0;
+	StExt_Config_Diff_Level_MagicInfusionPower = 2;
 
 	//****************************************************************
 	//					*** Npc configs ***
@@ -123,7 +127,10 @@ func void StExt_ApplyConfigs_Default()
 	StExt_Config_Npc_GlobalProtMult = 100;
 	StExt_Config_Npc_GlobalDamMult = 100;
 	
-	StExt_Config_Npc_InfusionHpMult = 100;
+	// 140: infuzowani maja byc ELITA takze po podbiciu zwyklych mobow (mnozy
+	// sie z MobHpMult 180 z TierFloor => lacznie ~x2.5 dzisiejszego HP).
+	// Infuzja ma twardy straznik bossow (rx_isboss, MagicInfusionController:311).
+	StExt_Config_Npc_InfusionHpMult = 140;
 	StExt_Config_Npc_InfusionEsMult = 100;
 	StExt_Config_Npc_InfusionStatMult = 100;
 	StExt_Config_Npc_InfusionProtMult = 100;

@@ -102,4 +102,14 @@
     # --- Lowcy: garnizon Zakonu w dworku ---
     'DAB08F34' = 'Masz rację. Puste gniazdo szybko znajduje nowe ptaki.'
     '0CA296D9' = 'Poślę tam braci. Od dziś w dworku płonie ogień Beliara - i biada temu, kto spróbuje go zgasić.'
+    # --- DK R3: Ogien za ogien (Nauczyciel) ---
+    'DFA89D83' = 'Zgasiłeś ich najjaśniejszy płomień - i światło to poczuło. Innos przysłał rachunek: inkwizytor Malachiasz zszedł ze statku i pyta o człowieka z twoją twarzą.'
+    'C357BED5' = 'Rozsiadł się w tawernie przy trakcie, z dwoma egzorcystami. Czeka, aż przyjdziesz się tłumaczyć. Idź. Wytłumacz mu się ostrzem - wszystkim trzem.'
+    '40C623FF' = 'Przysłali ogień, a wrócił im popiół. Dobrze. Niech następny statek wiezie już tylko strach.'
+    'E46481AB' = 'Beliar patrzy na ciebie coraz dłużej. Czuję, jak twoja aura ciemnieje - noś ją z dumą.'
+    # --- Kowal R3: Mlot, ktory pamieta ---
+    '9999166F' = 'Młot. Zawsze jest młot. Mój leży tam, gdzie go rzuciłem - w ruinach nad drogą, przy trollowej dolinie.'
+    'E22A1C48' = 'Gnieździ się tam teraz banda. Herszt kuje moim młotem podkowy. PODKOWY. Przynieś mi go, zanim całkiem go pohańbi.'
+    '1BBB86CA' = 'Ręce go pamiętają. Trzon wytarł się tam, gdzie zawsze. Więc to było moje.'
+    '3C6780D5' = 'Pierwszy okruch wrócił. Kuźnia to poczuje - i ty poczujesz. Zostały dwa.'
 }
