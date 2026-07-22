@@ -505,11 +505,23 @@ func void zs_dead()
 	// sie dobic normalnie). Zerujemy HP, zeby poszla zwykla sciezka smierci.
 	// Tylko gdy zlecenie jest aktywne i tylko dla naszej obstawy (99790-99794)
 	// albo NPC z gildii lowcow odczytanej w runtime.
-	if ((StExt_DH_Stage == 1) && (self.attribute[atr_hitpoints] > 0))
+	// Sonda BEZ ZALOZEN - loguje KAZDA falszywa smierc, wiec pokaze kim naprawde
+	// jest Angel (id instancji + gildia + id npc). Poprzednie proby milczaly, bo
+	// filtrowaly po gildii/rx_isnpc, a oba zawiodly.
+	// Identyfikacja przez hlp_getinstanceid po OBU stronach - tak robi to baza
+	// (Utils.d: hlp_getinstanceid(slf) == hlp_getinstanceid(stonegolem_osta)).
+	if (self.attribute[atr_hitpoints] > 0)
 	{
-		if (((self.id >= 99790) && (self.id <= 99794)) || rx_isnpc(self, DH_MAINNPC) || rx_isnpc(self, DH_NPCSEVERIN) || rx_isnpc(self, DH_VILANDNPC) || rx_isnpc(self, DH_SLD_MERCENARY_01) || rx_isnpc(self, DH_SLD_MERCENARY_02))
+		StExt_Trace(concatstrings(concatstrings("DH-FALSEDEAD inst=", inttostring(hlp_getinstanceid(self))), concatstrings(concatstrings(" guild=", inttostring(self.guild)), concatstrings(" id=", inttostring(self.id)))));
+
+		if (((self.id >= 99790) && (self.id <= 99794))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_MAINNPC))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_NPCSEVERIN))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_VILANDNPC))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_01))
+			|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_02)))
 		{
-			StExt_Trace("DH-DEAD: falszywa smierc lowcy - zeruje HP (prawdziwa smierc)");
+			StExt_Trace("DH-FALSEDEAD -> nasz lowca: zeruje HP (prawdziwa smierc)");
 			self.attribute[atr_hitpoints] = 0;
 		};
 	};

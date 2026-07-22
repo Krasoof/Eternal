@@ -148,6 +148,11 @@ func void ai_ondead_bdt_99794_Belmond()
 // jednokrotnoscia POZA ta funkcja (dialogi), a hint go zeruje na zadanie.
 func void StExt_DH_SpawnExtras()
 {
+	// Sonda: czy ta funkcja w ogole sie wykonuje i czy NPC realnie wchodzi.
+	// User potwierdza "Belmonda nie ma" mimo ze dialog gral - to rozstrzygnie,
+	// czy problem jest w wywolaniu, w WP, czy w samej instancji.
+	var c_npc bel;
+	StExt_Trace(concatstrings("DH-SPAWN start, WP=", StExt_DH_WP));
 	rx_saveparservars();
 	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
 	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
@@ -156,6 +161,16 @@ func void StExt_DH_SpawnExtras()
 	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
 	rx_restoreparservars();
 	StExt_DH_ExtrasSpawned = true;
+	// Weryfikacja PO insercie: czy Belmond faktycznie stoi w swiecie.
+	bel = hlp_getnpc(bdt_99794_Belmond);
+	if (hlp_isvalidnpc(bel))
+	{
+		StExt_Trace(concatstrings(concatstrings("DH-SPAWN Belmond OK, dist=", inttostring(npc_getdisttonpc(hero, bel))), concatstrings(" hp=", inttostring(bel.attribute[atr_hitpoints]))));
+	}
+	else
+	{
+		StExt_Trace("DH-SPAWN Belmond NIEWAZNY po wld_insertnpc (instancja/WP do sprawdzenia)");
+	};
 	ai_printbonus("Lowcy demonow obstawili dworek. Belmond jest wsrod nich.");
 };
 
