@@ -2671,6 +2671,16 @@ func int StExt_ProcessHpDamage()
 		StExt_PrintDebug("StExt_ProcessHpDamage()", "Target is null!", StExt_TargetNpc, StExt_AttackNpc);
 		return 0;
 	};
+
+	// SONDA KRUCJATY (usunac po diagnozie): jaka wartosc obrazen DOCIERA do
+	// naszego hooka HP dla celow wojny. Jesli dmgIn nigdy nie osiaga hp, to
+	// clamp siedzi WYZEJ (framework przycina zanim silnik zapisze HP) i guard
+	// DontKill nie ma szansy sie odpalic - wtedy zdejmowanie ochrony w skrypcie
+	// nic nie da, trzeba bic w warstwe wyzej.
+	if (StExt_DH_IsWarTarget(StExt_TargetNpc))
+	{
+		StExt_Trace(concatstrings(concatstrings(concatstrings("DH-HPDMG inst=", inttostring(hlp_getinstanceid(StExt_TargetNpc))), concatstrings(" dmgIn=", inttostring(DamageTotal))), concatstrings(" hp=", inttostring(StExt_TargetNpc.attribute[atr_hitpoints]))));
+	};
 	
 	if (npc_isplayer(StExt_TargetNpc) && c_npcisdown(StExt_TargetNpc))
 	{

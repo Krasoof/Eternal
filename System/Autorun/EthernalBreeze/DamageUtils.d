@@ -111,6 +111,23 @@ func int StExt_ExtraDamageBlockRequired(var int spellId)
 	return false;
 };
 
+// Identyfikacja celow krucjaty Beliara - wspolna dla wyjatku DontKill (nizej)
+// i sond diagnostycznych (DamageController). Obstawa (99790-99794) zawsze;
+// bazowi lowcy dopiero po przyjeciu zlecenia (Stage >= 1). Garnizon Zakonu
+// (99795-99797) CELOWO poza lista - to nasi, ochrona przed AoE ma ich obejmowac.
+func int StExt_DH_IsWarTarget(var c_npc target)
+{
+	if (!hlp_isvalidnpc(target)) { return false; };
+	if ((target.id >= 99790) && (target.id <= 99794)) { return true; };
+	if (StExt_DH_Stage < 1) { return false; };
+	if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_MAINNPC)) { return true; };
+	if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_NPCSEVERIN)) { return true; };
+	if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_VILANDNPC)) { return true; };
+	if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_01)) { return true; };
+	if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_02)) { return true; };
+	return false;
+};
+
 func int StExt_DontKillByExtraDamage(var c_npc atk, var c_npc target)
 {
 	// THE HERO IS NEVER PROTECTED.
@@ -124,21 +141,16 @@ func int StExt_DontKillByExtraDamage(var c_npc atk, var c_npc target)
 	// Reported live: "boss nie mogl mnie dobic, caly czas bylem na 1 HP".
 	if (hlp_isvalidnpc(target) && npc_isplayer(target)) { return false; };
 
-	// CELE KRUCJATY BELIARA UMIERAJA NAPRAWDE - to TU byla "niesmiertelnosc"
-	// Angela/Severina/Vilanda. Lowcy nie sa gil_bdt ani gil_dmt, wiec wpadali
-	// do ochrony "spokojnych ludzi" ponizej i DLL przycinal kazdy smiertelny
-	// cios do 1 HP (Damage.cpp, ChangeAttribute_StExt: saveLife -> value =
-	// -(hp - 1)). Objaw z gry: "pada, dobijam i nic" - HP nigdy nie osiagalo
-	// zera, wiec zaden fix po stronie smierci/omdlenia nie mial szans zadzialac.
-	// Po przyjeciu krucjaty (Stage >= 1) cele wojny trwale wypadaja z ochrony.
-	if (hlp_isvalidnpc(target) && (StExt_DH_Stage >= 1))
+	// CELE KRUCJATY BELIARA UMIERAJA NAPRAWDE - lowcy nie sa gil_bdt/gil_dmt,
+	// wiec wpadali do ochrony "spokojnych ludzi" ponizej i DLL przycinal kazdy
+	// smiertelny cios do 1 HP (Damage.cpp, ChangeAttribute_StExt: saveLife).
+	// UWAGA: ten guard jest pytany TYLKO gdy cios jest smiertelny (damage >= hp).
+	// Jesli ochrona frameworka przycina obrazenia WYZEJ, cios nigdy nie jest
+	// smiertelny i ponizsza linia wcale sie nie odpala - sonda to pokaze.
+	if (StExt_DH_IsWarTarget(target))
 	{
-		if ((target.id >= 99790) && (target.id <= 99794)) { return false; };
-		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_MAINNPC)) { return false; };
-		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_NPCSEVERIN)) { return false; };
-		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_VILANDNPC)) { return false; };
-		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_01)) { return false; };
-		if (hlp_getinstanceid(target) == hlp_getinstanceid(DH_SLD_MERCENARY_02)) { return false; };
+		StExt_Trace(concatstrings(concatstrings("DH-DONTKILL zwalniam z ochrony inst=", inttostring(hlp_getinstanceid(target))), concatstrings(" hp=", inttostring(target.attribute[atr_hitpoints]))));
+		return false;
 	};
 
 	if (!hlp_isvalidnpc(target) || !hlp_isvalidnpc(atk))

@@ -189,13 +189,36 @@ func void StExt_DH_FixCrewRoutines()
 	StExt_Trace("DH-RTNFIX rutyny obstawy przepiete na dworek");
 };
 
+// Obstawa NIE moze bic sie z lowcami (zgloszenie: "bije sie z naszymi lowcami
+// z lore"). gil_bdt jest wrogie gildii lowcow, wiec po spawnie przepinamy
+// obstawe na gildie lowcow odczytana w runtime (StExt_DH_HunterGuild - ustawia
+// ja StExt_DH_SetGuildWar). Wojna gildii gracz<->lowcy juz trwa, wiec obstawa
+// w gildii lowcow NADAL atakuje gracza - a lowcow ma za swoich. Jednorazowo.
+func void StExt_DH_ApplyCrewGuild()
+{
+	var c_npc n;
+	if (StExt_DH_CrewGuildFix) { return; };
+	if (StExt_DH_HunterGuild <= 0) { return; };
+	if (!StExt_DH_ExtrasSpawned) { return; };
+	rx_saveparservars();
+	n = hlp_getnpc(bdt_99790_LowcaDemonow1);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	n = hlp_getnpc(bdt_99791_LowcaDemonow2);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	n = hlp_getnpc(bdt_99792_LowcaDemonow3);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	n = hlp_getnpc(bdt_99793_LowcaDemonow4);	if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	n = hlp_getnpc(bdt_99794_Belmond);			if (hlp_isvalidnpc(n) && !npc_isdead(n)) { npc_settrueguild(n, StExt_DH_HunterGuild); };
+	rx_restoreparservars();
+	StExt_DH_CrewGuildFix = true;
+	StExt_Trace("DH-GUILDFIX obstawa przepieta na gildie lowcow");
+};
+
 // Wolane z rx_mainloop (Overrides, .src 82). Spawn tylko przy aktywnym zleceniu;
-// naprawa rutyn takze po jego zakonczeniu (obstawa mogla przezyc gracza w lesie).
+// naprawy (rutyny, gildia) takze po jego zakonczeniu.
 func void StExt_DH_TrySpawnExtras()
 {
 	if (StExt_DH_Stage < 1) { return; };
 	if ((StExt_DH_Stage == 1) && !StExt_DH_ExtrasSpawned) { StExt_DH_SpawnExtras(); };
 	StExt_DH_FixCrewRoutines();
+	StExt_DH_ApplyCrewGuild();
 };
 
 //--------------------------------------------------------------
