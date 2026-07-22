@@ -214,8 +214,32 @@ func void b_giveextraloot(var c_npc slf)
 	if (rx_isnpc(slf, summoned_shadowbeast_skeleton)) { npc_clearinv(slf); };
 };
 
-func void zs_unconscious() 
+func void zs_unconscious()
 {
+	// LOWCY DEMONOW MAJA UMIERAC, NIE MDLEC.
+	// Zgloszenie "padaja, ale nie da sie ich dobic" bralo sie stad, ze silnik
+	// przy HP == 1 wysyla NPC prosto w OMDLENIE - zs_dead nigdy nie jest wolane,
+	// wiec caly fix "falszywej smierci" byl na slepym torze (sonda DH-FALSEDEAD
+	// milczala w kazdym logu, mimo ze user ich powalal). Tutaj jest wlasciwe
+	// miejsce: zamiast omdlenia zerujemy HP i puszczamy prawdziwa smierc.
+	// Identyfikacja jak w bazie (Utils.d): hlp_getinstanceid po obu stronach.
+	StExt_Trace(concatstrings(concatstrings("DH-UNCON inst=", inttostring(hlp_getinstanceid(self))), concatstrings(concatstrings(" guild=", inttostring(self.guild)), concatstrings(" id=", inttostring(self.id)))));
+
+	if (((self.id >= 99790) && (self.id <= 99794))
+		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_MAINNPC))
+		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_NPCSEVERIN))
+		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_VILANDNPC))
+		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_01))
+		|| (hlp_getinstanceid(self) == hlp_getinstanceid(DH_SLD_MERCENARY_02)))
+	{
+		StExt_Trace("DH-UNCON -> nasz lowca: zamiast omdlenia PRAWDZIWA smierc");
+		self.attribute[atr_hitpoints] = 0;
+		self.flags = self.flags & (~npc_flag_immortal);
+		self.flags = self.flags & (~npc_flag_xaradrim);
+		ai_startstate(self, zs_dead, 0, "");
+		return;
+	};
+
 	zs_unconscious_old();
 	if((StExt_Config_Luck_EnableRandomLoot_Bodies && !StExt_Npc_IsLooted(self)) && !StExt_IsSummonOrHero(self)) { StExt_BodyLootHandler(self); };
 };
