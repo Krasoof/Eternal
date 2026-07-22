@@ -509,6 +509,7 @@ func void zs_dead()
 	{
 		if (((self.id >= 99790) && (self.id <= 99794)) || ((StExt_DH_HunterGuild > 0) && (self.guild == StExt_DH_HunterGuild)))
 		{
+			StExt_Trace("DH-DEAD: falszywa smierc lowcy - zeruje HP (idzie zwykla sciezka smierci)");
 			self.attribute[atr_hitpoints] = 0;
 		};
 	};

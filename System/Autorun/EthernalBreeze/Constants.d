@@ -34,7 +34,7 @@ const int StExt_ZakonArena_LeashDist = 3000;	// dalej od bossa = warp-back; 30 m
 // Master switch calego logowania sledczego (DLL StExt_Trace + stext_damage/
 // combat.log). RELEASE: false - kazda linia trace to fopen/fclose na dysku,
 // per CIOS w walce. Wlaczac tylko do debugowania konkretnego zgloszenia.
-const int StExt_Config_TraceEnabled = false;
+const int StExt_Config_TraceEnabled = true;	// TYMCZASOWO: pomiar niesmiertelnosci lowcow (wylaczyc przed wydaniem!)
 
 // *** Med-tier floor (release 2026-07-20) ***
 // NB nie definiuje zadnej krzywej mobow - baza x slidery. Floor podnosi

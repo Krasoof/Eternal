@@ -2257,6 +2257,14 @@ func void StExt_OnDamageBegin()
 	StExt_SetNpcVar(StExt_TargetNpc, StExt_AiVar_LastAtkPtr, Cast_InstanceToPointer(StExt_AttackNpc));
 	
 	StExt_CheckTargetImmortality(StExt_AttackNpc, StExt_TargetNpc);
+	// SONDA (trace, tymczasowa): stan lowcy PO probie zdjecia flagi - czy mod
+	// dalej uznaje go za niesmiertelnego i czy lezy (down). Razem z sonda
+	// DH-IMMO rozstrzyga, ktory mechanizm naprawde go chroni.
+	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && (StExt_TargetNpc.guild == StExt_DH_HunterGuild))
+	{
+		StExt_Trace(concatstrings(concatstrings("DH-DMG: immo=", inttostring(StExt_IsNpcImmortal(StExt_TargetNpc))), concatstrings(" down=", inttostring(c_npcisdown(StExt_TargetNpc)))));
+		StExt_Trace(concatstrings(concatstrings("DH-DMG: hp=", inttostring(StExt_TargetNpc.attribute[atr_hitpoints])), concatstrings(" flags=", inttostring(StExt_TargetNpc.flags))));
+	};
 	if (StExt_IsNpcImmortal(StExt_TargetNpc) || c_npcisdown(StExt_TargetNpc) || (StExt_IsSummonOrHero(StExt_AttackNpc) && StExt_IsSummonOrHero(StExt_TargetNpc)))
 	{
 		StExt_DamageInfo.StopProcess = true;

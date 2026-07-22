@@ -253,10 +253,10 @@ func int dia_dmtteacher_stext_dhhint_condition() { return StExt_DK_IsMember() &&
 func void dia_dmtteacher_stext_dhhint_info()
 {
 	StExt_Say(StExt_Str_DarkTeacher_Name, "W dworku za farma Onara, w lesie nad jeziorem. Tam sie sciagneli - idz i skoncz to.");
-	// Zdejmij OBA latche - tick dospawnuje brakujacych bazowych lowcow ORAZ
-	// obstawe z Belmondem (SpawnExtras jest idempotentny, wiec zero duplikatow).
-	// Naprawia sejwy z latchem ustawionym przy starej wersji skryptu.
-	StExt_DH_Relocated = false;
-	StExt_DH_ExtrasSpawned = false;
+	// Spawn obstawy BEZPOSREDNIO tutaj - to jedyna sciezka o ktorej WIEMY, ze
+	// dziala (questy Drogi Beliara spawnia cele w dialogach i user je gral).
+	// Callback z ticku zawodzil (Belmond nie wchodzil mimo dwoch podejsc);
+	// SpawnExtras jest idempotentny, wiec wielokrotne klikniecie = zero duplikatow.
+	StExt_DH_SpawnExtras();
 	ai_stopprocessinfos(self);
 };

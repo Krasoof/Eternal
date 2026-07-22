@@ -1020,6 +1020,14 @@ func void StExt_CheckTargetImmortality(var c_npc atk, var c_npc target)
 	
 	if (!Hlp_IsValidNpc(target)) { return; };
 	if (!Hlp_IsValidNpc(atk)) { return; };
+	// SONDA (trace, tymczasowa): co lowcy maja w flags, ZANIM early-exit utnie.
+	// Jesli flags nie zawiera bitow niesmiertelnosci, to ich ochrona to INNY
+	// mechanizm i cala ta funkcja ich nie dotyczy - to rozstrzyga 4 runde walki.
+	if ((StExt_DH_Stage >= 1) && (StExt_DH_HunterGuild > 0) && (target.guild == StExt_DH_HunterGuild))
+	{
+		StExt_Trace(concatstrings(concatstrings("DH-IMMO: flags=", inttostring(target.flags)), concatstrings(" hp=", inttostring(target.attribute[atr_hitpoints]))));
+	};
+
 	if (!StExt_ValueHasFlag(target.flags, npc_flag_immortal) && !StExt_ValueHasFlag(target.flags, npc_flag_xaradrim)) { return; };
 	
 	atkIsHero = StExt_IsSummonOrHero(atk) || rx_getnpcvar(atk, aivrx_npc_control_agro) || rx_getnpcvar(atk, aivrx_npc_darkcontrol);
