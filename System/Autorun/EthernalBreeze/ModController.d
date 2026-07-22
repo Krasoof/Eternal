@@ -213,6 +213,53 @@ func void StExt_DH_SetGuildWar()
 	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_MakeNpcHostile(n);
 };
 
+// ZRODLO NIESMIERTELNOSCI LOWCOW - potwierdzone w zrodle silnika
+// (oNpc_Damage.cpp 826-830 i 945): PROTEKCJA UJEMNA = totalna niesmiertelnosc.
+// Gdy zaden trafiony kanal obrazen nie ma protekcji > 0, a ktorys ma < 0,
+// silnik zeruje obrazenia i W OGOLE nie wola ChangeAttribute - dlatego
+// wszystkie sondy w naszym pipeline milczaly, flags mialo 0, a zaden guard
+// smierci nie mial szansy zadzialac. Tak framework chroni fabularnych NPC.
+// Fix: przy aktywnej krucjacie ujemne protekcje lowcow dostaja skonczone,
+// rozdzialowe wartosci (nadal twardzi, ale zabijalni) + zdjecie flag na zapas.
+func void StExt_DH_StripProt(var c_npc n)
+{
+	var int pv;
+	if (!hlp_isvalidnpc(n)) { return; };
+	if (npc_isdead(n)) { return; };
+	if (!StExt_DH_ProtProbed)
+	{
+		StExt_Trace(concatstrings(concatstrings("DH-PROT inst=", inttostring(hlp_getinstanceid(n))), concatstrings(concatstrings(" flags=", inttostring(n.flags)), concatstrings(" hp=", inttostring(n.attribute[atr_hitpoints])))));
+		StExt_Trace(concatstrings(concatstrings(concatstrings("DH-PROT blunt=", inttostring(n.protection[1])), concatstrings(" edge=", inttostring(n.protection[2]))), concatstrings(concatstrings(" point=", inttostring(n.protection[6])), concatstrings(concatstrings(" fire=", inttostring(n.protection[3])), concatstrings(" magic=", inttostring(n.protection[5]))))));
+	};
+	pv = 100 + (kapitel * 30);
+	if (n.protection[0] < 0) { n.protection[0] = pv; };
+	if (n.protection[1] < 0) { n.protection[1] = pv; };
+	if (n.protection[2] < 0) { n.protection[2] = pv; };
+	if (n.protection[3] < 0) { n.protection[3] = pv; };
+	if (n.protection[4] < 0) { n.protection[4] = pv; };
+	if (n.protection[5] < 0) { n.protection[5] = pv; };
+	if (n.protection[6] < 0) { n.protection[6] = pv; };
+	n.flags = n.flags & (~npc_flag_immortal);
+	n.flags = n.flags & (~npc_flag_xaradrim);
+};
+
+// Idempotentne i tanie - wolane co tick przy aktywnej krucjacie, na wypadek
+// gdyby framework przywracal ochrone przy wczytaniu sejwa. Sonda tylko raz.
+func void StExt_DH_StripHunterProtection()
+{
+	var c_npc n;
+	if (StExt_DH_Stage < 1) { return; };
+	if (currentlevel != newworld_zen) { return; };
+	rx_saveparservars();
+	n = hlp_getnpc(DH_MAINNPC);          StExt_DH_StripProt(n);
+	n = hlp_getnpc(DH_NPCSEVERIN);       StExt_DH_StripProt(n);
+	n = hlp_getnpc(DH_VILANDNPC);        StExt_DH_StripProt(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_01); StExt_DH_StripProt(n);
+	n = hlp_getnpc(DH_SLD_MERCENARY_02); StExt_DH_StripProt(n);
+	rx_restoreparservars();
+	StExt_DH_ProtProbed = true;
+};
+
 // ODPALENIE BAZOWEGO EVENTU DWORKU: dworek zostaje odrestaurowany, a lowcy sami
 // sie tam wprowadzaja - dokladnie tak, jak w ich wlasnym watku. To wlasciwa droga:
 // AI_Teleport nie mial szans (komenda KOLEJKI AI, a NPC daleko od gracza nie tyka
@@ -277,6 +324,7 @@ func void StExt_CheckGatedSpawns()
 	// przed bramka newworld. Idempotentne.
 	StExt_DH_SetGuildWar();
 	StExt_DH_EnsureHunters();	// dospawnuj brakujacych lowcow (istniejacych nie ruszamy)
+	StExt_DH_StripHunterProtection();	// ujemne protekcje = niesmiertelnosc silnikowa; zdejmujemy co tick
 	StExt_DH_RestoreMansion();	// odpal bazowy event: dworek odrestaurowany + przeprowadzka lowcow
 	if (currentlevel != newworld_zen) { return; };
 	// Bezimienny Kowal (hub R1) - kuje w ruinach wiezy na wybrzezu; dla
