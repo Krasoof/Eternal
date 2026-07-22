@@ -146,55 +146,54 @@ func void ai_ondead_bdt_99794_Belmond()
 // wiec "if (!hlp_isvalidnpc)" bylo ZAWSZE falszywe i spawn nigdy nie ruszal
 // (log: hint zagral, a Belmonda brak). Latch StExt_DH_ExtrasSpawned steruje
 // jednokrotnoscia POZA ta funkcja (dialogi), a hint go zeruje na zadanie.
-// Spawn KOTWICZONY na zywym lowcy, nie na zgadywanym WP.
+// Spawn KOTWICZONY na pozycji bazowego lowcy, nie na zgadywanym WP.
 //
-// Historia bledu: inserty na stalym StExt_DH_WP przechodzily (log ma "DH-SPAWN po
-// 99790..Belmond" komplet), a mimo to user nie widzial nikogo. Czyli WP istnieje w
-// swiecie, ale NIE jest tam, gdzie stoi dworek - obstawa ladowala gdzies w lesie.
-// Zamiast zgadywac nazwe WP: wykrywamy realnego bazowego lowce (wld_detectnpc
-// ustawia other tylko dla NPC faktycznie obecnego w swiecie) i bierzemy JEGO
-// najblizszy WP. Dzieki temu obstawa staje dokladnie tam, gdzie gniazdo lowcow,
-// niezaleznie od nazewnictwa waypointow.
+// Historia bledu: inserty na stalym NW_BIGFARM_FOREST_01 przechodzily (log mial
+// komplet "DH-SPAWN po ..."), a mimo to user nie widzial nikogo - WP istnieje,
+// ale nie lezy przy dworku, obstawa ladowala gdzies w lesie. Proba przez
+// wld_detectnpc ODPADLA: parser zParserExtendera odrzuca to wywolanie
+// ("Expected ','" na linii wywolania, niezaleznie od formy argumentow).
 //
-// Wolane z ticku (nie z dialogu): kotwica wymaga, zeby gracz byl w poblizu lowcow.
-// Latch StExt_DH_ExtrasSpawned pilnuje jednokrotnosci.
+// Zamiast tego: najblizszy waypoint SEVERINA. On w tym momencie fabuly NA PEWNO
+// stoi w dworku (bazowy event przeprowadzki juz zaszedl - user go tam widzial),
+// a npc_getnearestwp(npc) to sprawdzony wzorzec (NpcController.d:832).
+// Fallback: Viland, potem Angel. Nawet martwy lowca jest dobra kotwica -
+// zwloki leza przy dworku. Latch StExt_DH_ExtrasSpawned pilnuje jednokrotnosci.
 func void StExt_DH_SpawnExtras()
 {
+	var c_npc anchor;
 	var string wp;
-	var int found;
 	if (StExt_DH_ExtrasSpawned) { return; };
 	if (currentlevel != newworld_zen) { return; };
 
-	// wld_detectnpc nadpisuje globalne other, a jestesmy w rx_mainloop - stad
-	// save/restore obejmuje CALA funkcje, nie tylko same inserty.
 	rx_saveparservars();
+	StExt_Trace("DH-SPAWN start (kotwica: pozycja bazowego lowcy)");
 
-	// Kotwica - ktorykolwiek z bazowych lowcow w zasiegu percepcji gracza.
-	// Angela moze juz nie byc (gracz go zabija), wiec sprawdzamy kilku.
-	// UWAGA: drugi parametr wld_detectnpc to INT (indeks symbolu), nie instancja -
-	// tak jest w silniku (oGameExternal.cpp: p->GetParameter(instance)). Podanie
-	// samej instancji wywala parser bledem "Expected ','". Stad hlp_getinstanceid.
-	found = wld_detectnpc(hero, hlp_getinstanceid(DH_MAINNPC), -1, -1);
-	if (!found) { found = wld_detectnpc(hero, hlp_getinstanceid(DH_NPCSEVERIN), -1, -1); };
-	if (!found) { found = wld_detectnpc(hero, hlp_getinstanceid(DH_VILANDNPC), -1, -1); };
-
-	if (found)
+	anchor = hlp_getnpc(DH_NPCSEVERIN);
+	wp = npc_getnearestwp(anchor);
+	StExt_Trace(concatstrings("DH-SPAWN kotwica Severin, WP=", wp));
+	if (!StExt_IsValidWp(wp))
 	{
-		if (hlp_isvalidnpc(other))
-		{
-			wp = npc_getnearestwp(other);
-			if (StExt_IsValidWp(wp))
-			{
-				StExt_Trace(concatstrings("DH-SPAWN kotwica, WP lowcow=", wp));
-				wld_insertnpc(bdt_99790_LowcaDemonow1, wp);
-				wld_insertnpc(bdt_99791_LowcaDemonow2, wp);
-				wld_insertnpc(bdt_99792_LowcaDemonow3, wp);
-				wld_insertnpc(bdt_99793_LowcaDemonow4, wp);
-				wld_insertnpc(bdt_99794_Belmond, wp);
-				StExt_DH_ExtrasSpawned = true;
-				StExt_Trace("DH-SPAWN obstawa wstawiona przy lowcach");
-			};
-		};
+		anchor = hlp_getnpc(DH_VILANDNPC);
+		wp = npc_getnearestwp(anchor);
+		StExt_Trace(concatstrings("DH-SPAWN kotwica Viland, WP=", wp));
+	};
+	if (!StExt_IsValidWp(wp))
+	{
+		anchor = hlp_getnpc(DH_MAINNPC);
+		wp = npc_getnearestwp(anchor);
+		StExt_Trace(concatstrings("DH-SPAWN kotwica Angel, WP=", wp));
+	};
+
+	if (StExt_IsValidWp(wp))
+	{
+		wld_insertnpc(bdt_99790_LowcaDemonow1, wp);
+		wld_insertnpc(bdt_99791_LowcaDemonow2, wp);
+		wld_insertnpc(bdt_99792_LowcaDemonow3, wp);
+		wld_insertnpc(bdt_99793_LowcaDemonow4, wp);
+		wld_insertnpc(bdt_99794_Belmond, wp);
+		StExt_DH_ExtrasSpawned = true;
+		StExt_Trace("DH-SPAWN obstawa wstawiona przy dworku");
 	};
 
 	rx_restoreparservars();
