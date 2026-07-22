@@ -2260,9 +2260,14 @@ func void StExt_OnDamageBegin()
 	// SONDA (trace, tymczasowa): stan lowcy PO probie zdjecia flagi - czy mod
 	// dalej uznaje go za niesmiertelnego i czy lezy (down). Razem z sonda
 	// DH-IMMO rozstrzyga, ktory mechanizm naprawde go chroni.
-	if ((StExt_DH_Stage >= 1) && (rx_isnpc(StExt_TargetNpc, DH_MAINNPC) || rx_isnpc(StExt_TargetNpc, DH_NPCSEVERIN) || rx_isnpc(StExt_TargetNpc, DH_VILANDNPC)))
+	// SONDA BEZWARUNKOWA (tymczasowa): kazdy NPC z JAKAKOLWIEK flaga bity przez
+	// gracza. Poprzednie sondy milczaly, bo ich warunek (gildia / rx_isnpc) byl
+	// falszywy - wiec tym razem mierzymy BEZ zalozen: kim naprawde jest Angel
+	// (id instancji vs id znanych DH_*), jakie ma flagi i czy quest jest aktywny.
+	if (npc_isplayer(StExt_AttackNpc) && (StExt_TargetNpc.flags != 0))
 	{
-		StExt_Trace(concatstrings(concatstrings("DH-DMG immo=", inttostring(StExt_IsNpcImmortal(StExt_TargetNpc))), concatstrings(concatstrings(" down=", inttostring(c_npcisdown(StExt_TargetNpc))), concatstrings(" hp=", inttostring(StExt_TargetNpc.attribute[atr_hitpoints])))));
+		StExt_Trace(concatstrings(concatstrings("DH-PROBE inst=", inttostring(hlp_getinstanceid(StExt_TargetNpc))), concatstrings(concatstrings(" flags=", inttostring(StExt_TargetNpc.flags)), concatstrings(" guild=", inttostring(StExt_TargetNpc.guild)))));
+		StExt_Trace(concatstrings(concatstrings("DH-PROBE stage=", inttostring(StExt_DH_Stage)), concatstrings(concatstrings(" idMAIN=", inttostring(StExt_GetInstanceIdByName("DH_MAINNPC"))), concatstrings(" idSEV=", inttostring(StExt_GetInstanceIdByName("DH_NPCSEVERIN"))))));
 	};
 	if (StExt_IsNpcImmortal(StExt_TargetNpc) || c_npcisdown(StExt_TargetNpc) || (StExt_IsSummonOrHero(StExt_AttackNpc) && StExt_IsSummonOrHero(StExt_TargetNpc)))
 	{
