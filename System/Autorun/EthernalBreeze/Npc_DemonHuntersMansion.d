@@ -60,7 +60,7 @@ func void StExt_DH_ExtraSetup(var c_npc slf, var int tier)
 instance bdt_99790_LowcaDemonow1(npc_default)
 {
     name = "Lowca Demonow"; guild = gil_bdt; id = 99790; voice = 11; flags = 0; npctype = npctype_main; level = 25;
-    b_setnpcvisual(bdt_99790_LowcaDemonow1, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_demonhunter_01_npc);
+    b_setnpcvisual(bdt_99790_LowcaDemonow1, male, "Hum_Head_Fighter", face_n_caine, bodytex_n, itar_pal_m);
     mdl_applyoverlaymds(bdt_99790_LowcaDemonow1, "Humans_Militia.mds");
     b_givenpctalents(bdt_99790_LowcaDemonow1); fight_tactic = fai_human_master;
     aivar[6] = true;
@@ -70,7 +70,7 @@ instance bdt_99790_LowcaDemonow1(npc_default)
 instance bdt_99791_LowcaDemonow2(npc_default)
 {
     name = "Lowca Demonow"; guild = gil_bdt; id = 99791; voice = 12; flags = 0; npctype = npctype_main; level = 25;
-    b_setnpcvisual(bdt_99791_LowcaDemonow2, male, "Hum_Head_Bald", face_n_balor, bodytex_n, itar_demonhunter_01_npc);
+    b_setnpcvisual(bdt_99791_LowcaDemonow2, male, "Hum_Head_Bald", face_n_balor, bodytex_n, itar_pal_m);
     mdl_applyoverlaymds(bdt_99791_LowcaDemonow2, "Humans_Militia.mds");
     b_givenpctalents(bdt_99791_LowcaDemonow2); fight_tactic = fai_human_master;
     aivar[6] = true;
@@ -80,7 +80,7 @@ instance bdt_99791_LowcaDemonow2(npc_default)
 instance bdt_99792_LowcaDemonow3(npc_default)
 {
     name = "Starszy Lowca"; guild = gil_bdt; id = 99792; voice = 10; flags = 0; npctype = npctype_main; level = 28;
-    b_setnpcvisual(bdt_99792_LowcaDemonow3, male, "Hum_Head_Fighter", face_n_harlok, bodytex_n, itar_demonhunter_01_npc);
+    b_setnpcvisual(bdt_99792_LowcaDemonow3, male, "Hum_Head_Fighter", face_n_harlok, bodytex_n, itar_pal_m);
     mdl_applyoverlaymds(bdt_99792_LowcaDemonow3, "Humans_Militia.mds");
     b_givenpctalents(bdt_99792_LowcaDemonow3); fight_tactic = fai_human_master;
     aivar[6] = true;
@@ -90,7 +90,7 @@ instance bdt_99792_LowcaDemonow3(npc_default)
 instance bdt_99793_LowcaDemonow4(npc_default)
 {
     name = "Starszy Lowca"; guild = gil_bdt; id = 99793; voice = 13; flags = 0; npctype = npctype_main; level = 28;
-    b_setnpcvisual(bdt_99793_LowcaDemonow4, male, "Hum_Head_Bald", face_n_deadpal, bodytex_n, itar_demonhunter_01_npc);
+    b_setnpcvisual(bdt_99793_LowcaDemonow4, male, "Hum_Head_Bald", face_n_deadpal, bodytex_n, itar_pal_m);
     mdl_applyoverlaymds(bdt_99793_LowcaDemonow4, "Humans_Militia.mds");
     b_givenpctalents(bdt_99793_LowcaDemonow4); fight_tactic = fai_human_master;
     aivar[6] = true;
@@ -103,7 +103,7 @@ instance bdt_99793_LowcaDemonow4(npc_default)
 instance bdt_99794_Belmond(npc_default)
 {
     name = "Belmond"; guild = gil_bdt; id = 99794; voice = 10; flags = 0; npctype = npctype_main; level = 40;
-    b_setnpcvisual(bdt_99794_Belmond, male, "Hum_Head_Fighter", face_n_balor, bodytex_n, itar_dht_end_6_forged);
+    b_setnpcvisual(bdt_99794_Belmond, male, "Hum_Head_Fighter", face_n_balor, bodytex_n, itar_pal_h);
     mdl_applyoverlaymds(bdt_99794_Belmond, "Humans_Militia.mds");
     b_givenpctalents(bdt_99794_Belmond); fight_tactic = fai_human_master;
     aivar[6] = true;
@@ -153,12 +153,15 @@ func void StExt_DH_SpawnExtras()
 	// czy problem jest w wywolaniu, w WP, czy w samej instancji.
 	var c_npc bel;
 	StExt_Trace(concatstrings("DH-SPAWN start, WP=", StExt_DH_WP));
+	// Trace PO KAZDYM insercie: log urywal sie miedzy "start" a weryfikacja, czyli
+	// ktorys wld_insertnpc wywala sie w runtime i przerywa cala funkcje. Ostatni
+	// zapisany numer wskaze winowajce.
 	rx_saveparservars();
-	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);
-	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);
-	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);
-	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);
-	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);
+	wld_insertnpc(bdt_99790_LowcaDemonow1, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99790");
+	wld_insertnpc(bdt_99791_LowcaDemonow2, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99791");
+	wld_insertnpc(bdt_99792_LowcaDemonow3, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99792");
+	wld_insertnpc(bdt_99793_LowcaDemonow4, StExt_DH_WP);	StExt_Trace("DH-SPAWN po 99793");
+	wld_insertnpc(bdt_99794_Belmond, StExt_DH_WP);			StExt_Trace("DH-SPAWN po Belmond");
 	rx_restoreparservars();
 	StExt_DH_ExtrasSpawned = true;
 	// Weryfikacja PO insercie: czy Belmond faktycznie stoi w swiecie.
