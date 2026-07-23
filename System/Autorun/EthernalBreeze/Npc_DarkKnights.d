@@ -396,8 +396,10 @@ func void ai_ondead_bdt_99755_SwietlistyPaladyn()
 	var int itm;
 	if (StExt_DK_LowyR2 != 1) { return; };
 	StExt_DK_LowyR2 = 2;
-	// Kolczuga (nagroda glowna - custom model po podmianie visual_change).
-	createinvitems(hero, itar_stext_mroczna_kolczuga, 1);
+	// Kolczuga (nagroda glowna - custom model Beliara) jako LEGENDARNA rank 5,
+	// spojnie z bliznaczym mieczem "Zgaszone Swiatlo": enchant in-place + rank do 5
+	// (ten sam helper co nagrody-zbroje Zakonu; zachowuje wyglad/protekcje).
+	StExt_ZakonReward_GiveLegendary(itar_stext_mroczna_kolczuga);
 	// CUSTOM legendarny miecz (rank 5, imienny).
 	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"), (hero.level * 8) + (kapitel * 45) + 300, StExt_ItemRankLegendary, "SPL_INSTANTFIREBALL");
 	if (itm > 0)
@@ -569,7 +571,7 @@ func void ai_ondead_bdt_99749_KapitanEskorty()
 		StExt_DarkKnights_Log("Kapitan eskorty padl. Relikwia Innosa - zimna szkatula, ktora parzy - lezy przy jego ciele.");
 		StExt_DarkKnights_Advance(9, 3);
 	};
-}
+};
 func void ai_ondead_bdt_99750_PaladynEskorty1() { if (StExt_DarkKnight_Stage == 17) { StExt_DarkKnights_Advance(9, 3); }; };
 func void ai_ondead_bdt_99751_PaladynEskorty2() { if (StExt_DarkKnight_Stage == 17) { StExt_DarkKnights_Advance(9, 3); }; };
 

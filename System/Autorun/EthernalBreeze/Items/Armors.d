@@ -2130,10 +2130,10 @@ instance itar_stext_zakon_c3_pallight(c_item)
 };
 
 // NAGRODA "Krwawych Lowow" R2 (Mroczny Rycerz): kolczuga zdarta z uber-paladyna.
-// visual_change = PLACEHOLDER (ZAKON_CHAOS.ASC, renderuje sie) - do PODMIANY na
-// custom model kolczugi z Blendera (user robi; po eksporcie .ASC -> kompilacja
-// -> VDF -> tu zmieniam sam string visual_change na "MROCZNA_KOLCZUGA.ASC").
-// Staty mocne jak na R2 (nagroda za uber-bossa), ranga podbijalna u Kowala/Mistrza.
+// visual_change = CUSTOM model Beliara (baza Templar przemalowana + remodel dloni/
+// przedramion, helm zdjety; zrodlo _assets/armor_workshop/templariuszbeliar/templar/
+// MROCZNA_KOLCZUGA.ASC + .TGA). MDM kompiluje silnik do Anims/_compiled, pakowany do
+// STEXT_Assets.vdf. Staty mocne jak na R2, ranga podbijalna u Kowala/Mistrza.
 instance itar_stext_mroczna_kolczuga(c_item)
 {
     name = "Mroczna Kolczuga"; description = name;
@@ -2141,7 +2141,7 @@ instance itar_stext_mroczna_kolczuga(c_item)
     on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
     protection[1] = 175; protection[2] = 175; protection[3] = 130; protection[5] = 130; protection[6] = 110;
     value = 8000; visual = "ItAr_NDM_L.3ds";
-    visual_change = "ZAKON_CHAOS.ASC";
+    visual_change = "MROCZNA_KOLCZUGA.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
     text[3] = "Splot ogniw czarnych jak wina. Zdarta z paladyna, ktory swiecil za mocno.";
 };
