@@ -2128,3 +2128,20 @@ instance itar_stext_zakon_c3_pallight(c_item)
     visual_change = "ZAKON_C3PL.ASC";
     visual_skin = 0; wear = wear_torso; weight = 0;
 };
+
+// NAGRODA "Krwawych Lowow" R2 (Mroczny Rycerz): kolczuga zdarta z uber-paladyna.
+// visual_change = PLACEHOLDER (ZAKON_CHAOS.ASC, renderuje sie) - do PODMIANY na
+// custom model kolczugi z Blendera (user robi; po eksporcie .ASC -> kompilacja
+// -> VDF -> tu zmieniam sam string visual_change na "MROCZNA_KOLCZUGA.ASC").
+// Staty mocne jak na R2 (nagroda za uber-bossa), ranga podbijalna u Kowala/Mistrza.
+instance itar_stext_mroczna_kolczuga(c_item)
+{
+    name = "Mroczna Kolczuga"; description = name;
+    flags = item_mission; inv_animate = 0; mainflag = item_kat_armor; material = mat_metal;
+    on_equip = equip_itar_nov_l; on_unequip = unequip_itar_nov_l;
+    protection[1] = 175; protection[2] = 175; protection[3] = 130; protection[5] = 130; protection[6] = 110;
+    value = 8000; visual = "ItAr_NDM_L.3ds";
+    visual_change = "ZAKON_CHAOS.ASC";
+    visual_skin = 0; wear = wear_torso; weight = 0;
+    text[3] = "Splot ogniw czarnych jak wina. Zdarta z paladyna, ktory swiecil za mocno.";
+};

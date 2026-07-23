@@ -148,8 +148,10 @@ var int StExt_DH_CeasefireDone;	// latch: wyczyszczona stara pamiec wrogosci gni
 var int StExt_ZakonHuntUnique_DroppedMask;	// bity = rozdzial: imienne legendy z celow polowan r3-r5 (jednokrotnosc)
 var int StExt_SmithQ_Stage;		// lancuch "Imie Kowala": 0 brak, 1 mlot zlecony, 2 mlot oddany (r3); 3/4 ruda (r4); 5/6 imie (r5)
 var int StExt_SmithTopicMade;	// latch dziennika lancucha Kowala
+var int StExt_DK_LowyR2;		// Krwawe Lowy R2 (uber-paladyn): 0 niedostepne/nieprzyjete, 1 aktywne, 2 ubity
 var string StExt_DK_GDWp;		// WP kotwicy celow DK w Gorniczej Dolinie (pozycja gracza przy wejsciu)
 var int StExt_DK_GDSpawned;		// latch: cele Q8 (Kaznodzieja) wstawione w GD
+var int StExt_DK_GD2Spawned;	// latch: cele Q10 (oboz paladynow) wstawione w GD
 var string StExt_Smith_GDWp;	// WP kotwicy zbojcow w kopalni GD (quest rudy Kowala)
 var int StExt_Smith_GDSpawned;	// latch: zbojcy kopalni wstawieni w GD
 var int StExt_DH_GarrisonSent;	// latch: Zakon obsadzil dworek po wybiciu lowcow

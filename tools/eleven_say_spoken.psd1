@@ -139,4 +139,10 @@
     '41866E33' = 'Trzymają ją wygnańcy - ludzie, których i Khorinis, i Dolina wypluła. Sztygar ściska żyłę jak własne dziecko. Przynieś mi jej garść, a przypomnę sobie, jak się kuje z żywego metalu.'
     '8AEC16D7' = '(Waży ją w dłoni, długo.) Żywa. Czuję, jak chce płynąć. Dwadzieścia lat nie trzymałem takiej.'
     '5F430AF6' = 'Drugi okruch. Został jeden - i to on boli najbardziej. Ale najpierw... pozwól, że coś ci wykuję. Należą ci się.'
+    # --- Krwawe Lowy R2: Swietlisty Paladyn (Nauczyciel) ---
+    '88C27473' = 'Więcej niż złoto? Więc słuchaj. W klasztorze, przy ołtarzu Innosa, klęczy Świetlisty Paladyn - najczystszy z nich. Światło lgnie do niego jak ćma.'
+    '4A39252A' = 'Nikt go nie zabił. Nikt nawet nie spróbował drugi raz. Jeśli go zgasisz - zedrzesz z niego kolczugę, a Beliar z jego ostrza wykuje ci coś, czego nie ma nikt. Ale ostrzegam: on jednym ciosem śle do grobu.'
+    '0FD845DE' = 'Przy ołtarzu Innosa, w klasztorze. Wciąż tam klęczy. Wciąż czeka na kogoś twojego pokroju.'
+    '90BFCADE' = 'Czuję to na tobie. Jego światło - zgaszone, wchłonięte. Nosisz teraz jego kolczugę jak trofeum, a jego ostrze służy ciemności.'
+    'CC765159' = 'Niewielu tego dokonało. Beliar zapamięta. Przyjdź, gdy zapragniesz kolejnych łowów - świat pełen jest zbyt jasnych ludzi.'
 }

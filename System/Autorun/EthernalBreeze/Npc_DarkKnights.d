@@ -45,6 +45,12 @@ const string StExt_DK_WP_Q7 = "NW_CITY_HABOUR_05";				// port (ucho Innosa - inf
 // przy wejsciu do GD (npc_getnearestwp - gracz stoi na waynecie, WP zawsze wazny).
 // To ta sama technika, ktora domknela spawn lowcow demonow (zero dropow na 0,0,0).
 const string StExt_DK_WP_Q9 = "NW_FOREST_PATH_23";				// lesny trakt (konwoj relikwii)
+const string StExt_DK_WP_Lowy = "NW_MONASTERY_ALTAR_01";		// oltarz Innosa w klasztorze (uber-paladyn)
+// HP uber-paladyna - MILIONY (zyczenie usera: uber-boss, one-shoty). TUNABLE.
+// Wynik przy R2/lvl~30 ~= 32 mln; skaluje sie z rozdzialem i poziomem.
+// UWAGA: rx_monsterhpratio jeszcze to podbija (jak kazdego wroga - saga Angela),
+// wiec realne HP jest nieco wyzsze i rosnie z dniami. Dla uber-bossa OK.
+const int StExt_UberPaladin_HpBase = 8000000;
 
 //--------------------------------------------------------------
 // *** Rutyny (bez rutyny NPC to posag - brak percepcji) ***
@@ -77,6 +83,11 @@ func void rtn_start_99745() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_
 func void rtn_start_99749() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
 func void rtn_start_99750() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
 func void rtn_start_99751() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Q9); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Q9); };
+// Q10 (R4, GD): oboz paladynow - rutyny na WP kotwicy gracza (StExt_DK_GDWp,
+// re-uzywany; drugi quest GD podmienia go przy swoim spawnie).
+func void rtn_start_99752() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
+func void rtn_start_99753() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
+func void rtn_start_99754() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_GDWp); ta_stand_guarding(20, 0, 8, 0, StExt_DK_GDWp); };
 
 //--------------------------------------------------------------
 // *** Setup celu: staty jak boss, ALE bez konwersji na nieumarlego
@@ -325,6 +336,80 @@ instance bdt_99786_Egzorcysta2(npc_default)
     aivar[6] = true;
     daily_routine = rtn_start_99786;
     StExt_DarkKnights_TargetSetup(bdt_99786_Egzorcysta2, 1);
+};
+
+//===================================================================//
+//   KRWAWE LOWY R2: Swietlisty Paladyn - uber-boss (miliony HP)      //
+//===================================================================//
+// Po domknieciu bazowej Drogi Beliara (stage >= 10) Nauczyciel odslania lowy
+// za nagrode: kolczuge + custom legendarny miecz. Cel to UBER-paladyn przy
+// oltarzu Innosa - miliony HP, ciosy one-shot. Osobne id (99755, POZA pasmem
+// areny 99711-20), wiec zadne auto-passywy/drabinka HP go nie tykaja - staty
+// ustawiamy recznie. Kit dodany na zapas (na czlowieku moze byc bezczynny -
+// uber robia staty, nie umiejki).
+func void StExt_UberPaladin_Setup(var c_npc slf)
+{
+	var int twWeap;
+	b_setattributestochapter(slf, kapitel);
+	// HP w milionach (tunable stala + skalowanie)
+	slf.attribute[1] = StExt_UberPaladin_HpBase + (kapitel * 6000000) + (hero.level * 400000);
+	slf.attribute[0] = slf.attribute[1];
+	// str/dex ogromne - podstawa one-shotow
+	slf.attribute[4] = 3000 + (kapitel * 1000) + (hero.level * 40);
+	slf.attribute[5] = slf.attribute[4];
+	slf.level = 60 + (kapitel * 6) + (hero.level / 2);
+	b_setfightskills(slf, 100);
+	// protekcje wysokie, ale NIE immunitet (ma byc zabijalny) - fizyka 250%
+	slf.protection[1] = 250;
+	slf.protection[2] = 250;
+	slf.protection[6] = 250;
+	slf.protection[3] = 200;
+	slf.protection[5] = 200;
+	slf.protection[4] = 200;
+	// obrazenia one-shot: kazdy uzywany kanal do wysokiej podlogi
+	slf.damage[1] = 15000 + (kapitel * 5000) + (hero.level * 200);
+	slf.damage[2] = slf.damage[1];
+	// bron do plecaka (NIGDY equip na swiezej instancji - crash)
+	twWeap = StExt_GetRegularItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"), (hero.level * 8) + (kapitel * 60) + 200);
+	if (twWeap > 0) { createinvitems(slf, twWeap, 1); };
+	// kit "swietlisty" (aura + berzerk) - bezpieczny no-op jesli AI go nie odpali
+	StExt_Npc_AddAbility(slf, StExt_Npc_Ability_PassiveFireCape);
+	StExt_Npc_AddAbility(slf, StExt_Npc_Ability_Berzerk);
+};
+
+func void rtn_start_99755() { ta_stand_guarding(8, 0, 20, 0, StExt_DK_WP_Lowy); ta_stand_guarding(20, 0, 8, 0, StExt_DK_WP_Lowy); };
+
+instance bdt_99755_SwietlistyPaladyn(npc_default)
+{
+    name = "Swietlisty Paladyn"; guild = gil_bdt; id = 99755; voice = 10; flags = 0; npctype = npctype_main; level = 60;
+    b_setnpcvisual(bdt_99755_SwietlistyPaladyn, male, "Hum_Head_Fighter", face_n_balor, bodytex_n, itar_pal_h);
+    mdl_applyoverlaymds(bdt_99755_SwietlistyPaladyn, "Humans_Militia.mds");
+    b_givenpctalents(bdt_99755_SwietlistyPaladyn); fight_tactic = fai_human_master;
+    aivar[6] = true;
+    daily_routine = rtn_start_99755;
+    StExt_UberPaladin_Setup(bdt_99755_SwietlistyPaladyn);
+};
+
+// Smierc uber-paladyna = nagroda: kolczuga + CUSTOM legendarny miecz + wielka karma.
+func void ai_ondead_bdt_99755_SwietlistyPaladyn()
+{
+	var int itm;
+	if (StExt_DK_LowyR2 != 1) { return; };
+	StExt_DK_LowyR2 = 2;
+	// Kolczuga (nagroda glowna - custom model po podmianie visual_change).
+	createinvitems(hero, itar_stext_mroczna_kolczuga, 1);
+	// CUSTOM legendarny miecz (rank 5, imienny).
+	itm = StExt_GenerateUniqueItem(StExt_SelectItemClassFromList("StExt_ItemClass_List_Sword2H"), (hero.level * 8) + (kapitel * 45) + 300, StExt_ItemRankLegendary, "SPL_INSTANTFIREBALL");
+	if (itm > 0)
+	{
+		StExt_SetGeneratedItemName(itm, "Zgaszone Swiatlo");
+		StExt_SetGeneratedItemVisual(itm, "ItMw_2H_GodBane_01.3ds");
+		StExt_CreateRandomItem(self, itm, 1, false);
+	};
+	StExt_DarkKnights_GrantBeliarKarma(200);
+	StExt_DarkKnights_GrantReward(20000, 30);
+	printscreencolor("Swietlisty Paladyn zgasl. Zdarles z niego kolczuge - i cos jeszcze.", 62, 2, StExt_DefaultFont, 4, StExt_Color_Header);
+	StExt_DarkKnights_Log("Swietlisty Paladyn martwy. Zdarlem z niego mroczna kolczuge, a z jego wlasnego ostrza Beliar wykul mi Zgaszone Swiatlo.");
 };
 
 // --- R3 Q7 "Ucho Innosa": informator Kosciola w porcie + dwa najete ostrza ---
@@ -1042,6 +1127,79 @@ func void dia_dmtteacher_stext_q9done_info()
 	StExt_DarkKnights_GrantBeliarKarma(150);
 	StExt_DarkKnights_GrantReward(15000, 28);
 	StExt_DarkKnights_Log("Konwoj rozbity, relikwia splugawiona. Mistrz nazwal to darem dla Beliara. Dostalem ostrze wykute z klamki ich kaplicy - Klucz do Grobow.");
+	ai_stopprocessinfos(self);
+};
+
+//--------------------------------------------------------------
+// *** KRWAWE LOWY R2: uber-paladyn (nagroda: kolczuga + miecz) ***
+//--------------------------------------------------------------
+// Odblokowane po bazowej Drodze Beliara (stage >= 10) w rozdziale 2+.
+// Osobny tor od questow (nie rusza StExt_DarkKnight_Stage) - to opcjonalne
+// lowy za nagrode, wzorzec per rozdzial (na razie R2).
+instance dia_dmtteacher_stext_lowy(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 744;
+    condition = dia_dmtteacher_stext_lowy_condition;
+    information = dia_dmtteacher_stext_lowy_info;
+    permanent = false;
+    description = "Chce cos wiecej niz zloto.";
+};
+func int dia_dmtteacher_stext_lowy_condition()
+{
+	return StExt_DK_IsMember() && (kapitel >= 2) && (StExt_DarkKnight_Stage >= 10) && (StExt_DK_LowyR2 == 0);
+};
+func void dia_dmtteacher_stext_lowy_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Wiecej niz zloto? Wiec sluchaj. W klasztorze, przy oltarzu Innosa, kleczy Swietlisty Paladyn - najczystszy z nich. Swiatlo lgnie do niego jak cma.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Nikt go nie zabil. Nikt nawet nie sprobowal drugi raz. Jesli go zgasisz - zedrzesz z niego kolczuge, a Beliar z jego ostrza wykuje ci cos, czego nie ma nikt. Ale ostrzegam: on jednym ciosem sle do grobu.");
+	StExt_DK_LowyR2 = 1;
+	rx_saveparservars();
+	wld_insertnpc(bdt_99755_SwietlistyPaladyn, StExt_DK_WP_Lowy);
+	rx_restoreparservars();
+	StExt_DarkKnights_Log("Krwawe Lowy: Swietlisty Paladyn kleczy przy oltarzu Innosa w klasztorze. Uber-przeciwnik - jeden cios sle do grobu. Nagroda: mroczna kolczuga i legendarne ostrze z jego wlasnej broni.");
+	ai_stopprocessinfos(self);
+};
+
+// Powtarzalna wskazowka: respawn paladyna, jesli gracz zgubil/nie dobil.
+instance dia_dmtteacher_stext_lowy_hint(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 745;
+    condition = dia_dmtteacher_stext_lowy_hint_condition;
+    information = dia_dmtteacher_stext_lowy_hint_info;
+    permanent = true;
+    description = "Gdzie kleczy ten paladyn?";
+};
+func int dia_dmtteacher_stext_lowy_hint_condition() { return StExt_DK_IsMember() && (StExt_DK_LowyR2 == 1); };
+func void dia_dmtteacher_stext_lowy_hint_info()
+{
+	var c_npc n;
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Przy oltarzu Innosa, w klasztorze. Wciaz tam kleczy. Wciaz czeka na kogos twojego pokroju.");
+	rx_saveparservars();
+	n = hlp_getnpc(bdt_99755_SwietlistyPaladyn);
+	if (!hlp_isvalidnpc(n) || npc_isdead(n)) { wld_insertnpc(bdt_99755_SwietlistyPaladyn, StExt_DK_WP_Lowy); };
+	rx_restoreparservars();
+	ai_printbonus("Swietlisty Paladyn - przy oltarzu Innosa w klasztorze.");
+	ai_stopprocessinfos(self);
+};
+
+// Domkniecie (flavor + status dziennika). Nagroda juz wpadla z ai_ondead.
+instance dia_dmtteacher_stext_lowy_done(c_info)
+{
+    npc = DMT_DARKTEACHER;
+    nr = 746;
+    condition = dia_dmtteacher_stext_lowy_done_condition;
+    information = dia_dmtteacher_stext_lowy_done_info;
+    permanent = false;
+    description = "Paladyn zgasl.";
+};
+func int dia_dmtteacher_stext_lowy_done_condition() { return StExt_DK_IsMember() && (StExt_DK_LowyR2 == 2); };
+func void dia_dmtteacher_stext_lowy_done_info()
+{
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Czuje to na tobie. Jego swiatlo - zgaszone, wchloniete. Nosisz teraz jego kolczuge jak trofeum, a jego ostrze sluzy ciemnosci.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Niewielu tego dokonalo. Beliar zapamieta. Przyjdz, gdy zapragniesz kolejnych lowow - swiat pelen jest zbyt jasnych ludzi.");
+	StExt_DarkKnights_GrantBeliarKarma(50);
 	ai_stopprocessinfos(self);
 };
 
