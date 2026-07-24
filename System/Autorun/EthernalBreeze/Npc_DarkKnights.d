@@ -1180,7 +1180,17 @@ func void dia_dmtteacher_stext_lowy_hint_info()
 	StExt_Say(StExt_Str_DarkTeacher_Name, "W jaskini Cavalorna, gleboko w lesie. Wciaz tam kleczy. Wciaz czeka na kogos twojego pokroju.");
 	rx_saveparservars();
 	n = hlp_getnpc(bdt_99755_SwietlistyPaladyn);
-	if (!hlp_isvalidnpc(n) || npc_isdead(n)) { wld_insertnpc(bdt_99755_SwietlistyPaladyn, StExt_DK_WP_Lowy); };
+	if (!hlp_isvalidnpc(n) || npc_isdead(n))
+	{
+		wld_insertnpc(bdt_99755_SwietlistyPaladyn, StExt_DK_WP_Lowy);
+	}
+	else
+	{
+		// Paladyn juz wstawiony (STARY sejw = w klasztorze). Rutyna zapiekla w save,
+		// zmiana consta go nie przenosi -> przebuduj rutyne ze swiezego skryptu, silnik
+		// sam sciaga go na nowy WP (jaskinia). Wzorzec relokacji z [[daedalus-scripting-rules]] 5d.
+		npc_exchangeroutine(n, "START");
+	};
 	rx_restoreparservars();
 	ai_printbonus("Swietlisty Paladyn - w jaskini Cavalorna, w lesie.");
 	ai_stopprocessinfos(self);
