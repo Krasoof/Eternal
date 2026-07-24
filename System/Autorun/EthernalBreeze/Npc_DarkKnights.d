@@ -45,7 +45,7 @@ const string StExt_DK_WP_Q7 = "NW_CITY_HABOUR_05";				// port (ucho Innosa - inf
 // przy wejsciu do GD (npc_getnearestwp - gracz stoi na waynecie, WP zawsze wazny).
 // To ta sama technika, ktora domknela spawn lowcow demonow (zero dropow na 0,0,0).
 const string StExt_DK_WP_Q9 = "NW_FOREST_PATH_23";				// lesny trakt (konwoj relikwii)
-const string StExt_DK_WP_Lowy = "NW_CAVALORN_CAVE_001";		// jaskinia Cavalorna w lesie (uber-paladyn) - WP zweryfikowany w NEWWORLD.SAV
+const string StExt_DK_WP_Lowy = "NW_CASTLEMINE_TROLL_03";		// legowisko trolla w kopalni zamkowej (uber-paladyn) - WP zweryfikowany w NEWWORLD.SAV + waynet
 // HP uber-paladyna - MILIONY (zyczenie usera: uber-boss, one-shoty). TUNABLE.
 // Wynik przy R2/lvl~30 ~= 32 mln; skaluje sie z rozdzialem i poziomem.
 // UWAGA: rx_monsterhpratio jeszcze to podbija (jak kazdego wroga - saga Angela),
@@ -343,7 +343,7 @@ instance bdt_99786_Egzorcysta2(npc_default)
 //===================================================================//
 // Po domknieciu bazowej Drogi Beliara (stage >= 10) Nauczyciel odslania lowy
 // za nagrode: kolczuge + custom legendarny miecz. Cel to UBER-paladyn w
-// jaskini Cavalorna - miliony HP, ciosy one-shot. Osobne id (99755, POZA pasmem
+// legowisku trolla w kopalni zamkowej - miliony HP, ciosy one-shot. Osobne id (99755, POZA pasmem
 // areny 99711-20), wiec zadne auto-passywy/drabinka HP go nie tykaja - staty
 // ustawiamy recznie. Kit dodany na zapas (na czlowieku moze byc bezczynny -
 // uber robia staty, nie umiejki).
@@ -1153,13 +1153,13 @@ func int dia_dmtteacher_stext_lowy_condition()
 };
 func void dia_dmtteacher_stext_lowy_info()
 {
-	StExt_Say(StExt_Str_DarkTeacher_Name, "Wiecej niz zloto? Wiec sluchaj. Gleboko w lesie jest jaskinia - stara kryjowka mysliwego Cavalorna. Teraz kleczy w niej Swietlisty Paladyn, najczystszy z nich. Swiatlo lgnie do niego jak cma.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "Wiecej niz zloto? Wiec sluchaj. W starej kopalni zamkowej, w legowisku trolla, kleczy Swietlisty Paladyn - najczystszy z nich. Poszedl ubic bestie i zostal tam, w mroku. Swiatlo lgnie do niego jak cma.");
 	StExt_Say(StExt_Str_DarkTeacher_Name, "Nikt go nie zabil. Nikt nawet nie sprobowal drugi raz. Jesli go zgasisz - zedrzesz z niego kolczuge, a Beliar z jego ostrza wykuje ci cos, czego nie ma nikt. Ale ostrzegam: on jednym ciosem sle do grobu.");
 	StExt_DK_LowyR2 = 1;
 	rx_saveparservars();
 	wld_insertnpc(bdt_99755_SwietlistyPaladyn, StExt_DK_WP_Lowy);
 	rx_restoreparservars();
-	StExt_DarkKnights_Log("Krwawe Lowy: Swietlisty Paladyn kleczy w jaskini Cavalorna, gleboko w lesie. Uber-przeciwnik - jeden cios sle do grobu. Nagroda: mroczna kolczuga i legendarne ostrze z jego wlasnej broni.");
+	StExt_DarkKnights_Log("Krwawe Lowy: Swietlisty Paladyn kleczy w legowisku trolla w starej kopalni zamkowej. Uber-przeciwnik - jeden cios sle do grobu. Nagroda: mroczna kolczuga i legendarne ostrze z jego wlasnej broni.");
 	ai_stopprocessinfos(self);
 };
 
@@ -1177,7 +1177,7 @@ func int dia_dmtteacher_stext_lowy_hint_condition() { return StExt_DK_IsMember()
 func void dia_dmtteacher_stext_lowy_hint_info()
 {
 	var c_npc n;
-	StExt_Say(StExt_Str_DarkTeacher_Name, "W jaskini Cavalorna, gleboko w lesie. Wciaz tam kleczy. Wciaz czeka na kogos twojego pokroju.");
+	StExt_Say(StExt_Str_DarkTeacher_Name, "W legowisku trolla, w starej kopalni zamkowej. Wciaz tam kleczy. Wciaz czeka na kogos twojego pokroju.");
 	rx_saveparservars();
 	n = hlp_getnpc(bdt_99755_SwietlistyPaladyn);
 	if (!hlp_isvalidnpc(n) || npc_isdead(n))
@@ -1192,7 +1192,7 @@ func void dia_dmtteacher_stext_lowy_hint_info()
 		npc_exchangeroutine(n, "START");
 	};
 	rx_restoreparservars();
-	ai_printbonus("Swietlisty Paladyn - w jaskini Cavalorna, w lesie.");
+	ai_printbonus("Swietlisty Paladyn - w legowisku trolla w kopalni zamkowej.");
 	ai_stopprocessinfos(self);
 };
 
